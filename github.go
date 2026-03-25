@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 type GitHub struct {
@@ -16,7 +18,16 @@ func (g *GitHub) SetupRequest(req *http.Request) {
 	req.Header.Set("X-GitHub-Api-Version", "2026-03-10")
 }
 
-func (g *GitHub) GetPullRequests(owner, repo string) ([]byte, error) {
+type PullRequest struct {
+	Number int `json:"number"`
+	Title string `json:"title"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
+	ClosedAt *time.Time `json:"closed_at"`
+	MergedAt *time.Time `json:"merged_at"`
+}
+
+func (g *GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls", owner, repo)
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -37,5 +48,16 @@ func (g *GitHub) GetPullRequests(owner, repo string) ([]byte, error) {
 		return nil, fmt.Errorf("request failed with status: %s", resp.Status)
 	}
 
-	return io.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var prs []PullRequest
+
+	if err := json.Unmarshal(bytes, &prs); err != nil {
+		return nil, err
+	}
+
+	return prs, nil
 }

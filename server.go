@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -34,8 +35,15 @@ func (s *Server) Start() error {
 			return
 		}
 
+		json, err := json.Marshal(data)
+		if err != nil {
+			s.Logger.Error(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(data)
+		w.Write(json)
 	})
 
 	server := &http.Server{
