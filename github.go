@@ -27,7 +27,7 @@ type PullRequest struct {
 	MergedAt *time.Time `json:"merged_at"`
 }
 
-func (g *GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
+func (g *GitHub) GetPullRequestsJson(owner, repo string) ([]byte, error) {
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls", owner, repo)
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -48,7 +48,11 @@ func (g *GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
 		return nil, fmt.Errorf("request failed with status: %s", resp.Status)
 	}
 
-	bytes, err := io.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
+}
+
+func (g *GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
+	bytes, err := g.GetPullRequestsJson(owner, repo)
 	if err != nil {
 		return nil, err
 	}

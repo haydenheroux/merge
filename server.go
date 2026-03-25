@@ -5,52 +5,63 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
-	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 type Server struct {
-	Port int
+	Port   int
+	Router *mux.Router
 	Logger *slog.Logger
 	GitHub GitHub
 }
 
-func (s *Server) Start() error {
-	mux := http.NewServeMux()
+func (s *Server) HandleOwnerRepoJson(w http.ResponseWriter, r *http.Request) {
+	s.Logger.Info(fmt.Sprintf("Handling request for %s", r.URL.Path))
 
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		s.Logger.Info(fmt.Sprintf("Handling request for %s", r.URL.Path))
+	vars := mux.Vars(r)
+	owner := vars["owner"]
+	repo := vars["repo"]
 
-		parts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
-		if len(parts) != 2 {
-			return
-		}
-
-		owner := parts[0]
-		repo := parts[1]
-
-		data, err := s.GitHub.GetPullRequests(owner, repo)
-		if err != nil {
-			s.Logger.Warn(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		json, err := json.Marshal(data)
-		if err != nil {
-			s.Logger.Error(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(json)
-	})
-
-	server := &http.Server{
-		Addr:    fmt.Sprintf(":%d", s.Port),
-		Handler: mux,
+	json, err := s.GitHub.GetPullRequestsJson(owner, repo)
+	if err != nil {
+		s.Logger.Warn(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(json)
+}
+
+func (s *Server) HandleOwnerRepo(w http.ResponseWriter, r *http.Request) {
+	s.Logger.Info(fmt.Sprintf("Handling request for %s", r.URL.Path))
+
+	vars := mux.Vars(r)
+	owner := vars["owner"]
+	repo := vars["repo"]
+
+	data, err := s.GitHub.GetPullRequests(owner, repo)
+	if err != nil {
+		s.Logger.Warn(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json, err := json.Marshal(data)
+	if err != nil {
+		s.Logger.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(json)
+}
+
+func (s *Server) Start() error {
+	s.Router.HandleFunc("/{owner}/{repo}", s.HandleOwnerRepo)
+	s.Router.HandleFunc("/{owner}/{repo}/json", s.HandleOwnerRepoJson)
 	s.Logger.Info(fmt.Sprintf("Server starting on port %d", s.Port))
-	return server.ListenAndServe()
+	return http.ListenAndServe(fmt.Sprintf(":%d", s.Port), s.Router)
 }
