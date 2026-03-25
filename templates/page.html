@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pull Requests for {{.Owner}}/{{.Repo}}</title>
+</head>
+<body>
+	<h1>Pull Requests for {{.Owner}}/{{.Repo}}</h1>
+	<table border="1">
+		<tr>
+			<th>Number</th>
+			<th>Title</th>
+			<th>Body</th>
+			<th>URL</th>
+			<th>Days Open</th>
+			<th>Is Draft</th>
+		</tr>
+		{{range .PRs}}
+		<tr>
+			<td>{{.Number}}</td>
+			<td>{{.Title}}</td>
+			<td>{{.Body}}</td>
+			<td><a href="{{.URL}}">{{.URL}}</a></td>
+			<td>{{.DaysOpen}}</td>
+			<td>{{if .IsDraft}}Yes{{else}}No{{end}}</td>
+		</tr>
+		{{end}}
+	</table>
+</body>
+</html>
