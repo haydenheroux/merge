@@ -1,7 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"log/slog"
+	"os"
+)
 
 func main() {
-	fmt.Println("merge.zone")
+	s := Server{
+		Port: 3000,
+		Logger: slog.New(slog.NewTextHandler(os.Stderr, nil)),
+		GitHub: GitHub{
+			Token: os.Getenv("GH_TOKEN"),
+		},
+	}
+
+	if err := s.Start(); err != nil {
+		s.Logger.Error(err.Error())
+	}
 }
