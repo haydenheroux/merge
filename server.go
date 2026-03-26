@@ -52,7 +52,7 @@ func RawJson(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 }
 
 func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
+	prs, err := gh.GitHub.GetStampedPullRequests(gh.Owner, gh.Repo)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -73,11 +73,14 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 type pageData struct {
 	Owner string
 	Repo  string
-	PRs   []PullRequest
+	PRs   []StampedPullRequest
+	OpenCount int
+	StaleCount int
+	ExpiredCount int
 }
 
 func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
+	prs, err := gh.GitHub.GetStampedPullRequests(gh.Owner, gh.Repo)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -92,13 +95,23 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = t.Execute(w, pageData{Owner: gh.Owner, Repo: gh.Repo, PRs: prs})
+	stale := 0
+	expired := 0
+	for _, pr := range prs {
+		if pr.IsExpired {
+			expired += 1
+		} else if pr.IsStale {
+			stale += 1
+		}
+	}
+	err = t.Execute(w, pageData{Owner: gh.Owner, Repo: gh.Repo, PRs: prs, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}
 }
 
 func (s *Server) Start() error {
+    s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/json", s.HandleGitHubRoute(Json))

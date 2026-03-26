@@ -20,6 +20,7 @@ func (g *GitHub) SetupRequest(req *http.Request) {
 
 type User struct {
 	Name string `json:"login"`
+	URL string `json:"html_url"`
 }
 
 type PullRequest struct {
@@ -37,25 +38,49 @@ type PullRequest struct {
 	Reviewers []User `json:"requested_reviewers"`
 }
 
-func (pr *PullRequest) TimeOpen() time.Duration {
+func (pr *PullRequest) TimeOpen(time time.Time) time.Duration {
 	created := pr.CreatedAt != nil
 	if !created {
 		// How?
 		return 0
 	}
 
-	delta := time.Now().Sub(*pr.CreatedAt)
-	if delta < 0 {
-		// Time traveller?
-		return 0
-	}
-
-	return delta
+	return time.Sub(*pr.CreatedAt)
 }
 
-func (pr *PullRequest) DaysOpen() int {
-	hrs := pr.TimeOpen().Hours()
+func (pr *PullRequest) DaysOpen(time time.Time) int {
+	hrs := pr.TimeOpen(time).Hours()
 	return int(hrs / 24)
+}
+
+// TODO Add ExpiryStatus enum to handle Ok/Stale/Expired
+
+func (pr *PullRequest) IsStale(time time.Time) bool {
+	return pr.DaysOpen(time) >= 14
+}
+
+func (pr *PullRequest) IsExpired(time time.Time) bool {
+	return pr.DaysOpen(time) >= 30
+}
+
+type StampedPullRequest struct {
+	PullRequest
+	Time time.Time
+	TimeOpen time.Duration
+	DaysOpen int
+	IsStale bool
+	IsExpired bool
+}
+
+func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
+	return StampedPullRequest{
+		PullRequest: *pr,
+		Time: time,
+		TimeOpen: pr.TimeOpen(time),
+		DaysOpen: pr.DaysOpen(time),
+		IsStale: pr.IsStale(time),
+		IsExpired: pr.IsExpired(time),
+	}
 }
 
 func (g *GitHub) GetPullRequestsJson(owner, repo string) ([]byte, error) {
@@ -95,4 +120,18 @@ func (g *GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
 	}
 
 	return prs, nil
+}
+
+func (g *GitHub) GetStampedPullRequests(owner, repo string) ([]StampedPullRequest, error) {
+	prs, err := g.GetPullRequests(owner, repo)
+	if err != nil {
+		return nil, err
+	}
+
+	stamped := make([]StampedPullRequest, len(prs))
+	now := time.Now()
+	for i, pr := range prs {
+		stamped[i] = pr.Stamp(now)
+	}
+	return stamped, nil
 }
