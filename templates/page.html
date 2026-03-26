@@ -7,12 +7,18 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <meta name="description" content="{{ .OpenCount }} open pull requests; {{ .StaleCount }} stale pull requests; {{ .ExpiredCount }} expired pull requests"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="{{.Owner}}/{{.Repo}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{.BaseURL}}/{{.Owner}}/{{.Repo}}"/>
+    <meta property="og:description" content="{{ .OpenCount }} open pull requests; {{ .StaleCount }} stale pull requests; {{ .ExpiredCount }} expired pull requests"/>
 </head>
 <body>
     <header>
         <h1 class="title">{{.Owner}}/{{.Repo}}</h1>
 		<div class="bar">
-			<p class="dim"><b>{{.OpenCount}}</b> open pull requests</p>
+			<p class="dim"><b>{{ .OpenCount }}</b> open pull requests</p>
 			<p class="dim"><b>{{ .StaleCount }}</b> stale pull requests</p>
 			<p class="dim"><b>{{ .ExpiredCount }}</b> expired pull requests</p>
 		</div>
@@ -30,7 +36,7 @@
             <div>
 				<span>
 					<a href="{{.URL}}"><b class="title">{{.Title}}</b></a>
-						<span class="dim"><a href="{{.URL}}"> &nbsp;&middot;&nbsp; #{{.Number}}</a> &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
+					<span class="dim"> &nbsp;&middot;&nbsp; <a href="{{.URL}}">#{{.Number}}</a> &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
 				</span>
                 <span class="dim">{{.Body}}</span>
             </div>

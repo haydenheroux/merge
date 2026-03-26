@@ -12,6 +12,7 @@ import (
 )
 
 type Server struct {
+	BaseURL string
 	Port   int
 	Router *mux.Router
 	Logger *slog.Logger
@@ -71,6 +72,7 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 }
 
 type pageData struct {
+	BaseURL string
 	Owner string
 	Repo  string
 	PRs   []StampedPullRequest
@@ -104,7 +106,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 			stale += 1
 		}
 	}
-	err = t.Execute(w, pageData{Owner: gh.Owner, Repo: gh.Repo, PRs: prs, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
+	err = t.Execute(w, pageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: prs, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}

@@ -9,6 +9,7 @@ import (
 
 func main() {
 	s := Server{
+		BaseURL: "https://www.merge.zone",
 		Port: 3000,
 		Router: mux.NewRouter(),
 		Logger: slog.New(slog.NewTextHandler(os.Stderr, nil)),
