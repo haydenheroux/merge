@@ -17,10 +17,10 @@
 <body>
     <header>
         <h1 class="title">{{.Owner}}/{{.Repo}}</h1>
-		<div class="bar">
-			<p class="dim"><b>{{ .OpenCount }}</b> open pull requests</p>
-			<p class="dim"><b>{{ .StaleCount }}</b> stale pull requests</p>
-			<p class="dim"><b>{{ .ExpiredCount }}</b> expired pull requests</p>
+		<div class="very-dim bar">
+                <p><span class="dim">{{ .OpenCount }}</span> open pull requests</p>
+                <p><span class="dim">{{ .StaleCount }}</span> stale pull requests</p>
+                <p><span class="dim">{{ .ExpiredCount }}</span> expired pull requests</p>
 		</div>
     </header>
     <main>
@@ -35,13 +35,36 @@
             </div>
             <div>
 				<span>
+                    <button class="button-toggle button-inline">
+                        <i class="dim bi bi-chevron-down"></i>
+                    </button>
 					<a href="{{.URL}}"><b class="title">{{.Title}}</b></a>
 					<span class="dim"> &nbsp;&middot;&nbsp; <a href="{{.URL}}">#{{.Number}}</a> &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
 				</span>
-                <span class="dim">{{.Body}}</span>
+                <span class="pr-body dim" style="display: none;">{{.Body}}</span>
             </div>
         </div>
         {{end}}
     </main>
+    <script>
+        document.querySelectorAll('.button-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const prBody = this.closest('.pull-request').querySelector('.pr-body');
+                const hasBody = prBody && prBody.innerHTML.length > 0;
+                if (!hasBody) {
+                    return;
+                }
+
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('bi-chevron-down')) {
+                    icon.classList.replace('bi-chevron-down', 'bi-chevron-up');
+                    prBody.style.display = 'block';
+                } else {
+                    icon.classList.replace('bi-chevron-up', 'bi-chevron-down');
+                    prBody.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
