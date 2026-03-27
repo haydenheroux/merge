@@ -19,6 +19,21 @@ type Server struct {
 	GitHub *GitHub
 }
 
+func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+	t, err := template.ParseFiles(filepath.Join("templates", "index.html"))
+	if err != nil {
+		s.Logger.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = t.Execute(w, pageData{BaseURL: s.BaseURL})
+	if err != nil {
+		s.Logger.Error(err.Error())
+	}
+}
+
 type GitHubRoute struct {
 	*Server
 	Owner string
@@ -73,6 +88,10 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 
 type pageData struct {
 	BaseURL string
+}
+
+type repoPageData struct {
+	BaseURL string
 	Owner string
 	Repo  string
 	PRs   []StampedPullRequest
@@ -106,7 +125,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 			stale += 1
 		}
 	}
-	err = t.Execute(w, pageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: prs, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
+	err = t.Execute(w, repoPageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: prs, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}
@@ -114,10 +133,13 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) Start() error {
     s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+	s.Router.HandleFunc("/", s.HandleIndex)
+
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/json", s.HandleGitHubRoute(Json))
 	s.Router.HandleFunc("/{owner}/{repo}/raw", s.HandleGitHubRoute(RawJson))
+
 	s.Logger.Info(fmt.Sprintf("Server starting on port %d", s.Port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", s.Port), s.Router)
 }
