@@ -228,6 +228,22 @@ button {
     margin-right: 0.5rem;
 }
 
+@media (pointer: coarse) {
+    .button-toggle {
+        position: relative;
+    }
+
+    .button-toggle::after {
+        content: ""; 
+        position: absolute;
+
+        top: -20px;
+        bottom: -20px;
+        left: -20px;
+        right: -20px;
+    }
+}
+
 .input-group button {
     transition: transform 0.2s ease;
     font-size: 1.25rem;
