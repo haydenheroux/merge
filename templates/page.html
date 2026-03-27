@@ -16,18 +16,21 @@
 </head>
 <body>
     <header>
-        <h1 class="title">{{.Owner}}/{{.Repo}}</h1>
+        <div class="bar tight">
+            <h1 class="title inline"><a href="https://github.com/{{.Owner}}/{{.Repo}}">{{.Owner}}/{{.Repo}}</a></h1>
+            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls"><i class="dim bi bi-github"></i></a>
+        </div>
 		<div class="very-dim bar">
-                <p><span class="dim">{{ .OpenCount }}</span> open pull requests</p>
-                <p><span class="dim">{{ .StaleCount }}</span> stale pull requests</p>
-                <p><span class="dim">{{ .ExpiredCount }}</span> expired pull requests</p>
+            <p><span class="dim">{{ .OpenCount }}</span> open pull requests</p>
+            <p><span class="dim">{{ .StaleCount }}</span> stale pull requests</p>
+            <p><span class="dim">{{ .ExpiredCount }}</span> expired pull requests</p>
 		</div>
     </header>
     <main>
         {{range .PRs}}
         <div class="pull-request{{if .IsDraft}} draft{{end}}">
             <div class="center">
-				<i class="bi {{if .IsExpired}}bi-x-circle error{{else}}{{if .IsStale}}bi-exclamation-triangle warn{{else}}bi-check-circle ok{{end}}{{end}}"></i>
+				<i class="status-icon bi {{if .IsExpired}}bi-x-circle error{{else}}{{if .IsStale}}bi-exclamation-triangle warn{{else}}bi-check-circle ok{{end}}{{end}}"></i>
             </div>
             <div class="center-block">
 				<b class="title">{{if .IsDraft}}Draft{{else}}Open{{end}}</b>
@@ -51,17 +54,19 @@
             button.addEventListener('click', function() {
                 const prBody = this.closest('.pull-request').querySelector('.pr-body');
                 const hasBody = prBody && prBody.innerHTML.length > 0;
-                if (!hasBody) {
-                    return;
-                }
 
                 const icon = this.querySelector('i');
+
                 if (icon.classList.contains('bi-chevron-down')) {
                     icon.classList.replace('bi-chevron-down', 'bi-chevron-up');
-                    prBody.style.display = 'block';
+                    if (hasBody) {
+                        prBody.style.display = 'block';
+                    }
                 } else {
                     icon.classList.replace('bi-chevron-up', 'bi-chevron-down');
-                    prBody.style.display = 'none';
+                    if (hasBody) {
+                        prBody.style.display = 'none';
+                    }
                 }
             });
         });
