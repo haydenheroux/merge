@@ -18,7 +18,7 @@
     <header>
         <div class="bar tight">
             <h1 class="title inline"><a href="https://github.com/{{.Owner}}/{{.Repo}}">{{.Owner}}/{{.Repo}}</a></h1>
-            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls"><i class="dim bi bi-github"></i></a>
+            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls" aria-label="Navigate to GitHub"><i class="dim bi bi-github" aria-hidden="true"></i></a>
         </div>
 		<div class="very-dim bar">
             <p><span class="dim">{{ .OpenCount }}</span> open pull requests</p>
@@ -38,8 +38,8 @@
             </div>
             <div>
 				<span>
-                    <button class="button-toggle button-inline">
-                        <i class="dim bi bi-chevron-down"></i>
+                    <button class="button-toggle button-inline" aria-label="Show Description">
+                        <i class="dim bi bi-chevron-down" aria-hidden="true"></i>
                     </button>
 					<a href="{{.URL}}"><b class="title">{{.Title}}</b></a>
 					<span class="dim"> &nbsp;&middot;&nbsp; #{{.Number}} &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
