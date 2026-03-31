@@ -39,6 +39,10 @@ a:has(i.bi):hover {
     border-bottom: 1px solid transparent;
 }
 
+b {
+    font-weight: 600;
+}
+
 header {
 	margin-top: 4rem;
 	margin-bottom: 2rem;
