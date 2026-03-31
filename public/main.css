@@ -100,6 +100,8 @@ main {
 	padding: 2rem;
 
 	background-color: var(--color-element-background);
+
+    filter: drop-shadow(var(--color-element-alternate-background) 0 4px 12px);
 }
 
 .pull-request.draft {
