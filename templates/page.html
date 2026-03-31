@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>{{.Owner}}/{{.Repo}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/public/main.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <meta name="description" content="{{ .OpenCount }} open pull requests; {{ .StaleCount }} stale pull requests; {{ .ExpiredCount }} expired pull requests"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="{{.Owner}}/{{.Repo}}"/>
@@ -18,7 +19,7 @@
     <header>
         <div class="bar tight">
             <h1 class="title inline"><a href="https://github.com/{{.Owner}}/{{.Repo}}">{{.Owner}}/{{.Repo}}</a></h1>
-            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls"><i class="dim bi bi-github"></i></a>
+            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls" aria-label="Navigate to GitHub"><i class="dim bi bi-github" aria-hidden="true"></i></a>
         </div>
 		<div class="very-dim bar">
             <p><span class="dim">{{ .OpenCount }}</span> open pull requests</p>
@@ -38,11 +39,11 @@
             </div>
             <div>
 				<span>
-                    <button class="button-toggle button-inline">
-                        <i class="dim bi bi-chevron-down"></i>
+                    <button class="button-toggle button-inline" aria-label="Show Description">
+                        <i class="dim bi bi-chevron-down" aria-hidden="true"></i>
                     </button>
 					<a href="{{.URL}}"><b class="title">{{.Title}}</b></a>
-					<span class="dim"> &nbsp;&middot;&nbsp; <a href="{{.URL}}">#{{.Number}}</a> &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
+					<span class="dim"> &nbsp;&middot;&nbsp; #{{.Number}} &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
 				</span>
                 <span class="pr-body dim" style="display: none;">{{.Body}}</span>
             </div>

@@ -3,8 +3,8 @@
     --color-element-background: #111111;
     --color-element-alternate-background: #1d1d1d;
     --color-text: #dddddd;
-    --color-dim: #aaaaaa;
-    --color-very-dim: #555555;
+    --color-dim: #bbbbbb;
+    --color-very-dim: #999999;
     --color-border: #444444;
 }
 
@@ -37,6 +37,10 @@ a:hover {
 
 a:has(i.bi):hover {
     border-bottom: 1px solid transparent;
+}
+
+b {
+    font-weight: 600;
 }
 
 header {
@@ -100,6 +104,8 @@ main {
 	padding: 2rem;
 
 	background-color: var(--color-element-background);
+
+    filter: drop-shadow(var(--color-element-alternate-background) 0 4px 12px);
 }
 
 .pull-request.draft {
@@ -146,7 +152,8 @@ main {
 }
 
 .status-icon {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    filter: drop-shadow(0 4px 12px);
 }
 
 .error {
@@ -161,8 +168,8 @@ main {
 	color: green;
 }
 
-.status-icon.ok {
-    font-size: 1.15rem;
+.status-icon.warn {
+    font-size: 1.05rem;
 }
 
 .hero {
