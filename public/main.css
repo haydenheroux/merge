@@ -146,7 +146,8 @@ main {
 }
 
 .status-icon {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    filter: drop-shadow(0 4px 12px);
 }
 
 .error {
@@ -161,8 +162,8 @@ main {
 	color: green;
 }
 
-.status-icon.ok {
-    font-size: 1.15rem;
+.status-icon.warn {
+    font-size: 1.05rem;
 }
 
 .hero {
