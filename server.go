@@ -16,7 +16,7 @@ type Server struct {
 	Port   int
 	Router *mux.Router
 	Logger *slog.Logger
-	GitHub *GitHub
+	GitHub GitHubClient
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
