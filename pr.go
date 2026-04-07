@@ -67,3 +67,11 @@ func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
 	}
 }
 
+func StampNow(prs []PullRequest) []StampedPullRequest {
+	stamped := make([]StampedPullRequest, len(prs))
+	now := time.Now()
+	for i, pr := range prs {
+		stamped[i] = pr.Stamp(now)
+	}
+	return stamped
+}

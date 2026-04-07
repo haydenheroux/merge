@@ -5,13 +5,11 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 )
 
 type GitHubClient interface {
 	GetPullRequestsJson(owner, repo string) ([]byte, error)
 	GetPullRequests(owner, repo string) ([]PullRequest, error)
-	GetStampedPullRequests(owner, repo string) ([]StampedPullRequest, error)
 }
 
 type GitHub struct {
@@ -61,18 +59,4 @@ func (g GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
 	}
 
 	return prs, nil
-}
-
-func (g GitHub) GetStampedPullRequests(owner, repo string) ([]StampedPullRequest, error) {
-	prs, err := g.GetPullRequests(owner, repo)
-	if err != nil {
-		return nil, err
-	}
-
-	stamped := make([]StampedPullRequest, len(prs))
-	now := time.Now()
-	for i, pr := range prs {
-		stamped[i] = pr.Stamp(now)
-	}
-	return stamped, nil
 }
