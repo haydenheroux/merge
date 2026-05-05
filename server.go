@@ -16,7 +16,7 @@ type Server struct {
 	Port   int
 	Router *mux.Router
 	Logger *slog.Logger
-	GitHub *GitHub
+	GitHub GitHubClient
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -68,14 +68,16 @@ func RawJson(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 }
 
 func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, err := gh.GitHub.GetStampedPullRequests(gh.Owner, gh.Repo)
+	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	json, err := json.Marshal(prs)
+	stamped := StampNow(prs)
+
+	json, err := json.Marshal(stamped)
 	if err != nil {
 		gh.Logger.Error(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -101,12 +103,14 @@ type repoPageData struct {
 }
 
 func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, err := gh.GitHub.GetStampedPullRequests(gh.Owner, gh.Repo)
+	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	stamped := StampNow(prs)
 
 	w.Header().Set("Content-Type", "text/html")
 	t, err := template.ParseFiles(filepath.Join("templates", "page.html"))
@@ -118,14 +122,14 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 
 	stale := 0
 	expired := 0
-	for _, pr := range prs {
+	for _, pr := range stamped {
 		if pr.IsExpired {
 			expired += 1
 		} else if pr.IsStale {
 			stale += 1
 		}
 	}
-	err = t.Execute(w, repoPageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: prs, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
+	err = t.Execute(w, repoPageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: stamped, OpenCount: len(prs), StaleCount: stale, ExpiredCount: expired})
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}

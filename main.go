@@ -13,7 +13,7 @@ func main() {
 		Port: 8080,
 		Router: mux.NewRouter(),
 		Logger: slog.New(slog.NewTextHandler(os.Stderr, nil)),
-		GitHub: &GitHub{
+		GitHub: GitHub{
 			Token: os.Getenv("GH_TOKEN"),
 		},
 	}
