@@ -13,10 +13,10 @@ import (
 
 type Server struct {
 	BaseURL string
-	Port   int
-	Router *mux.Router
-	Logger *slog.Logger
-	GitHub GitHubClient
+	Port    int
+	Router  *mux.Router
+	Logger  *slog.Logger
+	GitHub  GitHubClient
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -37,18 +37,18 @@ func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 type GitHubRoute struct {
 	*Server
 	Owner string
-	Repo string
+	Repo  string
 }
 
-func (s *Server) HandleGitHubRoute(f func (*GitHubRoute, http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
+func (s *Server) HandleGitHubRoute(f func(*GitHubRoute, http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		s.Logger.Info(fmt.Sprintf("Handling request for %s", r.URL.Path))
 
 		vars := mux.Vars(r)
 		gh := &GitHubRoute{
 			Server: s,
-			Owner: vars["owner"],
-			Repo: vars["repo"],
+			Owner:  vars["owner"],
+			Repo:   vars["repo"],
 		}
 
 		f(gh, w, r)
@@ -93,12 +93,12 @@ type pageData struct {
 }
 
 type repoPageData struct {
-	BaseURL string
-	Owner string
-	Repo  string
-	PRs   []StampedPullRequest
-	OpenCount int
-	StaleCount int
+	BaseURL      string
+	Owner        string
+	Repo         string
+	PRs          []StampedPullRequest
+	OpenCount    int
+	StaleCount   int
 	ExpiredCount int
 }
 
@@ -123,9 +123,10 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	stale := 0
 	expired := 0
 	for _, pr := range stamped {
-		if pr.IsExpired {
+		switch pr.ExpiryStatus {
+		case Expired:
 			expired += 1
-		} else if pr.IsStale {
+		case Stale:
 			stale += 1
 		}
 	}
@@ -136,7 +137,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Start() error {
-    s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+	s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	s.Router.HandleFunc("/", s.HandleIndex)
 
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
