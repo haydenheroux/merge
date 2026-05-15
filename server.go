@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/gomarkdown/markdown"
 	"github.com/gorilla/mux"
+	"github.com/microcosm-cc/bluemonday"
 )
 
 type Server struct {
@@ -88,6 +90,15 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
+func renderMarkdown(body string) template.HTML {
+	if body == "" {
+		return ""
+	}
+	html := markdown.ToHTML([]byte(body), nil, nil)
+	sanitized := bluemonday.UGCPolicy().Sanitize(string(html))
+	return template.HTML(sanitized)
+}
+
 type pageData struct {
 	BaseURL string
 }
@@ -113,7 +124,8 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	stamped := StampNow(prs)
 
 	w.Header().Set("Content-Type", "text/html")
-	t, err := template.ParseFiles(filepath.Join("templates", "page.html"))
+	funcs := template.FuncMap{"markdown": renderMarkdown}
+	t, err := template.New("page.html").Funcs(funcs).ParseFiles(filepath.Join("templates", "page.html"))
 	if err != nil {
 		gh.Logger.Error(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
