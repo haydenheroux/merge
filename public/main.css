@@ -1,24 +1,26 @@
 :root {
-    --color-page-background: #0d0d0d;
-    --color-element-background: #111111;
-    --color-element-alternate-background: #1d1d1d;
-    --color-text: #dddddd;
-    --color-dim: #bbbbbb;
-    --color-very-dim: #999999;
-    --color-border: #444444;
+    --color-white: #fffcf2;
+    --color-silver: #ccc5b9;
+    --color-beige: #70695c;
+    --color-brown: #403d39;
+    --color-black: #252422;
+    --color-paprika: #eb5e28;
+    --color-sage: #5b7e3c;
+    --color-yellow: #ffd65a;
+    --color-orange: #ff9d23;
+    --color-red: #ea5252;
 }
 
 body {
     width: 80%;
     margin-inline: auto;
 
-    background-color: var(--color-page-background);
-    color: var(--color-text);
+    background-color: var(--color-white);
+    color: var(--color-black);
 
 	font-size: 14px;
-	font-family: "Inter", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 400;
+	font-family: "Neuton", serif;
+	font-weight: 500;
 	font-style: normal;
     line-height: 1.8;
     text-wrap: balance;
@@ -39,8 +41,9 @@ a:has(i.bi):hover {
     border-bottom: 1px solid transparent;
 }
 
-b {
-    font-weight: 600;
+b, h1, h2, h3 {
+    font-family: "Karla", sans-serif;
+    font-weight: 700;
 }
 
 header {
@@ -102,81 +105,55 @@ main.grid {
 }
 
 .pull-request {
-    display: grid;
-    grid-template-columns: 2rem auto;
+    width: 80%;
+    margin-inline: auto;
+
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
 
-	border: 2px solid var(--color-border);
-	border-radius: 12px;
+	border: 1px solid var(--color-silver);
+	border-radius: 20px;
 	padding: 2rem;
-
-	background-color: var(--color-element-background);
-
-    filter: drop-shadow(var(--color-element-alternate-background) 0 4px 12px);
-}
-
-.pull-request.draft {
-	background-color: var(--color-element-alternate-background);
-}
-
-@media (max-width: 1000px) {
-    .pull-request > div:nth-child(3) {
-        grid-column: span 2;
-    }
-}
-
-@media (min-width: 1000px) {
-    .pull-request {
-        grid-template-columns: 2rem 8rem auto;
-    }
-
-    .pull-request > div:nth-child(3) {
-        grid-column: auto;
-    }
 }
 
 .pull-request > div {
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    flex-direction: row;
+    gap: 1.5rem;
 }
 
 .pull-request .title {
-	font-size: 16px;
+	font-size: 20px;
 	text-align: left;
 }
 
 .text {
-    color: var(--color-text);
+    color: var(--color-black);
 }
 
 .dim {
-    color: var(--color-dim);
+    color: var(--color-brown);
 }
 
 .very-dim {
-    color: var(--color-very-dim);
+    color: var(--color-beige);
 }
 
 .status-icon {
     font-size: 1.15rem;
-    filter: drop-shadow(0 4px 12px);
 }
 
 .error {
-	color: red;
+	color: var(--color-red);
 }
 
 .warn {
-	color: orange;
+	color: var(--color-orange);
 }
 
-.ok {
-	color: green;
-}
-
-.special {
-    color: magenta;
+.ok, .special {
+	color: var(--color-sage);
 }
 
 .status-icon.warn {
@@ -201,14 +178,11 @@ main.grid {
 
 .example {
     margin-block: 2rem;
-
-    font-family: "JetBrains Mono", monospace;
-    font-optical-sizing: auto;
-    font-style: normal;
+    color: var(--color-silver);
 }
 
 .example em {
-    color: var(--color-text);
+    color: var(--color-brown);
     font-style: normal;
 }
 
@@ -225,8 +199,7 @@ main.grid {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: var(--color-element-background);
-    border: 2px solid var(--color-border);
+    border: 2px solid var(--color-silver);
     border-radius: 8px;
     padding: 0.5rem 1rem;
     width: 80%;
@@ -235,7 +208,7 @@ main.grid {
 }
 
 .input-group:focus-within {
-    border-color: var(--color-text);
+    border-color: var(--color-beige);
 }
 
 .input-group i {
@@ -248,25 +221,28 @@ main.grid {
     background: transparent;
     border: none;
     color: var(--color-text);
-    font-family: "JetBrains Mono", monospace;
     font-size: 1rem;
     outline: none;
 }
 
 .input-group input::placeholder {
-    color: var(--color-very-dim);
+    color: var(--color-beige);
 }
 
 button {
     background: transparent;
     border: none;
-    color: var(--color-text);
+    color: var(--color-black);
     cursor: pointer;
     padding: 0;
 }
 
 .button-inline {
     margin-right: 0.5rem;
+}
+
+.push-right {
+    margin-left: auto;
 }
 
 @media (pointer: coarse) {
