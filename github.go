@@ -23,7 +23,7 @@ func (g GitHub) setupRequest(req *http.Request) {
 }
 
 func (g GitHub) GetPullRequestsJson(owner, repo string) ([]byte, error) {
-	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls", owner, repo)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls?state=all", owner, repo)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

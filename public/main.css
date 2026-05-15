@@ -70,11 +70,18 @@ header .bar {
 }
 
 main {
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+main.flex {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+}
 
-	margin-bottom: 2rem;
+main.grid {
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
 .center {
@@ -96,7 +103,7 @@ main {
 
 .pull-request {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 2rem auto;
     gap: 1.5rem;
 
 	border: 2px solid var(--color-border);
@@ -120,7 +127,7 @@ main {
 
 @media (min-width: 1000px) {
     .pull-request {
-        grid-template-columns: 2rem 6rem auto;
+        grid-template-columns: 2rem 8rem auto;
     }
 
     .pull-request > div:nth-child(3) {
@@ -166,6 +173,10 @@ main {
 
 .ok {
 	color: green;
+}
+
+.special {
+    color: magenta;
 }
 
 .status-icon.warn {

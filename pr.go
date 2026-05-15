@@ -37,10 +37,28 @@ func (pr *PullRequest) DaysOpen(time time.Time) int {
 	return int(hrs / 24)
 }
 
+type State string
+
+const (
+	Draft  State = "Draft"
+	Open         = "Open"
+	Merged       = "Merged"
+)
+
+func (pr *PullRequest) State() State {
+	if pr.IsDraft {
+		return Draft
+	} else if pr.MergedAt != nil {
+		return Merged
+	}
+
+	return Open
+}
+
 type ExpiryStatus string
 
 const (
-	Fresh   ExpiryStatus = "New"
+	Fresh   ExpiryStatus = "Fresh"
 	Stale                = "Stale"
 	Expired              = "Expired"
 )
@@ -59,6 +77,7 @@ func (pr *PullRequest) ExpiryStatus(time time.Time) ExpiryStatus {
 type StampedPullRequest struct {
 	PullRequest
 	Time         time.Time
+	State        State
 	TimeOpen     time.Duration
 	DaysOpen     int
 	ExpiryStatus ExpiryStatus
@@ -68,6 +87,7 @@ func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
 	return StampedPullRequest{
 		PullRequest:  *pr,
 		Time:         time,
+		State:        pr.State(),
 		TimeOpen:     pr.TimeOpen(time),
 		DaysOpen:     pr.DaysOpen(time),
 		ExpiryStatus: pr.ExpiryStatus(time),

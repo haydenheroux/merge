@@ -23,18 +23,19 @@
         </div>
 		<div class="very-dim bar">
             <p><span class="dim">{{ .OpenCount }}</span> open pull requests</p>
+            <p><span class="dim">{{ .MergedCount }}</span> merged pull requests</p>
             <p><span class="dim">{{ .StaleCount }}</span> stale pull requests</p>
             <p><span class="dim">{{ .ExpiredCount }}</span> expired pull requests</p>
 		</div>
     </header>
-    <main>
+    <main class="grid">
         {{range .PRs}}
         <div class="pull-request{{if .IsDraft}} draft{{end}}">
             <div class="center">
-				<i class="status-icon bi {{if eq .ExpiryStatus "Expired"}}bi-x-circle error{{else}}{{if eq .ExpiryStatus "Stale"}}bi-exclamation-triangle warn{{else}}bi-check-circle ok{{end}}{{end}}"></i>
+                <i class="status-icon bi {{if eq .State "Merged"}}bi-shuffle special{{else}}{{if eq .ExpiryStatus "Expired"}}bi-x-circle error{{else}}{{if eq .ExpiryStatus "Stale"}}bi-exclamation-triangle warn{{else}}{{if eq .ExpiryStatus "Fresh"}}bi-check-circle ok{{else}}bi-check-circle warn{{end}}{{end}}{{end}}{{end}}"></i>
             </div>
             <div class="center-block">
-				<b class="title">{{if .IsDraft}}Draft{{else}}Open{{end}}</b>
+                <b class="title">{{.State}}</b>
                 <span class="dim">{{.DaysOpen}} days</span>
             </div>
             <div>
