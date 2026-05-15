@@ -46,7 +46,7 @@
 					<a href="{{.URL}}"><b class="title">{{.Title}}</b></a>
 					<span class="dim"> &nbsp;&middot;&nbsp; #{{.Number}} &nbsp;&middot;&nbsp; <a href="{{.Author.URL}}">{{.Author.Name}}</a></span>
 				</span>
-                <span class="pr-body dim" style="display: none;">{{.Body}}</span>
+                <span class="pr-body dim" style="display: none;">{{markdown .Body}}</span>
             </div>
         </div>
         {{end}}
