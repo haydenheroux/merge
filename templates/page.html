@@ -31,7 +31,7 @@
         {{range .PRs}}
         <div class="pull-request{{if .IsDraft}} draft{{end}}">
             <div class="center">
-				<i class="status-icon bi {{if .IsExpired}}bi-x-circle error{{else}}{{if .IsStale}}bi-exclamation-triangle warn{{else}}bi-check-circle ok{{end}}{{end}}"></i>
+				<i class="status-icon bi {{if eq .ExpiryStatus "Expired"}}bi-x-circle error{{else}}{{if eq .ExpiryStatus "Stale"}}bi-exclamation-triangle warn{{else}}bi-check-circle ok{{end}}{{end}}"></i>
             </div>
             <div class="center-block">
 				<b class="title">{{if .IsDraft}}Draft{{else}}Open{{end}}</b>
