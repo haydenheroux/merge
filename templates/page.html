@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <meta name="description" content="{{ .OpenCount }} open pull requests; {{ .StaleCount }} stale pull requests; {{ .ExpiredCount }} expired pull requests"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="{{.Owner}}/{{.Repo}}"/>
@@ -18,13 +19,25 @@
     <header>
         <div class="bar tight">
             <h1 class="title inline"><a href="https://github.com/{{.Owner}}/{{.Repo}}">{{.Owner}}/{{.Repo}}</a></h1>
-            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls" aria-label="Navigate to GitHub"><i class="dim bi bi-github" aria-hidden="true"></i></a>
+            <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls" aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
         </div>
-		<div class="very-dim bar">
-            <p><b class="dim">{{ .OpenCount }}</b> open pull requests</p>
-            <p><b class="dim">{{ .MergedCount }}</b> merged pull requests</p>
-            <p><b class="dim">{{ .StaleCount }}</b> stale pull requests</p>
-            <p><b class="dim">{{ .ExpiredCount }}</b> expired pull requests</p>
+		<div class="stat-card-container very-dim">
+            <span class="stat-card">
+                <i class="fa-solid fa-code-merge special"></i>
+                <p><b class="dim">{{ .MergedCount }}</b> merged pull requests</p>
+            </span>
+            <span class="stat-card">
+                <i class="fa-solid fa-apple-whole ok"></i>
+                <p><b class="dim">{{ .OpenCount }}</b> open pull requests</p>
+            </span>
+            <span class="stat-card">
+                <i class="fa-solid fa-apple-whole warn"></i>
+                <p><b class="dim">{{ .StaleCount }}</b> stale pull requests</p>
+            </span>
+            <span class="stat-card">
+                <i class="fa-solid fa-recycle error"></i>
+                <p><b class="dim">{{ .ExpiredCount }}</b> expired pull requests</p>
+            </span>
 		</div>
     </header>
     <main class="grid">
@@ -32,18 +45,18 @@
         <div class="pull-request{{if .IsDraft}} draft{{end}}">
             <div class="center-inline">
                 <div class="center">
-                    <i class="status-icon bi {{if eq .State "Merged"}}bi-shuffle special{{else}}{{if eq .ExpiryStatus "Expired"}}bi-x-circle-fill error{{else}}{{if eq .ExpiryStatus "Stale"}}bi-exclamation-triangle-fill warn{{else}}{{if eq .ExpiryStatus "Fresh"}}bi-check-circle-fill ok{{else}}bi-check-circle warn{{end}}{{end}}{{end}}{{end}}"></i>
+                    <i class="status-icon fa-solid {{if eq .State "Merged"}}fa-code-merge special{{else}}{{if eq .ExpiryStatus "Expired"}}fa-recycle error{{else}}{{if eq .ExpiryStatus "Stale"}}fa-apple-whole warn{{else}}{{if eq .ExpiryStatus "Fresh"}}fa-apple-whole ok{{else}}fa-apple-whole warn{{end}}{{end}}{{end}}{{end}}"></i>
                 </div>
                 <a href="{{.URL}}"><b class="title">{{markdown .Title}}</b></a>
                 <button class="push-right button-toggle button-inline" aria-label="Show Description">
-                    <i class="dim bi bi-chevron-down" aria-hidden="true"></i>
+                    <i class="dim fa-solid fa-chevron-down" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="very-dim">
                 <span>
                     {{.State}}
                     &nbsp;&middot;&nbsp;
-                    {{.DaysOpen}} days {{if eq .State "Open"}}old{{else}}ago{{end}}
+                    {{.DaysOpen}} days {{if eq .State "Merged"}}ago{{else}}old{{end}}
                     &nbsp;&middot;&nbsp;
                     #{{.Number}}
                     &nbsp;&middot;&nbsp;
@@ -62,13 +75,13 @@
 
                 const icon = this.querySelector('i');
 
-                if (icon.classList.contains('bi-chevron-down')) {
-                    icon.classList.replace('bi-chevron-down', 'bi-chevron-up');
+                if (icon.classList.contains('fa-chevron-down')) {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
                     if (hasBody) {
                         prBody.style.display = 'block';
                     }
                 } else {
-                    icon.classList.replace('bi-chevron-up', 'bi-chevron-down');
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
                     if (hasBody) {
                         prBody.style.display = 'none';
                     }
