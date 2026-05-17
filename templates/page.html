@@ -24,19 +24,23 @@
 		<div class="stat-card-container very-dim">
             <span class="stat-card">
                 <i class="fa-solid fa-code-merge special"></i>
-                <p><b class="dim">{{ .MergedCount }}</b> merged pull requests</p>
+                <b class="count dim">{{ .MergedCount }}</b> 
+                <p>merged pull requests</p>
             </span>
             <span class="stat-card">
                 <i class="fa-solid fa-apple-whole ok"></i>
-                <p><b class="dim">{{ .OpenCount }}</b> open pull requests</p>
+                <b class="count dim">{{ .OpenCount }}</b>
+                <p>open pull requests</p>
             </span>
             <span class="stat-card">
                 <i class="fa-solid fa-apple-whole warn"></i>
-                <p><b class="dim">{{ .StaleCount }}</b> stale pull requests</p>
+                <b class="count dim">{{ .StaleCount }}</b>
+                <p>stale pull requests</p>
             </span>
             <span class="stat-card">
                 <i class="fa-solid fa-recycle error"></i>
-                <p><b class="dim">{{ .ExpiredCount }}</b> expired pull requests</p>
+                <b class="count dim">{{ .ExpiredCount }}</b>
+                <p>expired pull requests</p>
             </span>
 		</div>
     </header>

@@ -119,15 +119,24 @@ main.grid {
 }
 
 .stat-card {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5rem;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    column-gap: 1.5rem;
     align-items: center;
-    justify-content: center;
 
 	border: 1px solid var(--color-silver);
 	border-radius: 20px;
 	padding: 1rem;
+
+    .count {
+        font-size: 28px;
+    }
+
+    p {
+        grid-area: 2 / 2 / 2 / 2;
+        margin: 0;
+    }
 }
 
 .pull-request {
@@ -141,17 +150,17 @@ main.grid {
 	border: 1px solid var(--color-silver);
 	border-radius: 20px;
 	padding: 2rem;
-}
 
-.pull-request > div {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5rem;
-}
+    & > div {
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+    }
 
-.pull-request .title {
-	font-size: 20px;
-	text-align: left;
+    .title {
+        font-size: 20px;
+        text-align: left;
+    }
 }
 
 .text {
