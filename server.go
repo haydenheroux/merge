@@ -22,7 +22,7 @@ type Server struct {
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	t, err := template.ParseFiles(filepath.Join("templates", "index.html"))
 	if err != nil {
 		s.Logger.Error(err.Error())
@@ -124,7 +124,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 
 	stamped := StampNow(prs)
 
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	funcs := template.FuncMap{"markdown": renderMarkdown}
 	t, err := template.New("page.html").Funcs(funcs).ParseFiles(filepath.Join("templates", "page.html"))
 	if err != nil {
