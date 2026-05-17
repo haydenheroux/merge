@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 	<title>Merge Zone</title>
+    <link rel="stylesheet" href="/public/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="/public/main.css">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <meta name="description" content="Understand your team's review workflow, collaboration, and delivery."/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Merge Zone"/>
@@ -16,46 +16,43 @@
     <meta property="og:description" content="Understand your team's review workflow, collaboration, and delivery."/>
 </head>
 <body>
-    <header class="hero">
-        <div>
-            <h1 class="title">Merge Zone</h1>
-            <p class="dim">Understand your team's review workflow, collaboration, and delivery.</p>
-        </div>
+	<header>
     </header>
-    <main class="flex">
-        <form id="repo-form" class="dim center-inline">
-            <div class="input-group">
-                <i class="bi bi-github"></i>
-                <input 
-                    type="text" 
-                    id="repo-input" 
-                    placeholder="owner/repo"
-                    required
-                    aria-label="Search your repository"
-                >
-                <button type="submit" aria-label="Submit">
-                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                </button>
-            </div>
-        </form>
-        <div class="example center-inline very-dim">
-                <h2>www.<em>github.com</em>/owner/repo</h2>
-                <i class="bi bi-arrow-down-short text arrow"></i>
-                <h2>www.<em>merge.zone</em>/owner/repo</h2>
-        </div>
+    <main class="center">
+		<div class="hero">
+			<h1 class="title">Your team.</h1>
+			<h1 class="title">Any repo.</h1>
+			<form id="repo-form" class="dim center-inline">
+				<input 
+					type="text" 
+					id="owner-input" 
+					placeholder="owner"
+					required
+					aria-label="Search your team"
+				>
+				<span class="title">/</span>
+				<input 
+					type="text" 
+					id="repo-input" 
+					placeholder="repo"
+					required
+					aria-label="Search your repositories"
+				>
+				<button type="submit" aria-label="Submit">
+					<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+				</button>
+			</form>
+		</div>
     </main>
 
     <script defer>
         document.getElementById('repo-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            var input = document.getElementById('repo-input').value.trim();
-            
-            var repo = input
-                .replace(/^https?:\/\/github\.com\//, '')
-                .replace(/\/$/, '');
+            var repo = document.getElementById('repo-input').value.trim();
+            var owner = document.getElementById('owner-input').value.trim();
             
             if (repo) {
-                window.location.href = '/' + repo;
+				window.location.href = `/${owner}/${repo}`;
             }
         });
     </script>
