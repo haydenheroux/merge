@@ -22,22 +22,22 @@
             <a href="https://github.com/{{.Owner}}/{{.Repo}}/pulls" aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
         </div>
 		<div class="stat-card-container very-dim">
-            <span class="stat-card">
+            <span class="card stat-card">
                 <i class="fa-solid fa-code-merge special"></i>
                 <b class="count dim">{{ .MergedCount }}</b> 
                 <p>merged pull requests</p>
             </span>
-            <span class="stat-card">
+            <span class="card stat-card">
                 <i class="fa-solid fa-apple-whole ok"></i>
                 <b class="count dim">{{ .OpenCount }}</b>
                 <p>open pull requests</p>
             </span>
-            <span class="stat-card">
+            <span class="card stat-card">
                 <i class="fa-solid fa-apple-whole warn"></i>
                 <b class="count dim">{{ .StaleCount }}</b>
                 <p>stale pull requests</p>
             </span>
-            <span class="stat-card">
+            <span class="card stat-card">
                 <i class="fa-solid fa-recycle error"></i>
                 <b class="count dim">{{ .ExpiredCount }}</b>
                 <p>expired pull requests</p>
@@ -46,7 +46,7 @@
     </header>
     <main class="grid">
         {{range .PRs}}
-        <div class="pull-request{{if .IsDraft}} draft{{end}}">
+        <div class="card pull-request{{if .IsDraft}} draft{{end}}">
             <div class="center-inline">
                 <div class="center">
                     <i class="status-icon fa-solid {{if eq .State "Merged"}}fa-code-merge special{{else}}{{if eq .ExpiryStatus "Expired"}}fa-recycle error{{else}}{{if eq .ExpiryStatus "Stale"}}fa-apple-whole warn{{else}}{{if eq .ExpiryStatus "Fresh"}}fa-apple-whole ok{{else}}fa-apple-whole warn{{end}}{{end}}{{end}}{{end}}"></i>
@@ -67,7 +67,7 @@
                     <a href="{{.Author.URL}}">{{.Author.Name}}</a>
                 </span>
             </div>
-            <span class="pr-body dim" style="display: none;">{{markdown .Body}}</span>
+            <span class="pr-body" style="display: none;">{{markdown .Body}}</span>
         </div>
         {{end}}
     </main>
