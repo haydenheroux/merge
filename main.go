@@ -14,7 +14,7 @@ func main() {
 		Router: mux.NewRouter(),
 		Logger: slog.New(slog.NewTextHandler(os.Stderr, nil)),
 		GitHub: GitHub{
-			Token: os.Getenv("GH_TOKEN"),
+			Token: os.Getenv("PROVIDER_TOKEN_GITHUB"),
 		},
 	}
 
