@@ -80,7 +80,7 @@ main {
 
 main.flex {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 main.grid {
@@ -154,9 +154,9 @@ main.grid {
 }
 
 .pull-request {
-    width: 80%;
+    width: 520px;
     margin-inline: auto;
-	padding: 2rem;
+	padding: 2rem 4rem;
 
     display: flex;
     flex-direction: column;
@@ -176,15 +176,18 @@ main.grid {
         text-align: left;
     }
 
+    button {
+        background: none;
+        border: none;
+        margin-left: auto;
+    }
+
     .pr-body {
         margin-top: 1.5rem;
         border-left: 2px solid var(--color-silver);
         padding-left: 1.5rem;
         max-width: 100%;
         overflow-x: scroll;
-
-        overflow-wrap: break-word;
-        word-break: break-all;
 
         img {
             max-width: 100%;
@@ -230,111 +233,101 @@ main.grid {
 }
 
 .hero {
+    min-width: 240px;
+    max-width: 320px;
+
+    margin-top: 8rem;
+    margin-bottom: 32rem;
+
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-}
 
-.hero .title {
-    font-size: 48px;
-    font-weight: 800;
-    text-align: center;
-}
+    align-items: start;
+    justify-content: start;
 
-.hero p {
-    text-align: center;
+    .title {
+        font-size: 48px;
+        font-weight: 800;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    form {
+        margin-top: 3rem;
+        background-color: var(--color-pearl);
+        border-radius: 4px;
+
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        
+        input {
+            background-color: transparent;
+            padding: 8px 16px;
+
+            font-weight: 600;
+        }
+
+        input, input::placeholder {
+            font-size: 16px;
+        }
+
+        span.title {
+            font-size: 20px;
+            margin-inline: 0.5rem;
+        }
+    }
+
+    button {
+        padding: 10px 18px;
+        background-color: var(--color-paprika);
+        color: var(--color-white);
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+
+        i {
+            font-size: 16px;
+        }
+    }
 }
 
 .example {
-    margin-block: 2rem;
     color: var(--color-silver);
-}
 
-.example em {
-    color: var(--color-brown);
-    font-style: normal;
-}
-
-.example h2 {
-    line-height: 1;
-    font-weight: 600;
-} 
-
-.arrow {
-    font-size: 3rem;
-}
-
-.input-group {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border: 2px solid var(--color-silver);
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    width: 80%;
-    max-width: 400px;
-    margin-inline: auto;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h2 {
+        margin: 0;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    em {
+        color: var(--color-brown);
+        font-style: normal;
+    }
 }
 
-.input-group:focus-within {
-    border-color: var(--color-beige);
-}
-
-.input-group i {
-    font-size: 1.25rem;
-}
-
-.input-group input {
-    width: 100%; 
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: var(--color-text);
-    font-size: 1rem;
+input {
+    width: 100%;
     outline: none;
-}
-
-.input-group input::placeholder {
-    color: var(--color-beige);
-}
-
-button {
-    background: transparent;
     border: none;
-    color: var(--color-black);
-    cursor: pointer;
-    padding: 0;
-}
+    font-family: "Karla", sans-serif;
+    font-weight: 400;
+    color: var(--color--brown);
 
-.button-inline {
-    margin-right: 0.5rem;
-}
-
-.push-right {
-    margin-left: auto;
-}
-
-@media (pointer: coarse) {
-    .button-toggle {
-        position: relative;
+    &:focus-within {
+        border-color: var(--color-beige);
     }
 
-    .button-toggle::after {
-        content: ""; 
-        position: absolute;
-
-        top: -20px;
-        bottom: -20px;
-        left: -20px;
-        right: -20px;
+    &::placeholder {
+        color: var(--color-beige);
     }
-}
-
-.input-group button {
-    transition: transform 0.2s ease;
-    font-size: 1.25rem;
-}
-
-.input-group button:hover {
-    transform: translateX(4px);
 }
