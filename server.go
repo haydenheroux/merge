@@ -108,8 +108,8 @@ type repoPageData struct {
 	Owner        string
 	Repo         string
 	PRs          []StampedPullRequest
-	OpenCount    int
 	MergedCount  int
+	FreshCount   int
 	StaleCount   int
 	ExpiredCount int
 }
@@ -133,9 +133,9 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	open := 0
 	merged := 0
 
+	fresh := 0
 	stale := 0
 	expired := 0
 
@@ -145,15 +145,16 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		open += 1
 		switch pr.ExpiryStatus {
+		case Fresh:
+			fresh += 1
 		case Expired:
 			expired += 1
 		case Stale:
 			stale += 1
 		}
 	}
-	err = t.Execute(w, repoPageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: stamped, OpenCount: open, MergedCount: merged, StaleCount: stale, ExpiredCount: expired})
+	err = t.Execute(w, repoPageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: stamped, MergedCount: merged, FreshCount: fresh, StaleCount: stale, ExpiredCount: expired})
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}
