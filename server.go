@@ -3,14 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log/slog"
 	"net/http"
-	"path/filepath"
 
-	"github.com/gomarkdown/markdown"
 	"github.com/gorilla/mux"
-	"github.com/microcosm-cc/bluemonday"
 )
 
 type Server struct {
@@ -23,14 +19,7 @@ type Server struct {
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	t, err := template.ParseFiles(filepath.Join("templates", "index.html"))
-	if err != nil {
-		s.Logger.Error(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	err = t.Execute(w, pageData{BaseURL: s.BaseURL})
+	err := IndexPage(s.BaseURL).Render(r.Context(), w)
 	if err != nil {
 		s.Logger.Error(err.Error())
 	}
@@ -90,30 +79,6 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
-func renderMarkdown(body string) template.HTML {
-	if body == "" {
-		return ""
-	}
-	html := markdown.ToHTML([]byte(body), nil, nil)
-	sanitized := bluemonday.UGCPolicy().Sanitize(string(html))
-	return template.HTML(sanitized)
-}
-
-type pageData struct {
-	BaseURL string
-}
-
-type repoPageData struct {
-	BaseURL      string
-	Owner        string
-	Repo         string
-	PRs          []StampedPullRequest
-	MergedCount  int
-	FreshCount   int
-	StaleCount   int
-	ExpiredCount int
-}
-
 func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
 	if err != nil {
@@ -123,15 +88,6 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	}
 
 	stamped := StampNow(prs)
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	funcs := template.FuncMap{"markdown": renderMarkdown}
-	t, err := template.New("page.html").Funcs(funcs).ParseFiles(filepath.Join("templates", "page.html"))
-	if err != nil {
-		gh.Logger.Error(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 
 	merged := 0
 
@@ -154,10 +110,32 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 			stale += 1
 		}
 	}
-	err = t.Execute(w, repoPageData{BaseURL: gh.BaseURL, Owner: gh.Owner, Repo: gh.Repo, PRs: stamped, MergedCount: merged, FreshCount: fresh, StaleCount: stale, ExpiredCount: expired})
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	err = RepoPage(RepoPageProps{
+		BaseURL:      gh.BaseURL,
+		Owner:        gh.Owner,
+		Repo:         gh.Repo,
+		PRs:          stamped,
+		MergedCount:  merged,
+		FreshCount:   fresh,
+		StaleCount:   stale,
+		ExpiredCount: expired,
+	}).Render(r.Context(), w)
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}
+}
+
+type RepoPageProps struct {
+	BaseURL      string
+	Owner        string
+	Repo         string
+	PRs          []StampedPullRequest
+	MergedCount  int
+	FreshCount   int
+	StaleCount   int
+	ExpiredCount int
 }
 
 func (s *Server) Start() error {
