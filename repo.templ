@@ -1,0 +1,51 @@
+package main
+
+import "fmt"
+
+templ RepoPage(props RepoPageProps) {
+	@Base(
+		fmt.Sprintf("%s/%s", props.Owner, props.Repo),
+		fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.FreshCount, props.StaleCount, props.ExpiredCount),
+		props.BaseURL,
+	) {
+		<header>
+			<div class="bar tight">
+				<h1 class="title inline"><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h1>
+				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
+			</div>
+			<div class="stat-card-container very-dim">
+				@Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
+				@Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
+				@Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")
+				@Stats("fa-recycle error", props.ExpiredCount, "expired pull requests")
+			</div>
+		</header>
+		<main class="grid">
+			for _, pr := range props.PRs {
+				@PRCard(pr)
+			}
+		</main>
+		<script>
+			document.querySelectorAll('.button-toggle').forEach(button => {
+				button.addEventListener('click', function() {
+					const prBody = this.closest('.pull-request').querySelector('.pr-body');
+					const hasBody = prBody && prBody.innerHTML.length > 0;
+
+					const icon = this.querySelector('i');
+
+					if (icon.classList.contains('fa-chevron-down')) {
+						icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+						if (hasBody) {
+							prBody.style.display = 'block';
+						}
+					} else {
+						icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+						if (hasBody) {
+							prBody.style.display = 'none';
+						}
+					}
+				});
+			});
+		</script>
+	}
+}
