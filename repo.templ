@@ -14,53 +14,15 @@ templ RepoPage(props RepoPageProps) {
 				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
 			</div>
 			<div class="stat-card-container very-dim">
-				<span class="card stat-card">
-					<i class="fa-solid fa-code-merge special"></i>
-					<b class="count dim">{ formatNumber(props.MergedCount) }</b> 
-					<p>merged pull requests</p>
-				</span>
-				<span class="card stat-card">
-					<i class="fa-solid fa-apple-whole ok"></i>
-					<b class="count dim">{ formatNumber(props.FreshCount) }</b>
-					<p>fresh pull requests</p>
-				</span>
-				<span class="card stat-card">
-					<i class="fa-solid fa-apple-whole warn"></i>
-					<b class="count dim">{ formatNumber(props.StaleCount) }</b>
-					<p>stale pull requests</p>
-				</span>
-				<span class="card stat-card">
-					<i class="fa-solid fa-recycle error"></i>
-					<b class="count dim">{ formatNumber(props.ExpiredCount) }</b>
-					<p>expired pull requests</p>
-				</span>
+				@Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
+				@Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
+				@Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")
+				@Stats("fa-recycle error", props.ExpiredCount, "expired pull requests")
 			</div>
 		</header>
 		<main class="grid">
 			for _, pr := range props.PRs {
-				<div class="card pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
-					<div class="center-inline">
-						<div class="center">
-							<i class={ fmt.Sprintf("status-icon fa-solid %s", getStatusClass(pr)) }></i>
-						</div>
-						<a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
-						<button class="push-right button-toggle button-inline" aria-label="Show Description">
-							<i class="dim fa-solid fa-chevron-down" aria-hidden="true"></i>
-						</button>
-					</div>
-					<div class="very-dim">
-						<span>
-							{ pr.State }
-							&nbsp;&middot;&nbsp;
-							{ formatNumber(pr.DaysOpen) } days { getAgeLabel(pr.State) }
-							&nbsp;&middot;&nbsp;
-							#{ formatNumber(pr.Number) }
-							&nbsp;&middot;&nbsp;
-							<a href={ pr.Author.URL }>{ pr.Author.Name }</a>
-						</span>
-					</div>
-					<span class="pr-body" style="display: none;">@Markdown(pr.Body)</span>
-				</div>
+				@PRCard(pr)
 			}
 		</main>
 		<script>

@@ -1,0 +1,29 @@
+package main
+
+import "fmt"
+
+templ PRCard(pr StampedPullRequest) {
+	<div class="card pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
+		<div class="center-inline">
+			<div class="center">
+				<i class={ fmt.Sprintf("status-icon fa-solid %s", getStatusClass(pr)) }></i>
+			</div>
+			<a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
+			<button class="push-right button-toggle button-inline" aria-label="Show Description">
+				<i class="dim fa-solid fa-chevron-down" aria-hidden="true"></i>
+			</button>
+		</div>
+		<div class="very-dim">
+			<span>
+				{ pr.State }
+				&nbsp;&middot;&nbsp;
+				{ formatNumber(pr.DaysOpen) } days { getAgeLabel(pr.State) }
+				&nbsp;&middot;&nbsp;
+				#{ formatNumber(pr.Number) }
+				&nbsp;&middot;&nbsp;
+				<a href={ pr.Author.URL }>{ pr.Author.Name }</a>
+			</span>
+		</div>
+		<span class="pr-body" style="display: none;">@Markdown(pr.Body)</span>
+	</div>
+}
