@@ -1,10 +1,14 @@
-package main
+package handler
 
 import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
 	"net/http"
+
+	"merge/internal/github"
+	"merge/internal/model"
+	"merge/internal/views/pages"
 
 	"github.com/gorilla/mux"
 )
@@ -14,12 +18,12 @@ type Server struct {
 	Port    int
 	Router  *mux.Router
 	Logger  *slog.Logger
-	GitHub  GitHubClient
+	GitHub  github.GitHubClient
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	err := IndexPage(s.BaseURL).Render(r.Context(), w)
+	err := pages.IndexPage(s.BaseURL).Render(r.Context(), w)
 	if err != nil {
 		s.Logger.Error(err.Error())
 	}
@@ -66,7 +70,7 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	stamped := StampNow(prs)
+	stamped := model.StampNow(prs)
 
 	json, err := json.Marshal(stamped)
 	if err != nil {
@@ -87,7 +91,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	stamped := StampNow(prs)
+	stamped := model.StampNow(prs)
 
 	merged := 0
 
@@ -96,23 +100,23 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	expired := 0
 
 	for _, pr := range stamped {
-		if pr.State == Merged {
+		if pr.State == model.Merged {
 			merged += 1
 			continue
 		}
 
 		switch pr.ExpiryStatus {
-		case Fresh:
+		case model.Fresh:
 			fresh += 1
-		case Expired:
+		case model.Expired:
 			expired += 1
-		case Stale:
+		case model.Stale:
 			stale += 1
 		}
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	err = RepoPage(RepoPageProps{
+	err = pages.RepoPage(model.RepoPageProps{
 		BaseURL:      gh.BaseURL,
 		Owner:        gh.Owner,
 		Repo:         gh.Repo,
@@ -125,17 +129,6 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}
-}
-
-type RepoPageProps struct {
-	BaseURL      string
-	Owner        string
-	Repo         string
-	PRs          []StampedPullRequest
-	MergedCount  int
-	FreshCount   int
-	StaleCount   int
-	ExpiredCount int
 }
 
 func (s *Server) Start() error {

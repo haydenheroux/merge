@@ -1,9 +1,15 @@
-package main
+package pages
 
-import "fmt"
+import (
+	"fmt"
 
-templ RepoPage(props RepoPageProps) {
-	@Base(
+	"merge/internal/model"
+	"merge/internal/views/components"
+	"merge/internal/views/layout"
+)
+
+templ RepoPage(props model.RepoPageProps) {
+	@layout.Base(
 		fmt.Sprintf("%s/%s", props.Owner, props.Repo),
 		fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.FreshCount, props.StaleCount, props.ExpiredCount),
 		props.BaseURL,
@@ -14,15 +20,15 @@ templ RepoPage(props RepoPageProps) {
 				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
 			</div>
 			<div class="stat-card-container very-dim">
-				@Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
-				@Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
-				@Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")
-				@Stats("fa-recycle error", props.ExpiredCount, "expired pull requests")
+				@components.Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
+				@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
+				@components.Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")
+				@components.Stats("fa-recycle error", props.ExpiredCount, "expired pull requests")
 			</div>
 		</header>
 		<main class="grid">
 			for _, pr := range props.PRs {
-				@PRCard(pr)
+				@components.PRCard(pr)
 			}
 		</main>
 	}

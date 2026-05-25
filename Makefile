@@ -6,7 +6,7 @@ TEMPL := $(GOBIN)/templ
 all: generate build
 
 build:
-	go build -o merge .
+	go build -o merge ./cmd/merge
 
 generate:
 	$(TEMPL) generate

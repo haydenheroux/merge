@@ -1,9 +1,11 @@
-package main
+package components
+
+import "merge/internal/views/helpers"
 
 templ Stats(iconClass string, count int, label string) {
 	<span class="card stat-card">
 		<i class={ "status-icon fa-solid " + iconClass }></i>
-		<b class="count dim">{ formatNumber(count) }</b>
+		<b class="count dim">{ helpers.FormatNumber(count) }</b>
 		<p>{ label }</p>
 	</span>
 }
