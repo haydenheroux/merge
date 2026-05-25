@@ -2,7 +2,7 @@ package main
 
 templ Stats(iconClass string, count int, label string) {
 	<span class="card stat-card">
-		<i class={ "fa-solid " + iconClass }></i>
+		<i class={ "status-icon fa-solid " + iconClass }></i>
 		<b class="count dim">{ formatNumber(count) }</b>
 		<p>{ label }</p>
 	</span>
