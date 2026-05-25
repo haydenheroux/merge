@@ -24,6 +24,8 @@ templ PRCard(pr StampedPullRequest) {
 				<a href={ pr.Author.URL }>{ pr.Author.Name }</a>
 			</span>
 		</div>
-		<span class="pr-body" style="display: none;">@Markdown(pr.Body)</span>
+		<span class="pr-body">
+			<div class="pr-body-inner">@Markdown(pr.Body)</div>
+		</span>
 	</div>
 }
