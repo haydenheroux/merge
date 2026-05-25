@@ -33,7 +33,7 @@ func Stats(iconClass string, count int, label string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"fa-solid " + iconClass}
+		var templ_7745c5c3_Var2 = []any{"status-icon fa-solid " + iconClass}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

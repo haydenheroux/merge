@@ -57,6 +57,11 @@ header i {
 
     &.fa-github-alt {
         padding-top: 0.65rem;
+        transition: 0.2s;
+
+        &:hover {
+            transform: rotate(5deg) scale(110%);
+        }
     }
 }
 
@@ -187,7 +192,7 @@ main.grid {
         border-left: 2px solid var(--color-silver);
         padding-left: 1.5rem;
         max-width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
 
         img {
             max-width: 100%;
@@ -210,6 +215,12 @@ main.grid {
 
 .status-icon {
     font-size: 1.15rem;
+    transform-origin: bottom left;
+    transition: 0.2s;
+
+    &:hover {
+        transform: rotate(-7.5deg) scale(1.25);
+    }
 }
 
 .error {
@@ -226,10 +237,6 @@ main.grid {
 
 .special {
     color: var(--color-purple);
-}
-
-.status-icon.warn {
-    font-size: 1.05rem;
 }
 
 .hero {
@@ -330,4 +337,8 @@ input {
     &::placeholder {
         color: var(--color-beige);
     }
+}
+
+button {
+    cursor: pointer;
 }
