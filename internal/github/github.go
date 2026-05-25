@@ -1,15 +1,17 @@
-package main
+package github
 
 import (
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+
+	"merge/internal/model"
 )
 
 type GitHubClient interface {
 	GetPullRequestsJson(owner, repo string) ([]byte, error)
-	GetPullRequests(owner, repo string) ([]PullRequest, error)
+	GetPullRequests(owner, repo string) ([]model.PullRequest, error)
 }
 
 type GitHub struct {
@@ -46,13 +48,13 @@ func (g GitHub) GetPullRequestsJson(owner, repo string) ([]byte, error) {
 	return io.ReadAll(resp.Body)
 }
 
-func (g GitHub) GetPullRequests(owner, repo string) ([]PullRequest, error) {
+func (g GitHub) GetPullRequests(owner, repo string) ([]model.PullRequest, error) {
 	bytes, err := g.GetPullRequestsJson(owner, repo)
 	if err != nil {
 		return nil, err
 	}
 
-	var prs []PullRequest
+	var prs []model.PullRequest
 
 	if err := json.Unmarshal(bytes, &prs); err != nil {
 		return nil, err

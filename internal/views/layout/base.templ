@@ -1,4 +1,6 @@
-package main
+package layout
+
+import "merge/internal/views/components"
 
 templ Base(title, description, baseURL string) {
 	<!DOCTYPE html>
@@ -19,7 +21,7 @@ templ Base(title, description, baseURL string) {
 		<meta property="og:description" content={ description }/>
 	</head>
 	<body>
-		@Nav()
+		@components.Nav()
 		{ children... }
 		<script src="/public/pr-toggle.js" defer></script>
 		<script defer>

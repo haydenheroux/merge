@@ -1,4 +1,4 @@
-package main
+package helpers
 
 import (
 	"github.com/a-h/templ"
@@ -6,7 +6,7 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 )
 
-func renderMarkdownComponent(body string) templ.Component {
+func RenderMarkdownComponent(body string) templ.Component {
 	if body == "" {
 		return templ.NopComponent
 	}
