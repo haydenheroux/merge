@@ -6,40 +6,10 @@ templ IndexPage(baseURL string) {
 			<div class="hero">
 				<h1 class="title">Your team.</h1>
 				<h1 class="title">Any repo.</h1>
-				<form id="repo-form" class="dim center-inline">
-					<input 
-						type="text" 
-						id="owner-input" 
-						placeholder="owner"
-						required
-						aria-label="Search your team"
-					>
-					<span class="title">/</span>
-					<input 
-						type="text" 
-						id="repo-input" 
-						placeholder="repo"
-						required
-						aria-label="Search your repositories"
-					>
-					<button type="submit" aria-label="Submit">
-						<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-					</button>
-				</form>
+				@RepoForm("hero-repo-form")
 			</div>
 		</main>
 
-		<script defer>
-			document.getElementById('repo-form').addEventListener('submit', function(e) {
-				e.preventDefault();
-				var repo = document.getElementById('repo-input').value.trim();
-				var owner = document.getElementById('owner-input').value.trim();
-				
-				if (repo) {
-					window.location.href = '/' + owner + '/' + repo;
-				}
-			});
-		</script>
 		<footer class="center-inline">
 			<p class="very-dim">
 				By <a class="text" href="https://www.haydenheroux.com">Hayden Heroux</a>
