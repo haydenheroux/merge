@@ -44,8 +44,8 @@ b, h1, h2, h3 {
 }
 
 header {
-	margin-top: 4rem;
-	margin-bottom: 2rem;
+	margin-top: 2rem;
+	margin-bottom: 6rem;
 }
 
 header .title {
@@ -80,7 +80,7 @@ header .bar {
 }
 
 main {
-    margin-bottom: 2rem;
+    margin-block: 4rem 2rem;
     gap: 1.5rem;
 }
 
@@ -92,17 +92,6 @@ main.flex {
 main.grid {
     display: grid;
     grid-template-columns: 1fr;
-}
-
-.center-block {
-	display: flex;
-	justify-content: center;
-}
-
-.center-inline {
-	display: flex;
-    flex-direction: column;
-	align-items: center;
 }
 
 .card {
@@ -253,7 +242,6 @@ main.grid {
 }
 
 .hero {
-    margin-top: 8rem;
     margin-bottom: 32rem;
 
     display: flex;
@@ -281,12 +269,13 @@ main.grid {
         align-items: center;
 
         background-color: var(--color-pearl);
+	    border: 1px solid var(--color-silver);
         border-radius: 4px;
     }
 
     input {
         background-color: transparent;
-        padding: 10px 18px;
+        padding: 1rem 2rem;
 
         font-weight: 600;
     }
