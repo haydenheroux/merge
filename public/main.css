@@ -118,6 +118,12 @@ main.grid {
     margin-bottom: 2.5rem;
 }
 
+@media (min-width: 768px) {
+    .stat-card-container {
+        grid-template-columns: max-content max-content max-content max-content;
+    }
+}
+
 .stat-card {
     max-width: 240px;
     display: grid;
