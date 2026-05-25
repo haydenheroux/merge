@@ -25,27 +25,5 @@ templ RepoPage(props RepoPageProps) {
 				@PRCard(pr)
 			}
 		</main>
-		<script>
-			document.querySelectorAll('.button-toggle').forEach(button => {
-				button.addEventListener('click', function() {
-					const prBody = this.closest('.pull-request').querySelector('.pr-body');
-					const hasBody = prBody && prBody.innerHTML.length > 0;
-
-					const icon = this.querySelector('i');
-
-					if (icon.classList.contains('fa-chevron-down')) {
-						icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
-						if (hasBody) {
-							prBody.style.display = 'block';
-						}
-					} else {
-						icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
-						if (hasBody) {
-							prBody.style.display = 'none';
-						}
-					}
-				});
-			});
-		</script>
 	}
 }

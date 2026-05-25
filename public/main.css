@@ -187,11 +187,27 @@ main.grid {
     }
 
     .pr-body {
-        margin-top: 1.5rem;
-        border-left: 2px solid var(--color-silver);
-        padding-left: 1.5rem;
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 30ms ease-out, opacity 30ms ease-out, margin 30ms ease-out, padding 30ms ease-out, border 30ms ease-out;
+        opacity: 0;
+        margin-top: 0;
+        padding-left: 0;
+        border-left: none;
         max-width: 100%;
-        overflow-x: auto;
+        overflow: hidden;
+
+        &.pr-body--open {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            margin-top: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--color-silver);
+        }
+
+        .pr-body-inner {
+            overflow: hidden;
+        }
 
         img {
             max-width: 100%;

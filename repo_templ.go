@@ -125,7 +125,7 @@ func RepoPage(props RepoPageProps) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</main><script>\n\t\t\tdocument.querySelectorAll('.button-toggle').forEach(button => {\n\t\t\t\tbutton.addEventListener('click', function() {\n\t\t\t\t\tconst prBody = this.closest('.pull-request').querySelector('.pr-body');\n\t\t\t\t\tconst hasBody = prBody && prBody.innerHTML.length > 0;\n\n\t\t\t\t\tconst icon = this.querySelector('i');\n\n\t\t\t\t\tif (icon.classList.contains('fa-chevron-down')) {\n\t\t\t\t\t\ticon.classList.replace('fa-chevron-down', 'fa-chevron-up');\n\t\t\t\t\t\tif (hasBody) {\n\t\t\t\t\t\t\tprBody.style.display = 'block';\n\t\t\t\t\t\t}\n\t\t\t\t\t} else {\n\t\t\t\t\t\ticon.classList.replace('fa-chevron-up', 'fa-chevron-down');\n\t\t\t\t\t\tif (hasBody) {\n\t\t\t\t\t\t\tprBody.style.display = 'none';\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
