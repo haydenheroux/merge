@@ -4,7 +4,7 @@ import "fmt"
 
 templ PRCard(pr StampedPullRequest) {
 	<div class="card pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
-		<div class="center-inline">
+		<div>
 			<div class="center">
 				<i class={ fmt.Sprintf("status-icon fa-solid %s", getStatusClass(pr)) }></i>
 			</div>
