@@ -14,7 +14,8 @@
 }
 
 body {
-    width: 80%;
+    width: 90%;
+    margin-block: 0;
     margin-inline: auto;
 
     background-color: var(--color-white);
@@ -43,8 +44,8 @@ b, h1, h2, h3 {
 }
 
 header {
-	margin-top: 4rem;
-	margin-bottom: 2rem;
+	margin-top: 2rem;
+	margin-bottom: 6rem;
 }
 
 header .title {
@@ -60,7 +61,7 @@ header i {
         transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
         &:hover {
-            transform: rotate(5deg) scale(110%);
+            transform: rotate(-5deg) scale(110%);
         }
     }
 }
@@ -79,7 +80,7 @@ header .bar {
 }
 
 main {
-    margin-bottom: 2rem;
+    margin-block: 4rem 2rem;
     gap: 1.5rem;
 }
 
@@ -91,23 +92,6 @@ main.flex {
 main.grid {
     display: grid;
     grid-template-columns: 1fr;
-}
-
-.center {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.center-block {
-	display: flex;
-	justify-content: center;
-}
-
-.center-inline {
-	display: flex;
-    flex-direction: column;
-	align-items: center;
 }
 
 .card {
@@ -132,6 +116,12 @@ main.grid {
 
     margin-top: 0.75rem;
     margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .stat-card-container {
+        grid-template-columns: max-content max-content max-content max-content;
+    }
 }
 
 .stat-card {
@@ -181,6 +171,12 @@ main.grid {
         display: flex;
         flex-direction: row;
         gap: 1.5rem;
+    }
+
+    .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .title {
@@ -258,17 +254,10 @@ main.grid {
 }
 
 .hero {
-    min-width: 240px;
-    max-width: 320px;
-
-    margin-top: 8rem;
     margin-bottom: 32rem;
 
     display: flex;
     flex-direction: column;
-
-    align-items: start;
-    justify-content: start;
 
     .title {
         font-size: 48px;
@@ -277,32 +266,44 @@ main.grid {
         line-height: 1.1;
     }
 
-    form {
+    .repo-form {
         margin-top: 3rem;
+    }
+}
+
+.repo-form {
+    display: grid;
+    grid-template-columns: auto auto;
+    max-width: 480px;
+
+    & > div {
+        display: flex;
+        align-items: center;
+
         background-color: var(--color-pearl);
+	    border: 1px solid var(--color-silver);
         border-radius: 4px;
+    }
 
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-        
-        input {
-            background-color: transparent;
-            padding: 8px 16px;
+    input {
+        background-color: transparent;
+        padding: 1rem 1.5rem;
 
-            font-weight: 600;
-        }
+        font-weight: 600;
+    }
 
-        input, input::placeholder {
-            font-size: 16px;
-        }
+    input, input::placeholder {
+        font-size: 16px;
+    }
 
-        span.title {
-            font-size: 20px;
-            margin-inline: 0.5rem;
-        }
+    span.title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-inline: 0.5rem;
     }
 
     button {
+        margin-left: 2rem;
         padding: 10px 18px;
         background-color: var(--color-paprika);
         color: var(--color-white);
@@ -310,10 +311,77 @@ main.grid {
         cursor: pointer;
         border-radius: 4px;
 
+        transition: transform 30ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 30ms ease;
+
+        &:active {
+            transform: scale(0.9);
+        }
+
         i {
             font-size: 16px;
         }
     }
+}
+
+.top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    padding: 0;
+    padding-top: 0.5rem;
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    background-color: var(--color-white);
+
+    .nav-brand {
+        position: relative;
+        font-family: "Neuton", serif;
+        font-size: 1.75rem;
+        font-weight: 700;
+        white-space: nowrap;
+        color: var(--color-black);
+    }
+}
+
+.nav-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--color-brown);
+    padding: 0.25rem;
+
+    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    &:hover {
+        transform: rotate(-7.5deg) scale(1.15);
+    }
+
+    &:active {
+        transform: scale(0.85);
+    }
+}
+
+.nav-form-wrapper {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    width: 100%;
+
+    transition: max-height 30ms ease-out, opacity 30ms ease-out, margin 30ms ease-out;
+}
+
+.nav-form-wrapper.nav-form-wrapper--open {
+    max-height: 200px;
+    opacity: 1;
 }
 
 .example {

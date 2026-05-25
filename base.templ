@@ -19,8 +19,25 @@ templ Base(title, description, baseURL string) {
 		<meta property="og:description" content={ description }/>
 	</head>
 	<body>
+		@Nav()
 		{ children... }
 		<script src="/public/pr-toggle.js" defer></script>
+		<script defer>
+			document.addEventListener('submit', function(e) {
+				var form = e.target.closest('.repo-form');
+				if (!form) return;
+				e.preventDefault();
+				var owner = form.querySelector('.owner-input').value.trim();
+				var repo = form.querySelector('.repo-input').value.trim();
+				if (repo) {
+					window.location.href = '/' + owner + '/' + repo;
+				}
+			});
+			document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+                console.log(document.querySelector('.nav-form-wrapper').classList);
+				document.querySelector('.nav-form-wrapper')?.classList.toggle('nav-form-wrapper--open');
+			});
+		</script>
 	</body>
 	</html>
 }

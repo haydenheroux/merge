@@ -98,11 +98,15 @@ func Base(title, description, baseURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		templ_7745c5c3_Err = Nav().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		templ_7745c5c3_Err = templ_7745c5c3_Var1.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/pr-toggle.js\" defer></script></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/pr-toggle.js\" defer></script><script defer>\n\t\t\tdocument.addEventListener('submit', function(e) {\n\t\t\t\tvar form = e.target.closest('.repo-form');\n\t\t\t\tif (!form) return;\n\t\t\t\te.preventDefault();\n\t\t\t\tvar owner = form.querySelector('.owner-input').value.trim();\n\t\t\t\tvar repo = form.querySelector('.repo-input').value.trim();\n\t\t\t\tif (repo) {\n\t\t\t\t\twindow.location.href = '/' + owner + '/' + repo;\n\t\t\t\t}\n\t\t\t});\n\t\t\tdocument.querySelector('.nav-toggle')?.addEventListener('click', function() {\n                console.log(document.querySelector('.nav-form-wrapper').classList);\n\t\t\t\tdocument.querySelector('.nav-form-wrapper')?.classList.toggle('nav-form-wrapper--open');\n\t\t\t});\n\t\t</script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -41,7 +41,15 @@ func IndexPage(baseURL string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"center\"><div class=\"hero\"><h1 class=\"title\">Your team.</h1><h1 class=\"title\">Any repo.</h1><form id=\"repo-form\" class=\"dim center-inline\"><input type=\"text\" id=\"owner-input\" placeholder=\"owner\" required aria-label=\"Search your team\"> <span class=\"title\">/</span> <input type=\"text\" id=\"repo-input\" placeholder=\"repo\" required aria-label=\"Search your repositories\"> <button type=\"submit\" aria-label=\"Submit\"><i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></button></form></div></main><script defer>\n\t\t\tdocument.getElementById('repo-form').addEventListener('submit', function(e) {\n\t\t\t\te.preventDefault();\n\t\t\t\tvar repo = document.getElementById('repo-input').value.trim();\n\t\t\t\tvar owner = document.getElementById('owner-input').value.trim();\n\t\t\t\t\n\t\t\t\tif (repo) {\n\t\t\t\t\twindow.location.href = '/' + owner + '/' + repo;\n\t\t\t\t}\n\t\t\t});\n\t\t</script> <footer class=\"center-inline\"><p class=\"very-dim\">By <a class=\"text\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a> &nbsp;&middot;&nbsp; View on <a class=\"text\" href=\"https://www.github.com/haydenheroux/merge\">GitHub</a> &nbsp;&middot;&nbsp; View on <a class=\"text\" href=\"https://www.merge.zone/haydenheroux/merge\">Merge Zone</a></p></footer>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"center\"><div class=\"hero\"><h1 class=\"title\">Your team.</h1><h1 class=\"title\">Any repo.</h1>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = RepoForm("hero-repo-form").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></main><footer class=\"center-inline\"><p class=\"very-dim\">By <a class=\"text\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a> &nbsp;&middot;&nbsp; View on <a class=\"text\" href=\"https://www.github.com/haydenheroux/merge\">GitHub</a> &nbsp;&middot;&nbsp; View on <a class=\"text\" href=\"https://www.merge.zone/haydenheroux/merge\">Merge Zone</a></p></footer>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
