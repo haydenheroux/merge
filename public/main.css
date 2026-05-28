@@ -44,32 +44,33 @@ b, h1, h2, h3 {
 }
 
 header {
+    margin-inline: 4rem;
 	margin-top: 2rem;
 	margin-bottom: 6rem;
-}
 
-header .title {
-    font-size: 2.25rem;
-	line-height: 1;
-}
+    .title {
+        font-size: 2rem;
+        line-height: 1;
+    }
 
-header i {
-    font-size: 2.25rem;
+    i {
+        font-size: 2rem;
 
-    &.fa-github-alt {
-        padding-top: 0.65rem;
-        transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        &.fa-github-alt {
+            padding-top: 0.65rem;
+            transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-        &:hover {
-            transform: rotate(-5deg) scale(110%);
+            &:hover {
+                transform: rotate(-5deg) scale(110%);
+            }
         }
     }
-}
 
-header .bar {
-	display: flex;
-	flex-direction: row;
-	gap: 1.5rem;
+    .bar {
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+    }
 }
 
 .bar.tight {
@@ -129,22 +130,25 @@ main.grid {
     display: grid;
     grid-template-columns: auto auto;
     grid-template-rows: 24px auto;
-    column-gap: 1.25rem;
+    column-gap: 1rem;
     align-items: center;
+    padding: 1rem 2rem;
 
 	border: 1px solid var(--color-silver);
 	border-radius: 20px;
 
     &:hover .status-icon {
-        transform: rotate(-7.5deg) scale(1.15);
+        transform: rotate(-5deg) scale(1.1);
     }
 
     i {
         margin-inline: auto;
+        font-size: 1.25rem;
+        padding-top: 0.25rem;
     }
 
     .count {
-        font-size: 28px;
+        font-size: 1.25rem;
     }
 
     p {
@@ -279,10 +283,11 @@ main.grid {
     & > div {
         display: flex;
         align-items: center;
+        padding-inline: 0.5rem;
 
         background-color: var(--color-pearl);
 	    border: 1px solid var(--color-silver);
-        border-radius: 4px;
+        border-radius: 20px;
     }
 
     input {
@@ -297,7 +302,7 @@ main.grid {
     }
 
     span.title {
-        font-size: 20px;
+        font-size: 22px;
         font-weight: 600;
         margin-inline: 0.5rem;
     }
@@ -305,8 +310,8 @@ main.grid {
     button {
         margin-left: 2rem;
         padding: 10px 18px;
-        background-color: var(--color-paprika);
-        color: var(--color-white);
+        color: var(--color-brown);
+        background: none;
         border: none;
         cursor: pointer;
         border-radius: 4px;
@@ -318,7 +323,7 @@ main.grid {
         }
 
         i {
-            font-size: 16px;
+            font-size: 18px;
         }
     }
 }
@@ -344,10 +349,10 @@ main.grid {
     .nav-brand {
         position: relative;
         font-family: "Neuton", serif;
-        font-size: 1.75rem;
-        font-weight: 700;
+        font-size: 1.5rem;
+        font-weight: 600;
         white-space: nowrap;
-        color: var(--color-black);
+        color: var(--color-brown);
     }
 }
 
@@ -355,7 +360,7 @@ main.grid {
     display: block;
     background: none;
     border: none;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: var(--color-brown);
     padding: 0.25rem;
 
@@ -376,7 +381,7 @@ main.grid {
     overflow: hidden;
     width: 100%;
 
-    transition: max-height 30ms ease-out, opacity 30ms ease-out, margin 30ms ease-out;
+    transition: max-height 150ms ease-out, opacity 30ms ease-out, margin 150ms ease-out;
 }
 
 .nav-form-wrapper.nav-form-wrapper--open {

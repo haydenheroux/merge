@@ -42,7 +42,7 @@ func RepoForm(formID string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"repo-form dim\"><div><input type=\"text\" class=\"owner-input\" placeholder=\"owner\" required aria-label=\"Search your team\"> <span class=\"title\">/</span> <input type=\"text\" class=\"repo-input\" placeholder=\"repo\" required aria-label=\"Search your repositories\"></div><button type=\"submit\" aria-label=\"Submit\"><i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></button></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"repo-form dim\"><div><input type=\"text\" class=\"owner-input\" placeholder=\"owner\" required aria-label=\"Search your team\"> <span class=\"title\">/</span> <input type=\"text\" class=\"repo-input\" placeholder=\"repo\" required aria-label=\"Search your repositories\"> <button type=\"submit\" aria-label=\"Submit\"><i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></button></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
