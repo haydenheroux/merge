@@ -1,6 +1,7 @@
 :root {
     --color-white: #fffcf2;
     --color-pearl: #faf7ed;
+    --color-talc: #e8dfd0;
     --color-silver: #ccc5b9;
     --color-beige: #70695c;
     --color-brown: #403d39;
@@ -11,6 +12,8 @@
     --color-orange: #ff9d23;
     --color-red: #ea5252;
     --color-purple: #8d5f8c;
+
+    --size-card-br: 20px;
 }
 
 body {
@@ -44,7 +47,6 @@ b, h1, h2, h3 {
 }
 
 header {
-    margin-inline: 4rem;
 	margin-top: 2rem;
 	margin-bottom: 6rem;
 
@@ -90,23 +92,37 @@ main.flex {
     flex-direction: row;
 }
 
-main.grid {
+.prs {
+    --padding: 1.25rem;
+
+    max-height: 50rem;
+    overflow-x: auto;
+
     display: grid;
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+
+    background-color: var(--color-talc);
+    padding: var(--padding);
+    border-radius: calc(var(--size-card-br) + var(--padding));
 }
 
 .card {
     box-sizing: border-box;
-	padding: 2rem 4rem;
+	padding: 1.5rem 2rem;
 
     background-color: var(--color-pearl);
 	border: 1px solid var(--color-silver);
-	border-radius: 20px;
+	border-radius: var(--size-card-br);
 
     transition: background-color 0.1s ease-in-out;
 
     &:hover {
         background-color: var(--color-white);
+    }
+
+    p {
+        margin: 0;
     }
 }
 
@@ -135,7 +151,6 @@ main.grid {
     padding: 1rem 2rem;
 
 	border: 1px solid var(--color-silver);
-	border-radius: 20px;
 
     &:hover .status-icon {
         transform: rotate(-5deg) scale(1.1);
@@ -161,11 +176,12 @@ main.grid {
 .pull-request {
     width: 100%;
     min-width: 0;
-    max-width: 660px;
+    /* max-width: 660px; */
     margin-inline: auto;
 
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
 
     &:hover .status-icon {
         transform: rotate(-7.5deg) scale(1.15);
@@ -186,6 +202,7 @@ main.grid {
     .title {
         font-size: 20px;
         text-align: left;
+        line-height: 1.2;
     }
 
     button {
@@ -287,7 +304,7 @@ main.grid {
 
         background-color: var(--color-pearl);
 	    border: 1px solid var(--color-silver);
-        border-radius: 20px;
+        border-radius: var(--size-card-br);
     }
 
     input {

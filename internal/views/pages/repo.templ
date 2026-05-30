@@ -26,7 +26,7 @@ templ RepoPage(props model.RepoPageProps) {
 				@components.Stats("fa-recycle error", props.ExpiredCount, "expired pull requests")
 			</div>
 		</header>
-		<main class="grid">
+		<main class="prs">
 			for _, pr := range props.PRs {
 				@components.PRCard(pr)
 			}
