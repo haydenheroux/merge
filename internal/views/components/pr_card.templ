@@ -9,26 +9,28 @@ import (
 
 templ PRCard(pr model.StampedPullRequest) {
 	<div class="pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
-        <div class="icon">
-            <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
+        <div class="pull-request-header">
+            <div class="icon">
+                <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
+            </div>
+            <div class="title-row">
+                <a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
+                <button aria-label="Show Description">
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="description-row">
+                <span>
+                    { pr.State }
+                    &nbsp;&middot;&nbsp;
+                    { helpers.FormatNumber(pr.DaysOpen) } days { helpers.GetAgeLabel(pr.State) }
+                    &nbsp;&middot;&nbsp;
+                    #{ helpers.FormatNumber(pr.Number) }
+                    &nbsp;&middot;&nbsp;
+                    <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
+                </span>
+            </div>
         </div>
-		<div class="title-row">
-			<a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
-			<button aria-label="Show Description">
-				<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-			</button>
-		</div>
-		<div class="description-row">
-			<span>
-				{ pr.State }
-				&nbsp;&middot;&nbsp;
-				{ helpers.FormatNumber(pr.DaysOpen) } days { helpers.GetAgeLabel(pr.State) }
-				&nbsp;&middot;&nbsp;
-				#{ helpers.FormatNumber(pr.Number) }
-				&nbsp;&middot;&nbsp;
-				<a href={ pr.Author.URL }>{ pr.Author.Name }</a>
-			</span>
-		</div>
 		<span class="pr-body">
 			<div class="pr-body-inner">@Markdown(pr.Body)</div>
 		</span>
