@@ -24,7 +24,7 @@ body {
     background-color: var(--color-white);
     color: var(--color-black);
 
-	font-size: 14px;
+	font-size: 16px;
 	font-family: "Karla", sans-serif;
 	font-weight: 400;
 	font-style: normal;
@@ -32,34 +32,54 @@ body {
     text-wrap: balance;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
+b, h1, h2, h3 {
+    font-family: "Neuton", serif;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: 800;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+p {
+    font-size: 1.25rem;
+}
+
+.small {
+    font-size: 1rem;
 }
 
 code {
     font-size: 1rem;
 }
 
-b, h1, h2, h3 {
-    font-family: "Neuton", serif;
-    font-weight: 600;
+.caption {
+    font-size: 0.875;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 header {
-	margin-top: 2rem;
-	margin-bottom: 6rem;
-
-    .title {
-        font-size: 2rem;
-        line-height: 1;
-    }
-
     i {
         font-size: 2rem;
 
         &.fa-github-alt {
-            padding-top: 0.65rem;
             transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
             &:hover {
@@ -82,25 +102,13 @@ header {
     gap: 1rem;
 }
 
-main {
-    margin-block: 4rem 2rem;
-    gap: 1.5rem;
-}
-
-main.flex {
-    display: flex;
-    flex-direction: row;
-}
-
 .prs {
-    --padding: 1.25rem;
+    --padding: 0rem;
 
-    max-height: 50rem;
     overflow-x: auto;
 
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem;
 
     background-color: var(--color-talc);
     padding: var(--padding);
@@ -109,7 +117,6 @@ main.flex {
 
 .card {
     box-sizing: border-box;
-	padding: 1.5rem 2rem;
 
     background-color: var(--color-pearl);
 	border: 1px solid var(--color-silver);
@@ -120,19 +127,11 @@ main.flex {
     &:hover {
         background-color: var(--color-white);
     }
-
-    p {
-        margin: 0;
-    }
 }
 
 .stat-card-container {
     display: grid;
     grid-template-columns: max-content max-content;
-    gap: 1rem;
-
-    margin-top: 0.75rem;
-    margin-bottom: 2.5rem;
 }
 
 @media (min-width: 768px) {
@@ -148,7 +147,6 @@ main.flex {
     grid-template-rows: 24px auto;
     column-gap: 1rem;
     align-items: center;
-    padding: 1rem 2rem;
 
 	border: 1px solid var(--color-silver);
 
@@ -156,20 +154,9 @@ main.flex {
         transform: rotate(-5deg) scale(1.1);
     }
 
-    i {
-        margin-inline: auto;
-        font-size: 1.25rem;
-        padding-top: 0.25rem;
-    }
-
-    .count {
-        font-size: 1.25rem;
-    }
-
     p {
         display: none;
         grid-area: 2 / 2 / 2 / 2;
-        margin: 0;
     }
 }
 
@@ -177,11 +164,9 @@ main.flex {
     width: 100%;
     min-width: 0;
     /* max-width: 660px; */
-    margin-inline: auto;
 
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
 
     &:hover .status-icon {
         transform: rotate(-7.5deg) scale(1.15);
@@ -190,7 +175,6 @@ main.flex {
     & > div {
         display: flex;
         flex-direction: row;
-        gap: 1.5rem;
     }
 
     .center {
@@ -200,15 +184,12 @@ main.flex {
     }
 
     .title {
-        font-size: 20px;
         text-align: left;
-        line-height: 1.2;
     }
 
     button {
         background: none;
         border: none;
-        margin-left: auto;
     }
 
     .pr-body {
@@ -225,8 +206,6 @@ main.flex {
         &.pr-body--open {
             grid-template-rows: 1fr;
             opacity: 1;
-            margin-top: 1.5rem;
-            padding-left: 1.5rem;
             border-left: 2px solid var(--color-silver);
         }
 
@@ -254,7 +233,6 @@ main.flex {
 }
 
 .status-icon {
-    font-size: 1.25rem;
     transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -275,32 +253,17 @@ main.flex {
 }
 
 .hero {
-    margin-bottom: 32rem;
-
     display: flex;
     flex-direction: column;
-
-    .title {
-        font-size: 48px;
-        font-weight: 800;
-        margin: 0;
-        line-height: 1.1;
-    }
-
-    .repo-form {
-        margin-top: 3rem;
-    }
 }
 
 .repo-form {
     display: grid;
     grid-template-columns: auto auto;
-    max-width: 480px;
 
     & > div {
         display: flex;
         align-items: center;
-        padding-inline: 0.5rem;
 
         background-color: var(--color-pearl);
 	    border: 1px solid var(--color-silver);
@@ -309,24 +272,13 @@ main.flex {
 
     input {
         background-color: transparent;
-        padding: 1rem 1.5rem;
-
-        font-weight: 600;
     }
 
     input, input::placeholder {
-        font-size: 16px;
-    }
-
-    span.title {
-        font-size: 22px;
-        font-weight: 600;
-        margin-inline: 0.5rem;
+        /* font-size: 16px; */
     }
 
     button {
-        margin-left: 2rem;
-        padding: 10px 18px;
         color: var(--color-brown);
         background: none;
         border: none;
@@ -338,10 +290,6 @@ main.flex {
         &:active {
             transform: scale(0.9);
         }
-
-        i {
-            font-size: 18px;
-        }
     }
 }
 
@@ -350,24 +298,16 @@ main.flex {
     top: 0;
     z-index: 100;
 
-    padding: 0;
-    padding-top: 0.5rem;
-    margin-bottom: 1rem;
-
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
 
     background-color: var(--color-white);
 
     .nav-brand {
         position: relative;
-        font-family: "Neuton", serif;
-        font-size: 1.5rem;
-        font-weight: 600;
         white-space: nowrap;
         color: var(--color-brown);
     }
@@ -377,9 +317,7 @@ main.flex {
     display: block;
     background: none;
     border: none;
-    font-size: 1.15rem;
     color: var(--color-brown);
-    padding: 0.25rem;
 
     transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -402,7 +340,6 @@ main.flex {
 }
 
 .nav-form-wrapper.nav-form-wrapper--open {
-    max-height: 200px;
     opacity: 1;
 }
 
@@ -411,17 +348,10 @@ main.flex {
 
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
 
     & > div {
         display: flex;
         flex-direction: column;
-    }
-
-    h2 {
-        margin: 0;
-        line-height: 1.2;
-        font-weight: 600;
     }
 
     em {
@@ -434,8 +364,6 @@ input {
     width: 100%;
     outline: none;
     border: none;
-    font-family: "Karla", sans-serif;
-    font-weight: 400;
     color: var(--color--brown);
 
     &:focus-within {
