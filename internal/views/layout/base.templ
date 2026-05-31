@@ -44,9 +44,8 @@ templ Base(title, description, baseURL string) {
 					window.location.href = '/' + owner + '/' + repo;
 				}
 			});
-			document.querySelector('.nav-toggle')?.addEventListener('click', function() {
-                console.log(document.querySelector('.nav-form-wrapper').classList);
-				document.querySelector('.nav-form-wrapper')?.classList.toggle('nav-form-wrapper--open');
+			document.querySelector('#nav-toggle')?.addEventListener('click', function() {
+				document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
 			});
 		</script>
 	</body>

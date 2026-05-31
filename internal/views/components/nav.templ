@@ -2,12 +2,12 @@ package components
 
 templ Nav() {
 	<nav id="nav">
-		<a href="/"><p class="serif bold">Merge Zone</p></a>
+		<a href="/"><h4 class="serif bold">Merge Zone</h4></a>
+		<div id="nav-form-wrapper">
+			@RepoForm("nav-repo-form")
+		</div>
 		<button id="nav-toggle" aria-label="Toggle repo search" type="button">
 			<i class="fa-solid fa-search"></i>
 		</button>
-		<div class="nav-form-wrapper">
-			@RepoForm("nav-repo-form")
-		</div>
 	</nav>
 }
