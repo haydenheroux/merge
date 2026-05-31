@@ -27,9 +27,11 @@ templ RepoPage(props model.RepoPageProps) {
 			</div>
 		</header>
 		<main class="prs">
+            <div class="prs-scroll">
 			for _, pr := range props.PRs {
 				@components.PRCard(pr)
 			}
+            </div>
 		</main>
 	}
 }

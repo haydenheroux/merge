@@ -8,9 +8,9 @@ import (
 )
 
 templ PRCard(pr model.StampedPullRequest) {
-	<div class="card pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
-		<div>
-			<div class="center">
+	<div class="pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
+		<div class="title-row">
+            <div class="center">
 				<i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
 			</div>
 			<a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
@@ -18,7 +18,7 @@ templ PRCard(pr model.StampedPullRequest) {
 				<i class="dim fa-solid fa-chevron-down" aria-hidden="true"></i>
 			</button>
 		</div>
-		<div class="very-dim">
+		<div class="description-row">
 			<span>
 				{ pr.State }
 				&nbsp;&middot;&nbsp;
