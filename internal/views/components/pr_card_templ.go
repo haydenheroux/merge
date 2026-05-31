@@ -92,7 +92,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</b></a> <button aria-label=\"Show Description\"><i class=\"fa-solid fa-chevron-down\" aria-hidden=\"true\"></i></button></div><div class=\"description-row\"><span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</b></a> <button class=\"button-toggle\" aria-label=\"Show Description\"><i class=\"fa-solid fa-chevron-down\" aria-hidden=\"true\"></i></button></div><div class=\"description-row\"><span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

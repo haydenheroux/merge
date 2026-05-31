@@ -317,6 +317,7 @@ footer {
     }
 
     .pr-body {
+        display: none;
         overflow-x: auto;
 
         .pr-body-inner {
@@ -395,7 +396,12 @@ footer {
             }
         }
     }
+
+    .pr-body--open {
+        display: block;
+    }
 }
+
 
 .error {
 	color: var(--color-paprika);
