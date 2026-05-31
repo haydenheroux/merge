@@ -23,6 +23,15 @@ templ Base(title, description, baseURL string) {
 	<body>
 		@components.Nav()
 		{ children... }
+		<footer>
+			<p>
+				By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a>
+				&nbsp;&middot;&nbsp;
+				View on <a class="bold" href="https://www.github.com/haydenheroux/merge">GitHub</a>
+				&nbsp;&middot;&nbsp;
+				View on <a class="bold" href="https://www.merge.zone/haydenheroux/merge">Merge Zone</a>
+			</p>
+		</footer>
 		<script src="/public/pr-toggle.js" defer></script>
 		<script defer>
 			document.addEventListener('submit', function(e) {
