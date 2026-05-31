@@ -285,42 +285,50 @@ footer {
     background-color: var(--color-pearl);
 	border-radius: var(--size-card-br);
 
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content min-content;
+
+    --column-gap: 1.5rem;
+    row-gap: 0.5rem;
+    column-gap: var(--column-gap);
     width: 100%;
-    padding: 16px;
-
-    display: flex;
-    flex-direction: column;
-
-    & > div {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .title-row {
-        gap: 1.25rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .title p {
-        margin-block: 0;
-    }
-
-    .status-icon {
-        font-size: var(--text-lg);
-    }
+    padding: var(--column-gap);
 
     &:hover .status-icon {
-        transform: rotate(-7.5deg) scale(1.15);
+        transform: rotate(-7.5deg) scale(1.1);
     }
 
-    .center {
+    .icon {
+        grid-row: span 2 / span 2;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .status-icon {
+            font-size: calc(var(--text-lg) * 1.1);
+        }
+    }
+
+    .title-row {
+        display: flex;
+
+        .title p {
+            margin-block: 0;
+        }
+
+        button {
+            font-size: var(--text-sm);
+        }
+    }
+
+    .description-row {
+        grid-column-start: 2;
     }
 
     .pr-body {
-        margin-top: 2rem;
+        /* grid-column: span 2 / span 2; */
+        /* grid-row-start: 3; */
         display: none;
 
         img {

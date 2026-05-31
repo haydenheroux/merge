@@ -9,13 +9,13 @@ import (
 
 templ PRCard(pr model.StampedPullRequest) {
 	<div class="pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
+        <div class="icon">
+            <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
+        </div>
 		<div class="title-row">
-            <div class="center">
-				<i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
-			</div>
 			<a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
-			<button class="push-right button-toggle button-inline" aria-label="Show Description">
-				<i class="dim fa-solid fa-chevron-down" aria-hidden="true"></i>
+			<button aria-label="Show Description">
+				<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
 			</button>
 		</div>
 		<div class="description-row">
