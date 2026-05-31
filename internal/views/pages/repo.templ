@@ -19,7 +19,7 @@ templ RepoPage(props model.RepoPageProps) {
 				<h1><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h1>
 				<a class="link-button" href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
 			</div>
-			<div class="stat-card-container very-dim">
+			<div class="stats">
 				@components.Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
 				@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
 				@components.Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")

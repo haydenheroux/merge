@@ -101,7 +101,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" aria-label=\"Navigate to GitHub\"><i class=\"fa-brands fa-github-alt\" aria-hidden=\"true\"></i></a></div><div class=\"stat-card-container very-dim\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" aria-label=\"Navigate to GitHub\"><i class=\"fa-brands fa-github-alt\" aria-hidden=\"true\"></i></a></div><div class=\"stats\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
