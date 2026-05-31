@@ -28,7 +28,7 @@ body {
 	font-family: "Karla", sans-serif;
 	font-weight: 400;
 	font-style: normal;
-    line-height: 1.8;
+    line-height: 95%;
     text-wrap: balance;
 }
 
@@ -40,6 +40,7 @@ b, h1, h2, h3 {
 h1 {
     font-size: 4rem;
     font-weight: 800;
+    line-height: 85%;
 }
 
 h2 {

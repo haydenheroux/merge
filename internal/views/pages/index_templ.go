@@ -46,7 +46,7 @@ func IndexPage(baseURL string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"center\"><div class=\"hero\"><h1 class=\"title\">Your team.</h1><h1 class=\"title\">Any repo.</h1>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"center\"><div class=\"hero\"><h1>Your team. <br>Any repo.</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

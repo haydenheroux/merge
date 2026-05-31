@@ -16,7 +16,7 @@ templ RepoPage(props model.RepoPageProps) {
 	) {
 		<header>
 			<div class="bar tight">
-				<h2 class="inline"><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h2>
+				<h1><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h1>
 				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
 			</div>
 			<div class="stat-card-container very-dim">
