@@ -14,10 +14,10 @@ templ RepoPage(props model.RepoPageProps) {
 		fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.FreshCount, props.StaleCount, props.ExpiredCount),
 		props.BaseURL,
 	) {
-		<header>
-			<div class="bar tight">
+		<header class="repo-header">
+			<div>
 				<h1><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h1>
-				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
+				<a class="link-button" href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
 			</div>
 			<div class="stat-card-container very-dim">
 				@components.Stats("fa-code-merge special", props.MergedCount, "merged pull requests")

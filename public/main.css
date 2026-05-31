@@ -88,12 +88,13 @@ a {
     text-decoration: none;
 }
 
-button {
+button, .link-button {
     background: none;
     border: none;
     cursor: pointer;
     color: var(--color-black);
 
+    /* TODO Extend with hover styling? */
     &:active {
         color: var(--color-beige);
     }
@@ -203,11 +204,19 @@ footer {
     }
 }
 
-header {
+.repo-header {
+    & > div {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
     i {
-        font-size: 2rem;
+        font-size: var(--text-2xl);
 
         &.fa-github-alt {
+            margin-top: calc(0.3 * var(--text-2xl));
+
             transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
             &:hover {
@@ -215,32 +224,6 @@ header {
             }
         }
     }
-
-    .bar {
-        display: flex;
-        flex-direction: row;
-        gap: 1.5rem;
-    }
-}
-
-.bar.tight {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-}
-
-.prs {
-    --padding: 0rem;
-
-    overflow-x: auto;
-
-    display: grid;
-    grid-template-columns: 1fr;
-
-    background-color: var(--color-talc);
-    padding: var(--padding);
-    border-radius: calc(var(--size-card-br) + var(--padding));
 }
 
 .card {
@@ -286,6 +269,19 @@ header {
         display: none;
         grid-area: 2 / 2 / 2 / 2;
     }
+}
+
+.prs {
+    --padding: 0rem;
+
+    overflow-x: auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    background-color: var(--color-talc);
+    padding: var(--padding);
+    border-radius: calc(var(--size-card-br) + var(--padding));
 }
 
 .pull-request {
