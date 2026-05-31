@@ -46,7 +46,7 @@ func IndexPage(baseURL string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"center\"><div class=\"hero\"><h1 class=\"title\">Your team.</h1><h1 class=\"title\">Any repo.</h1>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"hero\"><h1>Your team. <br>Any repo.</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -54,7 +54,7 @@ func IndexPage(baseURL string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></main><footer class=\"center-inline\"><p class=\"very-dim\">By <a class=\"text\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a> &nbsp;&middot;&nbsp; View on <a class=\"text\" href=\"https://www.github.com/haydenheroux/merge\">GitHub</a> &nbsp;&middot;&nbsp; View on <a class=\"text\" href=\"https://www.merge.zone/haydenheroux/merge\">Merge Zone</a></p></footer>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

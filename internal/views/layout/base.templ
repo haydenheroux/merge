@@ -23,6 +23,15 @@ templ Base(title, description, baseURL string) {
 	<body>
 		@components.Nav()
 		{ children... }
+		<footer>
+			<p>
+				By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a>
+				&nbsp;&middot;&nbsp;
+				View on <a class="bold" href="https://www.github.com/haydenheroux/merge">GitHub</a>
+				&nbsp;&middot;&nbsp;
+				View on <a class="bold" href="https://www.merge.zone/haydenheroux/merge">Merge Zone</a>
+			</p>
+		</footer>
 		<script src="/public/pr-toggle.js" defer></script>
 		<script defer>
 			document.addEventListener('submit', function(e) {
@@ -35,9 +44,8 @@ templ Base(title, description, baseURL string) {
 					window.location.href = '/' + owner + '/' + repo;
 				}
 			});
-			document.querySelector('.nav-toggle')?.addEventListener('click', function() {
-                console.log(document.querySelector('.nav-form-wrapper').classList);
-				document.querySelector('.nav-form-wrapper')?.classList.toggle('nav-form-wrapper--open');
+			document.querySelector('#nav-toggle')?.addEventListener('click', function() {
+				document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
 			});
 		</script>
 	</body>

@@ -1,14 +1,21 @@
-<a href="https://www.merge.zone"><img width="960" height="930" alt="image" src="https://github.com/user-attachments/assets/94c85dd6-2cb2-4629-bed2-f8ce793f1a7c" /></a>
+<a href="https://www.merge.zone"><img width="1171" height="1401" alt="image" src="https://github.com/user-attachments/assets/4cf16273-4cea-4b1a-972c-0f761d863266" /></a>
 
 ```mermaid
 architecture-beta
-    group api(cloud)[API]
-
-    service server(server)[Go Server] in api
-
     group frontend(internet)[Frontend]
 
-    service client(internet)[HTML Pages] in frontend
+    service client(internet)[Vanilla HTML5] in frontend
 
-    server{group}:L -- R:client{group}
+    group backend(server)[Backend]
+
+    service server(server)[Go Server] in backend
+    service templ(server)[Templ Components] in backend
+
+    group api(cloud)[APIs]
+
+    service github(cloud)[GitHub API] in api
+
+    client:L -- R:templ
+    templ:B -- T:server
+    server:L -- R:github
 ```

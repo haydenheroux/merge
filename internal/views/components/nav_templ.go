@@ -29,7 +29,7 @@ func Nav() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"top-nav\"><a href=\"/\" class=\"nav-brand title\" data-text=\"Merge Zone\">Merge Zone</a> <button class=\"nav-toggle\" aria-label=\"Toggle repo search\" type=\"button\"><i class=\"fa-solid fa-search\"></i></button><div class=\"nav-form-wrapper\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\"><a href=\"/\"><h4 class=\"serif bold\">Merge Zone</h4></a><div id=\"nav-form-wrapper\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func Nav() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></nav>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><button id=\"nav-toggle\" aria-label=\"Toggle repo search\" type=\"button\"><i class=\"fa-solid fa-search\"></i></button></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

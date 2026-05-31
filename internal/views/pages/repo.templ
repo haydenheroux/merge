@@ -14,12 +14,12 @@ templ RepoPage(props model.RepoPageProps) {
 		fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.FreshCount, props.StaleCount, props.ExpiredCount),
 		props.BaseURL,
 	) {
-		<header>
-			<div class="bar tight">
-				<h1 class="title inline"><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h1>
-				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt" aria-hidden="true"></i></a>
+		<header class="repo-header">
+			<div>
+				<h1><a href={ fmt.Sprintf("https://github.com/%s/%s", props.Owner, props.Repo) }>{ props.Owner }/{ props.Repo }</a></h1>
+				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt link-button" aria-hidden="true"></i></a>
 			</div>
-			<div class="stat-card-container very-dim">
+			<div class="stats">
 				@components.Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
 				@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
 				@components.Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")
@@ -27,9 +27,11 @@ templ RepoPage(props model.RepoPageProps) {
 			</div>
 		</header>
 		<main class="prs">
+            <div class="prs-scroll">
 			for _, pr := range props.PRs {
 				@components.PRCard(pr)
 			}
+            </div>
 		</main>
 	}
 }

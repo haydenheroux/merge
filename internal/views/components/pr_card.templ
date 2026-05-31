@@ -8,27 +8,29 @@ import (
 )
 
 templ PRCard(pr model.StampedPullRequest) {
-	<div class="card pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
-		<div>
-			<div class="center">
-				<i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
-			</div>
-			<a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
-			<button class="push-right button-toggle button-inline" aria-label="Show Description">
-				<i class="dim fa-solid fa-chevron-down" aria-hidden="true"></i>
-			</button>
-		</div>
-		<div class="very-dim">
-			<span>
-				{ pr.State }
-				&nbsp;&middot;&nbsp;
-				{ helpers.FormatNumber(pr.DaysOpen) } days { helpers.GetAgeLabel(pr.State) }
-				&nbsp;&middot;&nbsp;
-				#{ helpers.FormatNumber(pr.Number) }
-				&nbsp;&middot;&nbsp;
-				<a href={ pr.Author.URL }>{ pr.Author.Name }</a>
-			</span>
-		</div>
+	<div class="pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) }>
+        <div class="pull-request-header">
+            <div class="icon">
+                <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
+            </div>
+            <div class="title-row">
+                <a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
+                <button class="button-toggle" aria-label="Show Description">
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="description-row">
+                <span>
+                    { pr.State }
+                    &nbsp;&middot;&nbsp;
+                    { helpers.FormatNumber(pr.DaysOpen) } days { helpers.GetAgeLabel(pr.State) }
+                    &nbsp;&middot;&nbsp;
+                    #{ helpers.FormatNumber(pr.Number) }
+                    &nbsp;&middot;&nbsp;
+                    <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
+                </span>
+            </div>
+        </div>
 		<span class="pr-body">
 			<div class="pr-body-inner">@Markdown(pr.Body)</div>
 		</span>
