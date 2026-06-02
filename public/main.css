@@ -243,7 +243,8 @@ footer {
     font-size: var(--text-xl);
 
     .status-icon {
-        font-size: var(--text-xl);
+        margin-top: calc(0.3 * var(--text-lg));
+        font-size: var(--text-lg);
     }
 
     &:hover .status-icon {
