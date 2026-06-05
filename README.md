@@ -1,4 +1,7 @@
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=53de485c9f2c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 <a href="https://www.merge.zone"><img width="1171" height="1401" alt="image" src="https://github.com/user-attachments/assets/4cf16273-4cea-4b1a-972c-0f761d863266" /></a>
+
 
 ```mermaid
 architecture-beta
