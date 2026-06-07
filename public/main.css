@@ -283,6 +283,14 @@ footer {
     background-color: var(--color-pearl);
 	border-radius: var(--size-card-br);
 
+    &[data-has-body="true"]:not(.is-open) {
+        cursor: pointer;
+    }
+
+    &[data-has-body="false"] .button-toggle {
+        cursor: not-allowed;
+    }
+
     --padding: 1.5rem;
     padding: var(--padding);
 
