@@ -48,6 +48,39 @@ templ Base(title, description, baseURL string) {
 			document.querySelector('#nav-toggle')?.addEventListener('click', function() {
 				document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
 			});
+			(function() {
+				var inputs = document.querySelectorAll('.title-input');
+				if (!inputs.length) return;
+				var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+				var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+				function navigateIfChanged() {
+					var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
+					var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
+					if (owner === origOwner && repo === origRepo) return;
+					if (repo) window.location.href = '/' + owner + '/' + repo;
+				}
+				function resize(input) {
+					input.style.width = '1px';
+					input.style.width = input.scrollWidth + 'px';
+				}
+				inputs.forEach(function(input) {
+					resize(input);
+					input.addEventListener('input', function() { resize(this); });
+					input.addEventListener('focus', function() { this.select(); });
+					input.addEventListener('keydown', function(ev) {
+						if (ev.key === 'Enter') { ev.preventDefault(); navigateIfChanged(); }
+					});
+					input.addEventListener('blur', function() {
+						setTimeout(function() {
+							if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
+							navigateIfChanged();
+						}, 0);
+					});
+				});
+				document.fonts.ready.then(function() {
+					inputs.forEach(resize);
+				});
+			})();
 		</script>
 	</body>
 	</html>
