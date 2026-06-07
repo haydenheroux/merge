@@ -1,16 +1,27 @@
 document.addEventListener('click', function (e) {
-  const button = e.target.closest('.button-toggle');
-  if (!button) return;
+  const card = e.target.closest('.pull-request');
+  if (!card) return;
 
-  const prBody = button.closest('.pull-request').querySelector('.pr-body');
-  const hasBody = prBody && prBody.innerHTML.trim().length > 0;
-  const icon = button.querySelector('i');
+  const hasBody = card.dataset.hasBody === 'true';
+  if (!hasBody) return;
 
-  if (icon.classList.contains('fa-chevron-down')) {
+  const prBody = card.querySelector('.pr-body');
+  const icon = card.querySelector('.button-toggle i');
+  const isChevron = e.target.closest('.button-toggle') !== null;
+
+  if (isChevron) {
+    if (icon.classList.contains('fa-chevron-down')) {
+      icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      prBody.classList.add('pr-body--open');
+      card.classList.add('is-open');
+    } else {
+      icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+      prBody.classList.remove('pr-body--open');
+      card.classList.remove('is-open');
+    }
+  } else if (icon.classList.contains('fa-chevron-down')) {
     icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
-    if (hasBody) prBody.classList.add('pr-body--open');
-  } else {
-    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
-    if (hasBody) prBody.classList.remove('pr-body--open');
+    prBody.classList.add('pr-body--open');
+    card.classList.add('is-open');
   }
 });
