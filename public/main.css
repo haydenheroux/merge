@@ -62,6 +62,9 @@ h1 {
 
 h2 {
     font-size: var(--text-2xl);
+    font-weight: 800;
+    line-height: 85%;
+    margin-block: 1.5rem;
 }
 
 h3 {
