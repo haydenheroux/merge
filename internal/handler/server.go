@@ -23,7 +23,7 @@ type Server struct {
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	err := pages.IndexPage(s.BaseURL).Render(r.Context(), w)
+	err := pages.IndexPage(s.BaseURL, "", "").Render(r.Context(), w)
 	if err != nil {
 		s.Logger.Error(err.Error())
 	}

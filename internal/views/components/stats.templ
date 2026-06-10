@@ -3,9 +3,9 @@ package components
 import "merge/internal/views/helpers"
 
 templ Stats(iconClass string, count int, label string) {
-	<span class="stat">
+	<div class="item stat">
+		<p class="bold">{ label }</p>
 		<i class={ "status-icon fa-solid " + iconClass }></i>
-		<b class="count serif">{ helpers.FormatNumber(count) }</b>
-		<p>{ label }</p>
-	</span>
+		<b class="serif">{ helpers.FormatNumber(count) }</b>
+	</div>
 }
