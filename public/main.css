@@ -60,7 +60,7 @@ h1 {
     margin-block: 1.5rem;
 }
 
-h2, .title-input {
+h2 {
     font-size: var(--text-2xl);
     font-weight: 800;
     line-height: 85%;
@@ -71,7 +71,7 @@ h3 {
     font-size: var(--text-xl);
 }
 
-h4, .pull-request .title p {
+h4, .pull-request .title p, .title-input {
     font-size: var(--text-lg);
     line-height: 110%;
     margin-block: 1rem;
@@ -134,6 +134,57 @@ input {
     background-color: var(--color-talc);
 }
 
+#nav-input {
+    --gap: 0.5rem;
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+
+    .repo-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0;
+    }
+
+    .title-sep {
+        --font: var(--text-xl);
+        font-size: var(--font);
+        margin-top: calc(-0.25 * var(--font));
+        user-select: none;
+    }
+
+    .title-input {
+        line-height: inherit;
+        color: var(--color-black);
+        caret-color: var(--color-black);
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        /* TODO Replace with field-sizing */
+        min-width: 1ch;
+        border-bottom: 2px solid var(--color-beige);
+
+        &:focus {
+            border-bottom: none;
+        }
+    }
+
+    i {
+        margin-left: calc(0.5 * var(--gap));
+        --font: var(--text-xl);
+        font-size: var(--font);
+
+        &.fa-github-alt {
+            margin-top: calc(0.25 * var(--font));
+
+            &:hover {
+                transform: rotate(-5deg) scale(110%);
+            }
+        }
+    }
+
+}
+
 #nav-toggle {
     font-size: var(--text-md);
 
@@ -158,29 +209,6 @@ input {
 
 #nav-form-wrapper.open {
     display: block;
-}
-
-
-.repo-title {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-}
-
-.title-sep {
-    margin-inline: 0.5rem;
-    user-select: none;
-}
-
-.title-input {
-    line-height: inherit;
-    color: var(--color-black);
-    caret-color: var(--color-black);
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    /* TODO Replace with field-sizing */
-    min-width: 1ch;
 }
 
 .hero {
@@ -244,18 +272,6 @@ footer {
     .stats {
         padding-left: 0.25rem;
         gap: 3rem;
-    }
-
-    i {
-        font-size: var(--text-2xl);
-
-        &.fa-github-alt {
-            margin-top: calc(0.3 * var(--text-2xl));
-
-            &:hover {
-                transform: rotate(-5deg) scale(110%);
-            }
-        }
     }
 }
 

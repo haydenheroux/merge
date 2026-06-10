@@ -5,8 +5,8 @@ import (
 	"merge/internal/views/layout"
 )
 
-templ IndexPage(baseURL string) {
-	@layout.Base("Merge Zone", "Understand your team's review workflow, collaboration, and delivery.", baseURL) {
+templ IndexPage(baseURL, owner, repo string) {
+	@layout.Base("Merge Zone", "Understand your team's review workflow, collaboration, and delivery.", baseURL, owner, repo) {
 		<main>
 			<div class="hero">
 				<h1>Your team. <br/>Any repo.</h1>
