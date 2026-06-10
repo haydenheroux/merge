@@ -44,14 +44,14 @@ func Base(title, description, baseURL, owner, repo string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><link rel=\"icon\" type=\"image/png\" href=\"/public/favicon.png\"><link rel=\"stylesheet\" href=\"/public/main.css\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css\"><meta name=\"description\" content=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><link rel=\"icon\" type=\"image/png\" href=\"/public/favicon.png\"><link rel=\"stylesheet\" href=\"/public/main.css\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css\"><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script><meta name=\"description\" content=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 17, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 18, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
@@ -64,7 +64,7 @@ func Base(title, description, baseURL, owner, repo string) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 19, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 20, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 		if templ_7745c5c3_Err != nil {
@@ -77,7 +77,7 @@ func Base(title, description, baseURL, owner, repo string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.ResolveAttributeValue(baseURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 21, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 22, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var5)
 		if templ_7745c5c3_Err != nil {
@@ -90,7 +90,7 @@ func Base(title, description, baseURL, owner, repo string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.ResolveAttributeValue(description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 22, Col: 55}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/layout/base.templ`, Line: 23, Col: 55}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var6)
 		if templ_7745c5c3_Err != nil {
@@ -112,7 +112,7 @@ func Base(title, description, baseURL, owner, repo string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</main><footer><p>By <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a> &nbsp;&middot;&nbsp; View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a> &nbsp;&middot;&nbsp; View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></p></footer><script src=\"/public/pr-toggle.js\" defer></script><script defer>\n\t\t\tdocument.addEventListener('submit', function(e) {\n\t\t\t\tvar form = e.target.closest('.repo-form');\n\t\t\t\tif (!form) return;\n\t\t\t\te.preventDefault();\n\t\t\t\tvar owner = form.querySelector('.owner-input').value.trim();\n\t\t\t\tvar repo = form.querySelector('.repo-input').value.trim();\n\t\t\t\tif (repo) {\n\t\t\t\t\twindow.location.href = '/' + owner + '/' + repo;\n\t\t\t\t}\n\t\t\t});\n\t\t\tdocument.querySelector('#nav-toggle')?.addEventListener('click', function() {\n\t\t\t\tdocument.querySelector('#nav-form-wrapper')?.classList.toggle('open');\n\t\t\t});\n\t\t\t(function() {\n\t\t\t\tvar inputs = document.querySelectorAll('.title-input');\n\t\t\t\tif (!inputs.length) return;\n\t\t\t\tvar origOwner = document.querySelector('.title-input[data-part=\"owner\"]')?.value.trim() || '';\n\t\t\t\tvar origRepo = document.querySelector('.title-input[data-part=\"repo\"]')?.value.trim() || '';\n\t\t\t\tfunction navigateIfChanged() {\n\t\t\t\t\tvar owner = (document.querySelector('.title-input[data-part=\"owner\"]')?.value || '').trim();\n\t\t\t\t\tvar repo = (document.querySelector('.title-input[data-part=\"repo\"]')?.value || '').trim();\n\t\t\t\t\tif (owner === origOwner && repo === origRepo) return;\n\t\t\t\t\tif (repo) window.location.href = '/' + owner + '/' + repo;\n\t\t\t\t}\n\t\t\t\tfunction resize(input) {\n\t\t\t\t\tinput.style.width = '1px';\n\t\t\t\t\tinput.style.width = input.scrollWidth + 'px';\n\t\t\t\t}\n\t\t\t\tinputs.forEach(function(input) {\n\t\t\t\t\tresize(input);\n\t\t\t\t\tinput.addEventListener('input', function() { resize(this); });\n\t\t\t\t\tinput.addEventListener('focus', function() { this.select(); });\n\t\t\t\t\tinput.addEventListener('keydown', function(ev) {\n\t\t\t\t\t\tif (ev.key === 'Enter') { ev.preventDefault(); navigateIfChanged(); }\n\t\t\t\t\t});\n\t\t\t\t\tinput.addEventListener('blur', function() {\n\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\tif (document.activeElement && document.activeElement.classList.contains('title-input')) return;\n\t\t\t\t\t\t\tnavigateIfChanged();\n\t\t\t\t\t\t}, 0);\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t\tdocument.fonts.ready.then(function() {\n\t\t\t\t\tinputs.forEach(resize);\n\t\t\t\t});\n\t\t\t})();\n\t\t</script></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</main><footer><p>By <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a> &nbsp;&middot;&nbsp; View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a> &nbsp;&middot;&nbsp; View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></p></footer><script src=\"/public/pr-toggle.js\" defer></script><script defer>\n\t\t\tdocument.addEventListener('submit', function(e) {\n\t\t\t\tvar form = e.target.closest('.repo-form');\n\t\t\t\tif (!form) return;\n\t\t\t\te.preventDefault();\n\t\t\t\tvar owner = form.querySelector('.owner-input').value.trim();\n\t\t\t\tvar repo = form.querySelector('.repo-input').value.trim();\n\t\t\t\tif (repo) {\n\t\t\t\t\thtmx.ajax('GET', '/' + owner + '/' + repo, {\n\t\t\t\t\t\ttarget: 'main',\n\t\t\t\t\t\tswap: 'innerHTML',\n\t\t\t\t\t\tpushUrl: true\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t});\n\t\t\tdocument.querySelector('#nav-toggle')?.addEventListener('click', function() {\n\t\t\t\tdocument.querySelector('#nav-form-wrapper')?.classList.toggle('open');\n\t\t\t});\n\t\t\t(function() {\n\t\t\t\tvar inputs = document.querySelectorAll('.title-input');\n\t\t\t\tif (!inputs.length) return;\n\t\t\t\tvar origOwner = document.querySelector('.title-input[data-part=\"owner\"]')?.value.trim() || '';\n\t\t\t\tvar origRepo = document.querySelector('.title-input[data-part=\"repo\"]')?.value.trim() || '';\n\t\t\t\tfunction navigate() {\n\t\t\t\t\tvar owner = (document.querySelector('.title-input[data-part=\"owner\"]')?.value || '').trim();\n\t\t\t\t\tvar repo = (document.querySelector('.title-input[data-part=\"repo\"]')?.value || '').trim();\n\t\t\t\t\tif (owner === origOwner && repo === origRepo) return;\n\t\t\t\t\tif (repo) {\n\t\t\t\t\t\thtmx.ajax('GET', '/' + owner + '/' + repo, {\n\t\t\t\t\t\t\ttarget: 'main',\n\t\t\t\t\t\t\tswap: 'innerHTML',\n\t\t\t\t\t\t\tpushUrl: true\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tfunction resize(input) {\n\t\t\t\t\tinput.style.width = '1px';\n\t\t\t\t\tinput.style.width = input.scrollWidth + 'px';\n\t\t\t\t}\n\t\t\t\tinputs.forEach(function(input) {\n\t\t\t\t\tresize(input);\n\t\t\t\t\tinput.addEventListener('input', function() { resize(this); });\n\t\t\t\t\tinput.addEventListener('focus', function() { this.select(); });\n\t\t\t\t\tinput.addEventListener('keydown', function(ev) {\n\t\t\t\t\t\tif (ev.key === 'Enter') { ev.preventDefault(); navigate(); }\n\t\t\t\t\t});\n\t\t\t\t\tinput.addEventListener('blur', function() {\n\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\tif (document.activeElement && document.activeElement.classList.contains('title-input')) return;\n\t\t\t\t\t\t\tnavigate();\n\t\t\t\t\t\t}, 0);\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t\tdocument.addEventListener('htmx:afterSwap', function() {\n\t\t\t\t\torigOwner = document.querySelector('.title-input[data-part=\"owner\"]')?.value.trim() || '';\n\t\t\t\t\torigRepo = document.querySelector('.title-input[data-part=\"repo\"]')?.value.trim() || '';\n\t\t\t\t});\n\t\t\t\tdocument.fonts.ready.then(function() {\n\t\t\t\t\tinputs.forEach(resize);\n\t\t\t\t});\n\t\t\t})();\n\t\t</script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

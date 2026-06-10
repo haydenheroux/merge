@@ -115,8 +115,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	err = pages.RepoPage(model.RepoPageProps{
+	props := model.RepoPageProps{
 		BaseURL:      gh.BaseURL,
 		Owner:        gh.Owner,
 		Repo:         gh.Repo,
@@ -125,7 +124,14 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		FreshCount:   fresh,
 		StaleCount:   stale,
 		ExpiredCount: expired,
-	}).Render(r.Context(), w)
+	}
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if r.Header.Get("HX-Request") != "" {
+		err = pages.RepoContent(props).Render(r.Context(), w)
+	} else {
+		err = pages.RepoPage(props).Render(r.Context(), w)
+	}
 	if err != nil {
 		gh.Logger.Error(err.Error())
 	}

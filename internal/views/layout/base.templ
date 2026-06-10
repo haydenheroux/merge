@@ -14,6 +14,7 @@ templ Base(title, description, baseURL, owner, repo string) {
 		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+		<script src="https://unpkg.com/htmx.org@1.9.12"></script>
 		<meta name="description" content={ description }/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta property="og:title" content={ title }/>
@@ -44,7 +45,11 @@ templ Base(title, description, baseURL, owner, repo string) {
 				var owner = form.querySelector('.owner-input').value.trim();
 				var repo = form.querySelector('.repo-input').value.trim();
 				if (repo) {
-					window.location.href = '/' + owner + '/' + repo;
+					htmx.ajax('GET', '/' + owner + '/' + repo, {
+						target: 'main',
+						swap: 'innerHTML',
+						pushUrl: true
+					});
 				}
 			});
 			document.querySelector('#nav-toggle')?.addEventListener('click', function() {
@@ -55,11 +60,17 @@ templ Base(title, description, baseURL, owner, repo string) {
 				if (!inputs.length) return;
 				var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
 				var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
-				function navigateIfChanged() {
+				function navigate() {
 					var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
 					var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
 					if (owner === origOwner && repo === origRepo) return;
-					if (repo) window.location.href = '/' + owner + '/' + repo;
+					if (repo) {
+						htmx.ajax('GET', '/' + owner + '/' + repo, {
+							target: 'main',
+							swap: 'innerHTML',
+							pushUrl: true
+						});
+					}
 				}
 				function resize(input) {
 					input.style.width = '1px';
@@ -70,14 +81,18 @@ templ Base(title, description, baseURL, owner, repo string) {
 					input.addEventListener('input', function() { resize(this); });
 					input.addEventListener('focus', function() { this.select(); });
 					input.addEventListener('keydown', function(ev) {
-						if (ev.key === 'Enter') { ev.preventDefault(); navigateIfChanged(); }
+						if (ev.key === 'Enter') { ev.preventDefault(); navigate(); }
 					});
 					input.addEventListener('blur', function() {
 						setTimeout(function() {
 							if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
-							navigateIfChanged();
+							navigate();
 						}, 0);
 					});
+				});
+				document.addEventListener('htmx:afterSwap', function() {
+					origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+					origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
 				});
 				document.fonts.ready.then(function() {
 					inputs.forEach(resize);
