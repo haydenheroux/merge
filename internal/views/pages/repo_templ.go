@@ -49,27 +49,27 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<header class=\"repo-header\"><div class=\"stats\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"stats\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Stats("fa-code-merge special", props.MergedCount, "merged pull requests").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Stats("fa-code-merge special", props.MergedCount, "merged").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Stats("fa-apple-whole ok", props.FreshCount, "fresh").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Stats("fa-apple-whole warn", props.StaleCount, "stale").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Stats("fa-recycle error", props.ExpiredCount, "expired pull requests").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Stats("fa-recycle error", props.ExpiredCount, "expired").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></header><main class=\"prs\"><div class=\"prs-scroll\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</section><section class=\"prs\"><div class=\"prs-scroll\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -79,7 +79,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

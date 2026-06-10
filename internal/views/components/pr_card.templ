@@ -8,7 +8,7 @@ import (
 )
 
 templ PRCard(pr model.StampedPullRequest) {
-	<div class="pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") }>
+	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") }>
         <div class="pull-request-header">
             <div class="icon">
                 <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>

@@ -23,7 +23,9 @@ templ Base(title, description, baseURL, owner, repo string) {
 	</head>
 	<body>
 		@components.Nav(owner, repo)
-		{ children... }
+        <main>
+            { children... }
+        </main>
 		<footer>
 			<p>
 				By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a>

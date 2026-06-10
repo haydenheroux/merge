@@ -16,20 +16,18 @@ templ RepoPage(props model.RepoPageProps) {
         props.Owner,
         props.Repo,
 	) {
-		<header class="repo-header">
-			<div class="stats">
-				@components.Stats("fa-code-merge special", props.MergedCount, "merged pull requests")
-				@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh pull requests")
-				@components.Stats("fa-apple-whole warn", props.StaleCount, "stale pull requests")
-				@components.Stats("fa-recycle error", props.ExpiredCount, "expired pull requests")
-			</div>
-		</header>
-		<main class="prs">
+        <section class="stats">
+            @components.Stats("fa-code-merge special", props.MergedCount, "merged")
+            @components.Stats("fa-apple-whole ok", props.FreshCount, "fresh")
+            @components.Stats("fa-apple-whole warn", props.StaleCount, "stale")
+            @components.Stats("fa-recycle error", props.ExpiredCount, "expired")
+        </section>
+		<section class="prs">
             <div class="prs-scroll">
 			for _, pr := range props.PRs {
 				@components.PRCard(pr)
 			}
             </div>
-		</main>
+		</section>
 	}
 }
