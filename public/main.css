@@ -166,7 +166,7 @@ input {
         box-sizing: border-box;
         /* TODO Replace with field-sizing */
         min-width: 1ch;
-        box-shadow: 0 2px 0 0 var(--color-beige);
+        box-shadow: 0 2px 0 0 var(--color-silver);
 
         &:focus {
             box-shadow: none;
@@ -274,12 +274,12 @@ footer {
     border-radius: 0;
 }
 
-.stats > :first-child {
+.stats-tiles > :first-child {
   border-top-left-radius: var(--size-card-br);
   border-bottom-left-radius: var(--size-card-br);
 }
 
-.stats > :last-child {
+.stats-tiles > :last-child {
   border-top-right-radius: var(--size-card-br);
   border-bottom-right-radius: var(--size-card-br);
 }
@@ -289,10 +289,9 @@ footer {
 
     min-width: 6rem;
     display: grid;
-    row-gap: 0.5rem;
+    gap: 0.5rem;
     grid-template-columns: repeat(2, auto);
     grid-template-rows: repeat(2, max-content);
-    --text-size: var(--text-md);
 
     & > * {
         align-self: center;
@@ -300,6 +299,7 @@ footer {
     }
 
     .status-icon {
+        --text-size: var(--text-sm);
         margin-top: calc(0.3 * var(--text-size));
         font-size: var(--text-size);
     }
@@ -326,7 +326,7 @@ footer {
     }
 
     b {
-        font-size: var(--text-size);
+        font-size: var(--text-md);
         grid-column-start: 2;
         grid-row-start: 1;
     }
@@ -340,10 +340,21 @@ section {
     border-radius: calc(var(--size-card-br) + var(--padding));
 }
 
-.stats {
+.stats-tiles {
     display: flex;
     flex-direction: row;
     width: min-content;
+}
+
+.section-label {
+    font-size: var(--text-xxs);
+    color: var(--color-beige);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    margin-left: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .prs {
@@ -413,7 +424,7 @@ section {
         justify-content: center;
 
         .status-icon {
-            font-size: calc(var(--text-md) * 1.1);
+            font-size: calc(var(--text-sm) * 1.1);
         }
     }
 
@@ -432,6 +443,7 @@ section {
 
     .description-row {
         grid-column-start: 2;
+        color: var(--color-beige);
     }
 
     .pr-body {

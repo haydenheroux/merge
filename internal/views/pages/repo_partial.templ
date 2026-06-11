@@ -7,12 +7,16 @@ import (
 
 templ RepoContent(props model.RepoPageProps) {
 	<section class="stats">
-		@components.Stats("fa-code-merge special", props.MergedCount, "merged")
-		@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh")
-		@components.Stats("fa-apple-whole warn", props.StaleCount, "stale")
-		@components.Stats("fa-recycle error", props.ExpiredCount, "expired")
+		<p class="section-label">Overview</p>
+		<div class="stats-tiles">
+			@components.Stats("fa-code-merge special", props.MergedCount, "merged")
+			@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh")
+			@components.Stats("fa-apple-whole warn", props.StaleCount, "stale")
+			@components.Stats("fa-recycle error", props.ExpiredCount, "expired")
+		</div>
 	</section>
 	<section class="prs">
+		<p class="section-label">Pull Requests</p>
 		<div class="prs-scroll">
 		for _, pr := range props.PRs {
 			@components.PRCard(pr)
