@@ -1,3 +1,10 @@
+function loadImages(container) {
+  container.querySelectorAll('img[data-src]').forEach(function (img) {
+    img.src = img.dataset.src;
+    img.removeAttribute('data-src');
+  });
+}
+
 document.addEventListener('click', function (e) {
   const card = e.target.closest('.pull-request');
   if (!card) return;
@@ -14,6 +21,7 @@ document.addEventListener('click', function (e) {
       icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
       prBody.classList.add('pr-body--open');
       card.classList.add('is-open');
+      loadImages(prBody);
     } else {
       icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
       prBody.classList.remove('pr-body--open');
@@ -23,5 +31,6 @@ document.addEventListener('click', function (e) {
     icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
     prBody.classList.add('pr-body--open');
     card.classList.add('is-open');
+    loadImages(prBody);
   }
 });
