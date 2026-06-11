@@ -1,8 +1,6 @@
 package pages
 
 import (
-	"fmt"
-
 	"merge/internal/model"
 	"merge/internal/views/components"
 )
@@ -21,7 +19,4 @@ templ RepoContent(props model.RepoPageProps) {
 		}
 		</div>
 	</section>
-	<a id="github-link" hx-swap-oob="true" href={ fmt.Sprintf("https://github.com/%s/%s/pulls", props.Owner, props.Repo) } aria-label="Navigate to GitHub">
-		<i class="fa-brands fa-github-alt link-button" aria-hidden="true"></i>
-	</a>
 }

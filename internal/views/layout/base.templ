@@ -38,17 +38,14 @@ templ Base(title, description, baseURL, owner, repo string) {
 		</footer>
 		<script src="/public/pr-toggle.js" defer></script>
 		<script defer>
-			document.addEventListener('submit', function(e) {
-				var form = e.target.closest('.repo-form');
-				if (!form) return;
-				e.preventDefault();
-				var owner = form.querySelector('.owner-input').value.trim();
-				var repo = form.querySelector('.repo-input').value.trim();
-				if (repo) {
-				htmx.ajax('GET', '/' + owner + '/' + repo, {
-					target: 'main',
-					swap: 'innerHTML'
-				});
+		document.addEventListener('submit', function(e) {
+			var form = e.target.closest('.repo-form');
+			if (!form) return;
+			e.preventDefault();
+			var owner = form.querySelector('.owner-input').value.trim();
+			var repo = form.querySelector('.repo-input').value.trim();
+			if (repo) {
+				window.location.href = '/' + owner + '/' + repo;
 			}
 		});
 		document.querySelector('#nav-toggle')?.addEventListener('click', function() {
