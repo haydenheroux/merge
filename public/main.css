@@ -159,14 +159,17 @@ input {
         color: var(--color-black);
         caret-color: var(--color-black);
         background: transparent;
+        border: none;
         padding: 0;
         margin: 0;
+        height: calc(var(--text-lg) * 1.1);
+        box-sizing: border-box;
         /* TODO Replace with field-sizing */
         min-width: 1ch;
-        border-bottom: 2px solid var(--color-beige);
+        box-shadow: 0 2px 0 0 var(--color-beige);
 
         &:focus {
-            border-bottom: none;
+            box-shadow: none;
         }
     }
 
