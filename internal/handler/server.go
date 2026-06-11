@@ -128,6 +128,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if r.Header.Get("HX-Request") != "" {
+		w.Header().Set("HX-Push", "/"+gh.Owner+"/"+gh.Repo)
 		err = pages.RepoContent(props).Render(r.Context(), w)
 	} else {
 		err = pages.RepoPage(props).Render(r.Context(), w)
