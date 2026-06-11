@@ -45,31 +45,29 @@ templ Base(title, description, baseURL, owner, repo string) {
 				var owner = form.querySelector('.owner-input').value.trim();
 				var repo = form.querySelector('.repo-input').value.trim();
 				if (repo) {
+				htmx.ajax('GET', '/' + owner + '/' + repo, {
+					target: 'main',
+					swap: 'innerHTML'
+				});
+			}
+		});
+		document.querySelector('#nav-toggle')?.addEventListener('click', function() {
+			document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
+		});
+		(function() {
+			var inputs = document.querySelectorAll('.title-input');
+			if (!inputs.length) return;
+			var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+			var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+			function navigate() {
+				var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
+				var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
+				if (owner === origOwner && repo === origRepo) return;
+				if (repo) {
 					htmx.ajax('GET', '/' + owner + '/' + repo, {
 						target: 'main',
-						swap: 'innerHTML',
-						pushUrl: true
+						swap: 'innerHTML'
 					});
-				}
-			});
-			document.querySelector('#nav-toggle')?.addEventListener('click', function() {
-				document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
-			});
-			(function() {
-				var inputs = document.querySelectorAll('.title-input');
-				if (!inputs.length) return;
-				var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
-				var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
-				function navigate() {
-					var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
-					var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
-					if (owner === origOwner && repo === origRepo) return;
-					if (repo) {
-						htmx.ajax('GET', '/' + owner + '/' + repo, {
-							target: 'main',
-							swap: 'innerHTML',
-							pushUrl: true
-						});
 					}
 				}
 				function resize(input) {
