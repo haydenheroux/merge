@@ -9,7 +9,8 @@
 architecture-beta
     group frontend(internet)[Frontend]
 
-    service client(internet)[Vanilla HTML5] in frontend
+    service pages(internet)[HTML5 Pages] in frontend
+    service interaction(internet)[HTMX] in frontend
 
     group backend(server)[Backend]
 
@@ -20,7 +21,8 @@ architecture-beta
 
     service github(cloud)[GitHub API] in api
 
-    client:L -- R:templ
+    pages:L -- R:templ
+    interaction:L -- R:server
     templ:B -- T:server
     server:L -- R:github
 ```
