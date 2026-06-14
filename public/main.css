@@ -162,10 +162,12 @@ button, .link-button, .status-icon {
   overflow: visible;
   box-sizing: border-box;
   min-width: 1ch;
-  box-shadow: 0 2px 0 0 var(--color-silver);
+  text-decoration: underline;
+  text-decoration-color: #ccc5b9;
+  text-decoration-thickness: 2px;
 }
-#nav-input .title-input:focus {
-  box-shadow: none;
+#nav-input .title-input:hover, #nav-input .title-input:focus {
+  text-decoration: none;
 }
 #nav-input .input-pill {
   position: relative;
@@ -176,7 +178,7 @@ button, .link-button, .status-icon {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: -4px -8px;
+  inset: 0 -8px -4px -8px;
   border-radius: var(--size-card-br);
   pointer-events: none;
   opacity: 0;
@@ -185,7 +187,8 @@ button, .link-button, .status-icon {
 #nav-input .input-pill:has(.title-input:hover)::before,
 #nav-input .input-pill:has(.title-input:focus)::before {
   opacity: 1;
-  background-color: var(--color-stone);
+  background-color: #e6e0d4;
+  box-shadow: inset 0px 0px 6px #d9d1c2;
 }
 #nav-input i {
   margin-left: calc(0.5 * var(--gap));
@@ -547,5 +550,3 @@ section {
 .special {
   color: var(--color-purple);
 }
-
-/*# sourceMappingURL=main.css.map */

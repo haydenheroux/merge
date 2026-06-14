@@ -80,10 +80,12 @@ button, .link-button, .status-icon {
         overflow: visible;
         box-sizing: border-box;
         min-width: $title-input-min-width;
-        box-shadow: 0 $border-width-default 0 0 var(--color-silver);
+        text-decoration: underline;
+        text-decoration-color: $color-silver;
+        text-decoration-thickness: $border-width-default;
 
-        &:focus {
-            box-shadow: none;
+        &:hover, &:focus {
+            text-decoration: none;
         }
     }
 
@@ -97,7 +99,7 @@ button, .link-button, .status-icon {
         content: '';
         position: absolute;
         z-index: $z-index-behind;
-        inset: $input-pill-inset-y $input-pill-inset-x;
+        inset: 0 $input-pill-inset-x $input-pill-inset-y $input-pill-inset-x;
         border-radius: var(--size-card-br);
         pointer-events: none;
         opacity: 0;
@@ -107,7 +109,8 @@ button, .link-button, .status-icon {
     .input-pill:has(.title-input:hover)::before,
     .input-pill:has(.title-input:focus)::before {
         opacity: 1;
-        background-color: var(--color-stone);
+        background-color: $color-shell;
+        box-shadow: inset 0px 0px 6px $color-stone;
     }
 
     i {
