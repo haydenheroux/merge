@@ -54,6 +54,7 @@ $list-item-gap: 0.4rem;
         display: flex;
 
         .title p {
+            line-height: $line-height-subheading;
             margin-block: $spacing-0;
         }
 
@@ -66,6 +67,13 @@ $list-item-gap: 0.4rem;
     .description-row {
         grid-column-start: $pr-description-grid-column;
         color: var(--color-beige);
+        display: flex;
+    }
+
+    .description-row > *:not(:last-child)::after {
+      content: "·";
+      margin-inline: $spacing-2;
+      color: $color-beige;
     }
 
     .pr-body {

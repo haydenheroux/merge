@@ -49,11 +49,11 @@ templ PRCard(pr model.StampedPullRequest) {
             <div class="description-row">
                 <span>
                     { pr.State }
-                    &nbsp;&middot;&nbsp;
+                </span>
+                <span>
                     { ageLabel(pr.DaysOpen) }
-                    &nbsp;&middot;&nbsp;
-                    { fmt.Sprintf("#%d", pr.Number) }
-                    &nbsp;&middot;&nbsp;
+                </span>
+                <span>
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
                 </span>
             </div>
