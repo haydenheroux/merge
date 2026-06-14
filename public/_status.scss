@@ -1,0 +1,17 @@
+@use 'variables' as *;
+
+.error {
+    color: var(--color-paprika);
+}
+
+.warn {
+    color: var(--color-orange);
+}
+
+.ok {
+    color: var(--color-sage);
+}
+
+.special {
+    color: var(--color-purple);
+}

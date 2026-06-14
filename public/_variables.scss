@@ -1,0 +1,158 @@
+// ── Colors ──
+$color-white: #fffcf2;
+$color-pearl: #faf7ed;
+$color-talc: #eee8dd;
+$color-shell: #e6e0d4;
+$color-stone: #d9d1c2;
+$color-silver: #ccc5b9;
+$color-beige: #70695c;
+$color-brown: #403d39;
+$color-black: #252422;
+$color-paprika: #eb5e28;
+$color-sage: #5b7e3c;
+$color-orange: #e89429;
+$color-purple: #8d5f8c;
+
+// ── Typography scale ──
+$text-3xl: 4rem;
+$text-2xl: 3rem;
+$text-xl: 2rem;
+$text-lg: 1.5rem;
+$text-md: 1.25rem;
+$text-sm: 1rem;
+$text-xs: 0.875rem;
+$text-xxs: 0.75rem;
+
+// ── Font weight ──
+$font-weight-normal: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// ── Line height ──
+$line-height-heading: 85%;
+$line-height-body: 95%;
+$line-height-subheading: 110%;
+$line-height-markdown-body: 1.4;
+$line-height-code: 1.5;
+
+// ── Spacing scale (base unit: 0.25rem) ──
+$spacing-0: 0;
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.25rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-12: 3rem;
+$spacing-16: 4rem;
+$spacing-32: 8rem;
+
+// ── Border radius ──
+$card-border-radius: 20px;
+$border-radius-code: 6px;
+
+// ── Border width ──
+$border-width-thin: 1px;
+$border-width-default: 2px;
+$border-width-thick: 4px;
+
+// ── Underline offset ──
+$underline-offset-title: 3px;
+$underline-offset-description: 2px;
+
+// ── Transitions ──
+$transition-fast: 150ms;
+$transition-normal: 200ms;
+$easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// ── Breakpoints ──
+$breakpoint-mobile: 720px;
+
+// ── Transforms ──
+$scale-hover: 1.1;
+$scale-hover-large: 1.15;
+$scale-hover-icon: 110%;
+$scale-active: 0.85;
+$rotate-hover: -5deg;
+$rotate-hover-large: -7.5deg;
+
+// ── Body ──
+$body-width: 90%;
+$body-width-full: 100%;
+$body-height: 100vh;
+
+// ── Title input ──
+$title-input-height-factor: 1.1;
+$title-input-min-width: 1ch;
+
+// ── Input pill ──
+$input-pill-inset-y: -4px;
+$input-pill-inset-x: -8px;
+
+// ── Repo form ──
+$repo-form-gap: 8px;
+$repo-form-padding-x: 10px;
+$repo-form-padding-y-factor: 0.5;
+
+// ── Labels ──
+$letter-spacing-label: 0.05em;
+
+// ── Stats tiles (mobile) ──
+$stats-tiles-grid-columns: 2;
+
+// ── Hero ──
+$hero-margin-block-top: $spacing-16;
+$hero-margin-block-bottom: $spacing-32;
+$hero-margin-block-top-mobile: $spacing-8;
+$hero-margin-block-bottom-mobile: $spacing-16;
+
+// ── Heading scale (mobile) ──
+$heading-scale-h1: 0.6;
+$heading-scale-h2: 0.65;
+
+// ── Code ──
+$code-padding-y: 0.15rem;
+$code-padding-x: 0.35rem;
+$pre-padding: $spacing-4;
+
+// ── Icon ──
+$status-icon-font-size-factor: 1.1;
+$status-icon-margin-top-factor: 0.3;
+$icon-margin-left-factor: 0.5;
+$icon-github-margin-top-factor: 0.25;
+
+// ── Z-index ──
+$z-index-behind: -1;
+
+// ── Title separator ──
+$title-sep-margin-top-factor: -0.25;
+$nav-toggle-active-scale: 0.85;
+
+:root {
+    --color-white: #{$color-white};
+    --color-pearl: #{$color-pearl};
+    --color-talc: #{$color-talc};
+    --color-shell: #{$color-shell};
+    --color-stone: #{$color-stone};
+    --color-silver: #{$color-silver};
+    --color-beige: #{$color-beige};
+    --color-brown: #{$color-brown};
+    --color-black: #{$color-black};
+    --color-paprika: #{$color-paprika};
+    --color-sage: #{$color-sage};
+    --color-orange: #{$color-orange};
+    --color-purple: #{$color-purple};
+
+    --size-card-br: #{$card-border-radius};
+
+    --text-3xl: #{$text-3xl};
+    --text-2xl: #{$text-2xl};
+    --text-xl: #{$text-xl};
+    --text-lg: #{$text-lg};
+    --text-md: #{$text-md};
+    --text-sm: #{$text-sm};
+    --text-xs: #{$text-xs};
+    --text-xxs: #{$text-xxs};
+}

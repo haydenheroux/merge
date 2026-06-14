@@ -1,0 +1,9 @@
+@use 'variables' as *;
+
+.item {
+    box-sizing: border-box;
+    background-color: var(--color-pearl);
+    border-radius: var(--size-card-br);
+    --padding: #{$spacing-4};
+    padding: var(--padding);
+}
