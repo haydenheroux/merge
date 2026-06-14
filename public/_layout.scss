@@ -199,10 +199,24 @@ main {
 }
 
 footer {
+    display: flex;
+    margin-bottom: $spacing-8;
     color: var(--color-beige);
+
+    & > *:not(:last-child)::after {
+      content: "·";
+      margin-inline: $spacing-2;
+      color: $color-beige;
+    }
 
     a {
         color: var(--color-black);
+
+        &:hover {
+          text-decoration: underline;
+          text-underline-offset: $underline-offset-title;
+          text-decoration-thickness: $border-width-default;
+        }
     }
 }
 

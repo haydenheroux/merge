@@ -266,10 +266,22 @@ main {
 }
 
 footer {
+  display: flex;
+  margin-bottom: 2rem;
   color: var(--color-beige);
+}
+footer > *:not(:last-child)::after {
+  content: "·";
+  margin-inline: 0.5rem;
+  color: #70695c;
 }
 footer a {
   color: var(--color-black);
+}
+footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
 }
 
 @media (max-width: 720px) {
