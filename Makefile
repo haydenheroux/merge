@@ -11,6 +11,9 @@ build:
 generate:
 	$(TEMPL) generate
 
+watch:
+	$(TEMPL) generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd/merge"
+
 run: build
 	./merge
 

@@ -1,8 +1,6 @@
 package helpers
 
 import (
-	"fmt"
-
 	"merge/internal/model"
 )
 
@@ -21,15 +19,4 @@ func GetStatusClass(pr model.StampedPullRequest) string {
 	default:
 		return "fa-apple-whole warn"
 	}
-}
-
-func GetAgeLabel(state model.State) string {
-	if state == model.Merged {
-		return "ago"
-	}
-	return "old"
-}
-
-func FormatNumber(n int) string {
-	return fmt.Sprintf("%d", n)
 }
