@@ -8,10 +8,14 @@ templ Nav(owner, repo string) {
             <a href="/">Merge Zone</a>
             if owner != "" {
                 <span class="serif bold title-sep">/</span>
-                <input class="serif title-input" type="text" data-part="owner" value={ owner }>
+                <span class="input-pill">
+                    <input class="serif title-input" type="text" data-part="owner" value={ owner }>
+                </span>
                 if repo != "" {
                     <span class="serif bold title-sep">/</span>
-                    <input class="serif title-input" type="text" data-part="repo" value={ repo }>
+                    <span class="input-pill">
+                        <input class="serif title-input" type="text" data-part="repo" value={ repo }>
+                    </span>
                     <a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", owner, repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt link-button" aria-hidden="true"></i></a>
                 }
             }

@@ -3,6 +3,7 @@
     --color-pearl: #faf7ed;
     --color-talc: #eee8dd;
     --color-shell: #e6e0d4;
+    --color-stone: #d9d1c2;
     --color-silver: #ccc5b9;
     --color-beige: #70695c;
     --color-brown: #403d39;
@@ -28,6 +29,11 @@ body {
     width: 90%;
     margin-block: 0;
     margin-inline: auto;
+
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
     background-color: var(--color-talc);
     color: var(--color-black);
@@ -163,6 +169,7 @@ input {
         padding: 0;
         margin: 0;
         height: calc(var(--text-lg) * 1.1);
+        overflow: visible;
         box-sizing: border-box;
         /* TODO Replace with field-sizing */
         min-width: 1ch;
@@ -171,6 +178,28 @@ input {
         &:focus {
             box-shadow: none;
         }
+    }
+
+    .input-pill {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .input-pill::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        inset: -4px -8px;
+        border-radius: var(--size-card-br);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 200ms;
+    }
+
+    .input-pill:has(.title-input:hover)::before, .input-pill:has(.title-input:focus)::before {
+        opacity: 1;
+        background-color: var(--color-stone);
     }
 
     i {
@@ -209,7 +238,10 @@ input {
 
 main {
     margin-block: 2rem;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
     gap: 1rem;
 }
 
@@ -290,8 +322,9 @@ footer {
     min-width: 6rem;
     display: grid;
     gap: 0.5rem;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(2, min-content);
     grid-template-rows: repeat(2, max-content);
+    justify-content: center;
 
     & > * {
         align-self: center;
@@ -358,9 +391,15 @@ section {
 }
 
 .prs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+
     .prs-scroll {
-        /* TODO Correct height calculation */
-        height: 50vh;
+        flex: 1;
+        min-height: 0;
         border-radius: var(--size-card-br);
 
         display: flex;
@@ -549,4 +588,50 @@ section {
 
 .special {
     color: var(--color-purple);
+}
+
+@media (max-width: 720px) {
+    body {
+        width: 100%;
+        padding-inline: 0.75rem;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: calc(var(--text-3xl) * 0.6);
+    }
+
+    h2 {
+        font-size: calc(var(--text-2xl) * 0.65);
+    }
+
+    .hero {
+        margin-block: 2rem 4rem;
+    }
+
+    .repo-form {
+        width: 100%;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+    }
+
+    .stats-tiles {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .stats-tiles > :first-child,
+    .stats-tiles > :last-child {
+        border-radius: 0;
+    }
+
+    .stats-tiles > .item.stat {
+        border-radius: var(--size-card-br);
+    }
+
+    .stat {
+        min-width: unset;
+    }
 }
