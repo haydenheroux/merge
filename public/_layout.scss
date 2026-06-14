@@ -1,0 +1,250 @@
+@use 'variables' as *;
+
+body {
+    width: $body-width;
+    margin-block: $spacing-0;
+    margin-inline: auto;
+    height: $body-height;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--color-talc);
+    color: var(--color-black);
+}
+
+input {
+    outline: none;
+    border: none;
+    color: var(--color-brown);
+
+    &::placeholder {
+        color: var(--color-beige);
+    }
+}
+
+button, .link-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-black);
+
+    &:active {
+        color: var(--color-beige);
+    }
+}
+
+button, .link-button, .status-icon {
+    transition: transform $transition-normal $easing-spring, color;
+}
+
+#nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-talc);
+}
+
+#nav-input {
+    --gap: #{$spacing-2};
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+
+    .repo-title {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-0;
+    }
+
+    .title-sep {
+        --font: var(--text-xl);
+        font-size: var(--font);
+        margin-top: calc(#{$title-sep-margin-top-factor} * var(--font));
+        user-select: none;
+    }
+
+    .title-input {
+        line-height: inherit;
+        color: var(--color-black);
+        caret-color: var(--color-black);
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        height: calc(var(--text-lg) * #{$title-input-height-factor});
+        overflow: visible;
+        box-sizing: border-box;
+        min-width: $title-input-min-width;
+        box-shadow: 0 $border-width-default 0 0 var(--color-silver);
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .input-pill {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .input-pill::before {
+        content: '';
+        position: absolute;
+        z-index: $z-index-behind;
+        inset: $input-pill-inset-y $input-pill-inset-x;
+        border-radius: var(--size-card-br);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity $transition-normal;
+    }
+
+    .input-pill:has(.title-input:hover)::before,
+    .input-pill:has(.title-input:focus)::before {
+        opacity: 1;
+        background-color: var(--color-stone);
+    }
+
+    i {
+        margin-left: calc(#{$icon-margin-left-factor} * var(--gap));
+        --font: var(--text-lg);
+        font-size: var(--font);
+
+        &.fa-github-alt {
+            margin-top: calc(#{$icon-github-margin-top-factor} * var(--font));
+
+            &:hover {
+                transform: rotate($rotate-hover) scale($scale-hover-icon);
+            }
+        }
+    }
+}
+
+#nav-toggle {
+    font-size: var(--text-md);
+    display: block;
+    background: none;
+    border: none;
+    transition: transform $transition-fast $easing-spring;
+
+    &:hover {
+        transform: rotate($rotate-hover-large) scale($scale-hover-large);
+    }
+
+    &:active {
+        transform: scale($nav-toggle-active-scale);
+    }
+}
+
+main {
+    margin-block: $spacing-8;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    gap: $spacing-4;
+}
+
+#nav-form-wrapper {
+    display: none;
+
+    &.open {
+        display: block;
+    }
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+    margin-block: $hero-margin-block-top $hero-margin-block-bottom;
+}
+
+.repo-form {
+    background-color: var(--color-pearl);
+    border-radius: var(--size-card-br);
+    display: flex;
+    align-items: center;
+    --gap: #{$repo-form-gap};
+    width: fit-content;
+    padding: calc(#{$repo-form-padding-y-factor} * var(--gap)) $repo-form-padding-x;
+
+    span {
+        font-size: var(--text-md);
+        margin-inline: var(--gap);
+    }
+
+    input {
+        font-size: var(--text-sm);
+        background-color: transparent;
+    }
+
+    button {
+        margin-left: var(--gap);
+        font-size: var(--text-md);
+
+        &:active {
+            color: var(--color-beige);
+            transform: scale($scale-active);
+        }
+    }
+}
+
+footer {
+    color: var(--color-beige);
+
+    a {
+        color: var(--color-black);
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    body {
+        width: $body-width-full;
+        padding-inline: $spacing-3;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: calc(var(--text-3xl) * #{$heading-scale-h1});
+    }
+
+    h2 {
+        font-size: calc(var(--text-2xl) * #{$heading-scale-h2});
+    }
+
+    .hero {
+        margin-block: $hero-margin-block-top-mobile $hero-margin-block-bottom-mobile;
+    }
+
+    .repo-form {
+        width: $body-width-full;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+    }
+
+    .stats-tiles {
+        display: grid;
+        grid-template-columns: repeat($stats-tiles-grid-columns, 1fr);
+        width: $body-width-full;
+        gap: $spacing-3;
+    }
+
+    .stats-tiles > :first-child,
+    .stats-tiles > :last-child {
+        border-radius: 0;
+    }
+
+    .stats-tiles > .item.stat {
+        border-radius: var(--size-card-br);
+    }
+
+    .stat {
+        min-width: unset;
+    }
+}

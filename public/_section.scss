@@ -1,0 +1,19 @@
+@use 'variables' as *;
+
+section {
+    --padding: #{$spacing-3};
+    background-color: var(--color-shell);
+    padding: var(--padding);
+    border-radius: calc(var(--size-card-br) + var(--padding));
+}
+
+.section-label {
+    font-size: var(--text-xxs);
+    color: var(--color-beige);
+    text-transform: uppercase;
+    letter-spacing: $letter-spacing-label;
+    font-weight: $font-weight-bold;
+    margin: $spacing-0 $spacing-0 $spacing-3;
+    margin-left: $spacing-2;
+    margin-top: $spacing-1;
+}

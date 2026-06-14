@@ -1,0 +1,77 @@
+@use 'variables' as *;
+
+$stat-min-width: 6rem;
+$stat-grid-columns: 2;
+$stat-grid-rows: 2;
+$stat-icon-col: 1;
+$stat-icon-row: 1;
+$stat-count-col: 2;
+$stat-count-row: 1;
+
+.item.stat {
+    border-radius: 0;
+}
+
+.stats-tiles > :first-child {
+    border-top-left-radius: var(--size-card-br);
+    border-bottom-left-radius: var(--size-card-br);
+}
+
+.stats-tiles > :last-child {
+    border-top-right-radius: var(--size-card-br);
+    border-bottom-right-radius: var(--size-card-br);
+}
+
+.stat {
+    cursor: pointer;
+    min-width: $stat-min-width;
+    display: grid;
+    gap: $spacing-2;
+    grid-template-columns: repeat($stat-grid-columns, min-content);
+    grid-template-rows: repeat($stat-grid-rows, max-content);
+    justify-content: center;
+
+    & > * {
+        align-self: center;
+        justify-self: center;
+    }
+
+    .status-icon {
+        --text-size: var(--text-sm);
+        margin-top: calc(#{$status-icon-margin-top-factor} * var(--text-size));
+        font-size: var(--text-size);
+    }
+
+    &:hover {
+        background-color: var(--color-talc);
+
+        .status-icon {
+            transform: rotate($rotate-hover) scale($scale-hover);
+        }
+    }
+
+    p {
+        text-transform: uppercase;
+        font-size: var(--text-xxs);
+        color: var(--color-beige);
+        grid-column: span $stat-grid-columns / span $stat-grid-columns;
+        margin-block: 0;
+    }
+
+    .status-icon {
+        grid-column-start: $stat-icon-col;
+        grid-row-start: $stat-icon-row;
+    }
+
+    b {
+        font-size: var(--text-md);
+        grid-column-start: $stat-count-col;
+        grid-row-start: $stat-count-row;
+    }
+}
+
+.stats-tiles {
+    display: flex;
+    flex-direction: row;
+    width: min-content;
+}

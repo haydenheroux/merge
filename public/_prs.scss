@@ -1,0 +1,19 @@
+@use 'variables' as *;
+
+.prs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+
+    .prs-scroll {
+        flex: 1;
+        min-height: 0;
+        border-radius: var(--size-card-br);
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-3;
+        overflow-y: auto;
+    }
+}
