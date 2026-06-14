@@ -7,6 +7,33 @@ import (
 	"merge/internal/views/helpers"
 )
 
+func ageLabel(days int) string {
+    // TODO Explicit fallthrough, remainder, plurals
+
+	if days == 0 {
+		return "Today"
+	} else if days == 1 {
+		return "Yesterday"
+	}
+
+    if days < 7 {
+        return fmt.Sprintf("%dd ago", days)
+    }
+
+    weeks := days / 7
+    if weeks < 4 {
+        return fmt.Sprintf("%dwk ago", weeks)
+    }
+
+    months := weeks / 4
+    if months < 12 {
+        return fmt.Sprintf("%dmo ago", months)
+    }
+
+    years := months / 12
+    return fmt.Sprintf("%dyr ago", years)
+}
+
 templ PRCard(pr model.StampedPullRequest) {
 	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") }>
         <div class="pull-request-header">
@@ -22,11 +49,11 @@ templ PRCard(pr model.StampedPullRequest) {
             <div class="description-row">
                 <span>
                     { pr.State }
-                    &nbsp;&middot;&nbsp;
-                    { helpers.FormatNumber(pr.DaysOpen) } days { helpers.GetAgeLabel(pr.State) }
-                    &nbsp;&middot;&nbsp;
-                    #{ helpers.FormatNumber(pr.Number) }
-                    &nbsp;&middot;&nbsp;
+                </span>
+                <span>
+                    { ageLabel(pr.DaysOpen) }
+                </span>
+                <span>
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
                 </span>
             </div>
