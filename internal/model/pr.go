@@ -124,8 +124,8 @@ type StampedPullRequest struct {
 	TimeOpen     time.Duration
 	DaysOpen     int
 	ExpiryStatus ExpiryStatus
-	Type string
-	Scopes []string
+	Type         string
+	Scopes       []string
 }
 
 func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
@@ -136,7 +136,7 @@ func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
 		TimeOpen:     pr.TimeOpen(time),
 		DaysOpen:     pr.DaysOpen(time),
 		ExpiryStatus: pr.ExpiryStatus(time),
-		Scopes: pr.Scopes(),
+		Scopes:       pr.Scopes(),
 	}
 
 	return spr
