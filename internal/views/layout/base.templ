@@ -84,6 +84,9 @@ templ Base(title, description, baseURL, owner, repo string) {
 				document.addEventListener('htmx:afterSwap', function() {
 					origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
 					origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+					if (origOwner && origRepo) {
+						document.title = origOwner + '/' + origRepo;
+					}
 				});
 				document.fonts.ready.then(function() {
 					inputs.forEach(resize);
