@@ -1,4 +1,4 @@
-.PHONY: all build run generate clean install tidy
+.PHONY: all build run generate clean install tidy fmt
 
 GOBIN := $(HOME)/go/bin
 TEMPL := $(GOBIN)/templ
@@ -11,7 +11,7 @@ build:
 
 generate:
 	$(SASS) --no-source-map public/main.scss public/main.css
-	$(TEMPL) generate
+	go tool templ generate
 
 watch:
 	$(SASS) -w --no-source-map public/main.scss public/main.css &
@@ -25,6 +25,9 @@ clean:
 
 install:
 	go install github.com/a-h/templ/cmd/templ@latest
+
+fmt:
+	go fmt ./...
 
 tidy:
 	go mod tidy

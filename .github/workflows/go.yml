@@ -31,7 +31,7 @@ jobs:
       run: go test -v ./...
 
     - name: Generate
-      run: go tool templ generate
+      run: make generate
 
     - name: Diff
       run: git diff --exit-code
