@@ -2,17 +2,26 @@ package components
 
 import (
 	"fmt"
+	"math"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
+	"time"
 )
 
-func ageLabel(days int) string {
+func ageLabel(open time.Duration, days int) string {
     // TODO Explicit fallthrough, remainder, plurals
+	if open.Hours() < 1 {
+		mins := int(math.Floor(open.Minutes()))
+		return fmt.Sprintf("%dm ago", mins)
+	}
 
-	if days == 0 {
-		return "Today"
-	} else if days == 1 {
+	if days < 1 {
+		hrs := int(math.Floor(open.Hours()))
+		return fmt.Sprintf("%dhrs ago", hrs)
+	}
+
+	if days == 1 {
 		return "Yesterday"
 	}
 
@@ -51,7 +60,7 @@ templ PRCard(pr model.StampedPullRequest) {
                     { pr.State }
                 </span>
                 <span>
-                    { ageLabel(pr.DaysOpen) }
+                    { ageLabel(pr.TimeOpen, pr.DaysOpen) }
                 </span>
                 <span>
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>

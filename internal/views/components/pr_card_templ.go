@@ -10,17 +10,26 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
+	"math"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
+	"time"
 )
 
-func ageLabel(days int) string {
+func ageLabel(open time.Duration, days int) string {
 	// TODO Explicit fallthrough, remainder, plurals
+	if open.Hours() < 1 {
+		mins := int(math.Floor(open.Minutes()))
+		return fmt.Sprintf("%dm ago", mins)
+	}
 
-	if days == 0 {
-		return "Today"
-	} else if days == 1 {
+	if days < 1 {
+		hrs := int(math.Floor(open.Hours()))
+		return fmt.Sprintf("%dhrs ago", hrs)
+	}
+
+	if days == 1 {
 		return "Yesterday"
 	}
 
@@ -70,7 +79,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("%t", pr.IsDraft))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 38, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 47, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
@@ -83,7 +92,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("%t", pr.Body != ""))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 38, Col: 125}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 47, Col: 125}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
@@ -118,7 +127,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		var templ_7745c5c3_Var6 templ.SafeURL
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinURLErrs(pr.URL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 44, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 53, Col: 32}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -139,7 +148,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(pr.State)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 51, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 60, Col: 30}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -150,9 +159,9 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(ageLabel(pr.DaysOpen))
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(ageLabel(pr.TimeOpen, pr.DaysOpen))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 54, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 63, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -165,7 +174,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		var templ_7745c5c3_Var9 templ.SafeURL
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinURLErrs(pr.Author.URL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 57, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 66, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -178,7 +187,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(pr.Author.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 57, Col: 62}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 66, Col: 62}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -196,7 +205,7 @@ func PRCard(pr model.StampedPullRequest) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(scope)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 60, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_card.templ`, Line: 69, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
