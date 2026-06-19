@@ -1,8 +1,4 @@
-.PHONY: all build run generate clean install tidy
-
-GOBIN := $(HOME)/go/bin
-TEMPL := $(GOBIN)/templ
-SASS := sass
+.PHONY: all build run generate clean install tidy fmt
 
 all: generate build
 
@@ -10,12 +6,12 @@ build:
 	go build -o merge ./cmd/merge
 
 generate:
-	$(SASS) --no-source-map public/main.scss public/main.css
-	$(TEMPL) generate
+	npx sass --no-source-map public/main.scss public/main.css
+	go tool templ generate
 
 watch:
-	$(SASS) -w --no-source-map public/main.scss public/main.css &
-	$(TEMPL) generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd/merge"
+	npx sass -w --no-source-map public/main.scss public/main.css &
+	go tool templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd/merge"
 
 run: build
 	./merge
@@ -25,6 +21,9 @@ clean:
 
 install:
 	go install github.com/a-h/templ/cmd/templ@latest
+
+fmt:
+	go fmt ./...
 
 tidy:
 	go mod tidy
