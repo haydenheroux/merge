@@ -13,13 +13,13 @@ $stat-count-row: 1;
 }
 
 .stats-tiles > :first-child {
-    border-top-left-radius: var(--size-card-br);
-    border-bottom-left-radius: var(--size-card-br);
+    border-top-left-radius: $card-border-radius;
+    border-bottom-left-radius: $card-border-radius;
 }
 
 .stats-tiles > :last-child {
-    border-top-right-radius: var(--size-card-br);
-    border-bottom-right-radius: var(--size-card-br);
+    border-top-right-radius: $card-border-radius;
+    border-bottom-right-radius: $card-border-radius;
 }
 
 .stat {
@@ -37,13 +37,12 @@ $stat-count-row: 1;
     }
 
     .status-icon {
-        --text-size: var(--text-sm);
-        margin-top: calc(#{$status-icon-margin-top-factor} * var(--text-size));
-        font-size: var(--text-size);
+        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-sm});
+        font-size: $text-sm;
     }
 
     &:hover {
-        background-color: var(--color-talc);
+        background-color: $color-talc;
 
         .status-icon {
             transform: rotate($rotate-hover) scale($scale-hover);
@@ -52,8 +51,8 @@ $stat-count-row: 1;
 
     p {
         text-transform: uppercase;
-        font-size: var(--text-xxs);
-        color: var(--color-beige);
+        font-size: $text-xxs;
+        color: $color-beige;
         grid-column: span $stat-grid-columns / span $stat-grid-columns;
         margin-block: 0;
     }
@@ -64,7 +63,7 @@ $stat-count-row: 1;
     }
 
     b {
-        font-size: var(--text-md);
+        font-size: $text-md;
         grid-column-start: $stat-count-col;
         grid-row-start: $stat-count-row;
     }

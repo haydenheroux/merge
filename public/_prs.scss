@@ -10,7 +10,7 @@
     .prs-scroll {
         flex: 1;
         min-height: 0;
-        border-radius: var(--size-card-br);
+        border-radius: $card-border-radius;
         display: flex;
         flex-direction: column;
         gap: $spacing-3;

@@ -22,39 +22,39 @@ h1, h2, h3, .serif, .title, .title-input {
 }
 
 h1 {
-    font-size: var(--text-3xl);
+    font-size: $text-3xl;
     font-weight: $font-weight-extrabold;
     line-height: $line-height-heading;
     margin-block: $spacing-6;
 }
 
 h2 {
-    font-size: var(--text-2xl);
+    font-size: $text-2xl;
     font-weight: $font-weight-extrabold;
     line-height: $line-height-heading;
     margin-block: $spacing-6;
 }
 
 h3 {
-    font-size: var(--text-xl);
+    font-size: $text-xl;
 }
 
 h4, .title-input {
-    font-size: var(--text-lg);
+    font-size: $text-lg;
     line-height: $line-height-subheading;
     margin-block: $spacing-4;
 }
 
 p, .pull-request .title p {
-    font-size: var(--text-md);
+    font-size: $text-md;
 }
 
 .small {
-    font-size: var(--text-sm);
+    font-size: $text-sm;
 }
 
 footer p, code, .caption, .pull-request .description-row {
-    font-size: var(--text-xs);
+    font-size: $text-xs;
 }
 
 a {

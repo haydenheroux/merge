@@ -8,17 +8,17 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-color: var(--color-talc);
-    color: var(--color-black);
+    background-color: $color-talc;
+    color: $color-black;
 }
 
 input {
     outline: none;
     border: none;
-    color: var(--color-brown);
+    color: $color-brown;
 
     &::placeholder {
-        color: var(--color-beige);
+        color: $color-beige;
     }
 }
 
@@ -26,10 +26,10 @@ button, .link-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-black);
+    color: $color-black;
 
     &:active {
-        color: var(--color-beige);
+        color: $color-beige;
     }
 }
 
@@ -46,13 +46,12 @@ button, .link-button, .status-icon {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--color-talc);
+    background-color: $color-talc;
 }
 
 #nav-input {
-    --gap: #{$spacing-2};
     display: flex;
-    gap: var(--gap);
+    gap: $spacing-2;
     align-items: center;
 
     .repo-title {
@@ -62,21 +61,20 @@ button, .link-button, .status-icon {
     }
 
     .title-sep {
-        --font: var(--text-xl);
-        font-size: var(--font);
-        margin-top: calc(#{$title-sep-margin-top-factor} * var(--font));
+        font-size: $text-xl;
+        margin-top: calc(#{$title-sep-margin-top-factor} * #{$text-xl});
         user-select: none;
     }
 
     .title-input {
         line-height: inherit;
-        color: var(--color-black);
-        caret-color: var(--color-black);
+        color: $color-black;
+        caret-color: $color-black;
         background: transparent;
         border: none;
         padding: 0;
         margin: 0;
-        height: calc(var(--text-lg) * #{$title-input-height-factor});
+        height: calc($text-lg * #{$title-input-height-factor});
         overflow: visible;
         box-sizing: border-box;
         min-width: $title-input-min-width;
@@ -100,7 +98,7 @@ button, .link-button, .status-icon {
         position: absolute;
         z-index: $z-index-behind;
         inset: 0 $input-pill-inset-x $input-pill-inset-y $input-pill-inset-x;
-        border-radius: var(--size-card-br);
+        border-radius: $card-border-radius;
         pointer-events: none;
         opacity: 0;
         transition: opacity $transition-normal;
@@ -114,12 +112,11 @@ button, .link-button, .status-icon {
     }
 
     i {
-        margin-left: calc(#{$icon-margin-left-factor} * var(--gap));
-        --font: var(--text-lg);
-        font-size: var(--font);
+        margin-left: calc(#{$icon-margin-left-factor} * #{$spacing-2});
+        font-size: $text-lg;
 
         &.fa-github-alt {
-            margin-top: calc(#{$icon-github-margin-top-factor} * var(--font));
+            margin-top: calc(#{$icon-github-margin-top-factor} * #{$text-lg});
 
             &:hover {
                 transform: rotate($rotate-hover) scale($scale-hover-icon);
@@ -129,7 +126,7 @@ button, .link-button, .status-icon {
 }
 
 #nav-toggle {
-    font-size: var(--text-md);
+    font-size: $text-md;
     display: block;
     background: none;
     border: none;
@@ -169,30 +166,29 @@ main {
 }
 
 .repo-form {
-    background-color: var(--color-pearl);
-    border-radius: var(--size-card-br);
+    background-color: $color-pearl;
+    border-radius: $card-border-radius;
     display: flex;
     align-items: center;
-    --gap: #{$repo-form-gap};
     width: fit-content;
-    padding: calc(#{$repo-form-padding-y-factor} * var(--gap)) $repo-form-padding-x;
+    padding: calc(#{$repo-form-padding-y-factor} * #{$repo-form-gap}) $repo-form-padding-x;
 
     span {
-        font-size: var(--text-md);
-        margin-inline: var(--gap);
+        font-size: $text-md;
+        margin-inline: $repo-form-gap;
     }
 
     input {
-        font-size: var(--text-sm);
+        font-size: $text-sm;
         background-color: transparent;
     }
 
     button {
-        margin-left: var(--gap);
-        font-size: var(--text-md);
+        margin-left: $repo-form-gap;
+        font-size: $text-md;
 
         &:active {
-            color: var(--color-beige);
+            color: $color-beige;
             transform: scale($scale-active);
         }
     }
@@ -201,7 +197,7 @@ main {
 footer {
     display: flex;
     margin-bottom: $spacing-8;
-    color: var(--color-beige);
+    color: $color-beige;
 
     & > *:not(:last-child)::after {
       content: "·";
@@ -210,7 +206,7 @@ footer {
     }
 
     a {
-        color: var(--color-black);
+        color: $color-black;
 
         &:hover {
           text-decoration: underline;
@@ -228,11 +224,11 @@ footer {
     }
 
     h1 {
-        font-size: calc(var(--text-3xl) * #{$heading-scale-h1});
+        font-size: calc($text-3xl * #{$heading-scale-h1});
     }
 
     h2 {
-        font-size: calc(var(--text-2xl) * #{$heading-scale-h2});
+        font-size: calc($text-2xl * #{$heading-scale-h2});
     }
 
     .hero {
@@ -258,7 +254,7 @@ footer {
     }
 
     .stats-tiles > .item.stat {
-        border-radius: var(--size-card-br);
+        border-radius: $card-border-radius;
     }
 
     .stat {
