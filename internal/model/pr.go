@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"regexp"
+	"strings"
+	"time"
+)
 
 type User struct {
 	Name string `json:"login"`
@@ -74,6 +78,45 @@ func (pr *PullRequest) ExpiryStatus(time time.Time) ExpiryStatus {
 	return Fresh
 }
 
+func split(scopes string) []string {
+	result := strings.Split(scopes, ",")
+	for i := range result {
+		result[i] = strings.TrimSpace(result[i])
+	}
+	return result
+}
+
+func extractConventionalCommitScopes(title string) []string {
+	re := regexp.MustCompile(`^\w+\(([^)]+)\)(?:!)?:`)
+	matches := re.FindStringSubmatch(title)
+	if len(matches) == 0 {
+		return []string{}
+	}
+
+	return split(matches[1])
+}
+
+func extractSquareBracketScopes(title string) []string {
+	re := regexp.MustCompile(`^\[([^\]]+)\]`)
+	matches := re.FindStringSubmatch(title)
+	if len(matches) == 0 {
+		return []string{}
+	}
+
+	return split(matches[1])
+}
+
+func (pr *PullRequest) Scopes() []string {
+	result := make([]string, 0)
+	for _, s := range extractConventionalCommitScopes(pr.Title) {
+		result = append(result, s)
+	}
+	for _, s := range extractSquareBracketScopes(pr.Title) {
+		result = append(result, s)
+	}
+	return result
+}
+
 type StampedPullRequest struct {
 	PullRequest
 	Time         time.Time
@@ -81,17 +124,22 @@ type StampedPullRequest struct {
 	TimeOpen     time.Duration
 	DaysOpen     int
 	ExpiryStatus ExpiryStatus
+	Type string
+	Scopes []string
 }
 
 func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
-	return StampedPullRequest{
+	spr := StampedPullRequest{
 		PullRequest:  *pr,
 		Time:         time,
 		State:        pr.State(),
 		TimeOpen:     pr.TimeOpen(time),
 		DaysOpen:     pr.DaysOpen(time),
 		ExpiryStatus: pr.ExpiryStatus(time),
+		Scopes: pr.Scopes(),
 	}
+
+	return spr
 }
 
 func StampNow(prs []PullRequest) []StampedPullRequest {
