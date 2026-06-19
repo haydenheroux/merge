@@ -56,6 +56,9 @@ templ PRCard(pr model.StampedPullRequest) {
                 <span>
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
                 </span>
+				for _, scope := range pr.Scopes {
+					<span>{ scope }</span>
+				}
             </div>
         </div>
 		<span class="pr-body">

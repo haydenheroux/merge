@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"regexp"
+	"strings"
+	"time"
+)
 
 type User struct {
 	Name string `json:"login"`
@@ -74,6 +78,20 @@ func (pr *PullRequest) ExpiryStatus(time time.Time) ExpiryStatus {
 	return Fresh
 }
 
+func (pr *PullRequest) Scopes() []string {
+	re := regexp.MustCompile(`^\w+\(([^)]+)\)(?:!)?:`)
+	matches := re.FindStringSubmatch(pr.Title)
+	if len(matches) == 0 {
+		return []string{}
+	}
+
+	scopes := strings.Split(matches[1], ",")
+	for i := range scopes {
+		scopes[i] = strings.TrimSpace(scopes[i])
+	}
+	return scopes
+}
+
 type StampedPullRequest struct {
 	PullRequest
 	Time         time.Time
@@ -81,17 +99,22 @@ type StampedPullRequest struct {
 	TimeOpen     time.Duration
 	DaysOpen     int
 	ExpiryStatus ExpiryStatus
+	Type string
+	Scopes []string
 }
 
 func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
-	return StampedPullRequest{
+	spr := StampedPullRequest{
 		PullRequest:  *pr,
 		Time:         time,
 		State:        pr.State(),
 		TimeOpen:     pr.TimeOpen(time),
 		DaysOpen:     pr.DaysOpen(time),
 		ExpiryStatus: pr.ExpiryStatus(time),
+		Scopes: pr.Scopes(),
 	}
+
+	return spr
 }
 
 func StampNow(prs []PullRequest) []StampedPullRequest {
