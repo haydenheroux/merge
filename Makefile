@@ -12,7 +12,7 @@ generate:
 	go tool templ generate
 
 watch:
-	npx sass -w $(SASS_ARGS)
+	npx sass -w $(SASS_ARGS) &
 	go tool templ generate --watch --proxy="http://localhost:8080" --cmd="go run ./cmd/merge"
 
 run: build
