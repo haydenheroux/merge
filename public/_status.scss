@@ -1,17 +1,17 @@
 @use 'variables' as *;
 
 .error {
-    color: var(--color-paprika);
+    color: $color-paprika;
 }
 
 .warn {
-    color: var(--color-orange);
+    color: $color-orange;
 }
 
 .ok {
-    color: var(--color-sage);
+    color: $color-sage;
 }
 
 .special {
-    color: var(--color-purple);
+    color: $color-purple;
 }
