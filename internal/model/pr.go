@@ -78,18 +78,43 @@ func (pr *PullRequest) ExpiryStatus(time time.Time) ExpiryStatus {
 	return Fresh
 }
 
-func (pr *PullRequest) Scopes() []string {
+func split(scopes string) []string {
+	result := strings.Split(scopes, ",")
+	for i := range result {
+		result[i] = strings.TrimSpace(result[i])
+	}
+	return result
+}
+
+func extractConventionalCommitScopes(title string) []string {
 	re := regexp.MustCompile(`^\w+\(([^)]+)\)(?:!)?:`)
-	matches := re.FindStringSubmatch(pr.Title)
+	matches := re.FindStringSubmatch(title)
 	if len(matches) == 0 {
 		return []string{}
 	}
 
-	scopes := strings.Split(matches[1], ",")
-	for i := range scopes {
-		scopes[i] = strings.TrimSpace(scopes[i])
+	return split(matches[1])
+}
+
+func extractSquareBracketScopes(title string) []string {
+	re := regexp.MustCompile(`^\[([^\]]+)\]`)
+	matches := re.FindStringSubmatch(title)
+	if len(matches) == 0 {
+		return []string{}
 	}
-	return scopes
+
+	return split(matches[1])
+}
+
+func (pr *PullRequest) Scopes() []string {
+	result := make([]string, 0)
+	for _, s := range extractConventionalCommitScopes(pr.Title) {
+		result = append(result, s)
+	}
+	for _, s := range extractSquareBracketScopes(pr.Title) {
+		result = append(result, s)
+	}
+	return result
 }
 
 type StampedPullRequest struct {
