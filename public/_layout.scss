@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'separator';
 
 body {
     width: $body-width;
@@ -194,11 +195,7 @@ footer {
     margin-bottom: $spacing-8;
     color: $color-beige;
 
-    & > *:not(:last-child)::after {
-      content: "·";
-      margin-inline: $spacing-2;
-      color: $color-beige;
-    }
+    @include separator.dot-separator;
 
     a {
         color: $color-black;
