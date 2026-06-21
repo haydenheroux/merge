@@ -17,17 +17,7 @@ templ RepoPage(props model.RepoPageProps) {
         props.Repo,
 	) {
         @components.Counts(props.OverallCounts)
-        <section class="stats">
-            for scope, counts := range props.ScopeCounts {
-                <p class="section-label">{ scope }</p>
-                <div class="stats-tiles">
-                    @components.Count("fa-code-merge special", counts.MergedCount, "merged")
-                    @components.Count("fa-apple-whole ok", counts.FreshCount, "fresh")
-                    @components.Count("fa-apple-whole warn", counts.StaleCount, "stale")
-                    @components.Count("fa-recycle error", counts.ExpiredCount, "expired")
-                </div>
-            }
-        </section>
+        @components.Scopes(props.ScopeCounts)
 		<section class="prs">
             <p class="section-label">Pull Requests</p>
             <div class="prs-scroll">

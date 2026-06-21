@@ -9,3 +9,10 @@ templ Count(iconClass string, count int, label string) {
 		<b class="serif">{ fmt.Sprintf("%d", count) }</b>
 	</div>
 }
+
+templ InlineCount(iconClass string, count int) {
+	<div class="stat">
+		<i class={ "status-icon fa-solid " + iconClass }></i>
+		<span class="inline">{ fmt.Sprintf("%d", count) }</span>
+	</div>
+}

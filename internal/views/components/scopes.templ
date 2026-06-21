@@ -1,0 +1,14 @@
+package components
+
+import "merge/internal/model"
+
+templ Scopes(scopes map[string]model.ExpiryCounts) {
+    <section class="scopes">
+        <p class="section-label">Scopes</p>
+        <div class="scopes-container">
+            for scope, counts := range scopes {
+                @Scope(scope, counts)
+            }
+        </div>
+    </section>
+}

@@ -68,6 +68,13 @@ $stat-count-row: 1;
         grid-column-start: $stat-count-col;
         grid-row-start: $stat-count-row;
     }
+
+    .inline {
+      font-size: $text-sm;
+      color: $color-beige;
+      font-weight: $font-weight-bold;
+      margin-top: $spacing-1;
+    }
 }
 
 .stats-tiles {
