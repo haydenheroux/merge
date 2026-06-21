@@ -26,7 +26,8 @@ $stat-count-row: 1;
     cursor: pointer;
     min-width: $stat-min-width;
     display: grid;
-    gap: $spacing-2;
+    column-gap: $spacing-3;
+    row-gap: $spacing-2;
     grid-template-columns: repeat($stat-grid-columns, min-content);
     grid-template-rows: repeat($stat-grid-rows, max-content);
     justify-content: center;
@@ -37,8 +38,8 @@ $stat-count-row: 1;
     }
 
     .status-icon {
-        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-sm});
-        font-size: $text-sm;
+        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-md});
+        font-size: $text-md;
     }
 
     &:hover {
@@ -63,7 +64,7 @@ $stat-count-row: 1;
     }
 
     b {
-        font-size: $text-md;
+        font-size: $text-lg;
         grid-column-start: $stat-count-col;
         grid-row-start: $stat-count-row;
     }

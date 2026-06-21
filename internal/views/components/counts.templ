@@ -1,0 +1,17 @@
+package components
+
+import (
+	"merge/internal/model"
+)
+
+templ Counts(counts model.ExpiryCounts) {
+	<section class="stats">
+		<p class="section-label">Overview</p>
+		<div class="stats-tiles">
+			@Count("fa-code-merge special", counts.MergedCount, "merged")
+			@Count("fa-apple-whole ok", counts.FreshCount, "fresh")
+			@Count("fa-apple-whole warn", counts.StaleCount, "stale")
+			@Count("fa-recycle error", counts.ExpiredCount, "expired")
+		</div>
+	</section>
+}

@@ -6,23 +6,15 @@ import (
 )
 
 templ RepoContent(props model.RepoPageProps) {
-	<section class="stats">
-		<p class="section-label">Overview</p>
-		<div class="stats-tiles">
-			@components.Stats("fa-code-merge special", props.OverallCounts.MergedCount, "merged")
-			@components.Stats("fa-apple-whole ok", props.OverallCounts.FreshCount, "fresh")
-			@components.Stats("fa-apple-whole warn", props.OverallCounts.StaleCount, "stale")
-			@components.Stats("fa-recycle error", props.OverallCounts.ExpiredCount, "expired")
-		</div>
-	</section>
+	@components.Counts(props.OverallCounts)
 	<section class="stats">
 		for scope, counts := range props.ScopeCounts {
 			<p class="section-label">{ scope }</p>
 			<div class="stats-tiles">
-				@components.Stats("fa-code-merge special", counts.MergedCount, "merged")
-				@components.Stats("fa-apple-whole ok", counts.FreshCount, "fresh")
-				@components.Stats("fa-apple-whole warn", counts.StaleCount, "stale")
-				@components.Stats("fa-recycle error", counts.ExpiredCount, "expired")
+				@components.Count("fa-code-merge special", counts.MergedCount, "merged")
+				@components.Count("fa-apple-whole ok", counts.FreshCount, "fresh")
+				@components.Count("fa-apple-whole warn", counts.StaleCount, "stale")
+				@components.Count("fa-recycle error", counts.ExpiredCount, "expired")
 			</div>
 		}
 	</section>
