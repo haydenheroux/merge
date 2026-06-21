@@ -20,6 +20,7 @@ section.scopes {
   align-items: center;
   justify-content: space-between;
   gap: $spacing-4;
+  height: min-content;
 
   &:hover {
       background-color: $color-talc;
@@ -29,8 +30,20 @@ section.scopes {
       }
   }
 
+  .aside {
+    display: flex;
+    flex-direction: column;
+    row-gap: $spacing-2;
+  }
+
   .title {
     margin-block: 0;
+  }
+
+  .age {
+    margin-block: 0;
+    font-size: $text-xs;
+    color: $color-beige;
   }
 
   .counts {
@@ -78,7 +91,6 @@ section.scopes {
   }
 
   .scopes-container {
-    flex: 1;
     min-height: 0;
     overflow-y: auto;
     grid-template-columns: 1fr;

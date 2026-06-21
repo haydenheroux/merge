@@ -99,7 +99,7 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		Repo:         gh.Repo,
 		PRs:          stamped,
 		OverallCounts: model.GetCounts(stamped),
-		ScopeCounts: model.ScopeCounts(stamped),
+		ScopeCounts: model.ScopeAges(stamped),
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

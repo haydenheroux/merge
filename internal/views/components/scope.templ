@@ -2,14 +2,17 @@ package components
 
 import "merge/internal/model"
 
-templ Scope(scope string, counts model.ExpiryCounts) {
+templ Scope(info model.ScopeInfo) {
     <div class="item scope">
-        <p class="title">{ scope }</p>
+        <div class="aside">
+            <p class="title">{ info.Name }</p>
+            <p class="age">{ info.NewestPRAge }</p>
+        </div>
         <div class="counts">
-            @InlineCount("fa-code-merge special", counts.MergedCount)
-            @InlineCount("fa-apple-whole ok", counts.FreshCount)
-            @InlineCount("fa-apple-whole warn", counts.StaleCount)
-            @InlineCount("fa-recycle error", counts.ExpiredCount)
+            @InlineCount("fa-code-merge special", info.Counts.MergedCount)
+            @InlineCount("fa-apple-whole ok", info.Counts.FreshCount)
+            @InlineCount("fa-apple-whole warn", info.Counts.StaleCount)
+            @InlineCount("fa-recycle error", info.Counts.ExpiredCount)
         </div>
     </div>
 }
