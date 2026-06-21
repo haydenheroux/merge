@@ -120,6 +120,13 @@ func (pr *PullRequest) Scopes() []string {
 	return result
 }
 
+func (pr *PullRequest) Contributors() []string {
+	if pr.Author.Name != "" {
+		return []string{pr.Author.Name}
+	}
+	return []string{}
+}
+
 type StampedPullRequest struct {
 	PullRequest
 	Time         time.Time
@@ -129,6 +136,7 @@ type StampedPullRequest struct {
 	ExpiryStatus ExpiryStatus
 	Type         string
 	Scopes       []string
+	Contributors []string
 }
 
 func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
@@ -140,6 +148,7 @@ func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
 		DaysOpen:     pr.DaysOpen(time),
 		ExpiryStatus: pr.ExpiryStatus(time),
 		Scopes:       pr.Scopes(),
+		Contributors: pr.Contributors(),
 	}
 
 	return spr
@@ -300,6 +309,73 @@ func ScopeAges(prs []StampedPullRequest) []ScopeInfo {
 	result := make([]ScopeInfo, len(entries))
 	for i, e := range entries {
 		result[i] = ScopeInfo{
+			Name:        e.name,
+			Counts:      e.counts,
+			NewestPRAge: e.ageStr,
+		}
+	}
+
+	return result
+}
+
+type ContributorInfo struct {
+	Name        string
+	Counts      ExpiryCounts
+	NewestPRAge string
+}
+
+func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
+	type contributorData struct {
+		prs        []StampedPullRequest
+		newestTime time.Time
+	}
+
+	contributorMap := make(map[string]*contributorData)
+
+	for _, pr := range prs {
+		for _, name := range pr.Contributors {
+			if contributorMap[name] == nil {
+				contributorMap[name] = &contributorData{}
+			}
+			contributorMap[name].prs = append(contributorMap[name].prs, pr)
+			if pr.UpdatedAt != nil && (contributorMap[name].newestTime.IsZero() || pr.UpdatedAt.After(contributorMap[name].newestTime)) {
+				contributorMap[name].newestTime = *pr.UpdatedAt
+			}
+		}
+	}
+
+	type contributorEntry struct {
+		name       string
+		counts     ExpiryCounts
+		ageStr     string
+		newestTime time.Time
+	}
+
+	var entries []contributorEntry
+	for name, data := range contributorMap {
+		counts := GetCounts(data.prs)
+		ageStr := ""
+		for _, pr := range data.prs {
+			if pr.UpdatedAt != nil && pr.UpdatedAt.Equal(data.newestTime) {
+				ageStr = timeAgo(pr.TimeOpen, pr.DaysOpen)
+				break
+			}
+		}
+		entries = append(entries, contributorEntry{
+			name:       name,
+			counts:     counts,
+			ageStr:     ageStr,
+			newestTime: data.newestTime,
+		})
+	}
+
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].newestTime.After(entries[j].newestTime)
+	})
+
+	result := make([]ContributorInfo, len(entries))
+	for i, e := range entries {
+		result[i] = ContributorInfo{
 			Name:        e.name,
 			Counts:      e.counts,
 			NewestPRAge: e.ageStr,
