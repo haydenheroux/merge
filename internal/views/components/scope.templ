@@ -1,0 +1,18 @@
+package components
+
+import "merge/internal/model"
+
+templ Scope(info model.ScopeInfo) {
+    <div class="item scope">
+        <div class="aside">
+            <p class="title">{ info.Name }</p>
+            <p class="age">{ info.NewestPRAge }</p>
+        </div>
+        <div class="counts">
+            @InlineCount("fa-code-merge special", info.Counts.MergedCount)
+            @InlineCount("fa-apple-whole ok", info.Counts.FreshCount)
+            @InlineCount("fa-apple-whole warn", info.Counts.StaleCount)
+            @InlineCount("fa-recycle error", info.Counts.ExpiredCount)
+        </div>
+    </div>
+}

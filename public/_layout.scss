@@ -1,13 +1,11 @@
 @use 'variables' as *;
+@use 'separator';
 
 body {
     width: $body-width;
     margin-block: $spacing-0;
     margin-inline: auto;
     height: $body-height;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     background-color: $color-talc;
     color: $color-black;
 }
@@ -145,8 +143,6 @@ main {
     margin-block: $spacing-8;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
     gap: $spacing-4;
 }
 
@@ -199,11 +195,7 @@ footer {
     margin-bottom: $spacing-8;
     color: $color-beige;
 
-    & > *:not(:last-child)::after {
-      content: "·";
-      margin-inline: $spacing-2;
-      color: $color-beige;
-    }
+    @include separator.dot-separator;
 
     a {
         color: $color-black;
@@ -213,6 +205,48 @@ footer {
           text-underline-offset: $underline-offset-title;
           text-decoration-thickness: $border-width-default;
         }
+    }
+}
+
+.overview {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+}
+
+@media (min-width: $breakpoint-desktop) {
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    main {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 22rem;
+        grid-template-rows: auto 1fr;
+        gap: $spacing-4;
+    }
+
+    .overview {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    section.scopes {
+        grid-column: 2;
+        grid-row: 1 / -1;
+    }
+
+    .prs {
+        grid-column: 1;
+        grid-row: 2;
+        min-height: 0;
+        overflow: hidden;
     }
 }
 

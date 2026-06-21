@@ -1,7 +1,10 @@
 package model
 
 import (
+	"fmt"
+	"math"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 )
@@ -149,4 +152,159 @@ func StampNow(prs []PullRequest) []StampedPullRequest {
 		stamped[i] = pr.Stamp(now)
 	}
 	return stamped
+}
+
+type ExpiryCounts struct {
+	MergedCount  int
+	FreshCount   int
+	StaleCount   int
+	ExpiredCount int
+}
+
+func GetCounts(prs []StampedPullRequest) ExpiryCounts {
+	merged := 0
+	fresh := 0
+	stale := 0
+	expired := 0
+
+	for _, pr := range prs {
+		if pr.State == Merged {
+			merged += 1
+			continue
+		}
+
+		switch pr.ExpiryStatus {
+		case Fresh:
+			fresh += 1
+		case Expired:
+			expired += 1
+		case Stale:
+			stale += 1
+		}
+	}
+
+	return ExpiryCounts{
+		MergedCount:  merged,
+		FreshCount:   fresh,
+		StaleCount:   stale,
+		ExpiredCount: expired,
+	}
+}
+
+func ScopeCounts(prs []StampedPullRequest) map[string]ExpiryCounts {
+	scopes := make(map[string][]StampedPullRequest)
+
+	for _, pr := range prs {
+		for _, scope := range pr.Scopes {
+			scopes[scope] = append(scopes[scope], pr)
+		}
+	}
+
+	counts := make(map[string]ExpiryCounts)
+
+	for scope, prs := range scopes {
+		counts[scope] = GetCounts(prs)
+	}
+
+	return counts
+}
+
+type ScopeInfo struct {
+	Name        string
+	Counts      ExpiryCounts
+	NewestPRAge string
+}
+
+func timeAgo(open time.Duration, days int) string {
+	if open.Hours() < 1 {
+		mins := int(math.Floor(open.Minutes()))
+		return fmt.Sprintf("%dm ago", mins)
+	}
+
+	if days < 1 {
+		hrs := int(math.Floor(open.Hours()))
+		return fmt.Sprintf("%dhrs ago", hrs)
+	}
+
+	if days == 1 {
+		return "Yesterday"
+	}
+
+	if days < 7 {
+		return fmt.Sprintf("%dd ago", days)
+	}
+
+	weeks := days / 7
+	if weeks < 4 {
+		return fmt.Sprintf("%dwk ago", weeks)
+	}
+
+	months := weeks / 4
+	if months < 12 {
+		return fmt.Sprintf("%dmo ago", months)
+	}
+
+	years := months / 12
+	return fmt.Sprintf("%dyr ago", years)
+}
+
+func ScopeAges(prs []StampedPullRequest) []ScopeInfo {
+	type scopeData struct {
+		prs        []StampedPullRequest
+		newestTime time.Time
+	}
+
+	scopeMap := make(map[string]*scopeData)
+
+	for _, pr := range prs {
+		for _, scope := range pr.Scopes {
+			if scopeMap[scope] == nil {
+				scopeMap[scope] = &scopeData{}
+			}
+			scopeMap[scope].prs = append(scopeMap[scope].prs, pr)
+			if pr.UpdatedAt != nil && (scopeMap[scope].newestTime.IsZero() || pr.UpdatedAt.After(scopeMap[scope].newestTime)) {
+				scopeMap[scope].newestTime = *pr.UpdatedAt
+			}
+		}
+	}
+
+	type scopeEntry struct {
+		name       string
+		counts     ExpiryCounts
+		ageStr     string
+		newestTime time.Time
+	}
+
+	var entries []scopeEntry
+	for name, data := range scopeMap {
+		counts := GetCounts(data.prs)
+		ageStr := ""
+		for _, pr := range data.prs {
+			if pr.UpdatedAt != nil && pr.UpdatedAt.Equal(data.newestTime) {
+				ageStr = timeAgo(pr.TimeOpen, pr.DaysOpen)
+				break
+			}
+		}
+		entries = append(entries, scopeEntry{
+			name:       name,
+			counts:     counts,
+			ageStr:     ageStr,
+			newestTime: data.newestTime,
+		})
+	}
+
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].newestTime.After(entries[j].newestTime)
+	})
+
+	result := make([]ScopeInfo, len(entries))
+	for i, e := range entries {
+		result[i] = ScopeInfo{
+			Name:        e.name,
+			Counts:      e.counts,
+			NewestPRAge: e.ageStr,
+		}
+	}
+
+	return result
 }
