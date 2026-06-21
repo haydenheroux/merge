@@ -10,8 +10,9 @@ import (
 )
 
 type User struct {
-	Name string `json:"login"`
-	URL  string `json:"html_url"`
+	Name      string `json:"login"`
+	URL       string `json:"html_url"`
+	AvatarURL string `json:"avatar_url"`
 }
 
 type PullRequest struct {
@@ -320,6 +321,8 @@ func ScopeAges(prs []StampedPullRequest) []ScopeInfo {
 
 type ContributorInfo struct {
 	Name        string
+	AvatarURL   string
+	URL         string
 	Counts      ExpiryCounts
 	NewestPRAge string
 }
@@ -327,6 +330,8 @@ type ContributorInfo struct {
 func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 	type contributorData struct {
 		prs        []StampedPullRequest
+		avatarURL  string
+		profileURL string
 		newestTime time.Time
 	}
 
@@ -335,7 +340,10 @@ func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 	for _, pr := range prs {
 		for _, name := range pr.Contributors {
 			if contributorMap[name] == nil {
-				contributorMap[name] = &contributorData{}
+				contributorMap[name] = &contributorData{
+					avatarURL:  pr.Author.AvatarURL,
+					profileURL: pr.Author.URL,
+				}
 			}
 			contributorMap[name].prs = append(contributorMap[name].prs, pr)
 			if pr.UpdatedAt != nil && (contributorMap[name].newestTime.IsZero() || pr.UpdatedAt.After(contributorMap[name].newestTime)) {
@@ -346,6 +354,8 @@ func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 
 	type contributorEntry struct {
 		name       string
+		avatarURL  string
+		profileURL string
 		counts     ExpiryCounts
 		ageStr     string
 		newestTime time.Time
@@ -363,6 +373,8 @@ func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 		}
 		entries = append(entries, contributorEntry{
 			name:       name,
+			avatarURL:  data.avatarURL,
+			profileURL: data.profileURL,
 			counts:     counts,
 			ageStr:     ageStr,
 			newestTime: data.newestTime,
@@ -377,6 +389,8 @@ func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 	for i, e := range entries {
 		result[i] = ContributorInfo{
 			Name:        e.name,
+			AvatarURL:   e.avatarURL,
+			URL:         e.profileURL,
 			Counts:      e.counts,
 			NewestPRAge: e.ageStr,
 		}
