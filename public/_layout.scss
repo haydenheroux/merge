@@ -5,9 +5,6 @@ body {
     margin-block: $spacing-0;
     margin-inline: auto;
     height: $body-height;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     background-color: $color-talc;
     color: $color-black;
 }
@@ -145,8 +142,6 @@ main {
     margin-block: $spacing-8;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
     gap: $spacing-4;
 }
 
