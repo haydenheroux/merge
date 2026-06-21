@@ -2,10 +2,16 @@
 
 $scope-count-min-width: 4rem;
 
+section.scopes {
+  display: flex;
+  flex-direction: column;
+}
+
 .scopes-container {
   display: grid;
   grid-template-columns: auto;
   gap: $spacing-3;
+  border-radius: $card-border-radius;
 }
 
 .scope {
@@ -65,7 +71,16 @@ $scope-count-min-width: 4rem;
 }
 
 @media (min-width: $breakpoint-desktop) {
+  section.scopes {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
   .scopes-container {
-    grid-template-columns: repeat(4, 1fr);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    grid-template-columns: 1fr;
   }
 }

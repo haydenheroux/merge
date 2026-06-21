@@ -211,6 +211,32 @@ footer {
     }
 }
 
+@media (min-width: $breakpoint-desktop) {
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    main {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 22rem;
+        gap: $spacing-4;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-4;
+        min-height: 0;
+        overflow: hidden;
+    }
+}
+
 @media (max-width: $breakpoint-mobile) {
     body {
         width: $body-width-full;

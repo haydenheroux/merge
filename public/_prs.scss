@@ -11,3 +11,17 @@
         gap: $spacing-3;
     }
 }
+
+@media (min-width: $breakpoint-desktop) {
+    .prs {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+
+        .prs-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+    }
+}
