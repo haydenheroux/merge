@@ -16,9 +16,11 @@ templ RepoPage(props model.RepoPageProps) {
         props.Owner,
         props.Repo,
 	) {
-        <div class="main-content">
+        <div class="overview">
             @components.Counts(props.OverallCounts)
-            <section class="prs">
+        </div>
+        @components.Scopes(props.ScopeCounts)
+        <section class="prs">
             <p class="section-label">Pull Requests</p>
             <div class="prs-scroll">
 			for _, pr := range props.PRs {
@@ -26,7 +28,5 @@ templ RepoPage(props model.RepoPageProps) {
 			}
             </div>
 		</section>
-        </div>
-        @components.Scopes(props.ScopeCounts)
 	}
 }
