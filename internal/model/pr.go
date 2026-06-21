@@ -150,3 +150,58 @@ func StampNow(prs []PullRequest) []StampedPullRequest {
 	}
 	return stamped
 }
+
+type ExpiryCounts struct {
+	MergedCount  int
+	FreshCount   int
+	StaleCount   int
+	ExpiredCount int
+}
+
+func GetCounts(prs []StampedPullRequest) ExpiryCounts {
+	merged := 0
+	fresh := 0
+	stale := 0
+	expired := 0
+
+	for _, pr := range prs {
+		if pr.State == Merged {
+			merged += 1
+			continue
+		}
+
+		switch pr.ExpiryStatus {
+		case Fresh:
+			fresh += 1
+		case Expired:
+			expired += 1
+		case Stale:
+			stale += 1
+		}
+	}
+
+	return ExpiryCounts{
+		MergedCount:  merged,
+		FreshCount:   fresh,
+		StaleCount:   stale,
+		ExpiredCount: expired,
+	}
+}
+
+func ScopeCounts(prs []StampedPullRequest) map[string]ExpiryCounts {
+	scopes := make(map[string][]StampedPullRequest)
+
+	for _, pr := range prs {
+		for _, scope := range pr.Scopes {
+			scopes[scope] = append(scopes[scope], pr)
+		}
+	}
+
+	counts := make(map[string]ExpiryCounts)
+
+	for scope, prs := range scopes {
+		counts[scope] = GetCounts(prs)
+	}
+
+	return counts
+}

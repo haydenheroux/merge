@@ -93,37 +93,13 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 
 	stamped := model.StampNow(prs)
 
-	merged := 0
-
-	fresh := 0
-	stale := 0
-	expired := 0
-
-	for _, pr := range stamped {
-		if pr.State == model.Merged {
-			merged += 1
-			continue
-		}
-
-		switch pr.ExpiryStatus {
-		case model.Fresh:
-			fresh += 1
-		case model.Expired:
-			expired += 1
-		case model.Stale:
-			stale += 1
-		}
-	}
-
 	props := model.RepoPageProps{
 		BaseURL:      gh.BaseURL,
 		Owner:        gh.Owner,
 		Repo:         gh.Repo,
 		PRs:          stamped,
-		MergedCount:  merged,
-		FreshCount:   fresh,
-		StaleCount:   stale,
-		ExpiredCount: expired,
+		OverallCounts: model.GetCounts(stamped),
+		ScopeCounts: model.ScopeCounts(stamped),
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

@@ -5,8 +5,6 @@ type RepoPageProps struct {
 	Owner        string
 	Repo         string
 	PRs          []StampedPullRequest
-	MergedCount  int
-	FreshCount   int
-	StaleCount   int
-	ExpiredCount int
+	OverallCounts ExpiryCounts
+	ScopeCounts map[string]ExpiryCounts
 }

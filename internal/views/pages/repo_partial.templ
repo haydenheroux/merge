@@ -9,11 +9,22 @@ templ RepoContent(props model.RepoPageProps) {
 	<section class="stats">
 		<p class="section-label">Overview</p>
 		<div class="stats-tiles">
-			@components.Stats("fa-code-merge special", props.MergedCount, "merged")
-			@components.Stats("fa-apple-whole ok", props.FreshCount, "fresh")
-			@components.Stats("fa-apple-whole warn", props.StaleCount, "stale")
-			@components.Stats("fa-recycle error", props.ExpiredCount, "expired")
+			@components.Stats("fa-code-merge special", props.OverallCounts.MergedCount, "merged")
+			@components.Stats("fa-apple-whole ok", props.OverallCounts.FreshCount, "fresh")
+			@components.Stats("fa-apple-whole warn", props.OverallCounts.StaleCount, "stale")
+			@components.Stats("fa-recycle error", props.OverallCounts.ExpiredCount, "expired")
 		</div>
+	</section>
+	<section class="stats">
+		for scope, counts := range props.ScopeCounts {
+			<p class="section-label">{ scope }</p>
+			<div class="stats-tiles">
+				@components.Stats("fa-code-merge special", counts.MergedCount, "merged")
+				@components.Stats("fa-apple-whole ok", counts.FreshCount, "fresh")
+				@components.Stats("fa-apple-whole warn", counts.StaleCount, "stale")
+				@components.Stats("fa-recycle error", counts.ExpiredCount, "expired")
+			</div>
+		}
 	</section>
 	<section class="prs">
 		<p class="section-label">Pull Requests</p>
