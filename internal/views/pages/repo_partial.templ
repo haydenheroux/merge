@@ -9,7 +9,10 @@ templ RepoContent(props model.RepoPageProps) {
 	<div class="overview">
         @components.Counts(props.OverallCounts)
     </div>
-    @components.Scopes(props.ScopeCounts)
+    <aside class="aside-column">
+        @components.Scopes(props.ScopeCounts)
+        @components.Contributors(props.ContributorCounts)
+    </aside>
     <section class="prs">
 		<p class="section-label">Pull Requests</p>
 		<div class="prs-scroll">

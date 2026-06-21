@@ -94,12 +94,13 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	stamped := model.StampNow(prs)
 
 	props := model.RepoPageProps{
-		BaseURL:       gh.BaseURL,
-		Owner:         gh.Owner,
-		Repo:          gh.Repo,
-		PRs:           stamped,
-		OverallCounts: model.GetCounts(stamped),
-		ScopeCounts:   model.ScopeAges(stamped),
+		BaseURL:           gh.BaseURL,
+		Owner:             gh.Owner,
+		Repo:              gh.Repo,
+		PRs:               stamped,
+		OverallCounts:     model.GetCounts(stamped),
+		ScopeCounts:       model.ScopeAges(stamped),
+		ContributorCounts: model.ContributorActivity(stamped),
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
