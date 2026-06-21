@@ -214,6 +214,12 @@ footer {
     gap: $spacing-4;
 }
 
+.aside-column {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+}
+
 @media (min-width: $breakpoint-desktop) {
     body {
         display: flex;
@@ -227,7 +233,7 @@ footer {
         min-height: 0;
         overflow: hidden;
         display: grid;
-        grid-template-columns: 1fr 22rem;
+        grid-template-columns: 1fr 30rem;
         grid-template-rows: auto 1fr;
         gap: $spacing-4;
     }
@@ -240,11 +246,8 @@ footer {
     .aside-column {
         grid-column: 2;
         grid-row: 1 / -1;
-        display: flex;
-        flex-direction: column;
         min-height: 0;
         overflow: hidden;
-        gap: $spacing-4;
     }
 
     .prs {

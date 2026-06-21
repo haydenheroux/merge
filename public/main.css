@@ -332,6 +332,12 @@ footer a:hover {
   gap: 1rem;
 }
 
+.aside-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 @media (min-width: 1024px) {
   body {
     display: flex;
@@ -344,7 +350,7 @@ footer a:hover {
     min-height: 0;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 1fr 22rem;
+    grid-template-columns: 1fr 30rem;
     grid-template-rows: auto 1fr;
     gap: 1rem;
   }
@@ -355,11 +361,8 @@ footer a:hover {
   .aside-column {
     grid-column: 2;
     grid-row: 1/-1;
-    display: flex;
-    flex-direction: column;
     min-height: 0;
     overflow: hidden;
-    gap: 1rem;
   }
   .prs {
     grid-column: 1;
@@ -740,9 +743,6 @@ section.contributors {
 }
 
 @media (min-width: 720px) {
-  .contributors-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .counts {
     grid-template-columns: repeat(4, auto);
   }

@@ -72,10 +72,6 @@ section.contributors {
 }
 
 @media (min-width: $breakpoint-mobile) {
-  .contributors-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .counts {
     grid-template-columns: repeat(4, auto);
   }
