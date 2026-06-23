@@ -1,6 +1,6 @@
 @use 'variables' as *;
 
-$scope-count-min-width: 4rem;
+$count-width: 4rem;
 
 section.scopes {
   display: flex;
@@ -10,7 +10,7 @@ section.scopes {
 .scopes-container {
   display: grid;
   grid-template-columns: auto;
-  gap: $spacing-3;
+  gap: $spacing-2;
   border-radius: $card-border-radius;
 }
 
@@ -33,53 +33,47 @@ section.scopes {
   .aside {
     display: flex;
     flex-direction: column;
-    row-gap: $spacing-2;
+    row-gap: $spacing-1;
   }
 
   .title {
+    font-size: $text-sm;
     margin-block: 0;
   }
 
   .age {
     margin-block: 0;
-    font-size: $text-xs;
     color: $color-beige;
   }
 
   .counts {
     display: grid;
-    gap: $spacing-2;
-    grid-template-columns: repeat(2, auto);
+    gap: $spacing-1;
+    grid-template-columns: repeat(2, $count-width);
     width: min-content;
 
     & > .stat {
-      min-width: $scope-count-min-width;
+      min-width: unset;
       border-radius: $card-border-radius;
       column-gap: $spacing-3;
       grid-template-columns: repeat(2, min-content);
       grid-template-rows: max-content;
 
       .status-icon {
-          margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-sm});
-          font-size: $text-sm;
+          margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-xs});
+          font-size: $text-xs;
       }
 
       b {
-        font-size: $text-md;
+        font-size: $text-sm;
       }
     }
   }
 }
 
-// TODO Auto-calculate number of columns based on optimal min/max width
-
 @media (min-width: $breakpoint-mobile) {
-  .scopes-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .counts {
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(4, $count-width);
   }
 }
 

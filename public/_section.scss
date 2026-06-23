@@ -3,7 +3,7 @@
 section {
     background-color: $color-shell;
     padding: $spacing-3;
-    border-radius: calc($card-border-radius + $spacing-3);
+    border-radius: calc($card-border-radius + $spacing-1);
 }
 
 .section-label {
