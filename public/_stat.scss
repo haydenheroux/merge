@@ -1,6 +1,5 @@
 @use 'variables' as *;
 
-$stat-min-width: 6rem;
 $stat-grid-columns: 2;
 $stat-grid-rows: 2;
 $stat-icon-col: 1;
@@ -24,7 +23,7 @@ $stat-count-row: 1;
 
 .stat {
     cursor: pointer;
-    min-width: $stat-min-width;
+    min-width: 6rem;
     display: grid;
     column-gap: $spacing-3;
     row-gap: $spacing-2;
@@ -38,8 +37,8 @@ $stat-count-row: 1;
     }
 
     .status-icon {
-        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-md});
-        font-size: $text-md;
+        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-sm});
+        font-size: $text-sm;
     }
 
     &:hover {
@@ -64,15 +63,14 @@ $stat-count-row: 1;
     }
 
     b {
-        font-size: $text-lg;
+        font-size: $text-md;
         grid-column-start: $stat-count-col;
         grid-row-start: $stat-count-row;
     }
 
     .inline {
-      font-size: $text-sm;
+      font-size: $text-xs;
       color: $color-beige;
-      font-weight: $font-weight-semibold;
       margin-top: $spacing-1;
     }
 }

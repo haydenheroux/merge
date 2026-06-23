@@ -45,16 +45,20 @@ h4, .title-input {
     margin-block: $spacing-4;
 }
 
-p, .pull-request .title p {
+p {
     font-size: $text-md;
 }
 
-.small {
+.small, .pull-request .title p, .contributor .title {
     font-size: $text-sm;
 }
 
-footer p, code, .caption, .pull-request .description-row {
+footer p, code, .caption {
     font-size: $text-xs;
+}
+
+.pull-request .description-row, .scope .age, .contributor .age {
+    font-size: $text-xxs;
 }
 
 a {
