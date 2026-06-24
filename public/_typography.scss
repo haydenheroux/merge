@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'silver-link';
 
 body, input {
     font-family: "Karla", sans-serif;
@@ -66,8 +67,6 @@ a {
     text-decoration: none;
 
     &:hover {
-      text-decoration: underline;
-      text-decoration-color: $color-silver;
-      text-decoration-thickness: $border-width-default;
+      @include silver-link.silver-link;
     }
 }
