@@ -233,7 +233,7 @@ footer {
         min-height: 0;
         overflow: hidden;
         display: grid;
-        grid-template-columns: 1fr 30rem;
+        grid-template-columns: 1fr $aside-width;
         grid-template-rows: auto 1fr;
         gap: $spacing-4;
     }
