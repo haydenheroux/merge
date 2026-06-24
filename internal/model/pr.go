@@ -128,6 +128,10 @@ func (pr *PullRequest) Contributors() []string {
 	return []string{}
 }
 
+func (pr *PullRequest) IsBot() bool {
+	return strings.Contains(pr.Author.URL, "app")
+}
+
 type StampedPullRequest struct {
 	PullRequest
 	Time         time.Time
@@ -156,10 +160,12 @@ func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
 }
 
 func StampNow(prs []PullRequest) []StampedPullRequest {
-	stamped := make([]StampedPullRequest, len(prs))
+	stamped := make([]StampedPullRequest, 0, len(prs))
 	now := time.Now()
-	for i, pr := range prs {
-		stamped[i] = pr.Stamp(now)
+	for _, pr := range prs {
+		if !pr.IsBot() {
+			stamped = append(stamped, pr.Stamp(now))
+		}
 	}
 	return stamped
 }
