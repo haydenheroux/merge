@@ -199,12 +199,6 @@ footer {
 
     a {
         color: $color-black;
-
-        &:hover {
-          text-decoration: underline;
-          text-underline-offset: $underline-offset-title;
-          text-decoration-thickness: $border-width-default;
-        }
     }
 }
 

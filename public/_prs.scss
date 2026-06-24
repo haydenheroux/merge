@@ -10,6 +10,23 @@
         flex-direction: column;
         gap: $spacing-2;
     }
+
+    .load-more-btn {
+        padding: $spacing-3;
+        border: $border-width-thin solid $color-stone;
+        border-radius: $card-border-radius;
+        background-color: $color-pearl;
+        color: $color-brown;
+        cursor: pointer;
+        font-size: $text-xs;
+        text-align: center;
+        font-family: inherit;
+        transition: background-color $transition-fast;
+
+        &:hover {
+            background-color: $color-talc;
+        }
+    }
 }
 
 @media (min-width: $breakpoint-desktop) {

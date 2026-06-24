@@ -26,20 +26,6 @@ $list-item-gap: 0.4rem;
         transform: rotate($rotate-hover-large) scale($scale-hover);
     }
 
-    a:hover {
-        text-decoration: underline;
-    }
-
-    .title-row a:hover {
-        text-underline-offset: $underline-offset-title;
-        text-decoration-thickness: $border-width-thin;
-    }
-
-    .description-row a:hover {
-        text-underline-offset: $underline-offset-description;
-        text-decoration-thickness: $border-width-thin;
-    }
-
     .icon {
         grid-row: span $pr-grid-rows / span $pr-grid-rows;
         display: flex;
