@@ -5,6 +5,9 @@ $count-width: 4rem;
 section.scopes {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .scopes-container {
@@ -12,6 +15,8 @@ section.scopes {
   grid-template-columns: auto;
   gap: $spacing-2;
   border-radius: $card-border-radius;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .scope {
@@ -78,15 +83,7 @@ section.scopes {
 }
 
 @media (min-width: $breakpoint-desktop) {
-  section.scopes {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-  }
-
   .scopes-container {
-    min-height: 0;
-    overflow-y: auto;
     grid-template-columns: 1fr;
   }
 }

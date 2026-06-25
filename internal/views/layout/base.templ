@@ -2,7 +2,7 @@ package layout
 
 import "merge/internal/views/components"
 
-templ Base(title, description, baseURL, owner, repo string) {
+templ Base(title, description, baseURL, owner, repo string, currentPage int, hasMore bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -23,7 +23,7 @@ templ Base(title, description, baseURL, owner, repo string) {
 		<meta property="og:description" content={ description }/>
 	</head>
 	<body>
-		@components.Nav(owner, repo)
+		@components.Nav(owner, repo, currentPage, hasMore)
         <main>
             { children... }
         </main>

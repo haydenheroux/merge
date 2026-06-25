@@ -8,4 +8,6 @@ type RepoPageProps struct {
 	OverallCounts     ExpiryCounts
 	ScopeCounts       []ScopeInfo
 	ContributorCounts []ContributorInfo
+	CurrentPage       int
+	HasMore           bool
 }

@@ -119,6 +119,12 @@ button, .link-button, .status-icon {
                 transform: rotate($rotate-hover) scale($scale-hover-icon);
             }
         }
+
+        &.fa-arrows-rotate {
+            &:hover {
+                transform: rotate($rotate-hover) scale($scale-hover-icon);
+            }
+        }
     }
 }
 
@@ -213,7 +219,23 @@ footer {
     gap: $spacing-4;
 }
 
+#scopes-section,
+#contributors-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    max-height: 18rem;
+}
+
 @media (min-width: $breakpoint-desktop) {
+    #scopes-section,
+    #contributors-section {
+        flex: 1;
+        max-height: none;
+    }
+
+    
     body {
         display: flex;
         flex-direction: column;
