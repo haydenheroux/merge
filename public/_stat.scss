@@ -9,7 +9,8 @@ $stat-count-row: 1;
 
 .stat {
     cursor: pointer;
-    min-width: 6rem;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $inline-border-radius;
     display: grid;
     column-gap: $spacing-3;
     row-gap: $spacing-2;

@@ -21,10 +21,6 @@ section.scopes {
   gap: $spacing-4;
   height: min-content;
 
-  &:hover {
-    background-color: $color-talc;
-  }
-
   .text {
     grid-area: 1 / 1 / span 1 / span 1;
     display: flex;
@@ -46,13 +42,12 @@ section.scopes {
     grid-area: 2 / 1 / span 1 / span 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: $spacing-6;
+    gap: $spacing-4;
     width: min-content;
 
     & > .stat {
       min-width: unset;
-      border-radius: $card-border-radius;
-      column-gap: $spacing-3;
+      column-gap: $spacing-2;
       grid-template-columns: repeat(2, min-content);
       grid-template-rows: max-content;
 
@@ -63,6 +58,10 @@ section.scopes {
 
       b {
         font-size: $text-sm;
+      }
+
+      &:hover {
+        background-color: $color-talc;
       }
     }
   }
