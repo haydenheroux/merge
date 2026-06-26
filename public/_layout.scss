@@ -290,15 +290,6 @@ footer {
         gap: $spacing-3;
     }
 
-    .stats-tiles > :first-child,
-    .stats-tiles > :last-child {
-        border-radius: 0;
-    }
-
-    .stats-tiles > .item.stat {
-        border-radius: $card-border-radius;
-    }
-
     .stat {
         min-width: unset;
     }

@@ -7,20 +7,6 @@ $stat-icon-row: 1;
 $stat-count-col: 2;
 $stat-count-row: 1;
 
-.item.stat {
-    border-radius: 0;
-}
-
-.stats-tiles > :first-child {
-    border-top-left-radius: $card-border-radius;
-    border-bottom-left-radius: $card-border-radius;
-}
-
-.stats-tiles > :last-child {
-    border-top-right-radius: $card-border-radius;
-    border-bottom-right-radius: $card-border-radius;
-}
-
 .stat {
     cursor: pointer;
     min-width: 6rem;
@@ -36,8 +22,8 @@ $stat-count-row: 1;
         justify-self: center;
     }
 
-    $stat-font-size: $text-lg;
-    $stat-icon-size: $text-md;
+    $stat-font-size: $text-xl;
+    $stat-icon-size: $text-lg;
 
     .status-icon {
         grid-column-start: $stat-icon-col;
@@ -76,7 +62,8 @@ $stat-count-row: 1;
 }
 
 .stats-tiles {
-    display: flex;
-    flex-direction: row;
-    width: min-content;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: $body-width-full;
+    gap: $spacing-2;
 }
