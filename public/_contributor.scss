@@ -6,6 +6,9 @@ $count-width: 4rem;
 section.contributors {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .contributors-container {
@@ -13,6 +16,8 @@ section.contributors {
   grid-template-columns: auto;
   gap: $spacing-2;
   border-radius: $card-border-radius;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .contributor {
@@ -95,15 +100,7 @@ section.contributors {
 }
 
 @media (min-width: $breakpoint-desktop) {
-  section.contributors {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-  }
-
   .contributors-container {
-    min-height: 0;
-    overflow-y: auto;
     grid-template-columns: 1fr;
   }
 }

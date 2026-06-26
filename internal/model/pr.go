@@ -334,57 +334,38 @@ type ContributorInfo struct {
 }
 
 func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
-	type contributorData struct {
+	type contrib struct {
+		ContributorInfo
 		prs        []StampedPullRequest
-		avatarURL  string
-		profileURL string
 		newestTime time.Time
 	}
 
-	contributorMap := make(map[string]*contributorData)
-
+	m := make(map[string]*contrib)
 	for _, pr := range prs {
 		for _, name := range pr.Contributors {
-			if contributorMap[name] == nil {
-				contributorMap[name] = &contributorData{
-					avatarURL:  pr.Author.AvatarURL,
-					profileURL: pr.Author.URL,
+			c, ok := m[name]
+			if !ok {
+				c = &contrib{
+					ContributorInfo: ContributorInfo{
+						Name:      name,
+						AvatarURL: pr.Author.AvatarURL,
+						URL:       pr.Author.URL,
+					},
 				}
+				m[name] = c
 			}
-			contributorMap[name].prs = append(contributorMap[name].prs, pr)
-			if pr.UpdatedAt != nil && (contributorMap[name].newestTime.IsZero() || pr.UpdatedAt.After(contributorMap[name].newestTime)) {
-				contributorMap[name].newestTime = *pr.UpdatedAt
+			c.prs = append(c.prs, pr)
+			if pr.UpdatedAt != nil && pr.UpdatedAt.After(c.newestTime) {
+				c.newestTime = *pr.UpdatedAt
+				c.NewestPRAge = timeAgo(pr.TimeOpen, pr.DaysOpen)
 			}
 		}
 	}
 
-	type contributorEntry struct {
-		name       string
-		avatarURL  string
-		profileURL string
-		counts     ExpiryCounts
-		ageStr     string
-		newestTime time.Time
-	}
-
-	var entries []contributorEntry
-	for name, data := range contributorMap {
-		counts := GetCounts(data.prs)
-		ageStr := ""
-		for _, pr := range data.prs {
-			if pr.UpdatedAt != nil && pr.UpdatedAt.Equal(data.newestTime) {
-				ageStr = timeAgo(pr.TimeOpen, pr.DaysOpen)
-				break
-			}
-		}
-		entries = append(entries, contributorEntry{
-			name:       name,
-			avatarURL:  data.avatarURL,
-			profileURL: data.profileURL,
-			counts:     counts,
-			ageStr:     ageStr,
-			newestTime: data.newestTime,
-		})
+	entries := make([]*contrib, 0, len(m))
+	for _, c := range m {
+		c.Counts = GetCounts(c.prs)
+		entries = append(entries, c)
 	}
 
 	sort.Slice(entries, func(i, j int) bool {
@@ -393,14 +374,7 @@ func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 
 	result := make([]ContributorInfo, len(entries))
 	for i, e := range entries {
-		result[i] = ContributorInfo{
-			Name:        e.name,
-			AvatarURL:   e.avatarURL,
-			URL:         e.profileURL,
-			Counts:      e.counts,
-			NewestPRAge: e.ageStr,
-		}
+		result[i] = e.ContributorInfo
 	}
-
 	return result
 }
