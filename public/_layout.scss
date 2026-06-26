@@ -8,7 +8,7 @@ body {
     margin-inline: auto;
     height: $body-height;
     background-color: $color-talc;
-    color: $color-black;
+    color: $color-brown;
 }
 
 input {
@@ -25,7 +25,7 @@ button, .link-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: $color-black;
+    color: $color-brown;
 
     &:active {
         color: $color-beige;
@@ -67,8 +67,8 @@ button, .link-button, .status-icon {
 
     .title-input {
         line-height: inherit;
-        color: $color-black;
-        caret-color: $color-black;
+        color: $color-brown;
+        caret-color: $color-brown;
         background: transparent;
         border: none;
         padding: 0;
@@ -104,8 +104,7 @@ button, .link-button, .status-icon {
     .input-pill:has(.title-input:hover)::before,
     .input-pill:has(.title-input:focus)::before {
         opacity: 1;
-        background-color: $color-shell;
-        box-shadow: inset 0px 0px 6px $color-stone;
+        background-color: $color-talc-cutout;
     }
 
     i {
@@ -145,10 +144,10 @@ button, .link-button, .status-icon {
 }
 
 main {
-    margin-block: $spacing-8;
+    margin-block: $spacing-6;
     display: flex;
     flex-direction: column;
-    gap: $spacing-4;
+    gap: $spacing-5;
 }
 
 #nav-form-wrapper {
@@ -197,13 +196,13 @@ main {
 
 footer {
     display: flex;
-    margin-bottom: $spacing-8;
+    margin-bottom: $spacing-6;
     color: $color-beige;
 
     @include separator.dot-separator;
 
     a {
-        color: $color-black;
+        color: $color-brown;
     }
 }
 

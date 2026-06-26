@@ -5,12 +5,17 @@ $color-shell: #e6e0d4;
 $color-stone: #d9d1c2;
 $color-silver: #ccc5b9;
 $color-beige: #70695c;
+$color-taupe: #524b40;
 $color-brown: #403d39;
 $color-black: #252422;
-$color-paprika: #eb5e28;
+
+$color-paprika: #db4d14;
 $color-sage: #5b7e3c;
-$color-orange: #e89429;
-$color-purple: #8d5f8c;
+$color-orange: #df8816;
+$color-purple: #7f577f;
+
+$color-pearl-cutout: $color-talc;
+$color-talc-cutout: $color-stone;
 
 $text-3xl: 4rem;
 $text-2xl: 3rem;
@@ -74,7 +79,7 @@ $body-width: 95%;
 $body-width-full: 100%;
 $body-height: auto;
 
-$aside-width: 40rem;
+$aside-width: 32rem;
 
 $title-input-height-factor: 1.1;
 $title-input-min-width: 1ch;

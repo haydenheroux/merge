@@ -50,21 +50,21 @@ section.contributors {
     row-gap: $spacing-1;
   }
 
-  a.title {
+  .title {
+    color: $color-brown;
     margin-block: 0;
-    color: inherit;
   }
 
   .age {
     margin-block: 0;
-    color: $color-beige;
+    color: $color-taupe;
   }
 
   .counts {
     grid-area: 2 / 2 / span 1 / span 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: $spacing-4;
+    gap: $spacing-3;
     width: min-content;
 
     & > .stat {
@@ -83,7 +83,7 @@ section.contributors {
       }
 
       &:hover {
-        background-color: $color-talc;
+        background-color: $color-pearl-cutout;
       }
     }
   }
@@ -108,8 +108,7 @@ section.contributors {
     .counts {
       grid-area: 1 / 3 / span 1 / span 1;
       grid-template-columns: repeat(2, 1fr);
-      row-gap: $spacing-1;
-      column-gap: $spacing-6;
+      row-gap: $spacing-0;
     }
   }
 }

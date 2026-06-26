@@ -39,6 +39,7 @@ $list-item-gap: 0.4rem;
 
     .title-row {
         display: flex;
+        color: $color-brown;
 
         .title p {
             line-height: $line-height-subheading;
@@ -53,7 +54,7 @@ $list-item-gap: 0.4rem;
 
     .description-row {
         grid-column-start: $pr-description-grid-column;
-        color: $color-beige;
+        color: $color-taupe;
         display: flex;
 
       @include separator.dot-separator;
@@ -69,8 +70,7 @@ $list-item-gap: 0.4rem;
             background-color: $color-pearl;
             border-left: $border-width-thick solid $color-silver;
             border-radius: 0 $card-border-radius $card-border-radius 0;
-            color: $color-brown;
-            font-style: italic;
+            color: $color-taupe;
             font-size: $text-xs;
             line-height: $line-height-markdown-body;
 
@@ -104,7 +104,7 @@ $list-item-gap: 0.4rem;
 
             pre {
                 overflow-x: auto;
-                background-color: $color-black;
+                background-color: $color-brown;
                 color: $color-white;
                 padding: $pre-padding;
                 border-radius: $card-border-radius;
