@@ -20,22 +20,14 @@ section.scopes {
 }
 
 .scope {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto min-content;
   gap: $spacing-4;
   height: min-content;
 
-  &:hover {
-      background-color: $color-talc;
-
-      .status-icon {
-          transform: rotate($rotate-hover) scale($scale-hover);
-      }
-  }
-
-  .aside {
+  .text {
+    grid-area: 1 / 1 / span 1 / span 1;
     display: flex;
     flex-direction: column;
     row-gap: $spacing-1;
@@ -52,15 +44,15 @@ section.scopes {
   }
 
   .counts {
+    grid-area: 2 / 1 / span 1 / span 1;
     display: grid;
-    gap: $spacing-1;
-    grid-template-columns: repeat(2, $count-width);
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-4;
     width: min-content;
 
     & > .stat {
       min-width: unset;
-      border-radius: $card-border-radius;
-      column-gap: $spacing-3;
+      column-gap: $spacing-2;
       grid-template-columns: repeat(2, min-content);
       grid-template-rows: max-content;
 
@@ -72,18 +64,36 @@ section.scopes {
       b {
         font-size: $text-sm;
       }
+
+      &:hover {
+        background-color: $color-talc;
+      }
     }
   }
 }
 
+
 @media (min-width: $breakpoint-mobile) {
-  .counts {
-    grid-template-columns: repeat(4, $count-width);
+  .scopes-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: $breakpoint-desktop) {
   .scopes-container {
     grid-template-columns: 1fr;
+  }
+
+  .scope {
+    grid-template-columns: auto min-content;
+    grid-template-rows: auto;
+    align-items: center;
+
+    .counts {
+      grid-area: 1 / 2 / span 1 / span 1;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: $spacing-1;
+      column-gap: $spacing-6;
+    }
   }
 }

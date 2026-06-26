@@ -7,23 +7,10 @@ $stat-icon-row: 1;
 $stat-count-col: 2;
 $stat-count-row: 1;
 
-.item.stat {
-    border-radius: 0;
-}
-
-.stats-tiles > :first-child {
-    border-top-left-radius: $card-border-radius;
-    border-bottom-left-radius: $card-border-radius;
-}
-
-.stats-tiles > :last-child {
-    border-top-right-radius: $card-border-radius;
-    border-bottom-right-radius: $card-border-radius;
-}
-
 .stat {
     cursor: pointer;
-    min-width: 6rem;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $inline-border-radius;
     display: grid;
     column-gap: $spacing-3;
     row-gap: $spacing-2;
@@ -36,9 +23,14 @@ $stat-count-row: 1;
         justify-self: center;
     }
 
+    $stat-font-size: $text-xl;
+    $stat-icon-size: $text-lg;
+
     .status-icon {
-        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-sm});
-        font-size: $text-sm;
+        grid-column-start: $stat-icon-col;
+        grid-row-start: $stat-icon-row;
+        margin-top: calc(#{$status-icon-margin-top-factor} * #{$stat-icon-size});
+        font-size: $stat-icon-size;
     }
 
     &:hover {
@@ -57,18 +49,13 @@ $stat-count-row: 1;
         margin-block: 0;
     }
 
-    .status-icon {
-        grid-column-start: $stat-icon-col;
-        grid-row-start: $stat-icon-row;
-    }
-
     b {
-        font-size: $text-md;
+        font-size: $stat-font-size;
         grid-column-start: $stat-count-col;
         grid-row-start: $stat-count-row;
     }
 
-    .inline {
+    .small {
       font-size: $text-xs;
       color: $color-beige;
       margin-top: $spacing-1;
@@ -76,7 +63,8 @@ $stat-count-row: 1;
 }
 
 .stats-tiles {
-    display: flex;
-    flex-direction: row;
-    width: min-content;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: $body-width-full;
+    gap: $spacing-2;
 }
