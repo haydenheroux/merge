@@ -6,16 +6,20 @@ import (
 )
 
 templ RepoContent(props model.RepoPageProps) {
-	<div class="overview">
+	<div class="overview" id="overview-stats">
         @components.Counts(props.OverallCounts)
     </div>
     <aside class="aside-column">
-        @components.Scopes(props.ScopeCounts)
-        @components.Contributors(props.ContributorCounts)
+        <div id="scopes-section">
+            @components.Scopes(props.ScopeCounts)
+        </div>
+        <div id="contributors-section">
+            @components.Contributors(props.ContributorCounts)
+        </div>
     </aside>
     <section class="prs">
 		<p class="section-label">Pull Requests</p>
-		<div class="prs-scroll">
+		<div class="prs-scroll" id="prs-scroll">
 		for _, pr := range props.PRs {
 			@components.PRCard(pr)
 		}

@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'silver-link';
 
 body, input {
     font-family: "Karla", sans-serif;
@@ -64,4 +65,8 @@ footer p, code, .caption {
 a {
     color: inherit;
     text-decoration: none;
+
+    &:hover {
+      @include silver-link.silver-link;
+    }
 }

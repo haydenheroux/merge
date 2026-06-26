@@ -5,6 +5,9 @@ $avatar-size: $spacing-8;
 section.contributors {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .contributors-container {
@@ -12,6 +15,8 @@ section.contributors {
   grid-template-columns: auto;
   gap: $spacing-2;
   border-radius: $card-border-radius;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .contributor {
@@ -48,13 +53,6 @@ section.contributors {
   a.title {
     margin-block: 0;
     color: inherit;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-      text-underline-offset: $underline-offset-title;
-      text-decoration-thickness: $border-width-thin;
-    }
   }
 
   .age {
@@ -98,15 +96,7 @@ section.contributors {
 }
 
 @media (min-width: $breakpoint-desktop) {
-  section.contributors {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-  }
-
   .contributors-container {
-    min-height: 0;
-    overflow-y: auto;
     grid-template-columns: 1fr;
   }
 

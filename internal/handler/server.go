@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"strconv"
 
 	"merge/internal/github"
 	"merge/internal/model"
@@ -51,7 +52,7 @@ func (s *Server) HandleGitHubRoute(f func(*GitHubRoute, http.ResponseWriter, *ht
 }
 
 func RawJson(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	json, err := gh.GitHub.GetPullRequestsJson(gh.Owner, gh.Repo)
+	json, _, err := gh.GitHub.GetPullRequestsJson(gh.Owner, gh.Repo, 1)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -63,7 +64,7 @@ func RawJson(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 }
 
 func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
+	prs, _, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo, 1)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -83,8 +84,58 @@ func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
+func fetchAllPages(gh *GitHubRoute, upToPage int) (all, currentPRs []model.PullRequest, hasNext bool, err error) {
+	for p := 1; p <= upToPage; p++ {
+		prs, next, e := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo, p)
+		if e != nil {
+			return nil, nil, false, e
+		}
+		all = append(all, prs...)
+		if p == upToPage {
+			currentPRs = prs
+			hasNext = next
+		}
+	}
+	return all, currentPRs, hasNext, nil
+}
+
 func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo)
+	currentPage := 1
+	if p := r.URL.Query().Get("page"); p != "" {
+		if parsed, err := strconv.Atoi(p); err == nil && parsed > 0 {
+			currentPage = parsed
+		}
+	}
+
+	// Load-more: fetch all pages 1..current to compute combined stats
+	if currentPage > 1 && r.Header.Get("HX-Request") != "" {
+		allPRs, curPRs, hasNext, err := fetchAllPages(gh, currentPage)
+		if err != nil {
+			gh.Logger.Warn(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		allStamped := model.StampNow(allPRs)
+		newStamped := model.StampNow(curPRs)
+
+		nextPage := currentPage + 1
+
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		err = pages.LoadMorePRs(
+			newStamped,
+			gh.Owner, gh.Repo, nextPage, hasNext,
+			model.GetCounts(allStamped),
+			model.ScopeAges(allStamped),
+			model.ContributorActivity(allStamped),
+		).Render(r.Context(), w)
+		if err != nil {
+			gh.Logger.Error(err.Error())
+		}
+		return
+	}
+
+	prs, hasNext, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo, 1)
 	if err != nil {
 		gh.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -101,6 +152,8 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		OverallCounts:     model.GetCounts(stamped),
 		ScopeCounts:       model.ScopeAges(stamped),
 		ContributorCounts: model.ContributorActivity(stamped),
+		CurrentPage:       1,
+		HasMore:           hasNext,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
