@@ -1,7 +1,6 @@
 @use 'variables' as *;
 
-$avatar-size: 2rem;
-$count-width: 4rem;
+$avatar-size: $spacing-8;
 
 section.contributors {
   display: flex;
@@ -16,19 +15,14 @@ section.contributors {
 }
 
 .contributor {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: $avatar-size auto;
+  grid-template-rows: auto min-content;
   gap: $spacing-4;
   height: min-content;
 
   &:hover {
-      background-color: $color-talc;
-
-      .status-icon {
-          transform: rotate($rotate-hover) scale($scale-hover);
-      }
+    background-color: $color-talc;
   }
 
   .aside {
@@ -41,6 +35,7 @@ section.contributors {
   }
 
   .avatar {
+    grid-area: 1 / 1 / span 1 / span 1;
     width: $avatar-size;
     height: $avatar-size;
     border-radius: 50%;
@@ -48,6 +43,7 @@ section.contributors {
   }
 
   .text {
+    grid-area: 1 / 2 / span 1 / span 1;
     display: flex;
     flex-direction: column;
     row-gap: $spacing-1;
@@ -71,8 +67,10 @@ section.contributors {
   }
 
   .counts {
+    grid-area: 2 / 2 / span 1 / span 1;
     display: grid;
-    grid-template-columns: repeat(4, $count-width);
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-6;
     width: min-content;
 
     & > .stat {
@@ -115,11 +113,15 @@ section.contributors {
   }
 
   .contributor {
-    flex-direction: row;
+    grid-template-columns: $avatar-size auto min-content;
+    grid-template-rows: auto;
     align-items: center;
 
     .counts {
-      grid-template-columns: repeat(2, $count-width);
+      grid-area: 1 / 3 / span 1 / span 1;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: $spacing-1;
+      column-gap: $spacing-6;
     }
   }
 }

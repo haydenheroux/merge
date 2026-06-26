@@ -15,21 +15,18 @@ section.scopes {
 }
 
 .scope {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto min-content;
   gap: $spacing-4;
   height: min-content;
 
   &:hover {
-      background-color: $color-talc;
-
-      .status-icon {
-          transform: rotate($rotate-hover) scale($scale-hover);
-      }
+    background-color: $color-talc;
   }
 
-  .aside {
+  .text {
+    grid-area: 1 / 1 / span 1 / span 1;
     display: flex;
     flex-direction: column;
     row-gap: $spacing-1;
@@ -46,9 +43,10 @@ section.scopes {
   }
 
   .counts {
+    grid-area: 2 / 1 / span 1 / span 1;
     display: grid;
-    gap: $spacing-1;
-    grid-template-columns: repeat(4, $count-width);
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-6;
     width: min-content;
 
     & > .stat {
@@ -91,11 +89,15 @@ section.scopes {
   }
 
   .scope {
-    flex-direction: row;
+    grid-template-columns: auto min-content;
+    grid-template-rows: auto;
     align-items: center;
 
     .counts {
-      grid-template-columns: repeat(2, $count-width);
+      grid-area: 1 / 2 / span 1 / span 1;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: $spacing-1;
+      column-gap: $spacing-6;
     }
   }
 }
