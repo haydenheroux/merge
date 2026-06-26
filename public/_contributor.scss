@@ -17,8 +17,8 @@ section.contributors {
 
 .contributor {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   justify-content: space-between;
   gap: $spacing-4;
   height: min-content;
@@ -72,7 +72,7 @@ section.contributors {
 
   .counts {
     display: grid;
-    grid-template-columns: repeat(2, $count-width);
+    grid-template-columns: repeat(4, $count-width);
     width: min-content;
 
     & > .stat {
@@ -96,8 +96,8 @@ section.contributors {
 }
 
 @media (min-width: $breakpoint-mobile) {
-  .counts {
-    grid-template-columns: repeat(4, $count-width);
+  .contributors-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -112,5 +112,14 @@ section.contributors {
     min-height: 0;
     overflow-y: auto;
     grid-template-columns: 1fr;
+  }
+
+  .contributor {
+    flex-direction: row;
+    align-items: center;
+
+    .counts {
+      grid-template-columns: repeat(2, $count-width);
+    }
   }
 }
