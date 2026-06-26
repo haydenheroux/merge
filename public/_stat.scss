@@ -36,9 +36,14 @@ $stat-count-row: 1;
         justify-self: center;
     }
 
+    $stat-font-size: $text-lg;
+    $stat-icon-size: $text-md;
+
     .status-icon {
-        margin-top: calc(#{$status-icon-margin-top-factor} * #{$text-sm});
-        font-size: $text-sm;
+        grid-column-start: $stat-icon-col;
+        grid-row-start: $stat-icon-row;
+        margin-top: calc(#{$status-icon-margin-top-factor} * #{$stat-icon-size});
+        font-size: $stat-icon-size;
     }
 
     &:hover {
@@ -57,13 +62,8 @@ $stat-count-row: 1;
         margin-block: 0;
     }
 
-    .status-icon {
-        grid-column-start: $stat-icon-col;
-        grid-row-start: $stat-icon-row;
-    }
-
     b {
-        font-size: $text-md;
+        font-size: $stat-font-size;
         grid-column-start: $stat-count-col;
         grid-row-start: $stat-count-row;
     }
