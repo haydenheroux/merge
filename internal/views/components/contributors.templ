@@ -2,9 +2,31 @@ package components
 
 import "merge/internal/model"
 
-templ Contributors(contributors []model.ContributorInfo) {
+templ Contributors(contributors []model.ContributorInfo, activeSort string) {
     <section class="contributors">
-        <p class="section-label">Contributors</p>
+		<div class="section-heading">
+            <span>Contributors</span>
+            <span class="buttons">
+                <button
+                    if activeSort == "top" {
+                        data-active-sort="true"
+                    }
+                    hx-get="?part=contributors&sort=top"
+                    hx-target="#contributors-section"
+                >
+                    Top
+                </button>
+                <button
+                    if activeSort == "recent" {
+                        data-active-sort="true"
+                    }
+                    hx-get="?part=contributors&sort=recent"
+                    hx-target="#contributors-section"
+                >
+                    Recent
+                </button>
+            </span>
+        </div>
         <div class="contributors-container">
             for _, info := range contributors {
                 @Contributor(info)

@@ -1,4 +1,6 @@
 @use 'variables' as *;
+@use 'separator';
+@use 'silver-link';
 
 section {
     background-color: $color-oat;
@@ -6,13 +8,36 @@ section {
     border-radius: calc($card-border-radius + $spacing-1);
 }
 
-.section-label {
+.section-heading {
     font-size: $text-xxs;
     color: $color-brown;
     text-transform: uppercase;
     letter-spacing: $letter-spacing-label;
     font-weight: $font-weight-bold;
-    margin: $spacing-0 $spacing-0 $spacing-3;
-    margin-left: $spacing-2;
-    margin-top: $spacing-1;
+    margin-inline: $spacing-1;
+    margin-top: $spacing-2;
+    margin-bottom: $spacing-3;
+    display: flex;
+    justify-content: space-between;
+
+    .buttons {
+      display: flex;
+      gap: $spacing-2;
+
+      button {
+        font-size: $text-xxs;
+        color: $color-brown;
+        text-transform: uppercase;
+        letter-spacing: $letter-spacing-label;
+        font-weight: $font-weight-bold;
+
+      }
+
+      [data-active-sort="true"], button:hover {
+        text-decoration: underline;
+        text-decoration-color: $color-beige;
+        text-decoration-thickness: $border-width-default;
+        text-underline-offset: $border-width-default;
+      }
+    }
 }

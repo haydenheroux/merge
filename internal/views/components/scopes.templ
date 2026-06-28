@@ -2,9 +2,31 @@ package components
 
 import "merge/internal/model"
 
-templ Scopes(scopes []model.ScopeInfo) {
+templ Scopes(scopes []model.ScopeInfo, activeSort string) {
     <section class="scopes">
-        <p class="section-label">Scopes</p>
+		<div class="section-heading">
+            <span>Scopes</span>
+            <span class="buttons">
+                <button
+                    if activeSort == "top" {
+                        data-active-sort="true"
+                    }
+                    hx-get="?part=scopes&sort=top"
+                    hx-target="#scopes-section"
+                >
+                    Top
+                </button>
+                <button
+                    if activeSort == "recent" {
+                        data-active-sort="true"
+                    }
+                    hx-get="?part=scopes&sort=recent"
+                    hx-target="#scopes-section"
+                >
+                    Recent
+                </button>
+            </span>
+        </div>
         <div class="scopes-container">
             for _, info := range scopes {
                 @Scope(info)

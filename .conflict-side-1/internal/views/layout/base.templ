@@ -1,0 +1,98 @@
+package layout
+
+import "merge/internal/views/components"
+
+templ Base(title, description, baseURL, owner, repo string, currentPage int, hasMore bool) {
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<title>{ title }</title>
+        <link rel="icon" type="image/png" href="/public/favicon.png">
+		<link rel="stylesheet" href="/public/main.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+		<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+		<meta name="description" content={ description }/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:title" content={ title }/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:url" content={ baseURL }/>
+		<meta property="og:description" content={ description }/>
+	</head>
+	<body>
+		@components.Nav(owner, repo, currentPage, hasMore)
+        <main>
+            { children... }
+        </main>
+		<footer>
+            <span>By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a></span>
+            <span>View on <a class="bold" href="https://www.github.com/mergezone/mergezone">GitHub</a></span>
+            <span>View on <a class="bold" href="https://www.merge.zone/mergezone/mergezone">Merge Zone</a></span>
+		</footer>
+		<script src="/public/pr-toggle.js" defer></script>
+		<script defer>
+		document.addEventListener('submit', function(e) {
+			var form = e.target.closest('.repo-form');
+			if (!form) return;
+			e.preventDefault();
+			var owner = form.querySelector('.owner-input').value.trim();
+			var repo = form.querySelector('.repo-input').value.trim();
+			if (repo) {
+				window.location.href = '/' + owner + '/' + repo;
+			}
+		});
+		document.querySelector('#nav-toggle')?.addEventListener('click', function() {
+			document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
+		});
+		(function() {
+			var inputs = document.querySelectorAll('.title-input');
+			if (!inputs.length) return;
+			var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+			var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+			function navigate() {
+				var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
+				var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
+				if (owner === origOwner && repo === origRepo) return;
+				if (repo) {
+					htmx.ajax('GET', '/' + owner + '/' + repo, {
+						target: 'main',
+						swap: 'innerHTML'
+					});
+					}
+				}
+				function resize(input) {
+					input.style.width = '1px';
+					input.style.width = input.scrollWidth + 'px';
+				}
+				inputs.forEach(function(input) {
+					resize(input);
+					input.addEventListener('input', function() { resize(this); });
+					input.addEventListener('focus', function() { this.select(); });
+					input.addEventListener('keydown', function(ev) {
+						if (ev.key === 'Enter') { ev.preventDefault(); navigate(); }
+					});
+					input.addEventListener('blur', function() {
+						setTimeout(function() {
+							if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
+							navigate();
+						}, 0);
+					});
+				});
+				document.addEventListener('htmx:afterSwap', function() {
+					origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+					origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+					if (origOwner && origRepo) {
+						document.title = origOwner + '/' + origRepo;
+					}
+				});
+				document.fonts.ready.then(function() {
+					inputs.forEach(resize);
+				});
+			})();
+		</script>
+	</body>
+	</html>
+}

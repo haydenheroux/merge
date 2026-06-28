@@ -1,0 +1,77 @@
+package components
+
+import (
+	"fmt"
+	"math"
+
+	"merge/internal/model"
+	"merge/internal/views/helpers"
+	"time"
+)
+
+func ageLabel(open time.Duration, days int) string {
+    // TODO Explicit fallthrough, remainder, plurals
+	if open.Hours() < 1 {
+		mins := int(math.Floor(open.Minutes()))
+		return fmt.Sprintf("%dm ago", mins)
+	}
+
+	if days < 1 {
+		hrs := int(math.Floor(open.Hours()))
+		return fmt.Sprintf("%dhrs ago", hrs)
+	}
+
+	if days == 1 {
+		return "Yesterday"
+	}
+
+    if days < 7 {
+        return fmt.Sprintf("%dd ago", days)
+    }
+
+    weeks := days / 7
+    if weeks < 4 {
+        return fmt.Sprintf("%dwk ago", weeks)
+    }
+
+    months := weeks / 4
+    if months < 12 {
+        return fmt.Sprintf("%dmo ago", months)
+    }
+
+    years := months / 12
+    return fmt.Sprintf("%dyr ago", years)
+}
+
+templ PRCard(pr model.StampedPullRequest) {
+	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") }>
+        <div class="pull-request-header">
+            <div class="icon">
+                <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
+            </div>
+            <div class="title-row">
+                <a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
+                <button class="button-toggle" aria-label="Show Description">
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="description-row">
+                <span>
+                    { pr.State }
+                </span>
+                <span>
+                    { ageLabel(pr.TimeOpen, pr.DaysOpen) }
+                </span>
+                <span>
+                    <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
+                </span>
+				for _, scope := range pr.Scopes {
+					<span>{ scope }</span>
+				}
+            </div>
+        </div>
+		<span class="pr-body">
+			<div class="pr-body-inner">@Markdown(pr.Body)</div>
+		</span>
+	</div>
+}

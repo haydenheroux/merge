@@ -61,7 +61,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts, props.ScopeSort).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -69,11 +69,11 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Contributors(props.ContributorCounts).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Contributors(props.ContributorCounts, props.ContributorSort).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></aside><section class=\"prs\"><p class=\"section-label\">Pull Requests</p><div class=\"prs-scroll\" id=\"prs-scroll\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></aside><section class=\"prs\"><div class=\"section-heading\"><span>Pull Requests</span></div><div class=\"prs-scroll\" id=\"prs-scroll\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
