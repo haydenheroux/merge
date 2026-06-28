@@ -9,10 +9,10 @@ templ Scope(info model.ScopeInfo) {
             <p class="age">{ info.NewestPRAge }</p>
         </div>
         <div class="counts">
+            @InlineCount("fa-seedling ok", info.Counts.FreshCount)
+            @InlineCount("fa-leaf warn", info.Counts.StaleCount)
+            @InlineCount("fa-skull error", info.Counts.ExpiredCount)
             @InlineCount("fa-code-merge special", info.Counts.MergedCount)
-            @InlineCount("fa-apple-whole ok", info.Counts.FreshCount)
-            @InlineCount("fa-apple-whole warn", info.Counts.StaleCount)
-            @InlineCount("fa-recycle error", info.Counts.ExpiredCount)
         </div>
     </div>
 }
