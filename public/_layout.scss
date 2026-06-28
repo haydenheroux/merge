@@ -299,6 +299,11 @@ body:not(.repo-page) footer {
     max-height: 18rem;
 }
 
+#scopes-section:empty,
+#contributors-section:empty {
+    display: none;
+}
+
 .carousel-track {
     display: flex;
     flex-wrap: wrap;
