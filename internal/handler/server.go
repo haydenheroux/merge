@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"sort"
 	"strconv"
 
 	"merge/internal/github"
 	"merge/internal/model"
+	"merge/internal/views/components"
 	"merge/internal/views/pages"
 
 	"github.com/gorilla/mux"
@@ -157,7 +159,23 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if r.Header.Get("HX-Request") != "" {
+	if r.URL.Query().Get("part") == "contributors" {
+		contributors := props.ContributorCounts
+		if r.URL.Query().Get("sort") == "top" {
+			sort.SliceStable(contributors, func(i, j int) bool {
+				return contributors[i].Count() > contributors[j].Count()
+			})
+		}
+		err = components.Contributors(contributors).Render(r.Context(), w)
+	} else if r.URL.Query().Get("part") == "scopes" {
+		scopes := props.ScopeCounts
+		if r.URL.Query().Get("sort") == "top" {
+			sort.SliceStable(scopes, func(i, j int) bool {
+				return scopes[i].Count() > scopes[j].Count()
+			})
+		}
+		err = components.Scopes(scopes).Render(r.Context(), w)
+	} else if r.Header.Get("HX-Request") != "" {
 		w.Header().Set("HX-Push", "/"+gh.Owner+"/"+gh.Repo)
 		err = pages.RepoContent(props).Render(r.Context(), w)
 	} else {

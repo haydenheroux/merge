@@ -7,8 +7,18 @@ templ Contributors(contributors []model.ContributorInfo) {
 		<div class="section-heading">
             <span>Contributors</span>
             <span class="buttons">
-                <span>Top</span>
-                <span>Recent</span>
+                <span
+                    hx-get="?part=contributors&sort=top"
+                    hx-target="#contributors-section"
+                >
+                    Top
+                </span>
+                <span
+                    hx-get="?part=contributors&sort=recent"
+                    hx-target="#contributors-section"
+                >
+                    Recent
+                </span>
             </span>
         </div>
         <div class="contributors-container">

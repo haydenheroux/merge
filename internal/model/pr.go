@@ -177,6 +177,10 @@ type ExpiryCounts struct {
 	ExpiredCount int
 }
 
+func (c ExpiryCounts) Count() int {
+	return c.FreshCount + c.StaleCount + c.ExpiredCount + c.MergedCount
+}
+
 func GetCounts(prs []StampedPullRequest) ExpiryCounts {
 	merged := 0
 	fresh := 0
@@ -229,6 +233,10 @@ type ScopeInfo struct {
 	Name        string
 	Counts      ExpiryCounts
 	NewestPRAge string
+}
+
+func (s ScopeInfo) Count() int {
+	return s.Counts.Count()
 }
 
 func timeAgo(open time.Duration, days int) string {
@@ -331,6 +339,10 @@ type ContributorInfo struct {
 	URL         string
 	Counts      ExpiryCounts
 	NewestPRAge string
+}
+
+func (c ContributorInfo) Count() int {
+	return c.Counts.Count()
 }
 
 func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {

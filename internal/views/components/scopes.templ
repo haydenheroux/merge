@@ -7,8 +7,18 @@ templ Scopes(scopes []model.ScopeInfo) {
 		<div class="section-heading">
             <span>Scopes</span>
             <span class="buttons">
-                <span>Top</span>
-                <span>Recent</span>
+                <span
+                    hx-get="?part=scopes&sort=top"
+                    hx-target="#scopes-section"
+                >
+                    Top
+                </span>
+                <span
+                    hx-get="?part=scopes&sort=recent"
+                    hx-target="#scopes-section"
+                >
+                    Recent
+                </span>
             </span>
         </div>
         <div class="scopes-container">
