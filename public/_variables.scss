@@ -1,23 +1,26 @@
-$color-white: #fffcf2;
-$color-pearl: #faf7ed;
-$color-oat-white: #f0e9dd;
-$color-talc: #eee8dd;
-$color-shell: #e6e0d4;
-$color-oat: #dfd8c9;
-$color-stone: #d9d1c2;
-$color-silver: #ccc5b9;
-$color-beige: #70695c;
-$color-taupe: #524b40;
-$color-brown: #403d39;
-$color-black: #252422;
+// Warm neutral scale
+$color-warm-50: #fffcf2;   /* White — PANTONE 11-0103 Albescent White */
+$color-warm-100: #faf7ed;  /* Pearl — PANTONE 12-0105 White Chocolate */
+$color-warm-200: #f0e9dd;  /* Oat White — PANTONE 13-0905 Oat White */
+$color-warm-300: #eee8dd;  /* Talc — PANTONE 12-0304 Talc */
+$color-warm-400: #e6e0d4;  /* Shell — PANTONE 13-1005 Shell */
+$color-warm-500: #dfd8c9;  /* Oat — PANTONE 14-1105 Oat */
+$color-warm-600: #d9d1c2;  /* Stone — PANTONE 15-1309 Stone */
+$color-warm-700: #ccc5b9;  /* Silver — PANTONE 16-5807 Silver */
+$color-warm-800: #70695c;  /* Beige — PANTONE 17-1110 Beige */
+$color-warm-900: #524b40;  /* Taupe — PANTONE 18-1109 Taupe */
+$color-warm-950: #403d39;  /* Brown — PANTONE 19-1107 Dark Brown */
+$color-warm-black: #252422; /* Black — PANTONE Black 3 */
 
-$color-paprika: #db4d14;
-$color-sage: #5b7e3c;
-$color-orange: #df8816;
-$color-purple: #7f577f;
+// Accent colors
+$color-red-600: #db4d14;   /* Paprika — PANTONE 17-1462 Paprika */
+$color-green-600: #5b7e3c; /* Sage — PANTONE 18-0135 Sage */
+$color-amber-500: #df8816; /* Orange — PANTONE 15-1050 Orange */
+$color-purple-500: #7f577f; /* Purple — PANTONE 18-3010 Purple */
 
-$color-pearl-cutout: $color-oat-white;
-$color-talc-cutout: $color-stone;
+// Cutout aliases (slightly darker hover variants)
+$color-warm-cutout: $color-warm-200;
+$color-warm-cutout-strong: $color-warm-600;
 
 $text-3xl: 4rem;
 $text-2xl: 3rem;

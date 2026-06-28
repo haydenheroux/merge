@@ -3,7 +3,7 @@
 @use 'separator';
 
 html {
-    background-color: $color-talc;
+    background-color: $color-warm-300;
 }
 
 body {
@@ -11,17 +11,17 @@ body {
     margin-block: $spacing-0;
     margin-inline: auto;
     height: $body-height;
-    background-color: $color-talc;
-    color: $color-brown;
+    background-color: $color-warm-300;
+    color: $color-warm-950;
 }
 
 input {
     outline: none;
     border: none;
-    color: $color-brown;
+    color: $color-warm-950;
 
     &::placeholder {
-        color: $color-beige;
+        color: $color-warm-800;
     }
 }
 
@@ -29,10 +29,10 @@ button, .link-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: $color-brown;
+    color: $color-warm-950;
 
     &:active {
-        color: $color-beige;
+        color: $color-warm-800;
     }
 }
 
@@ -49,7 +49,7 @@ button, .link-button, .status-icon {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: $color-talc;
+    background-color: $color-warm-300;
 }
 
 .title-sep {
@@ -60,8 +60,8 @@ button, .link-button, .status-icon {
 
 .title-input {
     line-height: inherit;
-    color: $color-brown;
-    caret-color: $color-brown;
+    color: $color-warm-950;
+    caret-color: $color-warm-950;
     background: transparent;
     border: none;
     padding: 0;
@@ -97,7 +97,7 @@ button, .link-button, .status-icon {
 .input-pill:has(.title-input:hover)::before,
 .input-pill:has(.title-input:focus)::before {
     opacity: 1;
-    background-color: $color-talc-cutout;
+        background-color: $color-warm-cutout-strong;
 }
 
 #nav-input {
@@ -186,7 +186,7 @@ body:not(.repo-page) main {
 
     .input-pill::before {
         opacity: 1;
-        background-color: $color-talc-cutout;
+    background-color: $color-warm-cutout-strong;
     }
 
     .repo-form button i {
@@ -208,7 +208,7 @@ body:not(.repo-page) main {
         gap: $spacing-3;
         padding: $spacing-3 $spacing-5;
         border-radius: $inline-border-radius;
-        background-color: $color-pearl;
+        background-color: $color-warm-100;
         font-size: $text-lg;
         font-weight: $font-weight-bold;
 
@@ -217,7 +217,7 @@ body:not(.repo-page) main {
         }
 
         &:hover {
-            background-color: $color-pearl-cutout;
+            background-color: $color-warm-cutout;
         }
     }
 
@@ -236,7 +236,7 @@ body:not(.repo-page) main {
     align-items: center;
     gap: $spacing-2;
     width: fit-content;
-    background-color: $color-pearl;
+    background-color: $color-warm-100;
     padding: $spacing-3 $spacing-4;
     border-radius: $card-border-radius;
 
@@ -256,7 +256,7 @@ body:not(.repo-page) main {
         }
 
         &:active {
-            color: $color-beige;
+            color: $color-warm-800;
             transform: scale($scale-active);
 
             i {
@@ -269,12 +269,12 @@ body:not(.repo-page) main {
 footer {
     display: flex;
     margin-bottom: $spacing-6;
-    color: $color-beige;
+    color: $color-warm-800;
 
     @include separator.dot-separator;
 
     a {
-        color: $color-brown;
+        color: $color-warm-950;
     }
 }
 
@@ -325,25 +325,25 @@ body:not(.repo-page) footer {
     gap: $spacing-2;
     padding: $spacing-3 $spacing-4;
     border-radius: $inline-border-radius;
-    background-color: $color-pearl;
+    background-color: $color-warm-100;
 
     &:hover {
-        background-color: $color-talc;
+        background-color: $color-warm-300;
         text-decoration: none;
     }
 
     .sep {
-        color: $color-beige;
+    color: $color-warm-800;
         user-select: none;
     }
 
     .owner {
-        color: $color-taupe;
+        color: $color-warm-900;
     }
 
     .repo {
         font-weight: $font-weight-bold;
-        color: $color-brown;
+        color: $color-warm-950;
     }
 }
 
@@ -362,20 +362,20 @@ body:not(.repo-page) footer {
     gap: $spacing-3;
     padding: $spacing-4 $spacing-5;
     border-radius: $card-border-radius;
-    background-color: $color-pearl;
+    background-color: $color-warm-100;
     text-align: center;
     max-width: 18rem;
     flex: 1 1 14rem;
 
     i {
         font-size: $text-xl;
-        color: $color-taupe;
+        color: $color-warm-900;
     }
 
     p {
         margin: 0;
         font-size: $text-sm;
-        color: $color-taupe;
+        color: $color-warm-900;
         line-height: $line-height-subheading;
     }
 }

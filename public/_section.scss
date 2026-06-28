@@ -3,14 +3,14 @@
 @use 'silver-link';
 
 section {
-    background-color: $color-oat;
+    background-color: $color-warm-500;
     padding: $spacing-3;
     border-radius: calc($card-border-radius + $spacing-1);
 }
 
 .section-heading {
     font-size: $text-xxs;
-    color: $color-brown;
+    color: $color-warm-950;
     text-transform: uppercase;
     letter-spacing: $letter-spacing-label;
     font-weight: $font-weight-bold;
@@ -27,7 +27,7 @@ section {
 
       button {
         font-size: $text-xxs;
-        color: $color-brown;
+        color: $color-warm-950;
         text-transform: uppercase;
         letter-spacing: $letter-spacing-label;
         font-weight: $font-weight-bold;
@@ -36,7 +36,7 @@ section {
 
       [data-active-sort="true"], button:hover {
         text-decoration: underline;
-        text-decoration-color: $color-beige;
+        text-decoration-color: $color-warm-800;
         text-decoration-thickness: $border-width-default;
         text-underline-offset: $border-width-default;
       }
