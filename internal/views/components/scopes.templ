@@ -4,7 +4,9 @@ import "merge/internal/model"
 
 templ Scopes(scopes []model.ScopeInfo) {
     <section class="scopes">
-        <p class="section-label">Scopes</p>
+		<div class="section-heading">
+            <span>Scopes</span>
+        </div>
         <div class="scopes-container">
             for _, info := range scopes {
                 @Scope(info)

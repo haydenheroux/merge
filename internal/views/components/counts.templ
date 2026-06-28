@@ -6,7 +6,9 @@ import (
 
 templ Counts(counts model.ExpiryCounts) {
 	<section class="stats">
-		<p class="section-label">Overview</p>
+		<div class="section-heading">
+            <span>Overview</span>
+        </div>
 		<div class="stats-tiles">
 			@Count("fa-seedling ok", counts.FreshCount, "fresh")
 			@Count("fa-leaf warn", counts.StaleCount, "stale")

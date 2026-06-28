@@ -4,7 +4,9 @@ import "merge/internal/model"
 
 templ Contributors(contributors []model.ContributorInfo) {
     <section class="contributors">
-        <p class="section-label">Contributors</p>
+		<div class="section-heading">
+            <span>Contributors</span>
+        </div>
         <div class="contributors-container">
             for _, info := range contributors {
                 @Contributor(info)
