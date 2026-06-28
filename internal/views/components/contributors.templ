@@ -3,37 +3,39 @@ package components
 import "merge/internal/model"
 
 templ Contributors(contributors []model.ContributorInfo, activeSort string) {
-    <section class="contributors">
-		<div class="section-heading">
-            <span>Contributors</span>
-            <span class="buttons">
-                <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
-                <button
-                    if activeSort == "top" {
-                        data-active-sort="true"
-                    }
-                    hx-get="?part=contributors&sort=top"
-                    hx-target="#contributors-section"
-                    hx-indicator="#contributors-sort-indicator"
-                >
-                    Top
-                </button>
-                <button
-                    if activeSort == "recent" {
-                        data-active-sort="true"
-                    }
-                    hx-get="?part=contributors&sort=recent"
-                    hx-target="#contributors-section"
-                    hx-indicator="#contributors-sort-indicator"
-                >
-                    Recent
-                </button>
-            </span>
-        </div>
-        <div class="contributors-container">
-            for _, info := range contributors {
-                @Contributor(info)
-            }
-        </div>
-    </section>
+    if len(contributors) > 0 {
+        <section class="contributors">
+            <div class="section-heading">
+                <span>Contributors</span>
+                <span class="buttons">
+                    <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
+                    <button
+                        if activeSort == "top" {
+                            data-active-sort="true"
+                        }
+                        hx-get="?part=contributors&sort=top"
+                        hx-target="#contributors-section"
+                        hx-indicator="#contributors-sort-indicator"
+                    >
+                        Top
+                    </button>
+                    <button
+                        if activeSort == "recent" {
+                            data-active-sort="true"
+                        }
+                        hx-get="?part=contributors&sort=recent"
+                        hx-target="#contributors-section"
+                        hx-indicator="#contributors-sort-indicator"
+                    >
+                        Recent
+                    </button>
+                </span>
+            </div>
+            <div class="contributors-container">
+                for _, info := range contributors {
+                    @Contributor(info)
+                }
+            </div>
+        </section>
+    }
 }

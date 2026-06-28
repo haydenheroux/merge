@@ -1,8 +1,6 @@
 package pages
 
 import (
-	"fmt"
-
 	"merge/internal/model"
 	"merge/internal/views/components"
 )
@@ -23,7 +21,7 @@ templ LoadMorePRs(
 		@components.PRCard(pr)
 	}
 	<div id="overview-stats" hx-swap-oob="true">
-		@components.Counts(overallCounts)
+		@components.Counts(overallCounts, hasMore, owner, repo, nextPage)
 	</div>
 	<div id="scopes-section" hx-swap-oob="true">
 		@components.Scopes(scopeCounts, scopeSort)
@@ -31,19 +29,4 @@ templ LoadMorePRs(
 	<div id="contributors-section" hx-swap-oob="true">
 		@components.Contributors(contributorCounts, contributorSort)
 	</div>
-	<span id="load-more-nav-btn" hx-swap-oob="true">
-		if hasMore {
-			<i
-				class="fa-solid fa-ellipsis link-button"
-				role="button"
-				tabindex="0"
-				aria-label="Load more pull requests"
-				hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage) }
-				hx-target="#prs-scroll"
-				hx-swap="beforeend"
-				hx-indicator="#load-more-indicator"
-			></i>
-			<i id="load-more-indicator" class="fas fa-circle-notch fa-spin htmx-indicator"></i>
-		}
-	</span>
 }

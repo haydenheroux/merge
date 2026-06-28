@@ -52,6 +52,9 @@ $spacing-12: 3rem;
 $spacing-16: 4rem;
 $spacing-32: 8rem;
 
+$main-mobile-gap: $spacing-6;
+$main-desktop-gap: $spacing-4;
+
 $card-border-radius: 12px;
 $inline-border-radius: 6px;
 $border-radius-code: 6px;
@@ -86,8 +89,8 @@ $aside-width: 32rem;
 $title-input-height-factor: 1.1;
 $title-input-min-width: 1ch;
 
-$input-pill-inset-y: -2px;
-$input-pill-inset-x: -3px;
+$input-pill-inset-y: -$spacing-1;
+$input-pill-inset-x: -$spacing-2;
 
 $repo-form-gap: 8px;
 $repo-form-padding-x: 10px;
@@ -96,11 +99,6 @@ $repo-form-padding-y-factor: 0.5;
 $letter-spacing-label: 0.05em;
 
 $stats-tiles-grid-columns: 2;
-
-$hero-margin-block-top: $spacing-16;
-$hero-margin-block-bottom: $spacing-32;
-$hero-margin-block-top-mobile: $spacing-8;
-$hero-margin-block-bottom-mobile: $spacing-16;
 
 $heading-scale-h1: 0.6;
 $heading-scale-h2: 0.65;

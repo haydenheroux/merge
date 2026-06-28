@@ -53,7 +53,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Counts(props.OverallCounts).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage+1).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -95,8 +95,6 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			props.BaseURL,
 			props.Owner,
 			props.Repo,
-			props.CurrentPage,
-			props.HasMore,
 		).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
