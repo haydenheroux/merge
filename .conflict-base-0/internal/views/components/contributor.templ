@@ -1,0 +1,22 @@
+package components
+
+import (
+	"fmt"
+	"merge/internal/model"
+)
+
+templ Contributor(info model.ContributorInfo) {
+    <div class="item contributor">
+        <img class="avatar" src={ info.AvatarURL } alt={ fmt.Sprintf("%s's avatar", info.Name) }/>
+        <div class="text">
+            <a class="title" href={ info.URL }>{ info.Name }</a>
+            <p class="age">{ info.NewestPRAge }</p>
+        </div>
+        <div class="counts">
+            @InlineCount("fa-seedling ok", info.Counts.FreshCount)
+            @InlineCount("fa-leaf warn", info.Counts.StaleCount)
+            @InlineCount("fa-skull error", info.Counts.ExpiredCount)
+            @InlineCount("fa-code-merge special", info.Counts.MergedCount)
+        </div>
+    </div>
+}

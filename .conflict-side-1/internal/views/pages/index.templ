@@ -1,0 +1,17 @@
+package pages
+
+import (
+	"merge/internal/views/components"
+	"merge/internal/views/layout"
+)
+
+templ IndexPage(baseURL, owner, repo string) {
+	@layout.Base("Merge Zone", "Understand your team's review workflow, collaboration, and delivery.", baseURL, owner, repo, 1, false) {
+		<main>
+			<div class="hero">
+				<h1>Your team. <br/>Any repo.</h1>
+				@components.RepoForm("hero-repo-form")
+			</div>
+		</main>
+	}
+}

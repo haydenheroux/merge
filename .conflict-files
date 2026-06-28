@@ -1,0 +1,3 @@
+ancestorEntries = ["public/main.css"]
+ourEntries = ["public/main.css"]
+theirEntries = ["public/main.css"]

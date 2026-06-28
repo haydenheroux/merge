@@ -1,0 +1,43 @@
+package pages
+
+import (
+	"fmt"
+
+	"merge/internal/model"
+	"merge/internal/views/layout"
+	"merge/internal/views/components"
+)
+
+templ RepoPage(props model.RepoPageProps) {
+	@layout.Base(
+		fmt.Sprintf("%s/%s", props.Owner, props.Repo),
+		fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.OverallCounts.FreshCount, props.OverallCounts.StaleCount, props.OverallCounts.ExpiredCount),
+		props.BaseURL,
+        props.Owner,
+        props.Repo,
+        props.CurrentPage,
+        props.HasMore,
+	) {
+        <div class="overview" id="overview-stats">
+            @components.Counts(props.OverallCounts)
+        </div>
+        <aside class="aside-column">
+            <div id="scopes-section">
+                @components.Scopes(props.ScopeCounts)
+            </div>
+            <div id="contributors-section">
+                @components.Contributors(props.ContributorCounts)
+            </div>
+        </aside>
+        <section class="prs">
+            <div class="section-heading">
+                <span>Pull Requests</span>
+            </div>
+            <div class="prs-scroll" id="prs-scroll">
+			for _, pr := range props.PRs {
+				@components.PRCard(pr)
+			}
+            </div>
+		</section>
+	}
+}
