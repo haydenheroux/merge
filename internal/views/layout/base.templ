@@ -102,7 +102,7 @@ templ Base(title, description, baseURL, owner, repo string) {
 					input.addEventListener('input', function() { resize(this); });
 					input.addEventListener('focus', function() { this.select(); });
 					input.addEventListener('keydown', function(ev) {
-						if (ev.key === 'Enter') { ev.preventDefault(); navigate(); }
+						if (ev.key === 'Enter' && input.hasAttribute('data-part')) { ev.preventDefault(); navigate(); }
 					});
 					input.addEventListener('blur', function() {
 						setTimeout(function() {

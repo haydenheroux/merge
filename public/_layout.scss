@@ -212,6 +212,10 @@ body:not(.repo-page) main {
         font-size: $text-xl;
         animation: magnify-bob 2s ease-in-out infinite;
     }
+
+    .repo-form:focus-within button i {
+        animation-play-state: paused;
+    }
 }
 
 .url-demo {
@@ -253,23 +257,32 @@ body:not(.repo-page) main {
 .repo-form {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
+    gap: $spacing-3;
     width: fit-content;
     background-color: $color-warm-100;
     padding: $spacing-3 $spacing-4;
     border-radius: $card-border-radius;
 
-    button {
-        font-size: $text-lg;
-        margin-left: $spacing-1;
-        line-height: 1;
+    .title-input {
+        font-family: "Karla", sans-serif;
+        text-decoration: none;
+    }
 
-        i {
-            display: inline-block;
-            animation: magnify-bob 3s ease-in-out infinite;
-        }
+    .title-sep {
+        margin-top: -0.375em;
+    }
 
-        &:hover i {
+        button {
+            font-size: $text-lg;
+            margin-left: $spacing-1;
+            line-height: 1;
+
+            i {
+                display: inline-block;
+                animation: magnify-bob 3s ease-in-out infinite;
+            }
+
+            &:hover i {
             animation: none;
             transform: rotate($rotate-hover) scale($scale-hover-icon);
         }
@@ -282,6 +295,10 @@ body:not(.repo-page) main {
                 animation: none;
             }
         }
+    }
+
+    &:focus-within button i {
+        animation-play-state: paused;
     }
 }
 
