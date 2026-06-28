@@ -22,7 +22,7 @@ templ Base(title, description, baseURL, owner, repo string, currentPage int, has
 		<meta property="og:url" content={ baseURL }/>
 		<meta property="og:description" content={ description }/>
 	</head>
-	<body>
+	<body if owner != "" { class="repo-page" }>
 		@components.Nav(owner, repo, currentPage, hasMore)
         <main>
             { children... }
@@ -65,7 +65,11 @@ templ Base(title, description, baseURL, owner, repo string, currentPage int, has
 				}
 				function resize(input) {
 					input.style.width = '1px';
-					input.style.width = input.scrollWidth + 'px';
+					if (input.value) {
+						input.style.width = input.scrollWidth + 'px';
+					} else if (input.placeholder) {
+						input.style.width = input.placeholder.length + 'ch';
+					}
 				}
 				inputs.forEach(function(input) {
 					resize(input);

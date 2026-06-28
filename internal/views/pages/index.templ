@@ -9,8 +9,106 @@ templ IndexPage(baseURL, owner, repo string) {
 	@layout.Base("Merge Zone", "Understand your team's review workflow, collaboration, and delivery.", baseURL, owner, repo, 1, false) {
 		<main>
 			<div class="hero">
-				<h1>Your team. <br/>Any repo.</h1>
+				<h1>Know your contributors. <br/>Build your community.</h1>
 				@components.RepoForm("hero-repo-form")
+			</div>
+			<h2>Popular repos</h2>
+			<div class="carousel-track">
+					<a href="/mergezone/mergezone" class="carousel-item">
+						<span class="owner">mergezone</span>
+						<span class="sep">/</span>
+						<span class="repo">mergezone</span>
+					</a>
+					<a href="/ghostty-org/ghostty" class="carousel-item">
+						<span class="owner">ghostty-org</span>
+						<span class="sep">/</span>
+						<span class="repo">ghostty</span>
+					</a>
+					<a href="/torvalds/linux" class="carousel-item">
+						<span class="owner">torvalds</span>
+						<span class="sep">/</span>
+						<span class="repo">linux</span>
+					</a>
+					<a href="/kubernetes/kubernetes" class="carousel-item">
+						<span class="owner">kubernetes</span>
+						<span class="sep">/</span>
+						<span class="repo">kubernetes</span>
+					</a>
+					<a href="/home-assistant/core" class="carousel-item">
+						<span class="owner">home-assistant</span>
+						<span class="sep">/</span>
+						<span class="repo">core</span>
+					</a>
+					<a href="/huggingface/transformers" class="carousel-item">
+						<span class="owner">huggingface</span>
+						<span class="sep">/</span>
+						<span class="repo">transformers</span>
+					</a>
+					<a href="/flutter/flutter" class="carousel-item">
+						<span class="owner">flutter</span>
+						<span class="sep">/</span>
+						<span class="repo">flutter</span>
+					</a>
+					<a href="/nixos/nixpkgs" class="carousel-item">
+						<span class="owner">nixos</span>
+						<span class="sep">/</span>
+						<span class="repo">nixpkgs</span>
+					</a>
+					<a href="/microsoft/vscode" class="carousel-item">
+						<span class="owner">microsoft</span>
+						<span class="sep">/</span>
+						<span class="repo">vscode</span>
+					</a>
+					<a href="/hashicorp/terraform" class="carousel-item">
+						<span class="owner">hashicorp</span>
+						<span class="sep">/</span>
+						<span class="repo">terraform</span>
+					</a>
+					<a href="/denoland/deno" class="carousel-item">
+						<span class="owner">denoland</span>
+						<span class="sep">/</span>
+						<span class="repo">deno</span>
+					</a>
+				</div>
+			<div class="url-demo">
+				<div class="url-demo-pill url-demo-before">
+					<i class="fa-brands fa-github" aria-hidden="true"></i>
+					<span>github.com/facebook/react</span>
+				</div>
+				<div class="url-demo-arrow" aria-hidden="true">
+					<i class="fa-solid fa-arrow-right"></i>
+				</div>
+				<div class="url-demo-pill url-demo-after">
+					<i class="fa-solid fa-code-merge" aria-hidden="true"></i>
+					<span>merge.zone/facebook/react</span>
+				</div>
+			</div>
+			<h2>Vet contributors with data</h2>
+			<div class="marketing-cards">
+				<div class="marketing-card">
+					<i class="fa-solid fa-user-check" aria-hidden="true"></i>
+					<p>Vet potential contributors by their pull request history before welcoming them into your community.</p>
+				</div>
+				<div class="marketing-card">
+					<i class="fa-solid fa-clock" aria-hidden="true"></i>
+					<p>See how long contributors stick around and how their involvement grows over time.</p>
+				</div>
+				<div class="marketing-card">
+					<i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+					<p>Make informed maintainer decisions with data on contributor experience, consistency, and scope.</p>
+				</div>
+				<div class="marketing-card">
+					<i class="fa-solid fa-code-fork" aria-hidden="true"></i>
+					<p>Identify which areas of your codebase attract the most contributions and where you need more reviewers.</p>
+				</div>
+				<div class="marketing-card">
+					<i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+					<p>Track review velocity and spot bottlenecks before they slow down your release cycle.</p>
+				</div>
+				<div class="marketing-card">
+					<i class="fa-solid fa-ranking-star" aria-hidden="true"></i>
+					<p>Recognize your most consistent contributors with data-backed insights into their impact.</p>
+				</div>
 			</div>
 		</main>
 	}
