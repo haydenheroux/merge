@@ -2,6 +2,10 @@
 @use 'silver-link';
 @use 'separator';
 
+html {
+    background-color: $color-talc;
+}
+
 body {
     width: $body-width;
     margin-block: $spacing-0;
