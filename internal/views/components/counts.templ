@@ -8,10 +8,10 @@ templ Counts(counts model.ExpiryCounts) {
 	<section class="stats">
 		<p class="section-label">Overview</p>
 		<div class="stats-tiles">
+			@Count("fa-seedling ok", counts.FreshCount, "fresh")
+			@Count("fa-leaf warn", counts.StaleCount, "stale")
+			@Count("fa-skull error", counts.ExpiredCount, "expired")
 			@Count("fa-code-merge special", counts.MergedCount, "merged")
-			@Count("fa-apple-whole ok", counts.FreshCount, "fresh")
-			@Count("fa-apple-whole warn", counts.StaleCount, "stale")
-			@Count("fa-recycle error", counts.ExpiredCount, "expired")
 		</div>
 	</section>
 }

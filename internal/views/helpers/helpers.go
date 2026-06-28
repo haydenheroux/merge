@@ -11,12 +11,12 @@ func GetStatusClass(pr model.StampedPullRequest) string {
 	}
 	switch pr.ExpiryStatus {
 	case model.Expired:
-		return "fa-recycle error"
+		return "fa-skull error"
 	case model.Stale:
-		return "fa-apple-whole warn"
+		return "fa-leaf warn"
 	case model.Fresh:
-		return "fa-apple-whole ok"
+		return "fa-seedling ok"
 	default:
-		return "fa-apple-whole warn"
+		return "fa-eye-slash"
 	}
 }

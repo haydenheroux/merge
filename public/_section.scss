@@ -1,14 +1,14 @@
 @use 'variables' as *;
 
 section {
-    background-color: $color-shell;
+    background-color: $color-oat;
     padding: $spacing-3;
     border-radius: calc($card-border-radius + $spacing-1);
 }
 
 .section-label {
     font-size: $text-xxs;
-    color: $color-beige;
+    color: $color-brown;
     text-transform: uppercase;
     letter-spacing: $letter-spacing-label;
     font-weight: $font-weight-bold;
