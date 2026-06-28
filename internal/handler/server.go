@@ -155,9 +155,9 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		PRs:               stamped,
 		OverallCounts:     model.GetCounts(stamped),
 		ScopeCounts:       model.ScopeAges(stamped),
-		ScopeSort: "recent",
+		ScopeSort:         "recent",
 		ContributorCounts: model.ContributorActivity(stamped),
-		ContributorSort: "recent",
+		ContributorSort:   "recent",
 		CurrentPage:       1,
 		HasMore:           hasNext,
 	}
