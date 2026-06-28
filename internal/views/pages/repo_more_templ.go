@@ -23,7 +23,9 @@ func LoadMorePRs(
 	hasMore bool,
 	overallCounts model.ExpiryCounts,
 	scopeCounts []model.ScopeInfo,
+	scopeSort string,
 	contributorCounts []model.ContributorInfo,
+	contributorSort string,
 ) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -63,7 +65,7 @@ func LoadMorePRs(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.Scopes(scopeCounts).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.Scopes(scopeCounts, scopeSort).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,7 +73,7 @@ func LoadMorePRs(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.Contributors(contributorCounts).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.Contributors(contributorCounts, contributorSort).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -87,7 +89,7 @@ func LoadMorePRs(
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo_more.templ`, Line: 39, Col: 65}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo_more.templ`, Line: 41, Col: 65}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 			if templ_7745c5c3_Err != nil {

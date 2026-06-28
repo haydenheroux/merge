@@ -129,7 +129,9 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 			gh.Owner, gh.Repo, nextPage, hasNext,
 			model.GetCounts(allStamped),
 			model.ScopeAges(allStamped),
+			"recent",
 			model.ContributorActivity(allStamped),
+			"recent",
 		).Render(r.Context(), w)
 		if err != nil {
 			gh.Logger.Error(err.Error())
@@ -153,28 +155,32 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		PRs:               stamped,
 		OverallCounts:     model.GetCounts(stamped),
 		ScopeCounts:       model.ScopeAges(stamped),
+		ScopeSort: "recent",
 		ContributorCounts: model.ContributorActivity(stamped),
+		ContributorSort: "recent",
 		CurrentPage:       1,
 		HasMore:           hasNext,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if r.URL.Query().Get("part") == "contributors" {
+		method := r.URL.Query().Get("sort")
 		contributors := props.ContributorCounts
-		if r.URL.Query().Get("sort") == "top" {
+		if method == "top" {
 			sort.SliceStable(contributors, func(i, j int) bool {
 				return contributors[i].Count() > contributors[j].Count()
 			})
 		}
-		err = components.Contributors(contributors).Render(r.Context(), w)
+		err = components.Contributors(contributors, method).Render(r.Context(), w)
 	} else if r.URL.Query().Get("part") == "scopes" {
+		method := r.URL.Query().Get("sort")
 		scopes := props.ScopeCounts
-		if r.URL.Query().Get("sort") == "top" {
+		if method == "top" {
 			sort.SliceStable(scopes, func(i, j int) bool {
 				return scopes[i].Count() > scopes[j].Count()
 			})
 		}
-		err = components.Scopes(scopes).Render(r.Context(), w)
+		err = components.Scopes(scopes, method).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
 		w.Header().Set("HX-Push", "/"+gh.Owner+"/"+gh.Repo)
 		err = pages.RepoContent(props).Render(r.Context(), w)

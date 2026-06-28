@@ -23,10 +23,10 @@ templ RepoPage(props model.RepoPageProps) {
         </div>
         <aside class="aside-column">
             <div id="scopes-section">
-                @components.Scopes(props.ScopeCounts)
+                @components.Scopes(props.ScopeCounts, props.ScopeSort)
             </div>
             <div id="contributors-section">
-                @components.Contributors(props.ContributorCounts)
+                @components.Contributors(props.ContributorCounts, props.ContributorSort)
             </div>
         </aside>
         <section class="prs">

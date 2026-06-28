@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'separator';
+@use 'silver-link';
 
 section {
     background-color: $color-oat;
@@ -21,6 +22,22 @@ section {
 
     .buttons {
       display: flex;
-      @include separator.dot-separator;
+      gap: $spacing-2;
+
+      button {
+        font-size: $text-xxs;
+        color: $color-brown;
+        text-transform: uppercase;
+        letter-spacing: $letter-spacing-label;
+        font-weight: $font-weight-bold;
+
+      }
+
+      [data-active-sort="true"], button:hover {
+        text-decoration: underline;
+        text-decoration-color: $color-beige;
+        text-decoration-thickness: $border-width-default;
+        text-underline-offset: $border-width-default;
+      }
     }
 }

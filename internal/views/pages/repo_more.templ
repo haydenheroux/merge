@@ -15,7 +15,9 @@ templ LoadMorePRs(
 	hasMore bool,
 	overallCounts model.ExpiryCounts,
 	scopeCounts []model.ScopeInfo,
+	scopeSort string,
 	contributorCounts []model.ContributorInfo,
+	contributorSort string,
 ) {
 	for _, pr := range prs {
 		@components.PRCard(pr)
@@ -24,10 +26,10 @@ templ LoadMorePRs(
 		@components.Counts(overallCounts)
 	</div>
 	<div id="scopes-section" hx-swap-oob="true">
-		@components.Scopes(scopeCounts)
+		@components.Scopes(scopeCounts, scopeSort)
 	</div>
 	<div id="contributors-section" hx-swap-oob="true">
-		@components.Contributors(contributorCounts)
+		@components.Contributors(contributorCounts, contributorSort)
 	</div>
 	<span id="load-more-nav-btn" hx-swap-oob="true">
 		if hasMore {
