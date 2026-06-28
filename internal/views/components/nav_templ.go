@@ -85,7 +85,7 @@ func Nav(owner, repo string, currentPage int, hasMore bool) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				if hasMore {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<i class=\"fa-solid fa-arrows-rotate link-button\" role=\"button\" tabindex=\"0\" aria-label=\"Load more pull requests\" hx-get=\"")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<i class=\"fa-solid fa-ellipsis link-button\" role=\"button\" tabindex=\"0\" aria-label=\"Load more pull requests\" hx-get=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -98,7 +98,7 @@ func Nav(owner, repo string, currentPage int, hasMore bool) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\"></i>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\" hx-indicator=\"#load-more-indicator\"></i> <i id=\"load-more-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\"></i>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

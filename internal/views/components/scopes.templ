@@ -7,12 +7,14 @@ templ Scopes(scopes []model.ScopeInfo, activeSort string) {
 		<div class="section-heading">
             <span>Scopes</span>
             <span class="buttons">
+                <i id="scopes-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
                 <button
                     if activeSort == "top" {
                         data-active-sort="true"
                     }
                     hx-get="?part=scopes&sort=top"
                     hx-target="#scopes-section"
+                    hx-indicator="#scopes-sort-indicator"
                 >
                     Top
                 </button>
@@ -22,6 +24,7 @@ templ Scopes(scopes []model.ScopeInfo, activeSort string) {
                     }
                     hx-get="?part=scopes&sort=recent"
                     hx-target="#scopes-section"
+                    hx-indicator="#scopes-sort-indicator"
                 >
                     Recent
                 </button>

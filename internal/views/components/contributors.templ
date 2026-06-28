@@ -7,12 +7,14 @@ templ Contributors(contributors []model.ContributorInfo, activeSort string) {
 		<div class="section-heading">
             <span>Contributors</span>
             <span class="buttons">
+                <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
                 <button
                     if activeSort == "top" {
                         data-active-sort="true"
                     }
                     hx-get="?part=contributors&sort=top"
                     hx-target="#contributors-section"
+                    hx-indicator="#contributors-sort-indicator"
                 >
                     Top
                 </button>
@@ -22,6 +24,7 @@ templ Contributors(contributors []model.ContributorInfo, activeSort string) {
                     }
                     hx-get="?part=contributors&sort=recent"
                     hx-target="#contributors-section"
+                    hx-indicator="#contributors-sort-indicator"
                 >
                     Recent
                 </button>
