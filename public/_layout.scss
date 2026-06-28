@@ -141,11 +141,11 @@ main {
     margin-block: $spacing-6;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: $main-mobile-gap;
 
     > h2 {
         text-align: center;
-        margin-block: $spacing-16 $spacing-12;
+        margin-block: $spacing-32 $spacing-8;
     }
 }
 
@@ -169,7 +169,6 @@ body:not(.repo-page) main {
     align-items: center;
     text-align: center;
     gap: $spacing-6;
-    margin-block: $hero-margin-block-top $spacing-12;
 
     .title-input {
         font-size: $text-xl;
@@ -186,21 +185,18 @@ body:not(.repo-page) main {
         background-color: $color-talc-cutout;
     }
 
-
-
     .repo-form button i {
         font-size: $text-xl;
         animation: magnify-bob 2s ease-in-out infinite;
     }
-
 }
 
 .url-demo {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: $spacing-6;
-    margin-block: $spacing-12 $spacing-8;
+    gap: $spacing-8;
 
     .url-demo-pill {
         display: inline-flex;
@@ -211,7 +207,6 @@ body:not(.repo-page) main {
         background-color: $color-pearl;
         font-size: $text-lg;
         font-weight: $font-weight-bold;
-        transition: background-color $transition-normal;
 
         i {
             font-size: $text-xl;
@@ -223,7 +218,12 @@ body:not(.repo-page) main {
     }
 
     .url-demo-arrow {
-        font-size: $text-2xl;
+        font-size: $text-xl;
+
+        i {
+            display: inline-block;
+            animation: url-demo-bounce 2s ease-in-out infinite;
+        }
     }
 }
 
@@ -287,7 +287,7 @@ body:not(.repo-page) footer {
 .aside-column {
     display: flex;
     flex-direction: column;
-    gap: $spacing-4;
+    gap: $main-mobile-gap;
 }
 
 #scopes-section,
@@ -303,7 +303,7 @@ body:not(.repo-page) footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: $spacing-2;
+    gap: $spacing-3;
     margin-block: 0 $spacing-8;
     margin-inline: auto;
     max-width: 48rem;
@@ -317,10 +317,9 @@ body:not(.repo-page) footer {
     padding: $spacing-3 $spacing-4;
     border-radius: $inline-border-radius;
     background-color: $color-pearl;
-    transition: background-color $transition-normal;
 
     &:hover {
-        background-color: $color-pearl-cutout;
+        background-color: $color-talc;
         text-decoration: none;
     }
 
@@ -372,6 +371,23 @@ body:not(.repo-page) footer {
     }
 }
 
+.htmx-indicator {
+    visibility: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.htmx-request .htmx-indicator,
+.htmx-request.htmx-indicator {
+    visibility: visible;
+}
+
+@keyframes url-demo-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
 @keyframes magnify-bob {
     0%, 100% { transform: rotate(0deg) scale(1); }
     25% { transform: rotate(-8deg) scale(1.1); }
@@ -399,7 +415,7 @@ body:not(.repo-page) footer {
         display: grid;
         grid-template-columns: 1fr $aside-width;
         grid-template-rows: auto 1fr;
-        gap: $spacing-4;
+        gap: $main-desktop-gap;
     }
 
     .overview {
@@ -412,6 +428,7 @@ body:not(.repo-page) footer {
         grid-row: 1 / -1;
         min-height: 0;
         overflow: hidden;
+        gap: $main-desktop-gap;
     }
 
     .prs {
@@ -435,10 +452,6 @@ body:not(.repo-page) footer {
 
     h2 {
         font-size: calc($text-2xl * #{$heading-scale-h2});
-    }
-
-    .hero {
-        margin-block: $hero-margin-block-top-mobile $spacing-8;
     }
 
     .repo-form {
