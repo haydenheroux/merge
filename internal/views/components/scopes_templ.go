@@ -31,7 +31,7 @@ func Scopes(scopes []model.ScopeInfo) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"scopes\"><div class=\"section-heading\"><span>Scopes</span></div><div class=\"scopes-container\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"scopes\"><div class=\"section-heading\"><span>Scopes</span> <span class=\"buttons\"><span>Top</span> <span>Recent</span></span></div><div class=\"scopes-container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

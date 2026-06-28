@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'separator';
 
 section {
     background-color: $color-oat;
@@ -12,7 +13,14 @@ section {
     text-transform: uppercase;
     letter-spacing: $letter-spacing-label;
     font-weight: $font-weight-bold;
-    margin: $spacing-0 $spacing-0 $spacing-3;
-    margin-left: $spacing-2;
-    margin-top: $spacing-1;
+    margin-inline: $spacing-1;
+    margin-top: $spacing-2;
+    margin-bottom: $spacing-3;
+    display: flex;
+    justify-content: space-between;
+
+    .buttons {
+      display: flex;
+      @include separator.dot-separator;
+    }
 }
