@@ -104,8 +104,8 @@ $list-item-gap: 0.4rem;
 
             pre {
                 overflow-x: auto;
-                background-color: $color-warm-950;
-                color: $color-warm-50;
+                background-color: var(--clr-code-bg);
+                color: var(--clr-code-text);
                 padding: $pre-padding;
                 border-radius: $card-border-radius;
                 font-size: $text-xs;
@@ -113,8 +113,8 @@ $list-item-gap: 0.4rem;
             }
 
             code {
-                background-color: $color-warm-600;
-                color: $color-warm-950;
+                background-color: var(--clr-inline-code-bg);
+                color: var(--clr-inline-code-text);
                 padding: $code-padding-y $code-padding-x;
                 border-radius: $border-radius-code;
             }

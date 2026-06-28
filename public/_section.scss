@@ -26,6 +26,7 @@ section {
       gap: $spacing-2;
 
       button {
+        font-family: inherit;
         font-size: $text-xxs;
         color: $color-warm-950;
         text-transform: uppercase;

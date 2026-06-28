@@ -33,6 +33,32 @@ templ Base(title, description, baseURL, owner, repo string) {
             <span>View on <a class="bold" href="https://www.merge.zone/mergezone/mergezone">Merge Zone</a></span>
 		</footer>
 		<script src="/public/pr-toggle.js" defer></script>
+		<script>
+		(function() {
+			var stored = localStorage.getItem('theme');
+			var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			if (stored === 'dark' || (!stored && prefersDark)) {
+				document.documentElement.classList.add('dark');
+			}
+			function updateThemeIcon() {
+				var isDark = document.documentElement.classList.contains('dark');
+				var icon = document.querySelector('#theme-toggle i');
+				if (icon) {
+					icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+				}
+			}
+			var toggle = document.querySelector('#theme-toggle');
+			if (toggle) {
+				toggle.addEventListener('click', function() {
+					document.documentElement.classList.toggle('dark');
+					var isDark = document.documentElement.classList.contains('dark');
+					localStorage.setItem('theme', isDark ? 'dark' : 'light');
+					updateThemeIcon();
+				});
+			}
+			updateThemeIcon();
+		})();
+		</script>
 		<script defer>
 		document.addEventListener('submit', function(e) {
 			var form = e.target.closest('.repo-form');

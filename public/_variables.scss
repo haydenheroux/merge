@@ -1,26 +1,69 @@
-// Warm neutral scale
-$color-warm-50: #fffcf2;   /* White — PANTONE 11-0103 Albescent White */
-$color-warm-100: #faf7ed;  /* Pearl — PANTONE 12-0105 White Chocolate */
-$color-warm-200: #f0e9dd;  /* Oat White — PANTONE 13-0905 Oat White */
-$color-warm-300: #eee8dd;  /* Talc — PANTONE 12-0304 Talc */
-$color-warm-400: #e6e0d4;  /* Shell — PANTONE 13-1005 Shell */
-$color-warm-500: #dfd8c9;  /* Oat — PANTONE 14-1105 Oat */
-$color-warm-600: #d9d1c2;  /* Stone — PANTONE 15-1309 Stone */
-$color-warm-700: #ccc5b9;  /* Silver — PANTONE 16-5807 Silver */
-$color-warm-800: #70695c;  /* Beige — PANTONE 17-1110 Beige */
-$color-warm-900: #524b40;  /* Taupe — PANTONE 18-1109 Taupe */
-$color-warm-950: #403d39;  /* Brown — PANTONE 19-1107 Dark Brown */
-$color-warm-black: #252422; /* Black — PANTONE Black 3 */
+// CSS custom properties for light (default) and dark themes
+:root {
+    --clr-page: #eee8dd;             /* Warm page background */
+    --clr-surface: #faf7ed;          /* Card / surface background */
+    --clr-section: #dfd8c9;          /* Section container */
+    --clr-cutout: #f0e9dd;           /* Hover / cutout */
+    --clr-cutout-strong: #d9d1c2;    /* Stronger cutout (pills, inline code bg) */
+    --clr-decorative: #ccc5b9;       /* Borders, underlines, decorative lines */
+    --clr-text-primary: #403d39;     /* Body text */
+    --clr-text-secondary: #524b40;   /* Secondary text */
+    --clr-text-muted: #70695c;       /* Muted text, placeholders, separators */
+    --clr-text-heading: #252422;     /* Heading text */
+    --clr-code-bg: #403d39;          /* Code block background */
+    --clr-code-text: #fffcf2;        /* Code block text */
+    --clr-inline-code-bg: #d9d1c2;   /* Inline code background */
+    --clr-inline-code-text: #403d39; /* Inline code text */
+    --clr-red: #db4d14;              /* Error / expired */
+    --clr-amber: #df8816;            /* Warning / stale */
+    --clr-green: #5b7e3c;            /* OK / fresh */
+    --clr-purple: #7f577f;           /* Special / merged */
+}
+
+html.dark {
+    --clr-page: #1a2035;             /* Navy page background */
+    --clr-surface: #242b44;          /* Card surface — clearly distinct */
+    --clr-section: #2e3651;          /* Section container */
+    --clr-cutout: #384262;           /* Hover / cutout */
+    --clr-cutout-strong: #434f73;    /* Stronger cutout */
+    --clr-decorative: #505d84;       /* Borders, underlines */
+    --clr-text-primary: #e2e8f5;     /* Body text — light blue-gray */
+    --clr-text-secondary: #c8d2ea;   /* Secondary text */
+    --clr-text-muted: #a0aecf;       /* Muted text */
+    --clr-text-heading: #edf0f8;     /* Heading text — near white */
+    --clr-code-bg: #121725;          /* Code block background */
+    --clr-code-text: #e2e8f5;        /* Code block text */
+    --clr-inline-code-bg: #323f62;   /* Inline code background */
+    --clr-inline-code-text: #e2e8f5; /* Inline code text */
+    --clr-red: #e85d2a;              /* Error / expired */
+    --clr-amber: #e8993a;            /* Warning / stale */
+    --clr-green: #6d9a49;            /* OK / fresh */
+    --clr-purple: #9a6f9a;           /* Special / merged */
+}
+
+// SCSS color variables mapped to CSS custom properties for runtime theming
+$color-warm-50: var(--clr-code-text);
+$color-warm-100: var(--clr-surface);
+$color-warm-200: var(--clr-cutout);
+$color-warm-300: var(--clr-page);
+$color-warm-400: var(--clr-page);
+$color-warm-500: var(--clr-section);
+$color-warm-600: var(--clr-inline-code-bg);
+$color-warm-700: var(--clr-decorative);
+$color-warm-800: var(--clr-text-muted);
+$color-warm-900: var(--clr-text-secondary);
+$color-warm-950: var(--clr-text-primary);
+$color-warm-black: var(--clr-text-heading);
 
 // Accent colors
-$color-red-600: #db4d14;   /* Paprika — PANTONE 17-1462 Paprika */
-$color-green-600: #5b7e3c; /* Sage — PANTONE 18-0135 Sage */
-$color-amber-500: #df8816; /* Orange — PANTONE 15-1050 Orange */
-$color-purple-500: #7f577f; /* Purple — PANTONE 18-3010 Purple */
+$color-red-600: var(--clr-red);
+$color-green-600: var(--clr-green);
+$color-amber-500: var(--clr-amber);
+$color-purple-500: var(--clr-purple);
 
-// Cutout aliases (slightly darker hover variants)
-$color-warm-cutout: $color-warm-200;
-$color-warm-cutout-strong: $color-warm-600;
+// Cutout aliases
+$color-warm-cutout: var(--clr-cutout);
+$color-warm-cutout-strong: var(--clr-cutout-strong);
 
 $text-3xl: 4rem;
 $text-2xl: 3rem;

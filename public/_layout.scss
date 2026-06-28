@@ -4,6 +4,11 @@
 
 html {
     background-color: $color-warm-300;
+    transition: background-color $transition-normal, color $transition-normal;
+}
+
+html.dark {
+    color-scheme: dark;
 }
 
 body {
@@ -131,6 +136,20 @@ button, .link-button, .status-icon {
     background: none;
     border: none;
     transition: transform $transition-fast $easing-spring;
+
+    &:hover {
+        transform: rotate($rotate-hover-large) scale($scale-hover-large);
+    }
+
+    &:active {
+        transform: scale($nav-toggle-active-scale);
+    }
+}
+
+#theme-toggle {
+    font-size: $text-md;
+    line-height: 1;
+    transition: transform $transition-fast $easing-spring, color;
 
     &:hover {
         transform: rotate($rotate-hover-large) scale($scale-hover-large);
