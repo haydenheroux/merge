@@ -1,7 +1,0 @@
-@use 'variables' as *;
-
-@mixin silver-link {
-    text-decoration: underline;
-    text-decoration-color: $color-silver;
-    text-decoration-thickness: $border-width-default;
-}
