@@ -51,6 +51,7 @@ const (
 	Draft  State = "Draft"
 	Open         = "Open"
 	Merged       = "Merged"
+	Closed       = "Closed"
 )
 
 func (pr *PullRequest) State() State {
@@ -58,6 +59,8 @@ func (pr *PullRequest) State() State {
 		return Draft
 	} else if pr.MergedAt != nil {
 		return Merged
+	} else if pr.ClosedAt != nil {
+		return Closed
 	}
 
 	return Open
@@ -72,6 +75,9 @@ const (
 )
 
 func (pr *PullRequest) ExpiryStatus(time time.Time) ExpiryStatus {
+	if pr.ClosedAt != nil && pr.MergedAt == nil {
+		return Expired
+	}
 	days := pr.DaysOpen(time)
 	if days >= 30 {
 		return Expired
