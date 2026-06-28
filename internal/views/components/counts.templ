@@ -1,13 +1,26 @@
 package components
 
 import (
+	"fmt"
+
 	"merge/internal/model"
 )
 
-templ Counts(counts model.ExpiryCounts) {
+templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int) {
 	<section class="stats">
 		<div class="section-heading">
             <span>Overview</span>
+            if hasMore {
+                <div class="buttons">
+                    <i id="load-more-indicator" class="fas fa-circle-notch fa-spin htmx-indicator"></i>
+                    <button
+                        hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage) }
+                        hx-target="#prs-scroll"
+                        hx-swap="beforeend"
+                        hx-indicator="#load-more-indicator"
+                    >Load more</button>
+                </div>
+            }
         </div>
 		<div class="stats-tiles">
 			@Count("fa-seedling ok", counts.FreshCount, "fresh")

@@ -2,7 +2,7 @@ package components
 
 import "fmt"
 
-templ Nav(owner, repo string, currentPage int, hasMore bool) {
+templ Nav(owner, repo string) {
 	<nav id="nav">
         <h4 id="nav-input" class="serif bold">
             <a href="/">Merge Zone</a>
@@ -17,21 +17,6 @@ templ Nav(owner, repo string, currentPage int, hasMore bool) {
                         <input class="serif title-input" type="text" data-part="repo" value={ repo }>
                     </span>
                     <a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", owner, repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt link-button" aria-hidden="true"></i></a>
-                    <span id="load-more-nav-btn">
-                        if hasMore {
-                            <i
-                                class="fa-solid fa-ellipsis link-button"
-                                role="button"
-                                tabindex="0"
-                                aria-label="Load more pull requests"
-                                hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, currentPage+1) }
-                                hx-target="#prs-scroll"
-                                hx-swap="beforeend"
-                                hx-indicator="#load-more-indicator"
-                            ></i>
-                            <i id="load-more-indicator" class="fas fa-circle-notch fa-spin htmx-indicator"></i>
-                        }
-                    </span>
                 }
             }
         </h4>

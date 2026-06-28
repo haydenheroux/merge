@@ -15,11 +15,9 @@ templ RepoPage(props model.RepoPageProps) {
 		props.BaseURL,
         props.Owner,
         props.Repo,
-        props.CurrentPage,
-        props.HasMore,
 	) {
         <div class="overview" id="overview-stats">
-            @components.Counts(props.OverallCounts)
+            @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
         </div>
         <aside class="aside-column">
             <div id="scopes-section">
