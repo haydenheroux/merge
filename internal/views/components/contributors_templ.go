@@ -31,7 +31,7 @@ func Contributors(contributors []model.ContributorInfo, activeSort string) templ
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"contributors\"><div class=\"section-heading\"><span>Contributors</span> <span class=\"buttons\"><button")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"contributors\"><div class=\"section-heading\"><span>Contributors</span> <span class=\"buttons\"><i id=\"contributors-sort-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <button")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func Contributors(contributors []model.ContributorInfo, activeSort string) templ
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " hx-get=\"?part=contributors&sort=top\" hx-target=\"#contributors-section\">Top</button> <button")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " hx-get=\"?part=contributors&sort=top\" hx-target=\"#contributors-section\" hx-indicator=\"#contributors-sort-indicator\">Top</button> <button")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -51,7 +51,7 @@ func Contributors(contributors []model.ContributorInfo, activeSort string) templ
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " hx-get=\"?part=contributors&sort=recent\" hx-target=\"#contributors-section\">Recent</button></span></div><div class=\"contributors-container\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " hx-get=\"?part=contributors&sort=recent\" hx-target=\"#contributors-section\" hx-indicator=\"#contributors-sort-indicator\">Recent</button></span></div><div class=\"contributors-container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

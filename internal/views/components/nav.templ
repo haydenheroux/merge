@@ -20,14 +20,16 @@ templ Nav(owner, repo string, currentPage int, hasMore bool) {
                     <span id="load-more-nav-btn">
                         if hasMore {
                             <i
-                                class="fa-solid fa-arrows-rotate link-button"
+                                class="fa-solid fa-ellipsis link-button"
                                 role="button"
                                 tabindex="0"
                                 aria-label="Load more pull requests"
                                 hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, currentPage+1) }
                                 hx-target="#prs-scroll"
                                 hx-swap="beforeend"
+                                hx-indicator="#load-more-indicator"
                             ></i>
+                            <i id="load-more-indicator" class="fas fa-circle-notch fa-spin htmx-indicator"></i>
                         }
                     </span>
                 }

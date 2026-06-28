@@ -31,7 +31,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"scopes\"><div class=\"section-heading\"><span>Scopes</span> <span class=\"buttons\"><button")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"scopes\"><div class=\"section-heading\"><span>Scopes</span> <span class=\"buttons\"><i id=\"scopes-sort-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <button")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " hx-get=\"?part=scopes&sort=top\" hx-target=\"#scopes-section\">Top</button> <button")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " hx-get=\"?part=scopes&sort=top\" hx-target=\"#scopes-section\" hx-indicator=\"#scopes-sort-indicator\">Top</button> <button")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -51,7 +51,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " hx-get=\"?part=scopes&sort=recent\" hx-target=\"#scopes-section\">Recent</button></span></div><div class=\"scopes-container\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " hx-get=\"?part=scopes&sort=recent\" hx-target=\"#scopes-section\" hx-indicator=\"#scopes-sort-indicator\">Recent</button></span></div><div class=\"scopes-container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
