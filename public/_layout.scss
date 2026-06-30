@@ -48,9 +48,8 @@ button, .link-button, .status-icon {
     position: sticky;
     top: 0;
     z-index: 100;
-    width: 100vw;
-    margin-inline: calc(-50vw + 50%);
-    padding-inline: calc(50vw - 50%);
+    width: 100%;
+    padding-inline: $spacing-4;
     box-sizing: border-box;
     background-color: $color-warm-300;
     border-bottom: 1px solid $color-warm-cutout-strong;
@@ -169,6 +168,7 @@ button, .link-button, .status-icon {
 }
 
 main {
+    margin-inline: $spacing-6;
     margin-block: $spacing-6;
     display: flex;
     flex-direction: column;
@@ -178,12 +178,6 @@ main {
         text-align: center;
         margin-block: $spacing-32 $spacing-8;
     }
-}
-
-body:not(.repo-page) main {
-    width: 100%;
-    max-width: 56rem;
-    margin-inline: auto;
 }
 
 #nav-form-wrapper {
@@ -397,6 +391,8 @@ body:not(.repo-page) footer {
     justify-content: center;
     gap: $spacing-3;
     margin-block-end: $spacing-8;
+    max-width: 48rem;
+    margin-inline: auto;
 }
 
 .marketing-card {
