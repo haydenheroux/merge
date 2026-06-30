@@ -39,7 +39,7 @@ $list-item-gap: 0.4rem;
 
     .title-row {
         display: flex;
-        color: $color-brown;
+        color: $color-warm-950;
 
         .title p {
             line-height: $line-height-subheading;
@@ -54,7 +54,7 @@ $list-item-gap: 0.4rem;
 
     .description-row {
         grid-column-start: $pr-description-grid-column;
-        color: $color-taupe;
+        color: $color-warm-900;
         display: flex;
 
       @include separator.dot-separator;
@@ -67,10 +67,10 @@ $list-item-gap: 0.4rem;
         .pr-body-inner {
             margin-top: $spacing-6;
             padding-inline: $spacing-5;
-            background-color: $color-pearl;
-            border-left: $border-width-thick solid $color-silver;
+            background-color: $color-warm-100;
+            border-left: $border-width-thick solid $color-warm-700;
             border-radius: 0 $card-border-radius $card-border-radius 0;
-            color: $color-taupe;
+            color: $color-warm-900;
             font-size: $text-xs;
             line-height: $line-height-markdown-body;
 
@@ -104,8 +104,8 @@ $list-item-gap: 0.4rem;
 
             pre {
                 overflow-x: auto;
-                background-color: $color-brown;
-                color: $color-white;
+                background-color: var(--clr-code-bg);
+                color: var(--clr-code-text);
                 padding: $pre-padding;
                 border-radius: $card-border-radius;
                 font-size: $text-xs;
@@ -113,8 +113,8 @@ $list-item-gap: 0.4rem;
             }
 
             code {
-                background-color: $color-stone;
-                color: $color-brown;
+                background-color: var(--clr-inline-code-bg);
+                color: var(--clr-inline-code-text);
                 padding: $code-padding-y $code-padding-x;
                 border-radius: $border-radius-code;
             }

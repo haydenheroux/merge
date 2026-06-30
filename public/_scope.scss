@@ -34,14 +34,14 @@ section.scopes {
   }
 
   .title {
-    color: $color-brown;
+    color: $color-warm-950;
     font-size: $text-sm;
     margin-block: 0;
   }
 
   .age {
     margin-block: 0;
-    color: $color-taupe;
+    color: $color-warm-900;
   }
 
   .counts {
@@ -67,7 +67,7 @@ section.scopes {
       }
 
       &:hover {
-        background-color: $color-pearl-cutout;
+        background-color: $color-warm-cutout;
       }
     }
   }

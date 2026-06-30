@@ -51,13 +51,13 @@ section.contributors {
   }
 
   .title {
-    color: $color-brown;
+    color: $color-warm-950;
     margin-block: 0;
   }
 
   .age {
     margin-block: 0;
-    color: $color-taupe;
+    color: $color-warm-900;
   }
 
   .counts {
@@ -83,7 +83,7 @@ section.contributors {
       }
 
       &:hover {
-        background-color: $color-pearl-cutout;
+        background-color: $color-warm-cutout;
       }
     }
   }

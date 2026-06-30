@@ -3,7 +3,12 @@
 @use 'separator';
 
 html {
-    background-color: $color-talc;
+    background-color: $color-warm-300;
+    transition: background-color $transition-normal, color $transition-normal;
+}
+
+html.dark {
+    color-scheme: dark;
 }
 
 body {
@@ -11,17 +16,16 @@ body {
     margin-block: $spacing-0;
     margin-inline: auto;
     height: $body-height;
-    background-color: $color-talc;
-    color: $color-brown;
+    color: $color-warm-950;
 }
 
 input {
     outline: none;
     border: none;
-    color: $color-brown;
+    color: $color-warm-950;
 
     &::placeholder {
-        color: $color-beige;
+        color: $color-warm-800;
     }
 }
 
@@ -29,10 +33,10 @@ button, .link-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: $color-brown;
+    color: $color-warm-950;
 
     &:active {
-        color: $color-beige;
+        color: $color-warm-800;
     }
 }
 
@@ -44,12 +48,20 @@ button, .link-button, .status-icon {
     position: sticky;
     top: 0;
     z-index: 100;
+    width: 100%;
+    padding-inline: $spacing-4;
+    box-sizing: border-box;
+    background-color: $color-warm-300;
+    border-bottom: 1px solid $color-warm-cutout-strong;
+    transition: background-color $transition-normal;
+}
+
+.nav-inner {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: $color-talc;
 }
 
 .title-sep {
@@ -60,8 +72,8 @@ button, .link-button, .status-icon {
 
 .title-input {
     line-height: inherit;
-    color: $color-brown;
-    caret-color: $color-brown;
+    color: $color-warm-950;
+    caret-color: $color-warm-950;
     background: transparent;
     border: none;
     padding: 0;
@@ -97,7 +109,7 @@ button, .link-button, .status-icon {
 .input-pill:has(.title-input:hover)::before,
 .input-pill:has(.title-input:focus)::before {
     opacity: 1;
-    background-color: $color-talc-cutout;
+        background-color: $color-warm-cutout-strong;
 }
 
 #nav-input {
@@ -141,7 +153,22 @@ button, .link-button, .status-icon {
     }
 }
 
+#theme-toggle {
+    font-size: $text-md;
+    line-height: 1;
+    transition: transform $transition-fast $easing-spring, color;
+
+    &:hover {
+        transform: rotate($rotate-hover-large) scale($scale-hover-large);
+    }
+
+    &:active {
+        transform: scale($nav-toggle-active-scale);
+    }
+}
+
 main {
+    margin-inline: $spacing-6;
     margin-block: $spacing-6;
     display: flex;
     flex-direction: column;
@@ -151,12 +178,6 @@ main {
         text-align: center;
         margin-block: $spacing-32 $spacing-8;
     }
-}
-
-body:not(.repo-page) main {
-    width: 100%;
-    max-width: 56rem;
-    margin-inline: auto;
 }
 
 #nav-form-wrapper {
@@ -186,12 +207,16 @@ body:not(.repo-page) main {
 
     .input-pill::before {
         opacity: 1;
-        background-color: $color-talc-cutout;
+    background-color: $color-warm-cutout-strong;
     }
 
     .repo-form button i {
         font-size: $text-xl;
         animation: magnify-bob 2s ease-in-out infinite;
+    }
+
+    .repo-form:focus-within button i {
+        animation-play-state: paused;
     }
 }
 
@@ -208,8 +233,8 @@ body:not(.repo-page) main {
         gap: $spacing-3;
         padding: $spacing-3 $spacing-5;
         border-radius: $inline-border-radius;
-        background-color: $color-pearl;
-        font-size: $text-lg;
+        background-color: $color-warm-100;
+        font-size: $text-md;
         font-weight: $font-weight-bold;
 
         i {
@@ -217,7 +242,7 @@ body:not(.repo-page) main {
         }
 
         &:hover {
-            background-color: $color-pearl-cutout;
+            background-color: $color-warm-cutout;
         }
     }
 
@@ -234,29 +259,38 @@ body:not(.repo-page) main {
 .repo-form {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
+    gap: $spacing-3;
     width: fit-content;
-    background-color: $color-pearl;
+    background-color: $color-warm-100;
     padding: $spacing-3 $spacing-4;
     border-radius: $card-border-radius;
 
-    button {
-        font-size: $text-lg;
-        margin-left: $spacing-1;
-        line-height: 1;
+    .title-input {
+        font-family: "Karla", sans-serif;
+        text-decoration: none;
+    }
 
-        i {
-            display: inline-block;
-            animation: magnify-bob 3s ease-in-out infinite;
-        }
+    .title-sep {
+        margin-top: -0.375em;
+    }
 
-        &:hover i {
+        button {
+            font-size: $text-lg;
+            margin-left: $spacing-1;
+            line-height: 1;
+
+            i {
+                display: inline-block;
+                animation: magnify-bob 3s ease-in-out infinite;
+            }
+
+            &:hover i {
             animation: none;
             transform: rotate($rotate-hover) scale($scale-hover-icon);
         }
 
         &:active {
-            color: $color-beige;
+            color: $color-warm-800;
             transform: scale($scale-active);
 
             i {
@@ -264,17 +298,21 @@ body:not(.repo-page) main {
             }
         }
     }
+
+    &:focus-within button i {
+        animation-play-state: paused;
+    }
 }
 
 footer {
     display: flex;
     margin-bottom: $spacing-6;
-    color: $color-beige;
+    color: $color-warm-800;
 
     @include separator.dot-separator;
 
     a {
-        color: $color-brown;
+        color: $color-warm-950;
     }
 }
 
@@ -325,25 +363,25 @@ body:not(.repo-page) footer {
     gap: $spacing-2;
     padding: $spacing-3 $spacing-4;
     border-radius: $inline-border-radius;
-    background-color: $color-pearl;
+    background-color: $color-warm-100;
 
     &:hover {
-        background-color: $color-talc;
+    background-color: $color-warm-100;
         text-decoration: none;
     }
 
     .sep {
-        color: $color-beige;
+    color: $color-warm-800;
         user-select: none;
     }
 
     .owner {
-        color: $color-taupe;
+        color: $color-warm-900;
     }
 
     .repo {
         font-weight: $font-weight-bold;
-        color: $color-brown;
+        color: $color-warm-950;
     }
 }
 
@@ -353,6 +391,8 @@ body:not(.repo-page) footer {
     justify-content: center;
     gap: $spacing-3;
     margin-block-end: $spacing-8;
+    max-width: 48rem;
+    margin-inline: auto;
 }
 
 .marketing-card {
@@ -362,20 +402,20 @@ body:not(.repo-page) footer {
     gap: $spacing-3;
     padding: $spacing-4 $spacing-5;
     border-radius: $card-border-radius;
-    background-color: $color-pearl;
+    background-color: $color-warm-100;
     text-align: center;
     max-width: 18rem;
     flex: 1 1 14rem;
 
     i {
         font-size: $text-xl;
-        color: $color-taupe;
+        color: $color-warm-900;
     }
 
     p {
         margin: 0;
         font-size: $text-sm;
-        color: $color-taupe;
+        color: $color-warm-900;
         line-height: $line-height-subheading;
     }
 }
