@@ -6,10 +6,9 @@ import (
 	"log/slog"
 	"net/http"
 	"sort"
-	"strconv"
 
-	"merge/internal/github"
 	"merge/internal/model"
+	"merge/internal/provider"
 	"merge/internal/views/components"
 	"merge/internal/views/pages"
 
@@ -21,7 +20,7 @@ type Server struct {
 	Port    int
 	Router  *mux.Router
 	Logger  *slog.Logger
-	GitHub  github.GitHubClient
+	Provider  provider.Provider
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -32,31 +31,38 @@ func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type GitHubRoute struct {
+type ProviderRoute struct {
 	*Server
-	Owner string
-	Repo  string
+	Params provider.Params
+	Options provider.Options
 }
 
-func (s *Server) HandleGitHubRoute(f func(*GitHubRoute, http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
+func (s *Server) HandleGitHubRoute(f func(*ProviderRoute, http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		s.Logger.Info(fmt.Sprintf("Handling request for %s", r.URL.Path))
 
-		vars := mux.Vars(r)
-		gh := &GitHubRoute{
+		params, options := provider.ParseMux(mux.Vars(r), r.URL.Query())
+		rt := &ProviderRoute{
 			Server: s,
-			Owner:  vars["owner"],
-			Repo:   vars["repo"],
+			Params: params,
+			Options: options,
 		}
 
-		f(gh, w, r)
+		f(rt, w, r)
 	}
 }
 
-func RawJson(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	json, _, err := gh.GitHub.GetPullRequestsJson(gh.Owner, gh.Repo, 1)
+func Json(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
+	prs, _, err := rt.Provider.GetPullRequests(rt.Params, rt.Options)
 	if err != nil {
-		gh.Logger.Warn(err.Error())
+		rt.Logger.Warn(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json, err := json.Marshal(prs)
+	if err != nil {
+		rt.Logger.Error(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -65,101 +71,70 @@ func RawJson(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
-func Json(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	prs, _, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo, 1)
-	if err != nil {
-		gh.Logger.Warn(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	stamped := model.StampNow(prs)
-
-	json, err := json.Marshal(stamped)
-	if err != nil {
-		gh.Logger.Error(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(json)
-}
-
-func fetchAllPages(gh *GitHubRoute, upToPage int) (all, currentPRs []model.PullRequest, hasNext bool, err error) {
+func fetchAllPages(rt *ProviderRoute, upToPage int) (all, currentPRs []model.StampedPullRequest, hasNext bool, err error) {
 	for p := 1; p <= upToPage; p++ {
-		prs, next, e := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo, p)
+		// TODO(hayden): Respect provided options, e.g. min/max
+		options := rt.Options.WithPage(p)
+		prs, next, e := rt.Provider.GetPullRequests(rt.Params, options)
 		if e != nil {
 			return nil, nil, false, e
 		}
 		all = append(all, prs...)
 		if p == upToPage {
 			currentPRs = prs
-			hasNext = next
+			hasNext = next.HasNext
 		}
 	}
 	return all, currentPRs, hasNext, nil
 }
 
-func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
-	currentPage := 1
-	if p := r.URL.Query().Get("page"); p != "" {
-		if parsed, err := strconv.Atoi(p); err == nil && parsed > 0 {
-			currentPage = parsed
-		}
-	}
-
+func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 	// Load-more: fetch all pages 1..current to compute combined stats
-	if currentPage > 1 && r.Header.Get("HX-Request") != "" {
-		allPRs, curPRs, hasNext, err := fetchAllPages(gh, currentPage)
+	if rt.Options.Page > 1 && r.Header.Get("HX-Request") != "" {
+		allPRs, curPRs, hasNext, err := fetchAllPages(rt, rt.Options.Page)
 		if err != nil {
-			gh.Logger.Warn(err.Error())
+			rt.Logger.Warn(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		allStamped := model.StampNow(allPRs)
-		newStamped := model.StampNow(curPRs)
-
-		nextPage := currentPage + 1
+		nextPage := rt.Options.Page + 1
 
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		err = pages.LoadMorePRs(
-			newStamped,
-			gh.Owner, gh.Repo, nextPage, hasNext,
-			model.GetCounts(allStamped),
-			model.ScopeAges(allStamped),
+			curPRs,
+			rt.Params.Owner, rt.Params.Repo, nextPage, hasNext,
+			model.GetCounts(allPRs),
+			model.ScopeAges(allPRs),
 			"recent",
-			model.ContributorActivity(allStamped),
+			model.ContributorActivity(allPRs),
 			"recent",
 		).Render(r.Context(), w)
 		if err != nil {
-			gh.Logger.Error(err.Error())
+			rt.Logger.Error(err.Error())
 		}
 		return
 	}
 
-	prs, hasNext, err := gh.GitHub.GetPullRequests(gh.Owner, gh.Repo, 1)
+	prs, hasNext, err := rt.Provider.GetPullRequests(rt.Params, rt.Options)
 	if err != nil {
-		gh.Logger.Warn(err.Error())
+		rt.Logger.Warn(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	stamped := model.StampNow(prs)
-
 	props := model.RepoPageProps{
-		BaseURL:           gh.BaseURL,
-		Owner:             gh.Owner,
-		Repo:              gh.Repo,
-		PRs:               stamped,
-		OverallCounts:     model.GetCounts(stamped),
-		ScopeCounts:       model.ScopeAges(stamped),
+		BaseURL:           rt.BaseURL,
+		Owner:             rt.Params.Owner,
+		Repo:              rt.Params.Repo,
+		PRs:               prs,
+		OverallCounts:     model.GetCounts(prs),
+		ScopeCounts:       model.ScopeAges(prs),
 		ScopeSort:         "recent",
-		ContributorCounts: model.ContributorActivity(stamped),
+		ContributorCounts: model.ContributorActivity(prs),
 		ContributorSort:   "recent",
 		CurrentPage:       1,
-		HasMore:           hasNext,
+		HasMore:           hasNext.HasNext,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -182,13 +157,13 @@ func Page(gh *GitHubRoute, w http.ResponseWriter, r *http.Request) {
 		}
 		err = components.Scopes(scopes, method).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
-		w.Header().Set("HX-Push", "/"+gh.Owner+"/"+gh.Repo)
+		w.Header().Set("HX-Push", "/"+rt.Params.Owner+"/"+rt.Params.Repo)
 		err = pages.RepoContent(props).Render(r.Context(), w)
 	} else {
 		err = pages.RepoPage(props).Render(r.Context(), w)
 	}
 	if err != nil {
-		gh.Logger.Error(err.Error())
+		rt.Logger.Error(err.Error())
 	}
 }
 
@@ -198,8 +173,7 @@ func (s *Server) Start() error {
 
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/", s.HandleGitHubRoute(Page))
-	s.Router.HandleFunc("/{owner}/{repo}/json", s.HandleGitHubRoute(Json))
-	s.Router.HandleFunc("/{owner}/{repo}/raw", s.HandleGitHubRoute(RawJson))
+	s.Router.HandleFunc("/{owner}/{repo}/{scope}", s.HandleGitHubRoute(Page))
 
 	s.Logger.Info(fmt.Sprintf("Server starting on port %d", s.Port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", s.Port), s.Router)

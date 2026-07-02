@@ -165,6 +165,16 @@ func (pr *PullRequest) Stamp(time time.Time) StampedPullRequest {
 	return spr
 }
 
+func Stamp(prs []PullRequest, time time.Time) []StampedPullRequest {
+	stamped := make([]StampedPullRequest, 0, len(prs))
+	for _, pr := range prs {
+		if !pr.IsBot() {
+			stamped = append(stamped, pr.Stamp(time))
+		}
+	}
+	return stamped
+}
+
 func StampNow(prs []PullRequest) []StampedPullRequest {
 	stamped := make([]StampedPullRequest, 0, len(prs))
 	now := time.Now()
