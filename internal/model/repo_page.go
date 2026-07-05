@@ -4,6 +4,7 @@ type RepoPageProps struct {
 	BaseURL           string
 	Owner             string
 	Repo              string
+	Scope             string
 	PRs               []StampedPullRequest
 	OverallCounts     ExpiryCounts
 	ScopeCounts       []ScopeInfo

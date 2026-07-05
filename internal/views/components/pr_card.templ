@@ -43,7 +43,7 @@ func ageLabel(open time.Duration, days int) string {
     return fmt.Sprintf("%dyr ago", years)
 }
 
-templ PRCard(pr model.StampedPullRequest) {
+templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") }>
         <div class="pull-request-header">
             <div class="icon">
@@ -66,7 +66,9 @@ templ PRCard(pr model.StampedPullRequest) {
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
                 </span>
 				for _, scope := range pr.Scopes {
-					<span>{ scope }</span>
+					<span>
+                        <a href={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-get={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-target="main" hx-push-url="true">{ scope }</a>
+                    </span>
 				}
             </div>
         </div>

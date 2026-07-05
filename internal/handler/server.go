@@ -100,15 +100,28 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 
 		nextPage := rt.Options.Page + 1
 
+		currentScope := ""
+		if rt.Params.Scope != nil {
+			currentScope = *rt.Params.Scope
+		}
+		scopes := make([]model.ScopeInfo, 0)
+		for _, s := range model.ScopeAges(allPRs) {
+			if s.Name == currentScope {
+				continue
+			}
+			scopes = append(scopes, s)
+		}
+
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		err = pages.LoadMorePRs(
 			curPRs,
 			rt.Params.Owner, rt.Params.Repo, nextPage, hasNext,
 			model.GetCounts(allPRs),
-			model.ScopeAges(allPRs),
+			scopes,
 			"recent",
 			model.ContributorActivity(allPRs),
 			"recent",
+			r.URL.Path,
 		).Render(r.Context(), w)
 		if err != nil {
 			rt.Logger.Error(err.Error())
@@ -123,13 +136,27 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	scope := ""
+	if rt.Params.Scope != nil {
+		scope = *rt.Params.Scope
+	}
+
+	scopeCounts := model.ScopeAges(prs)
+	filteredScopes := make([]model.ScopeInfo, 0, len(scopeCounts))
+	for _, s := range scopeCounts {
+		if s.Name != scope {
+			filteredScopes = append(filteredScopes, s)
+		}
+	}
+
 	props := model.RepoPageProps{
 		BaseURL:           rt.BaseURL,
 		Owner:             rt.Params.Owner,
 		Repo:              rt.Params.Repo,
+		Scope:             scope,
 		PRs:               prs,
 		OverallCounts:     model.GetCounts(prs),
-		ScopeCounts:       model.ScopeAges(prs),
+		ScopeCounts:       filteredScopes,
 		ScopeSort:         "recent",
 		ContributorCounts: model.ContributorActivity(prs),
 		ContributorSort:   "recent",
@@ -155,12 +182,16 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return scopes[i].Count() > scopes[j].Count()
 			})
 		}
-		err = components.Scopes(scopes, method).Render(r.Context(), w)
+		err = components.Scopes(scopes, method, r.URL.Path).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
-		w.Header().Set("HX-Push", "/"+rt.Params.Owner+"/"+rt.Params.Repo)
-		err = pages.RepoContent(props).Render(r.Context(), w)
+		pushURL := "/" + rt.Params.Owner + "/" + rt.Params.Repo
+		if scope != "" {
+			pushURL += "/" + scope
+		}
+		w.Header().Set("HX-Push", pushURL)
+		err = pages.RepoContent(props, r.URL.Path).Render(r.Context(), w)
 	} else {
-		err = pages.RepoPage(props).Render(r.Context(), w)
+		err = pages.RepoPage(props, r.URL.Path).Render(r.Context(), w)
 	}
 	if err != nil {
 		rt.Logger.Error(err.Error())

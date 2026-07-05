@@ -10,13 +10,14 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
+	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/components"
 	"merge/internal/views/layout"
 )
 
-func RepoPage(props model.RepoPageProps) templ.Component {
+func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -61,7 +62,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts, props.ScopeSort).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -78,7 +79,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, pr := range props.PRs {
-				templ_7745c5c3_Err = components.PRCard(pr).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = components.PRCard(pr, props.Owner, props.Repo).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -95,6 +96,7 @@ func RepoPage(props model.RepoPageProps) templ.Component {
 			props.BaseURL,
 			props.Owner,
 			props.Repo,
+			strings.Trim(strings.TrimPrefix(currentPath, fmt.Sprintf("/%s/%s", props.Owner, props.Repo)), "/"),
 		).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
