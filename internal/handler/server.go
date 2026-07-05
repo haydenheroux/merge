@@ -109,6 +109,7 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 			"recent",
 			model.ContributorActivity(allPRs),
 			"recent",
+			r.URL.Path,
 		).Render(r.Context(), w)
 		if err != nil {
 			rt.Logger.Error(err.Error())
@@ -155,12 +156,12 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return scopes[i].Count() > scopes[j].Count()
 			})
 		}
-		err = components.Scopes(scopes, method).Render(r.Context(), w)
+		err = components.Scopes(scopes, method, r.URL.Path).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
 		w.Header().Set("HX-Push", "/"+rt.Params.Owner+"/"+rt.Params.Repo)
-		err = pages.RepoContent(props).Render(r.Context(), w)
+		err = pages.RepoContent(props, r.URL.Path).Render(r.Context(), w)
 	} else {
-		err = pages.RepoPage(props).Render(r.Context(), w)
+		err = pages.RepoPage(props, r.URL.Path).Render(r.Context(), w)
 	}
 	if err != nil {
 		rt.Logger.Error(err.Error())

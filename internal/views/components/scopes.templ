@@ -2,7 +2,7 @@ package components
 
 import "merge/internal/model"
 
-templ Scopes(scopes []model.ScopeInfo, activeSort string) {
+templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath string) {
     if len(scopes) > 0 {
         <section class="scopes">
             <div class="section-heading">
@@ -33,7 +33,7 @@ templ Scopes(scopes []model.ScopeInfo, activeSort string) {
             </div>
             <div class="scopes-container">
                 for _, info := range scopes {
-                    @Scope(info)
+                    @Scope(info, currentPath)
                 }
             </div>
         </section>
