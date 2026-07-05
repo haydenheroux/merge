@@ -49,7 +49,7 @@ button, .link-button, .status-icon {
     top: 0;
     z-index: 100;
     width: 100%;
-    padding-inline: $spacing-4;
+    padding-inline: $nav-padding-inline;
     box-sizing: border-box;
     background-color: $color-warm-300;
     border-bottom: 1px solid $color-warm-cutout-strong;
@@ -168,7 +168,7 @@ button, .link-button, .status-icon {
 }
 
 main {
-    margin-inline: $spacing-6;
+    margin-inline: $main-margin-inline;
     margin-block: $spacing-6;
     display: flex;
     flex-direction: column;
@@ -306,6 +306,7 @@ main {
 
 footer {
     display: flex;
+    margin-inline: $main-margin-inline;
     margin-bottom: $spacing-6;
     color: $color-warm-800;
 
@@ -491,7 +492,7 @@ body:not(.repo-page) footer {
 @media (max-width: $breakpoint-mobile) {
     body {
         width: $body-width-full;
-        padding-inline: $spacing-3;
+        padding-inline: $nav-padding-inline;
         box-sizing: border-box;
     }
 
