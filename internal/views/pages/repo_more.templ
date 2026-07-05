@@ -19,7 +19,7 @@ templ LoadMorePRs(
     currentPath string,
 ) {
 	for _, pr := range prs {
-		@components.PRCard(pr, currentPath)
+		@components.PRCard(pr, owner, repo)
 	}
 	<div id="overview-stats" hx-swap-oob="true">
 		@components.Counts(overallCounts, hasMore, owner, repo, nextPage)

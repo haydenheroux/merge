@@ -21,7 +21,7 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
 		<p class="section-label">Pull Requests</p>
 		<div class="prs-scroll" id="prs-scroll">
 		for _, pr := range props.PRs {
-			@components.PRCard(pr, currentPath)
+			@components.PRCard(pr, props.Owner, props.Repo)
 		}
 		</div>
 	</section>
