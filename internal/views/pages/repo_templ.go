@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
+	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/components"
@@ -95,6 +96,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			props.BaseURL,
 			props.Owner,
 			props.Repo,
+			strings.Trim(strings.TrimPrefix(currentPath, fmt.Sprintf("/%s/%s", props.Owner, props.Repo)), "/"),
 		).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

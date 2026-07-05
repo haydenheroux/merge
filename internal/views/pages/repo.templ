@@ -2,6 +2,7 @@ package pages
 
 import (
 	"fmt"
+	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/layout"
@@ -15,7 +16,8 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
 		props.BaseURL,
         props.Owner,
         props.Repo,
-	) {
+        strings.Trim(strings.TrimPrefix(currentPath, fmt.Sprintf("/%s/%s", props.Owner, props.Repo)), "/"),
+    ) {
         <div class="overview" id="overview-stats">
             @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
         </div>

@@ -124,10 +124,15 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	scope := ""
+	if rt.Params.Scope != nil {
+		scope = *rt.Params.Scope
+	}
 	props := model.RepoPageProps{
 		BaseURL:           rt.BaseURL,
 		Owner:             rt.Params.Owner,
 		Repo:              rt.Params.Repo,
+		Scope:             scope,
 		PRs:               prs,
 		OverallCounts:     model.GetCounts(prs),
 		ScopeCounts:       model.ScopeAges(prs),
@@ -158,7 +163,11 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		}
 		err = components.Scopes(scopes, method, r.URL.Path).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
-		w.Header().Set("HX-Push", "/"+rt.Params.Owner+"/"+rt.Params.Repo)
+		pushURL := "/" + rt.Params.Owner + "/" + rt.Params.Repo
+		if scope != "" {
+			pushURL += "/" + scope
+		}
+		w.Header().Set("HX-Push", pushURL)
 		err = pages.RepoContent(props, r.URL.Path).Render(r.Context(), w)
 	} else {
 		err = pages.RepoPage(props, r.URL.Path).Render(r.Context(), w)
