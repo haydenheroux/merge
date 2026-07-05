@@ -9,6 +9,8 @@ document.addEventListener('click', function (e) {
   const card = e.target.closest('.pull-request');
   if (!card) return;
 
+  if (e.target.closest('a')) return;
+
   const hasBody = card.dataset.hasBody === 'true';
   if (!hasBody) return;
 
