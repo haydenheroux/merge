@@ -67,7 +67,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
                 </span>
 				for _, scope := range pr.Scopes {
 					<span>
-                        <a href={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) }>{ scope }</a>
+                        <a href={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-get={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-target="main" hx-push-url="true">{ scope }</a>
                     </span>
 				}
             </div>

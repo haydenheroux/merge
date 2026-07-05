@@ -132,6 +132,25 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 						document.title += '/' + origScope;
 					}
 				}
+				var parts = window.location.pathname.split('/').filter(Boolean);
+				if (parts.length > 2) {
+					var curScope = parts.slice(2).join('/');
+					if (curScope !== origScope) {
+						var inp = document.querySelector('.title-input[data-part="scope"]');
+						if (inp) {
+							inp.value = curScope;
+							origScope = curScope;
+							inp.dispatchEvent(new Event('input'));
+						}
+					}
+				} else {
+					var inp = document.querySelector('.title-input[data-part="scope"]');
+					if (inp && inp.value) {
+						inp.value = '';
+						origScope = '';
+						inp.dispatchEvent(new Event('input'));
+					}
+				}
 			});
 			document.fonts.ready.then(function() {
 				inputs.forEach(resize);
