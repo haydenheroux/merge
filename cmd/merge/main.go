@@ -6,8 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"merge/internal/github"
 	"merge/internal/handler"
+	"merge/internal/provider/github"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		Port:    8080,
 		Router:  mux.NewRouter(),
 		Logger:  slog.New(slog.NewTextHandler(os.Stderr, nil)),
-		GitHub: github.GitHub{
+		Provider: github.GitHub{
 			Token: os.Getenv("PROVIDER_TOKEN_GITHUB"),
 		},
 	}
