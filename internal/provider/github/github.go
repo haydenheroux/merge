@@ -74,7 +74,7 @@ func (g GitHub) GetPullRequests(params provider.Params, options provider.Options
 	if params.Scope == nil {
 		return stamped, hasNext, nil
 	}
-	
+
 	inScope := make([]model.StampedPullRequest, 0, len(stamped))
 	for _, pr := range stamped {
 		for _, scope := range pr.Scopes {

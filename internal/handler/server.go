@@ -16,11 +16,11 @@ import (
 )
 
 type Server struct {
-	BaseURL string
-	Port    int
-	Router  *mux.Router
-	Logger  *slog.Logger
-	Provider  provider.Provider
+	BaseURL  string
+	Port     int
+	Router   *mux.Router
+	Logger   *slog.Logger
+	Provider provider.Provider
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +33,7 @@ func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 
 type ProviderRoute struct {
 	*Server
-	Params provider.Params
+	Params  provider.Params
 	Options provider.Options
 }
 
@@ -43,8 +43,8 @@ func (s *Server) HandleGitHubRoute(f func(*ProviderRoute, http.ResponseWriter, *
 
 		params, options := provider.ParseMux(mux.Vars(r), r.URL.Query())
 		rt := &ProviderRoute{
-			Server: s,
-			Params: params,
+			Server:  s,
+			Params:  params,
 			Options: options,
 		}
 

@@ -9,8 +9,8 @@ import (
 
 type Params struct {
 	Owner string
-	Repo string
-	AsOf time.Time
+	Repo  string
+	AsOf  time.Time
 	Scope *string
 }
 
@@ -24,7 +24,7 @@ func (o Options) WithPage(page int) Options {
 	return o
 }
 
-func tryInt(key string, query url.Values, fallback int) (int) {
+func tryInt(key string, query url.Values, fallback int) int {
 	if p := query.Get(key); p != "" {
 		if parsed, err := strconv.Atoi(p); err == nil {
 			return parsed
@@ -37,7 +37,7 @@ func tryInt(key string, query url.Values, fallback int) (int) {
 func ParseMux(vars map[string]string, query url.Values) (Params, Options) {
 	ps := Params{
 		Owner: vars["owner"],
-		Repo: vars["repo"],
+		Repo:  vars["repo"],
 		// TODO(hayden): Move this to options for historical slicing?
 		AsOf: time.Now(),
 	}
@@ -47,7 +47,7 @@ func ParseMux(vars map[string]string, query url.Values) (Params, Options) {
 
 	options := Options{
 		Count: 20,
-		Page: tryInt("page", query, 1),
+		Page:  tryInt("page", query, 1),
 	}
 
 	return ps, options
