@@ -32,12 +32,12 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath string) templ.Comp
 		}
 		ctx = templ.ClearChildren(ctx)
 		if len(scopes) > 0 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"scopes\"><div class=\"section-heading\"><span>Scopes</span> <span class=\"buttons\"><i id=\"scopes-sort-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <button")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"list-section\"><div class=\"section-header\"><span class=\"section-title\">Scopes</span> <span class=\"section-actions\"><i id=\"scopes-sort-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\" style=\"display:none\"></i> <button")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if activeSort == "top" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " data-active-sort=\"true\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " data-active=\"true\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -47,12 +47,12 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath string) templ.Comp
 				return templ_7745c5c3_Err
 			}
 			if activeSort == "recent" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " data-active-sort=\"true\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " data-active=\"true\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " hx-get=\"?part=scopes&sort=recent\" hx-target=\"#scopes-section\" hx-indicator=\"#scopes-sort-indicator\">Recent</button></span></div><div class=\"scopes-container\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " hx-get=\"?part=scopes&sort=recent\" hx-target=\"#scopes-section\" hx-indicator=\"#scopes-sort-indicator\">Recent</button></span></div><div class=\"scopes-container\" id=\"scopes-container\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -62,7 +62,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath string) templ.Comp
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></section>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

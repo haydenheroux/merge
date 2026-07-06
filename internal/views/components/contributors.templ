@@ -4,38 +4,34 @@ import "merge/internal/model"
 
 templ Contributors(contributors []model.ContributorInfo, activeSort string) {
     if len(contributors) > 0 {
-        <section class="contributors">
-            <div class="section-heading">
-                <span>Contributors</span>
-                <span class="buttons">
-                    <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
+        <div class="list-section">
+            <div class="section-header">
+                <span class="section-title">Contributors</span>
+                <span class="section-actions">
+                    <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" style="display:none"></i>
                     <button
                         if activeSort == "top" {
-                            data-active-sort="true"
+                            data-active="true"
                         }
                         hx-get="?part=contributors&sort=top"
                         hx-target="#contributors-section"
                         hx-indicator="#contributors-sort-indicator"
-                    >
-                        Top
-                    </button>
+                    >Top</button>
                     <button
                         if activeSort == "recent" {
-                            data-active-sort="true"
+                            data-active="true"
                         }
                         hx-get="?part=contributors&sort=recent"
                         hx-target="#contributors-section"
                         hx-indicator="#contributors-sort-indicator"
-                    >
-                        Recent
-                    </button>
+                    >Recent</button>
                 </span>
             </div>
-            <div class="contributors-container">
+            <div class="contributors-container" id="contributors-container">
                 for _, info := range contributors {
                     @Contributor(info)
                 }
             </div>
-        </section>
+        </div>
     }
 }

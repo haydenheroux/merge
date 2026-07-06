@@ -3,31 +3,28 @@ package components
 import "fmt"
 
 templ Nav(owner, repo, scope string) {
-	<nav id="nav">
-        <div class="nav-inner">
-            <h4 id="nav-input" class="serif bold">
-                <a href="/">Merge Zone</a>
-                if owner != "" {
-                    <span class="serif bold title-sep">/</span>
-                    <span class="input-pill">
-                        <input class="serif title-input" type="text" data-part="owner" value={ owner }>
-                    </span>
-                    if repo != "" {
-                        <span class="serif bold title-sep">/</span>
-                        <span class="input-pill">
-                            <input class="serif title-input" type="text" data-part="repo" value={ repo }>
-                        </span>
-                        <span class="serif bold title-sep">/</span>
-                        <span class="input-pill">
-                            <input class="serif title-input" type="text" data-part="scope" value={ scope } placeholder="…">
-                        </span>
-                         <a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", owner, repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt link-button" aria-hidden="true"></i></a>
-                    }
-                }
-            </h4>
-            <button id="theme-toggle" class="link-button" aria-label="Toggle dark mode">
-                <i class="bi bi-moon-fill" aria-hidden="true"></i>
-            </button>
-        </div>
-	</nav>
+	<div class="pane-left-header">
+		<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+			<a href="/" style="font-weight:700;font-size:14px;color:var(--clr-text-heading);text-decoration:none">
+				Merge Zone
+			</a>
+			<div style="display:flex;align-items:center;gap:8px">
+				<a href={ fmt.Sprintf("https://github.com/%s/%s/pulls", owner, repo) } aria-label="View on GitHub" style="color:var(--clr-text-muted);font-size:16px">
+					<i class="fa-brands fa-github-alt"></i>
+				</a>
+				<button id="theme-toggle" style="background:none;border:none;cursor:pointer;color:var(--clr-text-muted);font-size:16px;padding:4px;display:flex" aria-label="Toggle theme">
+					<i class="bi bi-moon-fill"></i>
+				</button>
+			</div>
+		</div>
+		<div style="display:flex;align-items:center;gap:4px;font-size:13px;flex-wrap:wrap">
+			<a href={ "/" + owner } style="color:var(--clr-text-secondary);text-decoration:none">{ owner }</a>
+			<span style="color:var(--clr-text-muted)">/</span>
+			<a href={ "/" + owner + "/" + repo } style="color:var(--clr-text-primary);font-weight:600;text-decoration:none">{ repo }</a>
+			if scope != "" {
+				<span style="color:var(--clr-text-muted)">/</span>
+				<span style="color:var(--clr-accent);font-weight:500">{ scope }</span>
+			}
+		</div>
+	</div>
 }

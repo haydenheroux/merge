@@ -1,19 +1,27 @@
 package components
 
-import "fmt"
-import "merge/internal/model"
+import (
+	"fmt"
+	"merge/internal/model"
+)
 
 templ Scope(info model.ScopeInfo, currentPath string) {
-    <div class="item scope">
-        <div class="text">
-            <a class="title" href={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-get={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-target="main" hx-push-url="true">{ info.Name }</a>
-            <p class="age">{ info.NewestPRAge }</p>
-        </div>
-        <div class="counts">
-            @InlineCount("fa-seedling ok", info.Counts.FreshCount)
-            @InlineCount("fa-leaf warn", info.Counts.StaleCount)
-            @InlineCount("fa-skull error", info.Counts.ExpiredCount)
-            @InlineCount("fa-code-merge special", info.Counts.MergedCount)
-        </div>
-    </div>
+	<a
+		class="slim-card"
+		href={ fmt.Sprintf("%s/%s", currentPath, info.Name) }
+		hx-get={ fmt.Sprintf("%s/%s", currentPath, info.Name) }
+		hx-target="#app-shell"
+		hx-push-url="true"
+		style="text-decoration:none"
+	>
+		<div class="slim-card-info">
+			<span class="slim-card-title">{ info.Name }</span>
+			<span class="slim-card-subtitle">{ info.NewestPRAge }</span>
+		</div>
+		<div class="slim-card-metrics">
+			<span class="metric-pill text-success">{ fmt.Sprintf("%dT", info.Counts.FreshCount) }</span>
+			<span class="metric-pill text-muted">/</span>
+			<span class="metric-pill">{ fmt.Sprintf("%dR", info.Counts.FreshCount + info.Counts.StaleCount + info.Counts.ExpiredCount + info.Counts.MergedCount) }</span>
+		</div>
+	</a>
 }

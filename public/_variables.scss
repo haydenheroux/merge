@@ -1,92 +1,46 @@
-// CSS custom properties for light (default) and dark themes
 :root {
-    --clr-page: #eee8dd;             /* Warm page background */
-    --clr-surface: #faf7ed;          /* Card / surface background */
-    --clr-section: #dfd8c9;          /* Section container */
-    --clr-cutout: #f0e9dd;           /* Hover / cutout */
-    --clr-cutout-strong: #d9d1c2;    /* Stronger cutout (pills, inline code bg) */
-    --clr-decorative: #ccc5b9;       /* Borders, underlines, decorative lines */
-    --clr-text-primary: #403d39;     /* Body text */
-    --clr-text-secondary: #524b40;   /* Secondary text */
-    --clr-text-muted: #70695c;       /* Muted text, placeholders, separators */
-    --clr-text-heading: #252422;     /* Heading text */
-    --clr-code-bg: #403d39;          /* Code block background */
-    --clr-code-text: #fffcf2;        /* Code block text */
-    --clr-inline-code-bg: #d9d1c2;   /* Inline code background */
-    --clr-inline-code-text: #403d39; /* Inline code text */
-    --clr-red: #db4d14;              /* Error / expired */
-    --clr-amber: #df8816;            /* Warning / stale */
-    --clr-green: #5b7e3c;            /* OK / fresh */
-    --clr-purple: #7f577f;           /* Special / merged */
+    --clr-page: #F4F4F4;
+    --clr-surface: #FFFFFF;
+    --clr-hover: #F0F0F0;
+    --clr-border: #E8E8E8;
+    --clr-text-primary: #1A1A1A;
+    --clr-text-secondary: #666666;
+    --clr-text-muted: #999999;
+    --clr-text-heading: #000000;
+    --clr-code-bg: #1E1E1E;
+    --clr-code-text: #D4D4D4;
+    --clr-success: #2DA44E;
+    --clr-danger: #CF222E;
+    --clr-warning: #BF8700;
+    --clr-accent: #0969DA;
+    --clr-merged: #8250DF;
 }
 
-html.dark {
-    --clr-page: #1a2035;             /* Navy page background */
-    --clr-surface: #242b44;          /* Card surface — clearly distinct */
-    --clr-section: #2e3651;          /* Section container */
-    --clr-cutout: #384262;           /* Hover / cutout */
-    --clr-cutout-strong: #434f73;    /* Stronger cutout */
-    --clr-decorative: #505d84;       /* Borders, underlines */
-    --clr-text-primary: #e2e8f5;     /* Body text — light blue-gray */
-    --clr-text-secondary: #c8d2ea;   /* Secondary text */
-    --clr-text-muted: #a0aecf;       /* Muted text */
-    --clr-text-heading: #edf0f8;     /* Heading text — near white */
-    --clr-code-bg: #121725;          /* Code block background */
-    --clr-code-text: #e2e8f5;        /* Code block text */
-    --clr-inline-code-bg: #323f62;   /* Inline code background */
-    --clr-inline-code-text: #e2e8f5; /* Inline code text */
-    --clr-red: #e85d2a;              /* Error / expired */
-    --clr-amber: #e8993a;            /* Warning / stale */
-    --clr-green: #6d9a49;            /* OK / fresh */
-    --clr-purple: #9a6f9a;           /* Special / merged */
-}
+$color-surface: var(--clr-surface);
+$color-page: var(--clr-page);
+$color-hover: var(--clr-hover);
+$color-border: var(--clr-border);
+$color-text-primary: var(--clr-text-primary);
+$color-text-secondary: var(--clr-text-secondary);
+$color-text-muted: var(--clr-text-muted);
+$color-text-heading: var(--clr-text-heading);
+$color-code-bg: var(--clr-code-bg);
+$color-code-text: var(--clr-code-text);
+$color-success: var(--clr-success);
+$color-danger: var(--clr-danger);
+$color-warning: var(--clr-warning);
+$color-accent: var(--clr-accent);
+$color-merged: var(--clr-merged);
 
-// SCSS color variables mapped to CSS custom properties for runtime theming
-$color-warm-50: var(--clr-code-text);
-$color-warm-100: var(--clr-surface);
-$color-warm-200: var(--clr-cutout);
-$color-warm-300: var(--clr-page);
-$color-warm-400: var(--clr-page);
-$color-warm-500: var(--clr-section);
-$color-warm-600: var(--clr-inline-code-bg);
-$color-warm-700: var(--clr-decorative);
-$color-warm-800: var(--clr-text-muted);
-$color-warm-900: var(--clr-text-secondary);
-$color-warm-950: var(--clr-text-primary);
-$color-warm-black: var(--clr-text-heading);
+$font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-// Accent colors
-$color-red-600: var(--clr-red);
-$color-green-600: var(--clr-green);
-$color-amber-500: var(--clr-amber);
-$color-purple-500: var(--clr-purple);
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.25rem;
+$text-xl: 1.5rem;
 
-// Cutout aliases
-$color-warm-cutout: var(--clr-cutout);
-$color-warm-cutout-strong: var(--clr-cutout-strong);
-
-$text-3xl: 4rem;
-$text-2xl: 3rem;
-$text-xl: 2rem;
-$text-lg: 1.5rem;
-$text-md: 1.25rem;
-$text-sm: 1rem;
-$text-xs: 0.875rem;
-$text-xxs: 0.75rem;
-$text-xxxs: 0.5rem;
-
-$font-weight-normal: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-$font-weight-extrabold: 800;
-
-$line-height-heading: 85%;
-$line-height-body: 95%;
-$line-height-subheading: 110%;
-$line-height-markdown-body: 1.4;
-$line-height-code: 1.5;
-
-$spacing-0: 0;
 $spacing-1: 0.25rem;
 $spacing-2: 0.5rem;
 $spacing-3: 0.75rem;
@@ -94,73 +48,13 @@ $spacing-4: 1rem;
 $spacing-5: 1.25rem;
 $spacing-6: 1.5rem;
 $spacing-8: 2rem;
-$spacing-12: 3rem;
-$spacing-16: 4rem;
-$spacing-32: 8rem;
 
-$nav-padding-inline: $spacing-4;
-$main-margin-inline: $spacing-6;
-$main-mobile-gap: $spacing-6;
-$main-desktop-gap: $spacing-4;
+$border-radius: 8px;
+$border-radius-lg: 12px;
 
-$card-border-radius: 12px;
-$inline-border-radius: 6px;
-$border-radius-code: 6px;
+$transition: 150ms ease;
 
-$border-width-thin: 1px;
-$border-width-default: 2px;
-$border-width-thick: 4px;
+$breakpoint-mobile: 768px;
 
-$underline-offset-title: 2px;
-$underline-offset-description: 1px;
-
-$transition-fast: 150ms;
-$transition-normal: 200ms;
-$easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-$breakpoint-mobile: 720px;
-$breakpoint-desktop: 1024px;
-
-$scale-hover: 1.1;
-$scale-hover-large: 1.15;
-$scale-hover-icon: 110%;
-$scale-active: 0.85;
-$rotate-hover: -5deg;
-$rotate-hover-large: -7.5deg;
-
-$body-width: 100%;
-$body-width-full: 100%;
-$body-height: auto;
-
-$aside-width: 32rem;
-
-$title-input-height-factor: 1.1;
-$title-input-min-width: 1ch;
-
-$input-pill-inset-y: -$spacing-1;
-$input-pill-inset-x: -$spacing-2;
-
-$repo-form-gap: 8px;
-$repo-form-padding-x: 10px;
-$repo-form-padding-y-factor: 0.5;
-
-$letter-spacing-label: 0.05em;
-
-$stats-tiles-grid-columns: 2;
-
-$heading-scale-h1: 0.6;
-$heading-scale-h2: 0.65;
-
-$code-padding-y: 0.15rem;
-$code-padding-x: 0.35rem;
-$pre-padding: $spacing-4;
-
-$status-icon-font-size-factor: 1.1;
-$status-icon-margin-top-factor: 0.3;
-$icon-margin-left-factor: 0.5;
-$icon-github-margin-top-factor: 0.25;
-
-$z-index-behind: -1;
-
-$title-sep-margin-top-factor: -0.25;
-$nav-toggle-active-scale: 0.85;
+$left-pane-width: 300px;
+$right-pane-width: 380px;

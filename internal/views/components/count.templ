@@ -2,17 +2,6 @@ package components
 
 import "fmt"
 
-templ Count(iconClass string, count int, label string) {
-	<div class="item stat">
-		<p class="bold">{ label }</p>
-		<i class={ "status-icon fa-solid " + iconClass }></i>
-		<b class="serif">{ fmt.Sprintf("%d", count) }</b>
-	</div>
-}
-
 templ InlineCount(iconClass string, count int) {
-	<div class="stat">
-		<i class={ "status-icon fa-solid " + iconClass }></i>
-		<span class="bold small">{ fmt.Sprintf("%d", count) }</span>
-	</div>
+	<span class="mono">{ fmt.Sprintf("%d", count) }</span>
 }

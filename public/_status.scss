@@ -1,17 +1,50 @@
 @use 'variables' as *;
 
-.error {
-    color: $color-red-600;
+.text-success {
+    color: $color-success;
 }
 
-.warn {
-    color: $color-amber-500;
+.text-danger {
+    color: $color-danger;
 }
 
-.ok {
-    color: $color-green-600;
+.text-warning {
+    color: $color-warning;
 }
 
-.special {
-    color: $color-purple-500;
+.text-accent {
+    color: $color-accent;
+}
+
+.text-merged {
+    color: $color-merged;
+}
+
+.text-muted {
+    color: $color-text-muted;
+}
+
+.badge-success {
+    background-color: #DAFBE1;
+    color: #1A7F37;
+}
+
+.badge-danger {
+    background-color: #FFEBE9;
+    color: #CF222E;
+}
+
+.badge-warning {
+    background-color: #FFF8C5;
+    color: #9A6700;
+}
+
+.badge-neutral {
+    background-color: #F0F0F0;
+    color: #656D76;
+}
+
+.badge-merged {
+    background-color: #F3E8FF;
+    color: #8250DF;
 }

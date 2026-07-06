@@ -1,12 +1,11 @@
 @use 'typography';
-@use 'stat';
+@use 'status';
 @use 'layout';
 @use 'section';
-@use 'prs';
 @use 'item';
+@use 'stat';
+@use 'prs';
 @use 'pull-request';
-@use 'status';
 @use 'scope';
-@use 'contributor';
-@use 'separator';
-@use 'silver-link';
+@use 'right-pane';
+@use 'mobile';

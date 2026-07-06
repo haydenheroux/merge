@@ -1,0 +1,63 @@
+package components
+
+import (
+	"fmt"
+
+	"merge/internal/model"
+)
+
+templ RightPaneOverview(counts model.ExpiryCounts) {
+	<div class="right-pane-content">
+		<div class="section-header">
+			<span class="section-title">Overview Statistics</span>
+		</div>
+		<div class="stat-widgets">
+			<div class="stat-widget stat-fresh">
+				<div class="stat-value">{ fmt.Sprintf("%d", counts.FreshCount) }</div>
+				<div class="stat-label">Fresh</div>
+			</div>
+			<div class="stat-widget stat-stale">
+				<div class="stat-value">{ fmt.Sprintf("%d", counts.StaleCount) }</div>
+				<div class="stat-label">Stale</div>
+			</div>
+			<div class="stat-widget stat-expired">
+				<div class="stat-value">{ fmt.Sprintf("%d", counts.ExpiredCount) }</div>
+				<div class="stat-label">Expired</div>
+			</div>
+		</div>
+		<div class="chart-section">
+			<div class="chart-title">Commit Activity</div>
+			<div class="bar-chart">
+				<div class="bar" style="height:24px"></div>
+				<div class="bar" style="height:48px"></div>
+				<div class="bar" style="height:32px"></div>
+				<div class="bar" style="height:56px"></div>
+				<div class="bar" style="height:40px"></div>
+				<div class="bar" style="height:64px"></div>
+				<div class="bar" style="height:28px"></div>
+			</div>
+		</div>
+		<div class="chart-section">
+			<div class="chart-title">Scope Distribution</div>
+			<div
+				class="donut-chart"
+				style="background:conic-gradient(var(--clr-success) 0deg 120deg, var(--clr-warning) 120deg 240deg, var(--clr-danger) 240deg 300deg, var(--clr-merged) 300deg 360deg)"
+			></div>
+			<div class="donut-legend">
+				<span class="legend-item"><span class="legend-dot" style="background:var(--clr-success)"></span> Fresh</span>
+				<span class="legend-item"><span class="legend-dot" style="background:var(--clr-warning)"></span> Stale</span>
+				<span class="legend-item"><span class="legend-dot" style="background:var(--clr-danger)"></span> Expired</span>
+				<span class="legend-item"><span class="legend-dot" style="background:var(--clr-merged)"></span> Merged</span>
+			</div>
+		</div>
+	</div>
+}
+
+templ RightPaneEmpty() {
+	<div class="right-pane-content">
+		<div class="right-pane-placeholder">
+			<i class="fa-solid fa-code-pull-request"></i>
+			<p>Select a pull request to view details</p>
+		</div>
+	</div>
+}

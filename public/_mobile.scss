@@ -1,0 +1,26 @@
+@use 'variables' as *;
+
+.mobile-workspace-selector {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-left: auto;
+
+    select {
+        font-size: $text-sm;
+        padding: $spacing-1 $spacing-2;
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        background-color: $color-surface;
+        color: $color-text-primary;
+        font-family: $font-sans;
+    }
+}
+
+@media (min-width: $breakpoint-mobile + 1px) {
+    .mobile-workspace-selector { display: none; }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .desktop-only { display: none !important; }
+}

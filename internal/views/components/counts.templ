@@ -7,26 +7,28 @@ import (
 )
 
 templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int) {
-	<section class="stats">
-		<div class="section-heading">
-            <span>Overview</span>
-            if hasMore {
-                <div class="buttons">
-                    <i id="load-more-indicator" class="fas fa-circle-notch fa-spin htmx-indicator"></i>
-                    <button
-                        hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage) }
-                        hx-target="#prs-scroll"
-                        hx-swap="beforeend"
-                        hx-indicator="#load-more-indicator"
-                    >Load more</button>
-                </div>
-            }
-        </div>
-		<div class="stats-tiles">
-			@Count("fa-seedling ok", counts.FreshCount, "fresh")
-			@Count("fa-leaf warn", counts.StaleCount, "stale")
-			@Count("fa-skull error", counts.ExpiredCount, "expired")
-			@Count("fa-code-merge special", counts.MergedCount, "merged")
+	<div class="stat-widgets">
+		<div class="stat-widget stat-fresh">
+			<div class="stat-value">{ fmt.Sprintf("%d", counts.FreshCount) }</div>
+			<div class="stat-label">Fresh</div>
 		</div>
-	</section>
+		<div class="stat-widget stat-stale">
+			<div class="stat-value">{ fmt.Sprintf("%d", counts.StaleCount) }</div>
+			<div class="stat-label">Stale</div>
+		</div>
+		<div class="stat-widget stat-expired">
+			<div class="stat-value">{ fmt.Sprintf("%d", counts.ExpiredCount) }</div>
+			<div class="stat-label">Expired</div>
+		</div>
+	</div>
+	if hasMore {
+		<button
+			class="load-more-btn"
+			hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage) }
+			hx-target="#prs-list"
+			hx-swap="beforeend"
+		>
+			<i class="fa-solid fa-arrow-down"></i> Load more
+		</button>
+	}
 }

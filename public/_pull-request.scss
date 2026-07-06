@@ -1,138 +1,143 @@
 @use 'variables' as *;
-@use 'separator';
-
-$pr-grid-rows: 2;
-$pr-description-grid-column: 2;
-$list-item-gap: 0.4rem;
 
 .pull-request {
-    &[data-has-body="true"]:not(.is-open) {
-        cursor: pointer;
+    cursor: pointer;
+    padding: $spacing-3 $spacing-4;
+    transition: border-color $transition, box-shadow $transition, background $transition;
+
+    &:hover {
+        border-color: $color-border;
     }
 
-    &[data-has-body="false"] .button-toggle {
-        cursor: not-allowed;
+    &.selected {
+        border-color: $color-accent;
+		box-shadow: 0 0 0 2px #E0EDFF;
+		background-color: #F7FAFF;
     }
 
-    .pull-request-header {
-        display: grid;
-        grid-template-columns: min-content auto;
-        grid-template-rows: min-content min-content;
-        row-gap: $spacing-1;
-        column-gap: $spacing-3;
+    &:focus-visible {
+        outline: 2px solid $color-accent;
+        outline-offset: 2px;
     }
+}
 
-    &:hover .status-icon {
-        transform: rotate($rotate-hover-large) scale($scale-hover);
+.pr-header {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-3;
+    min-width: 0;
+}
+
+.pr-icon {
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    margin-top: 3px;
+
+    i {
+        font-size: 16px;
     }
+}
 
-    .icon {
-        grid-row: span $pr-grid-rows / span $pr-grid-rows;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+.pr-content {
+    flex: 1;
+    min-width: 0;
+}
 
-        .status-icon {
-            font-size: calc($text-xs * #{$status-icon-font-size-factor});
-        }
+.pr-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-2;
+    margin-bottom: $spacing-1;
+}
+
+.pr-title {
+    font-size: $text-sm;
+    font-weight: 500;
+    color: $color-text-primary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.pr-number {
+    font-family: $font-mono;
+    font-size: $text-xs;
+    color: $color-text-muted;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pr-meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    font-size: $text-xs;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-2;
+    flex-wrap: wrap;
+}
+
+.pr-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.pr-author {
+    font-weight: 500;
+
+    img {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 4px;
     }
+}
 
-    .title-row {
-        display: flex;
-        color: $color-warm-950;
+.pr-diff {
+    font-family: $font-mono;
+    font-size: $text-xs;
+    display: flex;
+    gap: $spacing-2;
+}
 
-        .title p {
-            line-height: $line-height-subheading;
-            margin-block: $spacing-0;
-        }
+.diff-additions {
+    color: $color-success;
+}
 
-        button {
-            margin-left: auto;
-            font-size: $text-xxs;
-        }
-    }
+.diff-deletions {
+    color: $color-danger;
+}
 
-    .description-row {
-        grid-column-start: $pr-description-grid-column;
-        color: $color-warm-900;
-        display: flex;
+.pr-body {
+    display: none;
+    margin-top: $spacing-3;
+    padding-top: $spacing-3;
+    border-top: 1px solid $color-border;
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    line-height: 1.5;
+    overflow-x: auto;
 
-      @include separator.dot-separator;
-    }
-
-    .pr-body {
-        display: none;
-        overflow-x: auto;
-
-        .pr-body-inner {
-            margin-top: $spacing-6;
-            padding-inline: $spacing-5;
-            background-color: $color-warm-100;
-            border-left: $border-width-thick solid $color-warm-700;
-            border-radius: 0 $card-border-radius $card-border-radius 0;
-            color: $color-warm-900;
-            font-size: $text-xs;
-            line-height: $line-height-markdown-body;
-
-            p:first-child {
-                margin-top: $spacing-0;
-            }
-
-            p:last-child {
-                margin-bottom: $spacing-0;
-            }
-
-            h1, h2, h3, h4 {
-                font-size: $text-sm;
-                margin-top: $spacing-6;
-                margin-bottom: $spacing-2;
-            }
-
-            p {
-                font-size: $text-xs;
-                margin: $spacing-0;
-            }
-
-            ul, ol {
-                margin: $spacing-0;
-                padding-left: $spacing-6;
-            }
-
-            li + li {
-                margin-top: $list-item-gap;
-            }
-
-            pre {
-                overflow-x: auto;
-                background-color: var(--clr-code-bg);
-                color: var(--clr-code-text);
-                padding: $pre-padding;
-                border-radius: $card-border-radius;
-                font-size: $text-xs;
-                line-height: $line-height-code;
-            }
-
-            code {
-                background-color: var(--clr-inline-code-bg);
-                color: var(--clr-inline-code-text);
-                padding: $code-padding-y $code-padding-x;
-                border-radius: $border-radius-code;
-            }
-
-            pre code {
-                background: none;
-                padding: $spacing-0;
-                color: inherit;
-            }
-
-            img {
-                max-width: $body-width-full;
-                height: auto;
-            }
-        }
-    }
-
-    .pr-body--open {
+    &.is-open {
         display: block;
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .pr-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .pr-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-1;
     }
 }
