@@ -19,7 +19,7 @@ body.repo-page {
 
 .app-shell {
     display: grid;
-    grid-template-columns: $left-pane-width 1fr $right-pane-width;
+    grid-template-columns: $left-pane-width 1fr;
     grid-template-rows: 1fr;
     height: 100vh;
     max-height: 100vh;
@@ -69,9 +69,22 @@ body.repo-page {
 }
 
 .pane-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: $right-pane-width;
+    height: 100vh;
     background-color: $color-surface;
     border-left: 1px solid $color-border;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 40;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
     overflow-y: auto;
+
+    &.open {
+        transform: translateX(0);
+    }
 }
 
 .bottom-nav {
@@ -97,7 +110,17 @@ body.repo-page {
     }
 
     .pane-right {
+        position: static;
+        width: 100%;
+        height: auto;
+        transform: none;
+        box-shadow: none;
         border-left: none;
+        transition: none;
+
+        &.open {
+            transform: none;
+        }
     }
 
     .bottom-nav {
@@ -148,6 +171,7 @@ body.repo-page {
         cursor: pointer;
         border: none;
         background: none;
+
         &.active {
             background-color: $color-surface;
             color: $color-text-primary;
@@ -163,7 +187,8 @@ body.repo-page {
 }
 
 @media (min-width: $breakpoint-mobile + 1px) {
-    .mobile-header, .mobile-tab-bar {
+    .mobile-header,
+    .mobile-tab-bar {
         display: none;
     }
 }
@@ -179,4 +204,3 @@ body.repo-page {
 .htmx-request.htmx-indicator {
     visibility: visible;
 }
-

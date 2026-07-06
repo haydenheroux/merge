@@ -34,7 +34,7 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 				</button>
 				<button class="bottom-nav-item" data-view="right">
 					<i class="fa-solid fa-chart-bar"></i>
-					<span>Stats</span>
+					<span>Details</span>
 				</button>
 			</nav>
 		} else {
@@ -48,6 +48,7 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 			</footer>
 		}
 		<script src="/public/pr-toggle.js" defer></script>
+		<script type="module" src="/public/pr-context.js"></script>
 		<script>
 		(function() {
 			var stored = localStorage.getItem('theme');
@@ -101,91 +102,87 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 				});
 			});
 
-			var prCards = document.querySelectorAll('.pull-request');
-			prCards.forEach(function(card) {
-				card.addEventListener('click', function(e) {
-					if (e.target.closest('a') || e.target.closest('.pr-body')) return;
-					prCards.forEach(function(c) { c.classList.remove('selected'); });
-					this.classList.add('selected');
-					var num = this.dataset.prNumber;
-					var title = this.dataset.prTitle;
-					var author = this.dataset.prAuthor;
-					var state = this.dataset.prState;
-					var icon = this.querySelector('.pr-icon i');
-					var iconClass = icon ? icon.className : 'fa-solid fa-code-pull-request';
-					fillRightPane(num, title, author, state, iconClass);
-					if (window.innerWidth <= 768) {
-						var detailTab = document.querySelector('[data-view="right"]');
-						if (detailTab) detailTab.click();
+			var inputs = document.querySelectorAll('.title-input');
+			if (!inputs.length) return;
+			var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+			var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+			var origScope = document.querySelector('.title-input[data-part="scope"]')?.value.trim() || '';
+			function navigate() {
+				var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
+				var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
+				var scope = (document.querySelector('.title-input[data-part="scope"]')?.value || '').trim();
+				if (owner === origOwner && repo === origRepo && scope === origScope) return;
+				if (repo) {
+					var url = '/' + owner + '/' + repo;
+					if (owner === origOwner && repo === origRepo && scope !== origScope) {
+						if (scope) {
+							url += '/' + scope;
+						}
 					}
+					htmx.ajax('GET', url, {
+						target: 'main',
+						swap: 'innerHTML'
+					});
+				}
+			}
+			function resize(input) {
+				input.style.width = '1px';
+				if (input.value) {
+					input.style.width = input.scrollWidth + 'px';
+				} else if (input.placeholder) {
+					var prev = input.value;
+					input.value = input.placeholder;
+					input.style.width = input.scrollWidth + 'px';
+					input.value = prev;
+				}
+			}
+			inputs.forEach(function(input) {
+				resize(input);
+				input.addEventListener('input', function() { resize(this); });
+				input.addEventListener('focus', function() { this.select(); });
+				input.addEventListener('keydown', function(ev) {
+					if (ev.key === 'Enter' && input.hasAttribute('data-part')) { ev.preventDefault(); navigate(); }
+				});
+				input.addEventListener('blur', function() {
+					setTimeout(function() {
+						if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
+						navigate();
+					}, 0);
 				});
 			});
-
-			function fillRightPane(num, title, author, state, iconClass) {
-				var container = document.getElementById('right-pane-content');
-				if (!container) return;
-				container.innerHTML = '';
-				var detailDiv = document.createElement('div');
-				detailDiv.className = 'right-pane-content';
-				detailDiv.innerHTML = getPRDetailHTML(num, title, author, state, iconClass);
-				container.appendChild(detailDiv);
-				container.scrollTop = 0;
-			}
-
-			function getPRDetailHTML(num, title, author, state, iconClass) {
-				var stateBadge = 'badge-neutral';
-				var stateLabel = state || 'Open';
-				if (state === 'Merged') { stateBadge = 'badge-merged'; }
-				else if (state === 'Draft') { stateBadge = 'badge-neutral'; }
-				else if (state === 'Closed') { stateBadge = 'badge-danger'; }
-				else { stateBadge = 'badge-success'; }
-				var files = [
-					{ path: 'src/components/App.tsx', add: 24, del: 5 },
-					{ path: 'src/hooks/useAuth.ts', add: 12, del: 3 },
-					{ path: 'src/utils/helpers.ts', add: 8, del: 1 },
-					{ path: 'tests/App.test.tsx', add: 15, del: 0 }
-				];
-				var filesHTML = files.map(function(f) {
-					return '<div class="file-item"><span class="file-path">' + f.path + '</span><span class="file-stats"><span class="text-success">+' + f.add + '</span><span class="text-danger">-' + f.del + '</span></span></div>';
-				}).join('');
-
-				return '<div class="pr-detail-header">' +
-					'<div class="pr-detail-title">' + title + '</div>' +
-					'<div class="pr-detail-number">#' + num + '</div>' +
-					'</div>' +
-					'<div class="pr-detail-meta">' +
-					'<span class="' + stateBadge + '" style="padding:2px 8px;border-radius:12px;font-size:12px;font-weight:500">' +
-					'<i class="' + iconClass + '"></i> ' + stateLabel + '</span>' +
-					'<span>' + author + '</span>' +
-					'</div>' +
-					'<div class="section-header"><span class="section-title">Files Changed</span></div>' +
-					'<div class="file-list">' + filesHTML + '</div>' +
-					'<div class="section-header" style="margin-top:16px"><span class="section-title">File Diff</span></div>' +
-					'<div class="file-diff"><div class="diff-header"><span class="mono">' + files[0].path + '</span></div>' +
-					'<div class="diff-line diff-add"><span class="diff-lineno">12</span><span class="diff-content"><span class="text-success">+ import { useAuth } from "../hooks/useAuth"</span></span></div>' +
-					'<div class="diff-line"><span class="diff-lineno">13</span><span class="diff-content"> </span></div>' +
-					'<div class="diff-line diff-remove"><span class="diff-lineno">14</span><span class="diff-content"><span class="text-danger">- const api = new APIClient()</span></span></div>' +
-					'<div class="diff-line diff-add"><span class="diff-lineno">15</span><span class="diff-content"><span class="text-success">+ const { api } = useAuth()</span></span></div>' +
-					'</div>' +
-					'<div class="section-header" style="margin-top:16px"><span class="section-title">Comments</span></div>' +
-					'<div class="comment-section">' +
-					'<div class="comment"><div class="comment-avatar" style="background:#E8E8E8"></div><div class="comment-body"><div class="comment-author">reviewer-bot</div><div class="comment-text">LGTM! Just one nit: we should handle the edge case where the token is undefined.</div><div class="comment-reactions"><span class="reaction">👍 3</span><span class="reaction">🚀 1</span></div></div></div>' +
-					'<div class="comment"><div class="comment-avatar" style="background:#D0D0D0"></div><div class="comment-body"><div class="comment-author">' + author + '</div><div class="comment-text">Good catch, updated the PR.</div><div class="comment-reactions"><span class="reaction">❤️ 2</span></div></div></div>' +
-					'</div>' +
-					'<div class="section-header" style="margin-top:16px"><span class="section-title">CI/CD Pipeline</span></div>' +
-					'<div class="ci-log">' +
-					'<div class="ci-line"><span class="ci-step">$</span> git checkout origin/pr/' + num + '</div>' +
-					'<div class="ci-line"><span class="ci-step">$</span> npm ci</div>' +
-					'<div class="ci-line"><span class="ci-check">✓</span> Dependencies installed (2.4s)</div>' +
-					'<div class="ci-line"><span class="ci-step">$</span> npm run lint</div>' +
-					'<div class="ci-line"><span class="ci-check">✓</span> Lint passed (1.1s)</div>' +
-					'<div class="ci-line"><span class="ci-step">$</span> npm run test</div>' +
-					'<div class="ci-line"><span class="ci-check">✓</span> 47 tests passed (3.2s)</div>' +
-					'<div class="ci-line"><span class="ci-step">$</span> npm run build</div>' +
-					'<div class="ci-line"><span class="ci-check">✓</span> Build succeeded (5.8s)</div>' +
-					'<div class="ci-status"><span class="ci-passed"><i class="fa-solid fa-check"></i> CI PASSED</span></div>' +
-					'</div>';
-			}
+			document.addEventListener('htmx:afterSwap', function() {
+				origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
+				origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
+				origScope = document.querySelector('.title-input[data-part="scope"]')?.value.trim() || '';
+				if (origOwner && origRepo) {
+					document.title = origOwner + '/' + origRepo;
+					if (origScope) {
+						document.title += '/' + origScope;
+					}
+				}
+				var parts = window.location.pathname.split('/').filter(Boolean);
+				if (parts.length > 2) {
+					var curScope = parts.slice(2).join('/');
+					if (curScope !== origScope) {
+						var inp = document.querySelector('.title-input[data-part="scope"]');
+						if (inp) {
+							inp.value = curScope;
+							origScope = curScope;
+							inp.dispatchEvent(new Event('input'));
+						}
+					}
+				} else {
+					var inp = document.querySelector('.title-input[data-part="scope"]');
+					if (inp && inp.value) {
+						inp.value = '';
+						origScope = '';
+						inp.dispatchEvent(new Event('input'));
+					}
+				}
+			});
+			document.fonts.ready.then(function() {
+				inputs.forEach(resize);
+			});
 		})();
 		</script>
 	</body>

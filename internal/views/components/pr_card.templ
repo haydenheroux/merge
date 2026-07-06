@@ -87,8 +87,8 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 					}
 				</div>
 				<div class="pr-diff">
-					<span class="diff-additions">+120</span>
-					<span class="diff-deletions">-10</span>
+					<span class="diff-additions">+{ fmt.Sprintf("%d", pr.Additions) }</span>
+					<span class="diff-deletions">-{ fmt.Sprintf("%d", pr.Deletions) }</span>
 				</div>
 			</div>
 		</div>

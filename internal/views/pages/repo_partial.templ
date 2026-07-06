@@ -35,10 +35,8 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
 				</section>
 			</div>
 		</main>
-		<aside class="pane pane-right">
-			<div id="right-pane-content">
-				@components.RightPaneOverview(props.OverallCounts)
-			</div>
+		<aside class="pane pane-right" id="right-pane">
+			<div id="right-pane-content" class="right-pane-content"></div>
 		</aside>
 	</div>
 }

@@ -28,6 +28,8 @@ type PullRequest struct {
 	Author    User       `json:"user"`
 	Assignees []User     `json:"assignees"`
 	Reviewers []User     `json:"requested_reviewers"`
+	Additions int        `json:"additions"`
+	Deletions int        `json:"deletions"`
 }
 
 func (pr *PullRequest) TimeOpen(time time.Time) time.Duration {

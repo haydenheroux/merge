@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"sort"
+	"strconv"
 
 	"merge/internal/model"
 	"merge/internal/provider"
@@ -198,10 +199,32 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (s *Server) HandlePRDiff(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	owner := vars["owner"]
+	repo := vars["repo"]
+	number, err := strconv.Atoi(vars["number"])
+	if err != nil {
+		http.Error(w, "invalid PR number", http.StatusBadRequest)
+		return
+	}
+
+	diff, err := s.Provider.GetPullRequestDiff(owner, repo, number)
+	if err != nil {
+		s.Logger.Warn(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Write([]byte(diff))
+}
+
 func (s *Server) Start() error {
 	s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	s.Router.HandleFunc("/", s.HandleIndex)
 
+	s.Router.HandleFunc("/{owner}/{repo}/pull/{number}/diff", s.HandlePRDiff)
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/{scope}", s.HandleGitHubRoute(Page))

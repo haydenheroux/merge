@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"sync"
 
 	"merge/internal/model"
 	"merge/internal/provider"
@@ -69,8 +70,9 @@ func (g GitHub) GetPullRequests(params provider.Params, options provider.Options
 		return nil, hasNext, err
 	}
 
-	// TODO(hayden): Implement `Mappable` interface
-	stamped := model.StampNow(prs) // map from GitHub PRs to our PRs
+	fetchDiffStats(prs, params.Owner, params.Repo, g.Token)
+
+	stamped := model.StampNow(prs)
 	if params.Scope == nil {
 		return stamped, hasNext, nil
 	}
@@ -85,4 +87,78 @@ func (g GitHub) GetPullRequests(params provider.Params, options provider.Options
 	}
 
 	return inScope, hasNext, nil
+}
+
+func (g GitHub) GetPullRequestDiff(owner, repo string, number int) (string, error) {
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%d", owner, repo, number)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return "", err
+	}
+
+	req.Header.Set("Accept", "application/vnd.github.v3.diff")
+	req.Header.Set("Authorization", "Bearer "+g.Token)
+	req.Header.Set("X-GitHub-Api-Version", "2026-03-10")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("request failed with status: %s", resp.Status)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
+}
+
+func fetchDiffStats(prs []model.PullRequest, owner, repo, token string) {
+	var wg sync.WaitGroup
+	sem := make(chan struct{}, 10)
+	for i := range prs {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%d", owner, repo, prs[i].Number)
+			req, err := http.NewRequest("GET", url, nil)
+			if err != nil {
+				return
+			}
+			req.Header.Set("Accept", "application/vnd.github+json")
+			req.Header.Set("Authorization", "Bearer "+token)
+			req.Header.Set("X-GitHub-Api-Version", "2026-03-10")
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				return
+			}
+			defer resp.Body.Close()
+			if resp.StatusCode != http.StatusOK {
+				return
+			}
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return
+			}
+			var detail struct {
+				Additions int `json:"additions"`
+				Deletions int `json:"deletions"`
+			}
+			if err := json.Unmarshal(body, &detail); err != nil {
+				return
+			}
+			prs[i].Additions = detail.Additions
+			prs[i].Deletions = detail.Deletions
+		}(i)
+	}
+	wg.Wait()
 }
