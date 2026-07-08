@@ -2,6 +2,6 @@
 
 @mixin silver-link {
     text-decoration: underline;
-    text-decoration-color: $color-warm-700;
-    text-decoration-thickness: $border-width-default;
+    text-decoration-color: $color-border;
+    text-decoration-thickness: 1px;
 }

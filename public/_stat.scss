@@ -10,14 +10,17 @@
 .stat-widget {
     background-color: $color-page;
     border-radius: $border-radius;
-    padding: $spacing-3;
+    padding: $spacing-4;
     text-align: center;
+    border: 1px solid $color-border;
 
     .stat-value {
-        font-size: $text-xl;
+        font-family: $font-serif;
+        font-size: $text-3xl;
         font-weight: 700;
         color: $color-text-heading;
-        line-height: 1.2;
+        line-height: 1;
+        letter-spacing: -0.02em;
     }
 
     .stat-label {
@@ -25,12 +28,24 @@
         color: $color-text-muted;
         margin-top: $spacing-1;
         text-transform: uppercase;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.05em;
+        font-weight: 600;
     }
 
-    &.stat-fresh .stat-value { color: $color-success; }
-    &.stat-stale .stat-value { color: $color-warning; }
-    &.stat-expired .stat-value { color: $color-danger; }
+    &.stat-fresh {
+        border-left: 3px solid $color-teal;
+        .stat-value { color: $color-teal; }
+    }
+
+    &.stat-stale {
+        border-left: 3px solid $color-mustard;
+        .stat-value { color: $color-mustard; }
+    }
+
+    &.stat-expired {
+        border-left: 3px solid $color-rust;
+        .stat-value { color: $color-rust; }
+    }
 }
 
 .chart-section {
@@ -50,19 +65,56 @@
     display: flex;
     align-items: flex-end;
     gap: $spacing-2;
-    height: 64px;
+    height: 80px;
 
     .bar {
         flex: 1;
-        background-color: $color-accent;
-        border-radius: 3px 3px 0 0;
         min-height: 4px;
-        opacity: 0.7;
+        border-radius: 2px 2px 0 0;
+        position: relative;
         transition: opacity $transition;
 
         &:hover {
-            opacity: 1;
+            opacity: 0.8;
         }
+    }
+
+    .bar-teal {
+        background: repeating-linear-gradient(
+            -45deg,
+            $color-teal,
+            $color-teal 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    }
+
+    .bar-mustard {
+        background: $color-mustard;
+    }
+
+    .bar-sage {
+        background: repeating-linear-gradient(
+            0deg,
+            $color-sage,
+            $color-sage 3px,
+            transparent 3px,
+            transparent 6px
+        );
+    }
+
+    .bar-rust {
+        background: repeating-linear-gradient(
+            -45deg,
+            $color-rust,
+            $color-rust 1px,
+            transparent 1px,
+            transparent 3px
+        );
+    }
+
+    .bar-teal-solid {
+        background-color: $color-teal;
     }
 
     .bar-label {
@@ -115,8 +167,8 @@
     transition: all $transition;
 
     &:hover {
-        border-color: $color-accent;
-        color: $color-accent;
-        background-color: #ECF5FF;
+        border-color: $color-deep-navy;
+        color: $color-deep-navy;
+        background-color: #F0EDE8;
     }
 }

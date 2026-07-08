@@ -1,50 +1,65 @@
 @use 'variables' as *;
 
 .text-success {
-    color: $color-success;
+    color: $color-teal;
 }
 
 .text-danger {
-    color: $color-danger;
+    color: $color-rust;
 }
 
 .text-warning {
-    color: $color-warning;
+    color: $color-mustard;
 }
 
 .text-accent {
-    color: $color-accent;
+    color: $color-deep-navy;
 }
 
 .text-merged {
-    color: $color-merged;
+    color: $color-sage;
 }
 
 .text-muted {
     color: $color-text-muted;
 }
 
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: $text-xs;
+    line-height: 1.4;
+}
+
 .badge-success {
-    background-color: #DAFBE1;
-    color: #1A7F37;
+    @extend .badge;
+    background-color: #D4ECE8;
+    color: #000000;
 }
 
 .badge-danger {
-    background-color: #FFEBE9;
-    color: #CF222E;
+    @extend .badge;
+    background-color: #F0D6CC;
+    color: #000000;
 }
 
 .badge-warning {
-    background-color: #FFF8C5;
-    color: #9A6700;
+    @extend .badge;
+    background-color: #F0E4C8;
+    color: #000000;
 }
 
 .badge-neutral {
-    background-color: #F0F0F0;
-    color: #656D76;
+    @extend .badge;
+    background-color: $color-hover;
+    color: $color-text-primary;
 }
 
 .badge-merged {
-    background-color: #F3E8FF;
-    color: #8250DF;
+    @extend .badge;
+    background-color: #E0E8DA;
+    color: #000000;
 }

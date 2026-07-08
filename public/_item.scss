@@ -5,11 +5,12 @@
     border: 1px solid $color-border;
     border-radius: $border-radius;
     padding: $spacing-3;
-    transition: border-color $transition, box-shadow $transition;
+    transition: border-color $transition, background $transition;
 }
 
 .item:hover {
-    border-color: #D0D0D0;
+    border-color: #C8C2B6;
+    background-color: #F7F4EE;
 }
 
 .slim-card {
@@ -18,7 +19,7 @@
     border-radius: $border-radius;
     padding: $spacing-2 $spacing-3;
     cursor: pointer;
-    transition: border-color $transition, box-shadow $transition;
+    transition: border-color $transition, background $transition;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,12 +27,12 @@
     min-height: 44px;
 
     &:hover {
-        border-color: $color-accent;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        border-color: $color-deep-navy;
+        background-color: #F7F4EE;
     }
 
     &:active {
-        background-color: $color-hover;
+        background-color: #EDE8DE;
     }
 }
 

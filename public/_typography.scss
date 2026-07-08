@@ -45,3 +45,33 @@ a {
 .mono {
     font-family: $font-mono;
 }
+
+.serif {
+    font-family: $font-serif;
+}
+
+.display-number {
+    font-family: $font-serif;
+    font-size: $text-3xl;
+    font-weight: 700;
+    line-height: 1;
+    color: $color-text-heading;
+    letter-spacing: -0.02em;
+}
+
+.section-anchor {
+    font-family: $font-serif;
+    font-size: $text-base;
+    font-weight: 700;
+    color: $color-text-heading;
+    letter-spacing: -0.01em;
+}
+
+.scope-link {
+    color: $color-deep-navy;
+    font-weight: 500;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

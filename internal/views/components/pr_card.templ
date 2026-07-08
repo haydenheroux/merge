@@ -70,7 +70,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 					<span class="pr-number">#{ fmt.Sprintf("%d", pr.Number) }</span>
 				</div>
 				<div class="pr-meta">
-					<span class={ fmt.Sprintf("pr-meta-item %s", prStateBadge(string(pr.State))) } style="padding:0 6px;border-radius:8px;font-weight:500">
+					<span class={ fmt.Sprintf("pr-meta-item %s", prStateBadge(string(pr.State))) }>
 						{ string(pr.State) }
 					</span>
 					<span class="pr-meta-item">
@@ -82,7 +82,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 					</span>
 					for _, scope := range pr.Scopes {
 						<span class="pr-meta-item">
-							<a href={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-get={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-target="#app-shell" hx-push-url="true" style="color:var(--clr-accent)">{ scope }</a>
+							<a class="scope-link" href={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-get={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-target="#app-shell" hx-push-url="true">{ scope }</a>
 						</span>
 					}
 				</div>

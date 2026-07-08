@@ -1,0 +1,220 @@
+@use 'variables' as *;
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-8 $spacing-4;
+    text-align: center;
+    min-height: 65vh;
+
+    h1 {
+        font-family: $font-serif;
+        font-size: 2.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+        max-width: 640px;
+        margin-bottom: $spacing-8;
+        color: $color-text-heading;
+    }
+}
+
+.repo-form {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-lg;
+    padding: $spacing-2 $spacing-3;
+    max-width: 480px;
+    width: 100%;
+
+    .input-pill {
+        flex: 1;
+
+        input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: $text-lg;
+            font-weight: 500;
+            width: 100%;
+            color: $color-text-primary;
+
+            &::placeholder {
+                color: $color-text-muted;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .title-sep {
+        color: $color-text-muted;
+        font-size: $text-lg;
+        flex-shrink: 0;
+    }
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $color-text-muted;
+        font-size: $text-lg;
+        padding: $spacing-1;
+        transition: color $transition;
+
+        &:hover {
+            color: $color-deep-navy;
+        }
+    }
+}
+
+.url-demo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-4;
+    margin: $spacing-6 0;
+    flex-wrap: wrap;
+}
+
+.url-demo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 999px;
+    padding: $spacing-2 $spacing-4;
+    font-size: $text-sm;
+    font-weight: 500;
+    color: $color-text-primary;
+
+    i {
+        font-size: $text-base;
+        color: $color-text-muted;
+    }
+}
+
+.url-demo-arrow {
+    color: $color-text-muted;
+    font-size: $text-xl;
+}
+
+.url-demo-before {
+    opacity: 0.6;
+}
+
+.url-demo-after {
+    border-color: $color-teal;
+    color: $color-teal;
+
+    i {
+        color: $color-teal;
+    }
+}
+
+.carousel-track {
+    display: flex;
+    gap: $spacing-3;
+    overflow-x: auto;
+    padding: $spacing-4 0;
+    margin: 0 (-$spacing-4);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.carousel-item {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    padding: $spacing-2 $spacing-3;
+    font-size: $text-sm;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color $transition, background $transition;
+
+    .owner {
+        color: $color-text-muted;
+    }
+
+    .sep {
+        color: $color-text-muted;
+    }
+
+    .repo {
+        color: $color-text-primary;
+        font-weight: 600;
+    }
+
+    &:hover {
+        border-color: $color-deep-navy;
+        background-color: #F7F4EE;
+    }
+}
+
+.marketing-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: $spacing-4;
+    margin: $spacing-4 0 $spacing-8;
+}
+
+.marketing-card {
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-lg;
+    padding: $spacing-5;
+    transition: border-color $transition;
+
+    i {
+        font-size: 1.5rem;
+        color: $color-deep-navy;
+        margin-bottom: $spacing-3;
+        display: block;
+    }
+
+    p {
+        font-size: $text-sm;
+        line-height: 1.5;
+        color: $color-text-secondary;
+    }
+
+    &:hover {
+        border-color: $color-deep-navy;
+    }
+}
+
+h2 {
+    font-family: $font-serif;
+    font-size: $text-xl;
+    font-weight: 700;
+    margin: $spacing-6 0 $spacing-3;
+    color: $color-text-heading;
+}
+
+footer {
+    display: flex;
+    gap: $spacing-4;
+    padding: $spacing-4;
+    font-size: $text-xs;
+    color: $color-text-muted;
+    border-top: 1px solid $color-border;
+    flex-wrap: wrap;
+
+    a {
+        color: $color-text-secondary;
+
+        &:hover {
+            color: $color-deep-navy;
+        }
+    }
+}

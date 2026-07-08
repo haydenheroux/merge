@@ -6,17 +6,19 @@
     transition: border-color $transition, box-shadow $transition, background $transition;
 
     &:hover {
-        border-color: $color-border;
+        border-color: $color-deep-navy;
+        background-color: #F7F4EE;
     }
 
     &.selected {
-        border-color: $color-accent;
-		box-shadow: 0 0 0 2px #E0EDFF;
-		background-color: #F7FAFF;
+        border-color: $color-deep-navy;
+        border-width: 2px;
+        box-shadow: none;
+        background-color: #F0EDE8;
     }
 
     &:focus-visible {
-        outline: 2px solid $color-accent;
+        outline: 2px solid $color-deep-navy;
         outline-offset: 2px;
     }
 }
@@ -106,11 +108,11 @@
 }
 
 .diff-additions {
-    color: $color-success;
+    color: $color-teal;
 }
 
 .diff-deletions {
-    color: $color-danger;
+    color: $color-rust;
 }
 
 .pr-body {
