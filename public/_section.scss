@@ -3,9 +3,7 @@
 @use 'silver-link';
 
 section {
-    background-color: $color-warm-500;
-    padding: $spacing-3;
-    border-radius: calc($card-border-radius + $spacing-1);
+    padding: $spacing-2;
 }
 
 .section-heading {

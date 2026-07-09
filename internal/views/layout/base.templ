@@ -1,7 +1,5 @@
 package layout
 
-import "merge/internal/views/components"
-
 templ Base(title, description, baseURL, owner, repo, scope string) {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -23,7 +21,6 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 		<meta property="og:description" content={ description }/>
 	</head>
 	<body if owner != "" { class="repo-page" }>
-		@components.Nav(owner, repo, scope)
         <main>
             { children... }
         </main>

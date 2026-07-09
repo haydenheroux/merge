@@ -2,7 +2,7 @@
 
 .item {
     box-sizing: border-box;
-    background-color: $color-warm-100;
+    border: 1px solid $color-warm-700;
     border-radius: $card-border-radius;
     padding: $spacing-3;
 }

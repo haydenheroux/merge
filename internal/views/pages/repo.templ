@@ -22,6 +22,7 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
             @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
         </div>
         <aside class="aside-column">
+            @components.Nav(props.Owner, props.Repo, props.Scope)
             <div id="scopes-section">
                 @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath)
             </div>

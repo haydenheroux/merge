@@ -3,7 +3,7 @@
 @use 'separator';
 
 html {
-    background-color: $color-warm-300;
+    background-color: $color-warm-200;
     transition: background-color $transition-normal, color $transition-normal;
 }
 
@@ -45,14 +45,9 @@ button, .link-button, .status-icon {
 }
 
 #nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: 100%;
     padding-inline: $nav-padding-inline;
     box-sizing: border-box;
     background-color: $color-warm-300;
-    border-bottom: 1px solid $color-warm-cutout-strong;
     transition: background-color $transition-normal;
 }
 
@@ -109,7 +104,7 @@ button, .link-button, .status-icon {
 .input-pill:has(.title-input:hover)::before,
 .input-pill:has(.title-input:focus)::before {
     opacity: 1;
-        background-color: $color-warm-cutout-strong;
+    background-color: $color-warm-cutout-strong;
 }
 
 #nav-input {
@@ -135,6 +130,12 @@ button, .link-button, .status-icon {
             }
         }
     }
+}
+
+nav > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #nav-toggle {
@@ -168,8 +169,6 @@ button, .link-button, .status-icon {
 }
 
 main {
-    margin-inline: $main-margin-inline;
-    margin-block: $spacing-6;
     display: flex;
     flex-direction: column;
     gap: $main-mobile-gap;
@@ -305,7 +304,7 @@ main {
 }
 
 footer {
-    display: flex;
+    display: none;
     margin-inline: $main-margin-inline;
     margin-bottom: $spacing-6;
     color: $color-warm-800;
@@ -325,12 +324,6 @@ body:not(.repo-page) footer {
     display: flex;
     flex-direction: column;
     gap: $spacing-4;
-}
-
-.aside-column {
-    display: flex;
-    flex-direction: column;
-    gap: $main-mobile-gap;
 }
 
 #scopes-section,
@@ -463,29 +456,32 @@ body:not(.repo-page) footer {
         min-height: 0;
         overflow: hidden;
         display: grid;
-        grid-template-columns: 1fr $aside-width;
+        grid-template-columns: $aside-width 1fr;
         grid-template-rows: auto 1fr;
         gap: $main-desktop-gap;
     }
 
     .overview {
-        grid-column: 1;
+        grid-column: 2;
         grid-row: 1;
     }
 
     .aside-column {
-        grid-column: 2;
+        grid-column: 1;
         grid-row: 1 / -1;
         min-height: 0;
         overflow: hidden;
         gap: $main-desktop-gap;
+        background-color: var(--clr-cutout);
+        overflow-y: auto;
     }
 
     .prs {
-        grid-column: 1;
+        grid-column: 2;
         grid-row: 2;
         min-height: 0;
         overflow: hidden;
+        overflow-y: auto;
     }
 }
 
