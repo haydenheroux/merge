@@ -46,7 +46,11 @@ func IndexPage(baseURL, owner, repo string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"hero\"><h1>Know your contributors. <br>Build your community.</h1>")
+			templ_7745c5c3_Err = components.Nav(owner, repo, "").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, " <main><div class=\"hero\"><h1>Know your contributors. <br>Build your community.</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

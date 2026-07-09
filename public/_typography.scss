@@ -3,7 +3,7 @@
 
 body, input {
     font-family: "Karla", sans-serif;
-    font-weight: $font-weight-normal;
+    font-weight: $font-weight-semibold;
     font-style: normal;
     line-height: $line-height-body;
     text-wrap: balance;
@@ -40,13 +40,13 @@ h3 {
     font-size: $text-xl;
 }
 
-h4, .title-input {
+h4 {
     font-size: $text-lg;
     line-height: $line-height-subheading;
     margin-block: $spacing-4;
 }
 
-p {
+p, .title-input {
     font-size: $text-md;
 }
 

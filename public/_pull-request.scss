@@ -66,9 +66,9 @@ $list-item-gap: 0.4rem;
 
         .pr-body-inner {
             margin-top: $spacing-6;
-            padding-inline: $spacing-5;
-            background-color: $color-warm-100;
-            border-left: $border-width-thick solid $color-warm-700;
+            margin-left: $spacing-1;
+            padding-inline: $spacing-4;
+            border-left: $border-width-xthick solid $color-warm-700;
             border-radius: 0 $card-border-radius $card-border-radius 0;
             color: $color-warm-900;
             font-size: $text-xs;

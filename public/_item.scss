@@ -2,7 +2,11 @@
 
 .item {
     box-sizing: border-box;
-    background-color: $color-warm-100;
+    border: $border-width-thin solid $color-warm-700;
     border-radius: $card-border-radius;
-    padding: $spacing-3;
+    padding: $spacing-2;
+}
+
+.item.stat {
+    padding-block: $spacing-1;
 }

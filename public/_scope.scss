@@ -16,7 +16,6 @@ section.scopes {
   gap: $spacing-2;
   border-radius: $card-border-radius;
   min-height: 0;
-  overflow-y: auto;
 }
 
 .scope {
@@ -29,8 +28,8 @@ section.scopes {
   .text {
     grid-area: 1 / 1 / span 1 / span 1;
     display: flex;
-    flex-direction: column;
-    row-gap: $spacing-1;
+    flex-direction: row;
+    column-gap: $spacing-1;
   }
 
   .title {

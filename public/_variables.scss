@@ -73,7 +73,7 @@ $text-md: 1.25rem;
 $text-sm: 1rem;
 $text-xs: 0.875rem;
 $text-xxs: 0.75rem;
-$text-xxxs: 0.5rem;
+$text-xxxs: 0.625rem;
 
 $font-weight-normal: 500;
 $font-weight-semibold: 600;
@@ -103,13 +103,14 @@ $main-margin-inline: $spacing-6;
 $main-mobile-gap: $spacing-6;
 $main-desktop-gap: $spacing-4;
 
-$card-border-radius: 12px;
-$inline-border-radius: 6px;
-$border-radius-code: 6px;
+$card-border-radius: 6px;
+$inline-border-radius: 4px;
+$border-radius-code: 4px;
 
 $border-width-thin: 1px;
-$border-width-default: 2px;
-$border-width-thick: 4px;
+$border-width-normal: 1.75px;
+$border-width-thick: 2px;
+$border-width-xthick: 3px;
 
 $underline-offset-title: 2px;
 $underline-offset-description: 1px;
@@ -132,13 +133,13 @@ $body-width: 100%;
 $body-width-full: 100%;
 $body-height: auto;
 
-$aside-width: 32rem;
+$aside-width: 24rem;
 
 $title-input-height-factor: 1.1;
 $title-input-min-width: 1ch;
 
-$input-pill-inset-y: -$spacing-1;
-$input-pill-inset-x: -$spacing-2;
+$input-pill-inset-y: -2px;
+$input-pill-inset-x: -4px;
 
 $repo-form-gap: 8px;
 $repo-form-padding-x: 10px;
@@ -159,8 +160,6 @@ $status-icon-font-size-factor: 1.1;
 $status-icon-margin-top-factor: 0.3;
 $icon-margin-left-factor: 0.5;
 $icon-github-margin-top-factor: 0.25;
-
-$z-index-behind: -1;
 
 $title-sep-margin-top-factor: -0.25;
 $nav-toggle-active-scale: 0.85;
