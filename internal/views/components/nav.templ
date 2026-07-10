@@ -1,7 +1,5 @@
 package components
 
-import "fmt"
-
 templ Nav(owner, repo, scope string) {
 	<nav id="nav">
         <div>
@@ -15,6 +13,7 @@ templ Nav(owner, repo, scope string) {
         <div>
             if owner != "" {
                 <span id="nav-input" class="serif bold">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     <span class="input-pill">
                         <input class="serif title-input" type="text" data-part="owner" value={ owner } placeholder="…">
                     </span>
@@ -26,7 +25,6 @@ templ Nav(owner, repo, scope string) {
                     <span class="input-pill">
                         <input class="serif title-input" type="text" data-part="scope" value={ scope } placeholder="…">
                     </span>
-                        <a href={ fmt.Sprintf("https://github.com/%s/%s/", owner, repo) } aria-label="Navigate to GitHub"><i class="fa-brands fa-github-alt link-button" aria-hidden="true"></i></a>
                 </span>
             }
         </div>

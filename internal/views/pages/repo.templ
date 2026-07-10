@@ -18,20 +18,18 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
         props.Repo,
         strings.Trim(strings.TrimPrefix(currentPath, fmt.Sprintf("/%s/%s", props.Owner, props.Repo)), "/"),
     ) {
+        <aside class="aside-column">
+            @components.Nav(props.Owner, props.Repo, props.Scope)
+            <div id="scopes-section">
+                @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath)
+            </div>
+            <div id="contributors-section">
+                @components.Contributors(props.ContributorCounts, props.ContributorSort)
+            </div>
+        </aside>
         <div class="overview" id="overview-stats">
             @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
         </div>
-        <aside class="aside-column">
-            @components.Nav(props.Owner, props.Repo, props.Scope)
-            <div class="scroll">
-                <div id="scopes-section">
-                    @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath)
-                </div>
-                <div id="contributors-section">
-                    @components.Contributors(props.ContributorCounts, props.ContributorSort)
-                </div>
-            </div>
-        </aside>
         <section class="prs">
             <div class="section-heading">
                 <span>Pull Requests</span>

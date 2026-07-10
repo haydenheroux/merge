@@ -67,6 +67,7 @@ button, .link-button, .status-icon {
 }
 
 .title-sep {
+    color: $color-warm-900;
     font-size: $text-md;
     margin-top: calc(#{$title-sep-margin-top-factor} * #{$text-md});
     user-select: none;
@@ -122,21 +123,13 @@ button, .link-button, .status-icon {
     margin-block: $spacing-2;
 
     i {
+        font-size: var(--font-size);
+        margin-top: calc(#{$icon-github-margin-top-factor} * var(--font-size));
         margin-left: calc(#{$icon-margin-left-factor} * #{$spacing-2});
-        font-size: $text-lg;
-
-        &.fa-github-alt {
-            margin-top: calc(#{$icon-github-margin-top-factor} * #{$text-lg});
-
-            &:hover {
-                transform: rotate($rotate-hover) scale($scale-hover-icon);
-            }
-        }
-
-        &.fa-arrows-rotate {
-            &:hover {
-                transform: rotate($rotate-hover) scale($scale-hover-icon);
-            }
+        
+        &.fa-magnifying-glass {
+            --font-size: #{$text-sm};
+            margin-right: $spacing-1;
         }
     }
 }
@@ -485,10 +478,6 @@ body:not(.repo-page) footer {
 
     #nav, #scopes-section {
         border-bottom: $border-width-normal solid $color-warm-700;
-    }
-
-    .aside-column .scroll {
-        overflow-y: auto;
     }
 
     .prs {
