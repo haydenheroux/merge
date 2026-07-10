@@ -47,6 +47,7 @@ button, .link-button, .status-icon {
 #nav {
     padding-inline: $nav-padding-inline;
     box-sizing: border-box;
+    background-color: $color-warm-300;
     transition: background-color $transition-normal;
     display: flex;
     flex-direction: column;
@@ -476,7 +477,9 @@ body:not(.repo-page) footer {
         grid-row: 1 / -1;
         min-height: 0;
         overflow: hidden;
+        gap: $main-desktop-gap;
         border-right: $border-width-normal solid $color-warm-700;
+        background-color: var(--clr-cutout);
 
     }
 
