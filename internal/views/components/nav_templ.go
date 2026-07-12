@@ -29,7 +29,7 @@ func Nav(owner, repo, scope string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\"><div><h4 class=\"serif bold\"><a href=\"/\">Merge Zone</a></h4><button id=\"theme-toggle\" class=\"link-button\" aria-label=\"Toggle dark mode\"><i class=\"bi bi-moon-fill\" aria-hidden=\"true\"></i></button></div><div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\"><div><h4 class=\"serif bold\"><a href=\"/\">Merge Zone</a></h4><button id=\"theme-toggle\" class=\"link-button\" aria-label=\"Toggle dark mode\"><i class=\"fa-solid fa-moon\" aria-hidden=\"true\"></i></button></div><div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

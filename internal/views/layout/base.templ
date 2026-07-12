@@ -41,7 +41,7 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 				var isDark = document.documentElement.classList.contains('dark');
 				var icon = document.querySelector('#theme-toggle i');
 				if (icon) {
-					icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+					icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
 				}
 			}
 			var toggle = document.querySelector('#theme-toggle');
