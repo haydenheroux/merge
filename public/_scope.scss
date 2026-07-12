@@ -10,6 +10,19 @@ section.scopes {
   overflow: hidden;
 }
 
+.scope-notice {
+  font-size: $text-xs;
+  color: $color-warm-800;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    color: inherit;
+  }
+}
+
 .scopes-container {
   display: grid;
   grid-template-columns: auto;
@@ -24,6 +37,7 @@ section.scopes {
   grid-template-rows: auto min-content;
   gap: $spacing-4;
   height: min-content;
+  cursor: pointer;
 
   .text {
     grid-area: 1 / 1 / span 1 / span 1;

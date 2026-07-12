@@ -4,9 +4,9 @@ import "fmt"
 import "merge/internal/model"
 
 templ Scope(info model.ScopeInfo, currentPath string) {
-    <div class="item scope">
+    <div class="item scope" href={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-get={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-target="main" hx-push-url="true">
         <div class="text">
-            <a class="title" href={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-get={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-target="main" hx-push-url="true">{ info.Name }</a>
+            <span class="title">{ info.Name }</span>
             <p class="age">{ info.NewestPRAge }</p>
         </div>
     </div>

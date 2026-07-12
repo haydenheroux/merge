@@ -17,6 +17,7 @@ templ LoadMorePRs(
 	contributorCounts []model.ContributorInfo,
 	contributorSort string,
     currentPath string,
+    scope string,
 ) {
 	for _, pr := range prs {
 		@components.PRCard(pr, owner, repo)
@@ -25,7 +26,7 @@ templ LoadMorePRs(
 		@components.Counts(overallCounts, hasMore, owner, repo, nextPage)
 	</div>
 	<div id="scopes-section" hx-swap-oob="true">
-		@components.Scopes(scopeCounts, scopeSort, currentPath)
+		@components.Scopes(scopeCounts, scopeSort, currentPath, scope)
 	</div>
 	<div id="contributors-section" hx-swap-oob="true">
 		@components.Contributors(contributorCounts, contributorSort)

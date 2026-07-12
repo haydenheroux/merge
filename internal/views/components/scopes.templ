@@ -1,41 +1,53 @@
 package components
 
-import "merge/internal/model"
+import (
+	"fmt"
+	"strings"
 
-templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath string) {
-    if len(scopes) > 0 {
-        <section class="scopes">
-            <div class="section-heading">
-                <span>Scopes</span>
-                <span class="buttons">
-                    <i id="scopes-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
-                    <button
-                        if activeSort == "top" {
-                            data-active-sort="true"
-                        }
-                        hx-get="?part=scopes&sort=top"
-                        hx-target="#scopes-section"
-                        hx-indicator="#scopes-sort-indicator"
-                    >
-                        Top
-                    </button>
-                    <button
-                        if activeSort == "recent" {
-                            data-active-sort="true"
-                        }
-                        hx-get="?part=scopes&sort=recent"
-                        hx-target="#scopes-section"
-                        hx-indicator="#scopes-sort-indicator"
-                    >
-                        Recent
-                    </button>
-                </span>
-            </div>
-            <div class="scopes-container">
-                for _, info := range scopes {
-                    @Scope(info, currentPath)
-                }
-            </div>
-        </section>
-    }
+	"merge/internal/model"
+)
+
+templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope string) {
+	<section class="scopes">
+		<div class="section-heading">
+			<span>Scopes</span>
+			if len(scopes) > 0 {
+				<span class="buttons">
+					<i id="scopes-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
+					<button
+						if activeSort == "top" {
+							data-active-sort="true"
+						}
+						hx-get={ fmt.Sprintf("?part=scopes&sort=top") }
+						hx-target="#scopes-section"
+						hx-indicator="#scopes-sort-indicator"
+					>
+						Top
+					</button>
+					<button
+						if activeSort == "recent" {
+							data-active-sort="true"
+						}
+						hx-get={ fmt.Sprintf("?part=scopes&sort=recent") }
+						hx-target="#scopes-section"
+						hx-indicator="#scopes-sort-indicator"
+					>
+						Recent
+					</button>
+				</span>
+			}
+		</div>
+		if scope != "" {
+			<div class="scope-notice">
+				<span><a href={ templ.SafeURL(strings.TrimSuffix(currentPath, "/"+scope)) } hx-get={ templ.SafeURL(strings.TrimSuffix(currentPath, "/"+scope)) } hx-target="main" hx-push-url="true">Return to main page.</a></span>
+			</div>
+		}
+		if len(scopes) > 0 {
+			<div class="scopes-container">
+			for _, info := range scopes {
+				@Scope(info, currentPath)
+			}
+			</div>
+		}
+	</section>
 }
