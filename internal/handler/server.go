@@ -204,7 +204,7 @@ func (s *Server) Start() error {
 
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/", s.HandleGitHubRoute(Page))
-	s.Router.HandleFunc("/{owner}/{repo}/{scope}", s.HandleGitHubRoute(Page))
+	s.Router.HandleFunc("/{owner}/{repo}/{scope:.*}", s.HandleGitHubRoute(Page))
 
 	s.Logger.Info(fmt.Sprintf("Server starting on port %d", s.Port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", s.Port), s.Router)
