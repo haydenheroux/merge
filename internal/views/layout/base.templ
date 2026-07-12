@@ -105,21 +105,26 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 					input.value = prev;
 				}
 			}
-			inputs.forEach(function(input) {
-				resize(input);
-				input.addEventListener('input', function() { resize(this); });
-				input.addEventListener('focus', function() { this.select(); });
-				input.addEventListener('keydown', function(ev) {
-					if (ev.key === 'Enter' && input.hasAttribute('data-part')) { ev.preventDefault(); navigate(); }
+			function setupInputs() {
+				inputs = document.querySelectorAll('.title-input');
+				inputs.forEach(function(input) {
+					resize(input);
+					input.addEventListener('input', function() { resize(this); });
+					input.addEventListener('focus', function() { this.select(); });
+					input.addEventListener('keydown', function(ev) {
+						if (ev.key === 'Enter' && input.hasAttribute('data-part')) { ev.preventDefault(); navigate(); }
+					});
+					input.addEventListener('blur', function() {
+						setTimeout(function() {
+							if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
+							navigate();
+						}, 0);
+					});
 				});
-				input.addEventListener('blur', function() {
-					setTimeout(function() {
-						if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
-						navigate();
-					}, 0);
-				});
-			});
+			}
+			setupInputs();
 			document.addEventListener('htmx:afterSwap', function() {
+				setupInputs();
 				origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
 				origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
 				origScope = document.querySelector('.title-input[data-part="scope"]')?.value.trim() || '';

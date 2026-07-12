@@ -6,10 +6,8 @@ import (
 )
 
 templ RepoContent(props model.RepoPageProps, currentPath string) {
-	<div class="overview" id="overview-stats">
-        @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
-    </div>
-    <aside class="aside-column">
+	<aside class="aside-column">
+        @components.Nav(props.Owner, props.Repo, props.Scope)
         <div id="scopes-section">
             @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath)
         </div>
@@ -17,6 +15,9 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
             @components.Contributors(props.ContributorCounts, props.ContributorSort)
         </div>
     </aside>
+    <div class="overview" id="overview-stats">
+        @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
+    </div>
     <section class="prs">
 		<div class="section-heading">
 			<span>Pull Requests</span>
