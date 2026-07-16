@@ -440,9 +440,6 @@ body:not(.repo-page) footer {
     z-index: 200;
     background-color: var(--clr-cutout);
     transition: transform $transition-pane;
-    overflow-y: auto;
-    scrollbar-color: $color-warm-800 transparent;
-    scrollbar-width: thin;
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -697,6 +694,6 @@ body:not(.repo-page) footer {
 .scroll {
     min-height: 0;
     overflow-y: auto;
-    scrollbar-color: $color-warm-700 transparent;
+    scrollbar-color: $color-warm-800 transparent;
     scrollbar-width: thin;
 }
