@@ -435,6 +435,16 @@ body:not(.repo-page) footer {
     75% { transform: rotate(8deg) scale(1.1); }
 }
 
+.pane-right {
+    position: fixed;
+    z-index: 200;
+    background-color: var(--clr-cutout);
+    transition: transform $transition-pane;
+    overflow-y: auto;
+    scrollbar-color: $color-warm-800 transparent;
+    scrollbar-width: thin;
+}
+
 @media (min-width: $breakpoint-desktop) {
     #scopes-section,
     #contributors-section {
@@ -454,13 +464,9 @@ body:not(.repo-page) footer {
         min-height: 0;
         overflow: hidden;
         display: grid;
-        grid-template-columns: $aside-width 1fr 0;
+        grid-template-columns: $aside-width 1fr;
         grid-template-rows: auto 1fr;
         gap: 0;
-    }
-
-    .repo-page main.right-pane-open {
-        grid-template-columns: $aside-width 1fr $right-pane-width;
     }
 
     .overview {
@@ -491,15 +497,25 @@ body:not(.repo-page) footer {
     }
 
     .pane-right {
-        grid-column: 3;
-        grid-row: 1 / -1;
+        top: 0;
+        right: 0;
+        width: $right-pane-width;
+        height: 100%;
         border-left: $border-width-normal solid $color-warm-700;
-        padding: $spacing-4;
+        padding-bottom: $spacing-4;
+
+        &:not(.open) {
+            transform: translateX(100%);
+        }
 
         .pane-right-header {
             position: sticky;
             top: 0;
+            padding-block: $spacing-4;
+            padding-left: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
+            background-color: var(--clr-cutout);
+            border-bottom: $border-width-normal solid $color-warm-700;
             z-index: 1;
 
             .pane-right-title {
@@ -525,6 +541,7 @@ body:not(.repo-page) footer {
         }
 
         .pane-right-meta {
+            padding-inline: $spacing-4;
             font-size: $text-xxs;
             display: flex;
             flex-direction: column;
@@ -566,6 +583,8 @@ body:not(.repo-page) footer {
             color: $color-warm-900;
             font-size: $text-xs;
             line-height: $line-height-markdown-body;
+            padding-inline: $spacing-4;
+            padding-bottom: $spacing-4;
 
             p:first-child {
                 margin-top: $spacing-0;
@@ -599,7 +618,7 @@ body:not(.repo-page) footer {
                 overflow-x: auto;
                 background-color: var(--clr-code-bg);
                 color: var(--clr-code-text);
-                padding: $spacing-4;
+        padding: 0 $spacing-4 $spacing-4 $spacing-4;
                 border-radius: $card-border-radius;
                 font-size: $text-xs;
                 line-height: $line-height-code;
@@ -659,15 +678,18 @@ body:not(.repo-page) footer {
     }
 
     .pane-right {
-        position: fixed;
-        top: 0;
-        right: 0;
+        bottom: 0;
+        left: 0;
+        right: auto;
         width: 100%;
-        height: 100vh;
-        z-index: 200;
+        height: 30vh;
+        border-left: none;
+        border-top: $border-width-normal solid $color-warm-700;
+        padding: $spacing-4;
+        padding-top: 0;
 
         &:not(.open) {
-            display: none;
+            transform: translateY(100%);
         }
     }
 }

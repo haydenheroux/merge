@@ -107,7 +107,7 @@ $card-border-radius: 6px;
 $inline-border-radius: 4px;
 $border-radius-code: 4px;
 
-$border-width-thin: 1px;
+$border-width-thin: 1.75px;
 $border-width-normal: 1.75px;
 $border-width-thick: 2px;
 $border-width-xthick: 3px;
@@ -118,6 +118,7 @@ $underline-offset-description: 1px;
 $transition-fast: 150ms;
 $transition-normal: 200ms;
 $easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+$transition-pane: $transition-normal ease-out;
 
 $breakpoint-mobile: 720px;
 $breakpoint-desktop: 1024px;
