@@ -70,7 +70,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
             </div>
         </div>
 		<span class="pr-body">
-			<div class="pr-body-inner">@Markdown(pr.Body)</div>
+			<div class="pr-body-inner scroll">@Markdown(pr.Body)</div>
 		</span>
 	</div>
 }

@@ -7,7 +7,7 @@ import (
 )
 
 templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int) {
-	<section class="stats">
+	<div class="stats">
 		<div class="section-heading">
             <span>Overview</span>
             if hasMore {
@@ -28,5 +28,5 @@ templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPa
 			@Count("fa-skull error", counts.ExpiredCount, "expired")
 			@Count("fa-code-merge special", counts.MergedCount, "merged")
 		</div>
-	</section>
+	</div>
 }

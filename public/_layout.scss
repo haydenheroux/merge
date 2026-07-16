@@ -125,7 +125,7 @@ button, .link-button, .status-icon {
         font-size: var(--font-size);
         margin-top: calc(#{$icon-github-margin-top-factor} * var(--font-size));
         margin-left: calc(#{$icon-margin-left-factor} * #{$spacing-2});
-        
+
         &.fa-magnifying-glass {
             --font-size: #{$text-sm};
             margin-right: $spacing-1;
@@ -469,14 +469,13 @@ body:not(.repo-page) footer {
     }
 
     .aside-column {
+        display: flex;
+        flex-direction: column;
         grid-column: 1;
         grid-row: 1 / -1;
         min-height: 0;
-        overflow: hidden;
-        gap: $main-desktop-gap;
         border-right: $border-width-normal solid $color-warm-700;
         background-color: var(--clr-cutout);
-
     }
 
     #nav, #scopes-section {
@@ -494,18 +493,12 @@ body:not(.repo-page) footer {
     .pane-right {
         grid-column: 3;
         grid-row: 1 / -1;
-        min-height: 0;
-        overflow: hidden;
         border-left: $border-width-normal solid $color-warm-700;
-
-        &.open {
-            overflow-y: auto;
-        }
+        padding: $spacing-4;
 
         .pane-right-header {
             position: sticky;
             top: 0;
-            padding: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
             z-index: 1;
 
@@ -519,8 +512,8 @@ body:not(.repo-page) footer {
 
             .button-toggle {
                 position: absolute;
-                top: $spacing-3;
-                right: $spacing-3;
+                top: $spacing-2;
+                right: $spacing-2;
                 font-size: $text-sm;
                 padding: $spacing-1;
                 line-height: 1;
@@ -532,8 +525,6 @@ body:not(.repo-page) footer {
         }
 
         .pane-right-meta {
-            padding: $spacing-3 $spacing-4;
-            border-bottom: $border-width-normal solid $color-warm-700;
             font-size: $text-xxs;
             display: flex;
             flex-direction: column;
@@ -562,25 +553,16 @@ body:not(.repo-page) footer {
 
             .meta-value {
                 color: $color-warm-950;
-
-                a {
-                    color: $color-warm-950;
-                    text-decoration: underline;
-                    text-decoration-color: $color-warm-700;
-                    text-underline-offset: 1px;
-
-                    &:hover {
-                        text-decoration-color: $color-warm-950;
-                    }
-                }
             }
         }
 
         .pane-right-body {
-            padding: $spacing-4;
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-4;
         }
 
-        .pane-right-body .pr-body-inner {
+        .pr-body-inner {
             color: $color-warm-900;
             font-size: $text-xs;
             line-height: $line-height-markdown-body;
@@ -688,4 +670,11 @@ body:not(.repo-page) footer {
             display: none;
         }
     }
+}
+
+.scroll {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-color: $color-warm-700 transparent;
+    scrollbar-width: thin;
 }
