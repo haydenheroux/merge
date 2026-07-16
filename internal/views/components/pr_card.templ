@@ -44,13 +44,13 @@ func ageLabel(open time.Duration, days int) string {
 }
 
 templ PRCard(pr model.StampedPullRequest, owner, repo string) {
-	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") }>
+	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") } data-pr-number={ fmt.Sprintf("%d", pr.Number) }>
         <div class="pull-request-header">
             <div class="icon">
                 <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
             </div>
             <div class="title-row">
-                <a href={ pr.URL }><b class="title">@Markdown(pr.Title)</b></a>
+                <b class="title">@Markdown(pr.Title)</b>
             </div>
             <div class="description-row">
                 <span>
@@ -69,8 +69,5 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 				}
             </div>
         </div>
-		<span class="pr-body">
-			<div class="pr-body-inner scroll">@Markdown(pr.Body)</div>
-		</span>
 	</div>
 }

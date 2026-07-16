@@ -44,6 +44,7 @@ section.scopes {
     display: flex;
     flex-direction: row;
     column-gap: $spacing-1;
+    align-items: baseline;
   }
 
   .title {

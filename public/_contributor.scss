@@ -24,6 +24,7 @@ section.contributors {
   grid-template-rows: auto min-content;
   gap: $spacing-2;
   height: min-content;
+  cursor: pointer;
 
   .aside {
     display: flex;
@@ -47,6 +48,7 @@ section.contributors {
     display: flex;
     flex-direction: row;
     column-gap: $spacing-1;
+    align-items: baseline;
   }
 
   .title {

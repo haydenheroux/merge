@@ -2,6 +2,24 @@
 @use 'silver-link';
 @use 'separator';
 
+@mixin custom-scrollbar {
+    scrollbar-color: $color-warm-800 transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: $color-warm-800;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
 html {
     background-color: $color-warm-200;
     transition: background-color $transition-normal, color $transition-normal;
@@ -440,6 +458,152 @@ body:not(.repo-page) footer {
     z-index: 200;
     background-color: var(--clr-cutout);
     transition: transform $transition-pane;
+
+    .pane-right-header {
+        position: sticky;
+        top: 0;
+        background-color: var(--clr-cutout);
+        border-bottom: $border-width-normal solid $color-warm-700;
+        z-index: 1;
+
+        .pane-right-title {
+            font-family: "Neuton", serif;
+            font-weight: $font-weight-bold;
+            color: $color-warm-950;
+            font-size: $text-lg;
+            line-height: $line-height-subheading;
+            display: inline-flex;
+            align-items: center;
+            gap: $spacing-2;
+            text-decoration: none;
+
+            p {
+                margin: 0;
+
+                &:hover {
+                    @include silver-link.silver-link;
+                }
+            }
+
+            i {
+                font-size: $text-xs;
+                color: $color-warm-800;
+            }
+        }
+
+        .button-toggle {
+            position: absolute;
+            top: $spacing-2;
+            right: $spacing-2;
+            font-size: $text-sm;
+            padding: $spacing-1;
+            line-height: 1;
+
+            &:hover {
+                color: $color-warm-800;
+            }
+        }
+    }
+
+    .pane-right-meta {
+        font-size: $text-xxs;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-2;
+
+        .meta-row {
+            display: flex;
+            align-items: baseline;
+            gap: $spacing-3;
+        }
+
+        .meta-label {
+            display: flex;
+            align-items: center;
+            gap: $spacing-1;
+            color: $color-warm-800;
+            min-width: 5rem;
+            flex-shrink: 0;
+
+            i {
+                font-size: $text-xxs;
+                width: 1rem;
+                text-align: center;
+            }
+        }
+
+        .meta-value {
+            color: $color-warm-950;
+        }
+    }
+
+    .pane-right-body {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-4;
+    }
+
+    .pr-body-inner {
+        color: $color-warm-900;
+        font-size: $text-xs;
+        line-height: $line-height-markdown-body;
+
+        p:first-child {
+            margin-top: $spacing-0;
+        }
+
+        p:last-child {
+            margin-bottom: $spacing-0;
+        }
+
+        h1, h2, h3, h4 {
+            font-size: $text-sm;
+            margin-top: $spacing-6;
+            margin-bottom: $spacing-2;
+        }
+
+        p {
+            font-size: $text-xs;
+            margin: $spacing-0;
+        }
+
+        ul, ol {
+            margin: $spacing-0;
+            padding-left: $spacing-6;
+        }
+
+        li + li {
+            margin-top: 0.4rem;
+        }
+
+        pre {
+            overflow-x: auto;
+            @include custom-scrollbar;
+            background-color: var(--clr-code-bg);
+            color: var(--clr-code-text);
+            border-radius: $card-border-radius;
+            font-size: $text-xs;
+            line-height: $line-height-code;
+        }
+
+        code {
+            background-color: var(--clr-inline-code-bg);
+            color: var(--clr-inline-code-text);
+            padding: $code-padding-y $code-padding-x;
+            border-radius: $border-radius-code;
+        }
+
+        pre code {
+            background: none;
+            padding: $spacing-0;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -491,6 +655,7 @@ body:not(.repo-page) footer {
         min-height: 0;
         overflow: hidden;
         overflow-y: auto;
+        @include custom-scrollbar;
     }
 
     .pane-right {
@@ -506,137 +671,21 @@ body:not(.repo-page) footer {
         }
 
         .pane-right-header {
-            position: sticky;
-            top: 0;
             padding-block: $spacing-4;
             padding-left: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
-            background-color: var(--clr-cutout);
-            border-bottom: $border-width-normal solid $color-warm-700;
-            z-index: 1;
-
-            .pane-right-title {
-                font-family: "Neuton", serif;
-                font-weight: $font-weight-bold;
-                color: $color-warm-950;
-                font-size: $text-lg;
-                line-height: $line-height-subheading;
-            }
-
-            .button-toggle {
-                position: absolute;
-                top: $spacing-2;
-                right: $spacing-2;
-                font-size: $text-sm;
-                padding: $spacing-1;
-                line-height: 1;
-
-                &:hover {
-                    color: $color-warm-800;
-                }
-            }
         }
 
         .pane-right-meta {
             padding-inline: $spacing-4;
-            font-size: $text-xxs;
-            display: flex;
-            flex-direction: column;
-            gap: $spacing-2;
-
-            .meta-row {
-                display: flex;
-                align-items: baseline;
-                gap: $spacing-3;
-            }
-
-            .meta-label {
-                display: flex;
-                align-items: center;
-                gap: $spacing-1;
-                color: $color-warm-800;
-                min-width: 5rem;
-                flex-shrink: 0;
-
-                i {
-                    font-size: $text-xxs;
-                    width: 1rem;
-                    text-align: center;
-                }
-            }
-
-            .meta-value {
-                color: $color-warm-950;
-            }
-        }
-
-        .pane-right-body {
-            display: flex;
-            flex-direction: column;
-            gap: $spacing-4;
         }
 
         .pr-body-inner {
-            color: $color-warm-900;
-            font-size: $text-xs;
-            line-height: $line-height-markdown-body;
             padding-inline: $spacing-4;
             padding-bottom: $spacing-4;
 
-            p:first-child {
-                margin-top: $spacing-0;
-            }
-
-            p:last-child {
-                margin-bottom: $spacing-0;
-            }
-
-            h1, h2, h3, h4 {
-                font-size: $text-sm;
-                margin-top: $spacing-6;
-                margin-bottom: $spacing-2;
-            }
-
-            p {
-                font-size: $text-xs;
-                margin: $spacing-0;
-            }
-
-            ul, ol {
-                margin: $spacing-0;
-                padding-left: $spacing-6;
-            }
-
-            li + li {
-                margin-top: 0.4rem;
-            }
-
             pre {
-                overflow-x: auto;
-                background-color: var(--clr-code-bg);
-                color: var(--clr-code-text);
-        padding: 0 $spacing-4 $spacing-4 $spacing-4;
-                border-radius: $card-border-radius;
-                font-size: $text-xs;
-                line-height: $line-height-code;
-            }
-
-            code {
-                background-color: var(--clr-inline-code-bg);
-                color: var(--clr-inline-code-text);
-                padding: $code-padding-y $code-padding-x;
-                border-radius: $border-radius-code;
-            }
-
-            pre code {
-                background: none;
-                padding: $spacing-0;
-                color: inherit;
-            }
-
-            img {
-                max-width: 100%;
-                height: auto;
+                padding: 0 $spacing-4 $spacing-4 $spacing-4;
             }
         }
     }
@@ -682,18 +731,70 @@ body:not(.repo-page) footer {
         height: 30vh;
         border-left: none;
         border-top: $border-width-normal solid $color-warm-700;
-        padding: $spacing-4;
-        padding-top: 0;
+        padding-bottom: $spacing-4;
+        overflow-y: auto;
+        @include custom-scrollbar;
 
         &:not(.open) {
             transform: translateY(100%);
         }
+
+        .pane-right-header {
+            padding-block: $spacing-4;
+            padding-inline: $spacing-4;
+            padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
+        }
+
+        .pane-right-meta {
+            padding-inline: $spacing-4;
+        }
+
+        .pr-body-inner {
+            padding-inline: $spacing-4;
+            padding-bottom: $spacing-4;
+        }
     }
+}
+
+html {
+    @include custom-scrollbar;
 }
 
 .scroll {
     min-height: 0;
     overflow-y: auto;
-    scrollbar-color: $color-warm-800 transparent;
-    scrollbar-width: thin;
+    @include custom-scrollbar;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+.skeleton {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+
+    .skeleton-line {
+        height: $text-sm;
+        background-color: $color-warm-700;
+        border-radius: $inline-border-radius;
+        margin-bottom: $spacing-3;
+    }
+
+    .pane-right-header .skeleton-line {
+        height: $text-lg;
+        margin-bottom: $spacing-0;
+    }
+
+    .pane-right-meta .skeleton-line {
+        height: $text-xxs;
+        margin-bottom: $spacing-2;
+    }
+
+    .pr-body-inner .skeleton-line {
+        &:nth-child(1) { width: 90%; }
+        &:nth-child(2) { width: 75%; }
+        &:nth-child(3) { width: 85%; }
+        &:nth-child(4) { width: 60%; }
+    }
 }

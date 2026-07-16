@@ -71,18 +71,29 @@ func (g GitHub) GetPullRequests(params provider.Params, options provider.Options
 
 	// TODO(hayden): Implement `Mappable` interface
 	stamped := model.StampNow(prs) // map from GitHub PRs to our PRs
-	if params.Scope == nil {
-		return stamped, hasNext, nil
-	}
 
-	inScope := make([]model.StampedPullRequest, 0, len(stamped))
-	for _, pr := range stamped {
-		for _, scope := range pr.Scopes {
-			if scope == *params.Scope {
-				inScope = append(inScope, pr)
+	filtered := stamped
+	if params.Scope != nil {
+		inScope := make([]model.StampedPullRequest, 0, len(stamped))
+		for _, pr := range stamped {
+			for _, scope := range pr.Scopes {
+				if scope == *params.Scope {
+					inScope = append(inScope, pr)
+				}
 			}
 		}
+		filtered = inScope
 	}
 
-	return inScope, hasNext, nil
+	if params.Contributor != nil {
+		byContributor := make([]model.StampedPullRequest, 0, len(filtered))
+		for _, pr := range filtered {
+			if pr.Author.Name == *params.Contributor {
+				byContributor = append(byContributor, pr)
+			}
+		}
+		filtered = byContributor
+	}
+
+	return filtered, hasNext, nil
 }

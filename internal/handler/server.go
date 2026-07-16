@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"sort"
+	"strconv"
 
 	"merge/internal/model"
 	"merge/internal/provider"
@@ -123,6 +124,7 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 			"recent",
 			r.URL.Path,
 			currentScope,
+			"",
 		).Render(r.Context(), w)
 		if err != nil {
 			rt.Logger.Error(err.Error())
@@ -142,6 +144,11 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		scope = *rt.Params.Scope
 	}
 
+	contributor := ""
+	if rt.Params.Contributor != nil {
+		contributor = *rt.Params.Contributor
+	}
+
 	scopeCounts := model.ScopeAges(prs)
 	filteredScopes := make([]model.ScopeInfo, 0, len(scopeCounts))
 	for _, s := range scopeCounts {
@@ -155,6 +162,7 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		Owner:             rt.Params.Owner,
 		Repo:              rt.Params.Repo,
 		Scope:             scope,
+		Contributor:       contributor,
 		PRs:               prs,
 		OverallCounts:     model.GetCounts(prs),
 		ScopeCounts:       filteredScopes,
@@ -166,7 +174,24 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if r.URL.Query().Get("part") == "contributors" {
+	if r.URL.Query().Get("part") == "pr-detail" {
+		prNumber, err := strconv.Atoi(r.URL.Query().Get("number"))
+		if err != nil {
+			http.Error(w, "Invalid PR number", http.StatusBadRequest)
+			return
+		}
+		for _, pr := range props.PRs {
+			if pr.Number == prNumber {
+				err = components.PaneContent(pr).Render(r.Context(), w)
+				if err != nil {
+					rt.Logger.Error(err.Error())
+				}
+				return
+			}
+		}
+		http.Error(w, "PR not found", http.StatusNotFound)
+		return
+	} else if r.URL.Query().Get("part") == "contributors" {
 		method := r.URL.Query().Get("sort")
 		contributors := props.ContributorCounts
 		if method == "top" {
@@ -174,7 +199,7 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return contributors[i].Count() > contributors[j].Count()
 			})
 		}
-		err = components.Contributors(contributors, method).Render(r.Context(), w)
+		err = components.Contributors(contributors, method, contributor, "/"+rt.Params.Owner+"/"+rt.Params.Repo).Render(r.Context(), w)
 	} else if r.URL.Query().Get("part") == "scopes" {
 		method := r.URL.Query().Get("sort")
 		scopes := props.ScopeCounts

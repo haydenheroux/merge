@@ -18,6 +18,7 @@ templ LoadMorePRs(
 	contributorSort string,
     currentPath string,
     scope string,
+    contributor string,
 ) {
 	for _, pr := range prs {
 		@components.PRCard(pr, owner, repo)
@@ -29,6 +30,6 @@ templ LoadMorePRs(
 		@components.Scopes(scopeCounts, scopeSort, currentPath, scope)
 	</div>
 	<div id="contributors-section" hx-swap-oob="true">
-		@components.Contributors(contributorCounts, contributorSort)
+		@components.Contributors(contributorCounts, contributorSort, contributor, currentPath)
 	</div>
 }

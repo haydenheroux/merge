@@ -13,7 +13,7 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
                 @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope)
             </div>
             <div id="contributors-section">
-                @components.Contributors(props.ContributorCounts, props.ContributorSort)
+                @components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath)
             </div>
         </div>
     </aside>

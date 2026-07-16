@@ -5,11 +5,11 @@ import (
 	"merge/internal/model"
 )
 
-templ Contributor(info model.ContributorInfo) {
-    <div class="item contributor">
+templ Contributor(info model.ContributorInfo, owner, repo string) {
+    <div class="item contributor" hx-get={ fmt.Sprintf("/%s/%s?contributor=%s", owner, repo, info.Name) } hx-target="main" hx-push-url="true">
         <img class="avatar" src={ info.AvatarURL } alt={ fmt.Sprintf("%s's avatar", info.Name) }/>
         <div class="text">
-            <a class="title" href={ info.URL }>{ info.Name }</a>
+            <span class="title">{ info.Name }</span>
             <p class="age">{ info.NewestPRAge }</p>
         </div>
     </div>

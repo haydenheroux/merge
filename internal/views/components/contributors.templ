@@ -1,10 +1,27 @@
 package components
 
-import "merge/internal/model"
+import (
+	"fmt"
+	"strings"
 
-templ Contributors(contributors []model.ContributorInfo, activeSort string) {
-    if len(contributors) > 0 {
-        <section class="contributors">
+	"merge/internal/model"
+)
+
+templ Contributors(contributors []model.ContributorInfo, activeSort, currentContributor, currentPath string) {
+    <section class="contributors">
+        if currentContributor != "" {
+            <div class="section-heading">
+                <span>Contributors</span>
+                <span class="buttons">
+                    <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
+                    <button hx-get={ fmt.Sprintf("?part=contributors&sort=top") } hx-target="#contributors-section" hx-indicator="#contributors-sort-indicator">Top</button>
+                    <button data-active-sort="true" hx-get={ fmt.Sprintf("?part=contributors&sort=recent") } hx-target="#contributors-section" hx-indicator="#contributors-sort-indicator">Recent</button>
+                </span>
+            </div>
+            <div class="scope-notice">
+                <span><a href={ templ.SafeURL(strings.TrimSuffix(currentPath, "?contributor="+currentContributor)) } hx-get={ templ.SafeURL(strings.TrimSuffix(currentPath, "?contributor="+currentContributor)) } hx-target="main" hx-push-url="true">Return to main page.</a></span>
+            </div>
+        } else if len(contributors) > 0 {
             <div class="section-heading">
                 <span>Contributors</span>
                 <span class="buttons">
@@ -13,7 +30,7 @@ templ Contributors(contributors []model.ContributorInfo, activeSort string) {
                         if activeSort == "top" {
                             data-active-sort="true"
                         }
-                        hx-get="?part=contributors&sort=top"
+                        hx-get={ fmt.Sprintf("?part=contributors&sort=top") }
                         hx-target="#contributors-section"
                         hx-indicator="#contributors-sort-indicator"
                     >
@@ -23,7 +40,7 @@ templ Contributors(contributors []model.ContributorInfo, activeSort string) {
                         if activeSort == "recent" {
                             data-active-sort="true"
                         }
-                        hx-get="?part=contributors&sort=recent"
+                        hx-get={ fmt.Sprintf("?part=contributors&sort=recent") }
                         hx-target="#contributors-section"
                         hx-indicator="#contributors-sort-indicator"
                     >
@@ -33,9 +50,9 @@ templ Contributors(contributors []model.ContributorInfo, activeSort string) {
             </div>
             <div class="contributors-container">
                 for _, info := range contributors {
-                    @Contributor(info)
+                    @Contributor(info, strings.Split(currentPath, "/")[1], strings.Split(currentPath, "/")[2])
                 }
             </div>
-        </section>
-    }
+        }
+    </section>
 }
