@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"merge/internal/model"
+	"strings"
 )
 
 func GetStatusClass(pr model.StampedPullRequest) string {
@@ -19,4 +20,25 @@ func GetStatusClass(pr model.StampedPullRequest) string {
 	default:
 		return "fa-eye-slash"
 	}
+}
+
+func StripQueryParam(path, key string) string {
+	prefix := key + "="
+	if idx := strings.Index(path, "?"+prefix); idx != -1 {
+		rest := path[idx+1:]
+		end := strings.Index(rest, "&")
+		if end == -1 {
+			return path[:idx]
+		}
+		return path[:idx] + rest[end:]
+	}
+	if idx := strings.Index(path, "&"+prefix); idx != -1 {
+		rest := path[idx+1:]
+		end := strings.Index(rest, "&")
+		if end == -1 {
+			return path[:idx]
+		}
+		return path[:idx] + rest[end:]
+	}
+	return path
 }

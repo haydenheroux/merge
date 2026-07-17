@@ -1,6 +1,8 @@
 package pages
 
 import (
+	"fmt"
+
 	"merge/internal/model"
 	"merge/internal/views/components"
 )
@@ -10,16 +12,16 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
         @components.Nav(props.Owner, props.Repo, props.Scope)
         <div class="scroll">
             <div id="scopes-section">
-                @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope)
+                @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope, props.Contributor, props.Status)
             </div>
             <div id="contributors-section">
-                @components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath)
+                @components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status)
             </div>
         </div>
     </aside>
     <section class="prs scroll">
         <div class="overview" id="overview-stats">
-            @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1)
+            @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1, props.Scope, props.Contributor, props.Status)
         </div>
         <div>
             <div class="section-heading">
@@ -30,6 +32,17 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
                     @components.PRCard(pr, props.Owner, props.Repo)
                 }
             </div>
+			if props.HasMore {
+				<div id="load-more-card">
+					<div class="item load-more"
+						hx-get={ fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage + 1) }
+						hx-target="#prs-scroll"
+						hx-swap="beforeend">
+						<i class="fa-solid fa-plus"></i>
+						<span>Load more</span>
+					</div>
+				</div>
+			}
         </div>
     </section>
     <aside class="pane-right" id="right-pane">

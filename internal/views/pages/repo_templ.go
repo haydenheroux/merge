@@ -62,7 +62,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope, props.Contributor, props.Status).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -70,7 +70,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -78,7 +78,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage+1).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage+1, props.Scope, props.Contributor, props.Status).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -92,7 +92,30 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div></section><aside class=\"pane-right\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if props.HasMore {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div id=\"load-more-card\"><div class=\"item load-more\" hx-get=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var3 string
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage+1))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo.templ`, Line: 48, Col: 92}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span></div></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></section><aside class=\"pane-right\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

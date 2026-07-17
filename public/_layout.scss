@@ -458,6 +458,8 @@ body:not(.repo-page) footer {
     z-index: 200;
     background-color: var(--clr-cutout);
     transition: transform $transition-pane;
+    display: flex;
+    flex-direction: column;
 
     .pane-right-header {
         position: sticky;
@@ -465,6 +467,7 @@ body:not(.repo-page) footer {
         background-color: var(--clr-cutout);
         border-bottom: $border-width-normal solid $color-warm-700;
         z-index: 1;
+        flex-shrink: 0;
 
         .pane-right-title {
             font-family: "Neuton", serif;
@@ -474,7 +477,7 @@ body:not(.repo-page) footer {
             line-height: $line-height-subheading;
             display: inline-flex;
             align-items: center;
-            gap: $spacing-2;
+            gap: $spacing-3;
             text-decoration: none;
 
             p {
@@ -485,7 +488,7 @@ body:not(.repo-page) footer {
                 }
             }
 
-            i {
+            i.fa-up-right-from-square {
                 font-size: $text-xs;
                 color: $color-warm-800;
             }
@@ -535,15 +538,28 @@ body:not(.repo-page) footer {
         .meta-value {
             color: $color-warm-950;
         }
+
+        .meta-link {
+            text-decoration: none;
+            cursor: pointer;
+
+            &:hover {
+                @include silver-link.silver-link;
+            }
+        }
     }
 
     .pane-right-body {
         display: flex;
         flex-direction: column;
         gap: $spacing-4;
+        min-height: 0;
+        flex: 1;
     }
 
     .pr-body-inner {
+        flex: 1;
+        min-height: 0;
         color: $color-warm-900;
         font-size: $text-xs;
         line-height: $line-height-markdown-body;
@@ -665,6 +681,7 @@ body:not(.repo-page) footer {
         height: 100%;
         border-left: $border-width-normal solid $color-warm-700;
         padding-bottom: $spacing-4;
+        overflow: hidden;
 
         &:not(.open) {
             transform: translateX(100%);

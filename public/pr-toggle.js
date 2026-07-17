@@ -103,3 +103,11 @@ document.addEventListener('keydown', function (e) {
     closePane();
   }
 });
+
+document.addEventListener('htmx:afterSwap', function (e) {
+  if (currentPrNumber === null) return;
+  var card = document.querySelector('.pull-request[data-pr-number="' + currentPrNumber + '"]');
+  if (card) {
+    card.classList.add('selected');
+  }
+});

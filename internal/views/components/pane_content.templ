@@ -1,0 +1,116 @@
+package components
+
+import (
+	"fmt"
+	"math"
+	"time"
+
+	"merge/internal/model"
+	"merge/internal/views/helpers"
+)
+
+func paneAgeLabel(open time.Duration, days int) string {
+	if open.Hours() < 1 {
+		mins := int(math.Floor(open.Minutes()))
+		return fmt.Sprintf("%dm ago", mins)
+	}
+
+	if days < 1 {
+		hrs := int(math.Floor(open.Hours()))
+		return fmt.Sprintf("%dhrs ago", hrs)
+	}
+
+	if days == 1 {
+		return "Yesterday"
+	}
+
+	if days < 7 {
+		return fmt.Sprintf("%dd ago", days)
+	}
+
+	weeks := days / 7
+	if weeks < 4 {
+		return fmt.Sprintf("%dwk ago", weeks)
+	}
+
+	months := weeks / 4
+	if months < 12 {
+		return fmt.Sprintf("%dmo ago", months)
+	}
+
+	years := months / 12
+	return fmt.Sprintf("%dyr ago", years)
+}
+
+templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) {
+	<div class="pane-right-body">
+		<div class="pane-right-header">
+			<a class="pane-right-title" href={ pr.URL }>
+				<i class={ "status-icon fa-solid " + helpers.GetStatusClass(pr) }></i>
+				if pr.Title != "" {
+					@Markdown(pr.Title)
+				} else {
+					Pull Request
+				}
+				<i class="fa-solid fa-up-right-from-square"></i>
+			</a>
+			<button class="button-toggle" aria-label="Close">
+				<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+			</button>
+		</div>
+		<div class="pane-right-meta">
+			<div class="meta-row">
+				<span class="meta-label">
+					<i class="fa-solid fa-hashtag"></i>
+					Number
+				</span>
+				<span class="meta-value">{ fmt.Sprintf("#%d", pr.Number) }</span>
+			</div>
+			<div class="meta-row">
+				<span class="meta-label">
+					<i class="fa-solid fa-code-pull-request"></i>
+					Status
+				</span>
+				<span class="meta-value">{ pr.State }</span>
+			</div>
+			<div class="meta-row">
+				<span class="meta-label">
+					<i class="fa-solid fa-clock"></i>
+					Age
+				</span>
+				<span class="meta-value">{ paneAgeLabel(pr.TimeOpen, pr.DaysOpen) }</span>
+			</div>
+			<div class="meta-row">
+				<span class="meta-label">
+					<i class="fa-solid fa-user"></i>
+					Author
+				</span>
+				<a
+					class="meta-value meta-link"
+					href={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
+					hx-get={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
+					hx-target="section.prs"
+					hx-push-url="true"
+				>{ pr.Author.Name }</a>
+			</div>
+			if len(pr.Scopes) > 0 {
+				<div class="meta-row">
+					<span class="meta-label">
+						<i class="fa-solid fa-tag"></i>
+						Scope
+					</span>
+					<a
+						class="meta-value meta-link"
+						href={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
+						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
+						hx-target="section.prs"
+						hx-push-url="true"
+					>{ pr.Scopes[0] }</a>
+				</div>
+			}
+		</div>
+		<div class="pr-body-inner scroll">
+			@Markdown(pr.Body)
+		</div>
+	</div>
+}

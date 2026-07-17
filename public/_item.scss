@@ -15,6 +15,30 @@
     background-color: $color-warm-500;
 }
 
+.item.active {
+    background-color: $color-warm-600;
+    font-weight: $font-weight-bold;
+}
+
 .item.stat {
     padding-block: $spacing-1;
+}
+
+.item.load-more {
+    margin-top: $spacing-2;
+    border-style: dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    color: $color-warm-800;
+    cursor: pointer;
+
+    i {
+        font-size: $text-xs;
+    }
+
+    span {
+        font-size: $text-xs;
+    }
 }

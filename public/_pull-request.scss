@@ -8,6 +8,10 @@ $list-item-gap: 0.4rem;
 .pull-request {
     cursor: pointer;
 
+    &.selected {
+        background-color: $color-warm-600;
+    }
+
     .pull-request-header {
         display: grid;
         grid-template-columns: min-content auto;

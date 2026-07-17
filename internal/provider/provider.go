@@ -13,6 +13,7 @@ type Params struct {
 	AsOf  time.Time
 	Scope *string
 	Contributor *string
+	Status *string
 }
 
 type Options struct {
@@ -47,6 +48,9 @@ func ParseMux(vars map[string]string, query url.Values) (Params, Options) {
 	}
 	if contributor := query.Get("contributor"); contributor != "" {
 		ps.Contributor = &contributor
+	}
+	if status := query.Get("status"); status != "" {
+		ps.Status = &status
 	}
 
 	options := Options{

@@ -9,12 +9,34 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"fmt"
+	"strings"
 
 	"merge/internal/model"
+	"merge/internal/views/helpers"
 )
 
-func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int) templ.Component {
+func buildStatusURL(owner, repo, scope, contributor, currentStatus, targetStatus string) string {
+	base := "/" + owner + "/" + repo
+	if scope != "" {
+		base += "/" + scope
+	}
+	base = helpers.StripQueryParam(base, "status")
+	base = helpers.StripQueryParam(base, "contributor")
+
+	q := []string{}
+	if contributor != "" {
+		q = append(q, "contributor="+contributor)
+	}
+	if targetStatus != currentStatus {
+		q = append(q, "status="+targetStatus)
+	}
+	if len(q) > 0 {
+		return base + "?" + strings.Join(q, "&")
+	}
+	return base
+}
+
+func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int, scope, contributor, status string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -39,46 +61,59 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if hasMore {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"buttons\"><i id=\"load-more-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\"></i> <button hx-get=\"")
+		if status != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"buttons\"><a class=\"link-button\" href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage))
+			var templ_7745c5c3_Var2 templ.SafeURL
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(buildStatusURL(owner, repo, scope, contributor, status, status)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 17, Col: 85}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 37, Col: 113}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\" hx-indicator=\"#load-more-indicator\">Load more</button></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(buildStatusURL(owner, repo, scope, contributor, status, status)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 38, Col: 93}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" hx-target=\"main\" hx-push-url=\"true\">Clear filter</a></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"stats-tiles\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div><div class=\"stats-tiles\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-seedling ok", counts.FreshCount, "fresh").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-seedling ok", counts.FreshCount, "fresh", buildStatusURL(owner, repo, scope, contributor, status, "fresh"), status == "fresh").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-leaf warn", counts.StaleCount, "stale").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-leaf warn", counts.StaleCount, "stale", buildStatusURL(owner, repo, scope, contributor, status, "stale"), status == "stale").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-skull error", counts.ExpiredCount, "expired").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-skull error", counts.ExpiredCount, "expired", buildStatusURL(owner, repo, scope, contributor, status, "expired"), status == "expired").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-code-merge special", counts.MergedCount, "merged").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-code-merge special", counts.MergedCount, "merged", buildStatusURL(owner, repo, scope, contributor, status, "merged"), status == "merged").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

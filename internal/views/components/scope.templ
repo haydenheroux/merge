@@ -1,10 +1,30 @@
 package components
 
-import "fmt"
-import "merge/internal/model"
+import (
+	"fmt"
+	"strings"
 
-templ Scope(info model.ScopeInfo, currentPath string) {
-    <div class="item scope" href={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-get={ fmt.Sprintf("%s/%s", currentPath, info.Name) } hx-target="main" hx-push-url="true">
+	"merge/internal/model"
+)
+
+templ Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status string) {
+    {{ basePath := currentPath
+    if activeScope != "" {
+        basePath = currentPath[:strings.LastIndex(currentPath, "/")]
+    }
+    scopeURL := fmt.Sprintf("%s/%s", basePath, info.Name)
+    q := []string{}
+    if contributor != "" {
+        q = append(q, "contributor="+contributor)
+    }
+    if status != "" {
+        q = append(q, "status="+status)
+    }
+    if len(q) > 0 {
+        scopeURL += "?" + strings.Join(q, "&")
+    }
+    }}
+    <div class={ "item scope", templ.KV("active", info.Name == activeScope) } href={ templ.SafeURL(scopeURL) } hx-get={ templ.SafeURL(scopeURL) } hx-target="main" hx-push-url="true">
         <div class="text">
             <span class="title">{ info.Name }</span>
             <p class="age">{ info.NewestPRAge }</p>

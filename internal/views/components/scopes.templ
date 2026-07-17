@@ -5,13 +5,14 @@ import (
 	"strings"
 
 	"merge/internal/model"
+	"merge/internal/views/helpers"
 )
 
-templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope string) {
+templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributor, status string) {
 	<section class="scopes">
 		<div class="section-heading">
 			<span>Scopes</span>
-			if len(scopes) > 0 {
+			if len(scopes) > 0 || scope != "" {
 				<span class="buttons">
 					<i id="scopes-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
 					<button
@@ -37,16 +38,29 @@ templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope string) {
 				</span>
 			}
 		</div>
-		if scope != "" {
-			<div class="scope-notice">
-				<span><a href={ templ.SafeURL(strings.TrimSuffix(currentPath, "/"+scope)) } hx-get={ templ.SafeURL(strings.TrimSuffix(currentPath, "/"+scope)) } hx-target="main" hx-push-url="true">Return to main page.</a></span>
-			</div>
-		}
 		if len(scopes) > 0 {
 			<div class="scopes-container">
 			for _, info := range scopes {
-				@Scope(info, currentPath)
+				@Scope(info, currentPath, scope, contributor, status)
 			}
+			</div>
+		}
+		if scope != "" {
+			{{ clearPath := helpers.StripQueryParam(strings.TrimSuffix(currentPath, "/"+scope), "status")
+			clearPath = helpers.StripQueryParam(clearPath, "contributor")
+			q := []string{}
+			if contributor != "" {
+				q = append(q, "contributor="+contributor)
+			}
+			if status != "" {
+				q = append(q, "status="+status)
+			}
+			if len(q) > 0 {
+				clearPath += "?" + strings.Join(q, "&")
+			}
+			}}
+			<div class="scope-notice">
+				<span><a href={ templ.SafeURL(clearPath) } hx-get={ templ.SafeURL(clearPath) } hx-target="main" hx-push-url="true">Clear filter</a></span>
 			</div>
 		}
 	</section>

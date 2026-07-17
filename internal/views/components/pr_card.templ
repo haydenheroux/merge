@@ -54,6 +54,9 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
             </div>
             <div class="description-row">
                 <span>
+                    #{ pr.Number }
+                </span>
+                <span>
                     { pr.State }
                 </span>
                 <span>
