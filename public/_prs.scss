@@ -3,6 +3,7 @@
 .prs {
     display: flex;
     flex-direction: column;
+    gap: $spacing-4;
 
     .prs-scroll {
         border-radius: $card-border-radius;
@@ -14,14 +15,9 @@
 
 @media (min-width: $breakpoint-desktop) {
     .prs {
-        flex: 1;
-        min-height: 0;
-        overflow: hidden;
-
         .prs-scroll {
             flex: 1;
             min-height: 0;
-            overflow-y: auto;
         }
     }
 }

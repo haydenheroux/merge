@@ -7,6 +7,7 @@ import (
 
 templ IndexPage(baseURL, owner, repo string) {
 	@layout.Base("Merge Zone", "Know your contributors. Build your community.", baseURL, owner, repo, "") {
+		@components.Nav(owner, repo, "")
 		<main>
 			<div class="hero">
 				<h1>Know your contributors. <br/>Build your community.</h1>

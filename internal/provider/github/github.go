@@ -71,18 +71,59 @@ func (g GitHub) GetPullRequests(params provider.Params, options provider.Options
 
 	// TODO(hayden): Implement `Mappable` interface
 	stamped := model.StampNow(prs) // map from GitHub PRs to our PRs
-	if params.Scope == nil {
-		return stamped, hasNext, nil
-	}
 
-	inScope := make([]model.StampedPullRequest, 0, len(stamped))
-	for _, pr := range stamped {
-		for _, scope := range pr.Scopes {
-			if scope == *params.Scope {
-				inScope = append(inScope, pr)
+	filtered := stamped
+	if params.Scope != nil {
+		inScope := make([]model.StampedPullRequest, 0, len(stamped))
+		for _, pr := range stamped {
+			for _, scope := range pr.Scopes {
+				if scope == *params.Scope {
+					inScope = append(inScope, pr)
+				}
 			}
 		}
+		filtered = inScope
 	}
 
-	return inScope, hasNext, nil
+	if params.Contributor != nil {
+		byContributor := make([]model.StampedPullRequest, 0, len(filtered))
+		for _, pr := range filtered {
+			if pr.Author.Name == *params.Contributor {
+				byContributor = append(byContributor, pr)
+			}
+		}
+		filtered = byContributor
+	}
+
+	if params.Status != nil {
+		byStatus := make([]model.StampedPullRequest, 0, len(filtered))
+		for _, pr := range filtered {
+			switch *params.Status {
+			case "merged":
+				if pr.State == model.Merged {
+					byStatus = append(byStatus, pr)
+				}
+			default:
+				if pr.State != model.Merged {
+					switch *params.Status {
+					case "fresh":
+						if pr.ExpiryStatus == model.Fresh {
+							byStatus = append(byStatus, pr)
+						}
+					case "stale":
+						if pr.ExpiryStatus == model.Stale {
+							byStatus = append(byStatus, pr)
+						}
+					case "expired":
+						if pr.ExpiryStatus == model.Expired {
+							byStatus = append(byStatus, pr)
+						}
+					}
+				}
+			}
+		}
+		filtered = byStatus
+	}
+
+	return filtered, hasNext, nil
 }

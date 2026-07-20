@@ -8,10 +8,12 @@ import (
 )
 
 type Params struct {
-	Owner string
-	Repo  string
-	AsOf  time.Time
-	Scope *string
+	Owner       string
+	Repo        string
+	AsOf        time.Time
+	Scope       *string
+	Contributor *string
+	Status      *string
 }
 
 type Options struct {
@@ -43,6 +45,12 @@ func ParseMux(vars map[string]string, query url.Values) (Params, Options) {
 	}
 	if scope, ok := vars["scope"]; ok {
 		ps.Scope = &scope
+	}
+	if contributor := query.Get("contributor"); contributor != "" {
+		ps.Contributor = &contributor
+	}
+	if status := query.Get("status"); status != "" {
+		ps.Status = &status
 	}
 
 	options := Options{

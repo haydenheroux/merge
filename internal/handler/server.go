@@ -6,6 +6,8 @@ import (
 	"log/slog"
 	"net/http"
 	"sort"
+	"strconv"
+	"strings"
 
 	"merge/internal/model"
 	"merge/internal/provider"
@@ -104,11 +106,16 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		if rt.Params.Scope != nil {
 			currentScope = *rt.Params.Scope
 		}
+		currentContributor := ""
+		if rt.Params.Contributor != nil {
+			currentContributor = *rt.Params.Contributor
+		}
+		currentStatus := ""
+		if rt.Params.Status != nil {
+			currentStatus = *rt.Params.Status
+		}
 		scopes := make([]model.ScopeInfo, 0)
 		for _, s := range model.ScopeAges(allPRs) {
-			if s.Name == currentScope {
-				continue
-			}
 			scopes = append(scopes, s)
 		}
 
@@ -122,6 +129,9 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 			model.ContributorActivity(allPRs),
 			"recent",
 			r.URL.Path,
+			currentScope,
+			currentContributor,
+			currentStatus,
 		).Render(r.Context(), w)
 		if err != nil {
 			rt.Logger.Error(err.Error())
@@ -141,12 +151,20 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		scope = *rt.Params.Scope
 	}
 
+	contributor := ""
+	if rt.Params.Contributor != nil {
+		contributor = *rt.Params.Contributor
+	}
+
+	status := ""
+	if rt.Params.Status != nil {
+		status = *rt.Params.Status
+	}
+
 	scopeCounts := model.ScopeAges(prs)
 	filteredScopes := make([]model.ScopeInfo, 0, len(scopeCounts))
 	for _, s := range scopeCounts {
-		if s.Name != scope {
-			filteredScopes = append(filteredScopes, s)
-		}
+		filteredScopes = append(filteredScopes, s)
 	}
 
 	props := model.RepoPageProps{
@@ -154,6 +172,8 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		Owner:             rt.Params.Owner,
 		Repo:              rt.Params.Repo,
 		Scope:             scope,
+		Contributor:       contributor,
+		Status:            status,
 		PRs:               prs,
 		OverallCounts:     model.GetCounts(prs),
 		ScopeCounts:       filteredScopes,
@@ -165,7 +185,24 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if r.URL.Query().Get("part") == "contributors" {
+	if r.URL.Query().Get("part") == "pr-detail" {
+		prNumber, err := strconv.Atoi(r.URL.Query().Get("number"))
+		if err != nil {
+			http.Error(w, "Invalid PR number", http.StatusBadRequest)
+			return
+		}
+		for _, pr := range props.PRs {
+			if pr.Number == prNumber {
+				err = components.PaneContent(pr, rt.Params.Owner, rt.Params.Repo, r.URL.Path).Render(r.Context(), w)
+				if err != nil {
+					rt.Logger.Error(err.Error())
+				}
+				return
+			}
+		}
+		http.Error(w, "PR not found", http.StatusNotFound)
+		return
+	} else if r.URL.Query().Get("part") == "contributors" {
 		method := r.URL.Query().Get("sort")
 		contributors := props.ContributorCounts
 		if method == "top" {
@@ -173,7 +210,7 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return contributors[i].Count() > contributors[j].Count()
 			})
 		}
-		err = components.Contributors(contributors, method).Render(r.Context(), w)
+		err = components.Contributors(contributors, method, contributor, "/"+rt.Params.Owner+"/"+rt.Params.Repo, status).Render(r.Context(), w)
 	} else if r.URL.Query().Get("part") == "scopes" {
 		method := r.URL.Query().Get("sort")
 		scopes := props.ScopeCounts
@@ -182,13 +219,23 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return scopes[i].Count() > scopes[j].Count()
 			})
 		}
-		err = components.Scopes(scopes, method, r.URL.Path).Render(r.Context(), w)
+		err = components.Scopes(scopes, method, r.URL.Path, scope, contributor, status).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
 		pushURL := "/" + rt.Params.Owner + "/" + rt.Params.Repo
 		if scope != "" {
 			pushURL += "/" + scope
 		}
-		w.Header().Set("HX-Push", pushURL)
+		params := []string{}
+		if contributor != "" {
+			params = append(params, "contributor="+contributor)
+		}
+		if status != "" {
+			params = append(params, "status="+status)
+		}
+		if len(params) > 0 {
+			pushURL += "?" + strings.Join(params, "&")
+		}
+		w.Header().Set("HX-Push-Url", pushURL)
 		err = pages.RepoContent(props, r.URL.Path).Render(r.Context(), w)
 	} else {
 		err = pages.RepoPage(props, r.URL.Path).Render(r.Context(), w)
@@ -204,7 +251,7 @@ func (s *Server) Start() error {
 
 	s.Router.HandleFunc("/{owner}/{repo}", s.HandleGitHubRoute(Page))
 	s.Router.HandleFunc("/{owner}/{repo}/", s.HandleGitHubRoute(Page))
-	s.Router.HandleFunc("/{owner}/{repo}/{scope}", s.HandleGitHubRoute(Page))
+	s.Router.HandleFunc("/{owner}/{repo}/{scope:.*}", s.HandleGitHubRoute(Page))
 
 	s.Logger.Info(fmt.Sprintf("Server starting on port %d", s.Port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", s.Port), s.Router)

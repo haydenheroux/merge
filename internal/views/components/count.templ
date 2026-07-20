@@ -1,13 +1,26 @@
 package components
 
-import "fmt"
+import (
+	"fmt"
+)
 
-templ Count(iconClass string, count int, label string) {
-	<div class="item stat">
-		<p class="bold">{ label }</p>
-		<i class={ "status-icon fa-solid " + iconClass }></i>
-		<b class="serif">{ fmt.Sprintf("%d", count) }</b>
-	</div>
+templ Count(iconClass string, count int, label string, url string, active bool) {
+	if url != "" {
+		<div class={ "item stat", templ.KV("active", active) }
+			hx-get={ templ.SafeURL(url) }
+			hx-target="main"
+			hx-push-url="true">
+			<p class="bold">{ label }</p>
+			<i class={ "status-icon fa-solid " + iconClass }></i>
+			<b class="serif">{ fmt.Sprintf("%d", count) }</b>
+		</div>
+	} else {
+		<div class={ "item stat", templ.KV("active", active) }>
+			<p class="bold">{ label }</p>
+			<i class={ "status-icon fa-solid " + iconClass }></i>
+			<b class="serif">{ fmt.Sprintf("%d", count) }</b>
+		</div>
+	}
 }
 
 templ InlineCount(iconClass string, count int) {

@@ -42,7 +42,7 @@ func RepoForm(formID string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"repo-form\"><span class=\"input-pill\"><input type=\"text\" class=\"serif title-input owner-input\" placeholder=\"facebook\" required aria-label=\"Search your team\"></span> <span class=\"serif bold title-sep\">/</span> <span class=\"input-pill\"><input type=\"text\" class=\"serif title-input repo-input\" placeholder=\"react\" required aria-label=\"Search your repositories\"></span> <button type=\"submit\" aria-label=\"Submit\"><i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i></button></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"repo-form\"><span class=\"input-pill\"><input type=\"text\" class=\"serif title-input owner-input\" placeholder=\"facebook\" required aria-label=\"Search your team\" autofocus></span> <span class=\"serif bold title-sep\">/</span> <span class=\"input-pill\"><input type=\"text\" class=\"serif title-input repo-input\" placeholder=\"react\" required aria-label=\"Search your repositories\"></span> <button type=\"submit\" aria-label=\"Submit\"><i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i></button></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

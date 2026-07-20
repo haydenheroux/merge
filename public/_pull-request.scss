@@ -6,12 +6,10 @@ $pr-description-grid-column: 2;
 $list-item-gap: 0.4rem;
 
 .pull-request {
-    &[data-has-body="true"]:not(.is-open) {
-        cursor: pointer;
-    }
+    cursor: pointer;
 
-    &[data-has-body="false"] .button-toggle {
-        cursor: not-allowed;
+    &.selected {
+        background-color: $color-warm-600;
     }
 
     .pull-request-header {
@@ -45,11 +43,6 @@ $list-item-gap: 0.4rem;
             line-height: $line-height-subheading;
             margin-block: $spacing-0;
         }
-
-        button {
-            margin-left: auto;
-            font-size: $text-xxs;
-        }
     }
 
     .description-row {
@@ -62,77 +55,5 @@ $list-item-gap: 0.4rem;
 
     .pr-body {
         display: none;
-        overflow-x: auto;
-
-        .pr-body-inner {
-            margin-top: $spacing-6;
-            padding-inline: $spacing-5;
-            background-color: $color-warm-100;
-            border-left: $border-width-thick solid $color-warm-700;
-            border-radius: 0 $card-border-radius $card-border-radius 0;
-            color: $color-warm-900;
-            font-size: $text-xs;
-            line-height: $line-height-markdown-body;
-
-            p:first-child {
-                margin-top: $spacing-0;
-            }
-
-            p:last-child {
-                margin-bottom: $spacing-0;
-            }
-
-            h1, h2, h3, h4 {
-                font-size: $text-sm;
-                margin-top: $spacing-6;
-                margin-bottom: $spacing-2;
-            }
-
-            p {
-                font-size: $text-xs;
-                margin: $spacing-0;
-            }
-
-            ul, ol {
-                margin: $spacing-0;
-                padding-left: $spacing-6;
-            }
-
-            li + li {
-                margin-top: $list-item-gap;
-            }
-
-            pre {
-                overflow-x: auto;
-                background-color: var(--clr-code-bg);
-                color: var(--clr-code-text);
-                padding: $pre-padding;
-                border-radius: $card-border-radius;
-                font-size: $text-xs;
-                line-height: $line-height-code;
-            }
-
-            code {
-                background-color: var(--clr-inline-code-bg);
-                color: var(--clr-inline-code-text);
-                padding: $code-padding-y $code-padding-x;
-                border-radius: $border-radius-code;
-            }
-
-            pre code {
-                background: none;
-                padding: $spacing-0;
-                color: inherit;
-            }
-
-            img {
-                max-width: $body-width-full;
-                height: auto;
-            }
-        }
-    }
-
-    .pr-body--open {
-        display: block;
     }
 }

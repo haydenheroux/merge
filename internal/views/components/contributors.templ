@@ -1,41 +1,62 @@
 package components
 
-import "merge/internal/model"
+import (
+	"fmt"
+	"strings"
 
-templ Contributors(contributors []model.ContributorInfo, activeSort string) {
-    if len(contributors) > 0 {
-        <section class="contributors">
-            <div class="section-heading">
-                <span>Contributors</span>
-                <span class="buttons">
-                    <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
-                    <button
-                        if activeSort == "top" {
-                            data-active-sort="true"
-                        }
-                        hx-get="?part=contributors&sort=top"
-                        hx-target="#contributors-section"
-                        hx-indicator="#contributors-sort-indicator"
-                    >
-                        Top
-                    </button>
-                    <button
-                        if activeSort == "recent" {
-                            data-active-sort="true"
-                        }
-                        hx-get="?part=contributors&sort=recent"
-                        hx-target="#contributors-section"
-                        hx-indicator="#contributors-sort-indicator"
-                    >
-                        Recent
-                    </button>
-                </span>
-            </div>
+	"merge/internal/model"
+	"merge/internal/views/helpers"
+)
+
+templ Contributors(contributors []model.ContributorInfo, activeSort, currentContributor, currentPath, status string) {
+    <section class="contributors">
+        <div class="section-heading">
+            <span>Contributors</span>
+            <span class="buttons">
+                <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
+                <button
+                    if activeSort == "top" {
+                        data-active-sort="true"
+                    }
+                    hx-get={ fmt.Sprintf("?part=contributors&sort=top") }
+                    hx-target="#contributors-section"
+                    hx-indicator="#contributors-sort-indicator"
+                >
+                    Top
+                </button>
+                <button
+                    if activeSort == "recent" {
+                        data-active-sort="true"
+                    }
+                    hx-get={ fmt.Sprintf("?part=contributors&sort=recent") }
+                    hx-target="#contributors-section"
+                    hx-indicator="#contributors-sort-indicator"
+                >
+                    Recent
+                </button>
+            </span>
+        </div>
+        if len(contributors) > 0 {
             <div class="contributors-container">
                 for _, info := range contributors {
-                    @Contributor(info)
+                    @Contributor(info, currentPath, currentContributor, status)
                 }
             </div>
-        </section>
-    }
+        }
+        if currentContributor != "" {
+            {{ clearPath := helpers.StripQueryParam(currentPath, "contributor")
+            clearPath = helpers.StripQueryParam(clearPath, "status")
+            q := []string{}
+            if status != "" {
+                q = append(q, "status="+status)
+            }
+            if len(q) > 0 {
+                clearPath += "?" + strings.Join(q, "&")
+            }
+            }}
+            <div class="scope-notice">
+                <span><a href={ templ.SafeURL(clearPath) } hx-get={ templ.SafeURL(clearPath) } hx-target="main" hx-push-url="true">Clear filter</a></span>
+            </div>
+        }
+    </section>
 }

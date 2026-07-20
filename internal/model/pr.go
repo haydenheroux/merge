@@ -116,12 +116,25 @@ func extractSquareBracketScopes(title string) []string {
 	return split(matches[1])
 }
 
+func extractColonScopes(title string) []string {
+	re := regexp.MustCompile(`^([a-zA-Z0-9_\-/]+):`)
+	matches := re.FindStringSubmatch(title)
+	if len(matches) == 0 {
+		return []string{}
+	}
+
+	return split(matches[1])
+}
+
 func (pr *PullRequest) Scopes() []string {
 	result := make([]string, 0)
 	for _, s := range extractConventionalCommitScopes(pr.Title) {
 		result = append(result, s)
 	}
 	for _, s := range extractSquareBracketScopes(pr.Title) {
+		result = append(result, s)
+	}
+	for _, s := range extractColonScopes(pr.Title) {
 		result = append(result, s)
 	}
 	return result

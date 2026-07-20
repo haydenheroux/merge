@@ -1,6 +1,6 @@
 @use 'variables' as *;
 
-$avatar-size: $spacing-8;
+$avatar-size: $spacing-6;
 
 section.contributors {
   display: flex;
@@ -16,15 +16,15 @@ section.contributors {
   gap: $spacing-2;
   border-radius: $card-border-radius;
   min-height: 0;
-  overflow-y: auto;
 }
 
 .contributor {
   display: grid;
   grid-template-columns: $avatar-size auto;
   grid-template-rows: auto min-content;
-  gap: $spacing-4;
+  gap: $spacing-2;
   height: min-content;
+  cursor: pointer;
 
   .aside {
     display: flex;
@@ -46,8 +46,9 @@ section.contributors {
   .text {
     grid-area: 1 / 2 / span 1 / span 1;
     display: flex;
-    flex-direction: column;
-    row-gap: $spacing-1;
+    flex-direction: row;
+    column-gap: $spacing-1;
+    align-items: baseline;
   }
 
   .title {

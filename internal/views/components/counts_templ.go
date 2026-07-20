@@ -10,11 +10,48 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
+	"strings"
 
 	"merge/internal/model"
+	"merge/internal/views/helpers"
 )
 
-func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int) templ.Component {
+func buildStatusURL(owner, repo, scope, contributor, currentStatus, targetStatus string) string {
+	base := "/" + owner + "/" + repo
+	if scope != "" {
+		base += "/" + scope
+	}
+	base = helpers.StripQueryParam(base, "status")
+	base = helpers.StripQueryParam(base, "contributor")
+
+	q := []string{}
+	if contributor != "" {
+		q = append(q, "contributor="+contributor)
+	}
+	if targetStatus != currentStatus {
+		q = append(q, "status="+targetStatus)
+	}
+	if len(q) > 0 {
+		return base + "?" + strings.Join(q, "&")
+	}
+	return base
+}
+
+func buildFilterLabel(scope, status, contributor string) string {
+	parts := []string{}
+	if scope != "" {
+		parts = append(parts, strings.ToUpper(scope))
+	}
+	if status != "" {
+		parts = append(parts, strings.ToUpper(status))
+	}
+	if contributor != "" {
+		parts = append(parts, strings.ToUpper(contributor))
+	}
+	return "Filter: " + strings.Join(parts, ", ")
+}
+
+func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int, scope, contributor, status string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -35,50 +72,81 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"stats\"><div class=\"section-heading\"><span>Overview</span> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"stats\"><div class=\"section-heading\"><span>Overview</span><div class=\"buttons\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if hasMore {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"buttons\"><i id=\"load-more-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\"></i> <button hx-get=\"")
+		if scope != "" || contributor != "" || status != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage))
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(buildFilterLabel(scope, status, contributor))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 17, Col: 85}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 52, Col: 141}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\" hx-indicator=\"#load-more-indicator\">Load more</button></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</button> <a class=\"link-button\" id=\"filter-clear\" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 templ.SafeURL
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 54, Col: 62}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 55, Col: 64}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" hx-target=\"main\" hx-push-url=\"true\">Clear</a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\">Filter</button>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"stats-tiles\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div></div><div class=\"stats-tiles\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-seedling ok", counts.FreshCount, "fresh").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-seedling ok", counts.FreshCount, "fresh", buildStatusURL(owner, repo, scope, contributor, status, "fresh"), status == "fresh").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-leaf warn", counts.StaleCount, "stale").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-leaf warn", counts.StaleCount, "stale", buildStatusURL(owner, repo, scope, contributor, status, "stale"), status == "stale").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-skull error", counts.ExpiredCount, "expired").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-skull error", counts.ExpiredCount, "expired", buildStatusURL(owner, repo, scope, contributor, status, "expired"), status == "expired").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-code-merge special", counts.MergedCount, "merged").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-code-merge special", counts.MergedCount, "merged", buildStatusURL(owner, repo, scope, contributor, status, "merged"), status == "merged").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
