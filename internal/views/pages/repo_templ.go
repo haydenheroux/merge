@@ -115,7 +115,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></section><aside class=\"pane-right\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></section><div class=\"filter-panel bottom-sheet\" id=\"filter-panel\"><div class=\"filter-panel-header\"><span>Filter</span> <button class=\"button-toggle\" id=\"filter-close\" aria-label=\"Close filters\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"filter-panel-body\"></div></div><aside class=\"pane-right bottom-sheet\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

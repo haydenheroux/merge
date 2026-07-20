@@ -1,4 +1,5 @@
 var currentPrNumber = null;
+var filterPanelOpen = false;
 
 function loadImages(container) {
   container.querySelectorAll('img[data-src]').forEach(function (img) {
@@ -7,10 +8,14 @@ function loadImages(container) {
   });
 }
 
+// --- PR Detail Pane ---
+
 function openPane(prNumber) {
   var pane = document.getElementById('right-pane');
   var content = document.getElementById('right-pane-content');
   var main = document.querySelector('main');
+
+  closeFilterPanel();
 
   var prevSelected = document.querySelector('.pull-request.selected');
   if (prevSelected) {
@@ -74,11 +79,71 @@ function closePane() {
   if (main) main.classList.remove('right-pane-open');
 }
 
+// --- Filter Panel ---
+
+function moveFiltersToPanel() {
+  var panel = document.getElementById('filter-panel');
+  if (!panel) return;
+  var panelBody = panel.querySelector('.filter-panel-body');
+  if (!panelBody) return;
+
+  var scopesSection = document.getElementById('scopes-section');
+  var contribsSection = document.getElementById('contributors-section');
+
+  if (scopesSection && scopesSection.parentElement !== panelBody) {
+    panelBody.appendChild(scopesSection);
+  }
+  if (contribsSection && contribsSection.parentElement !== panelBody) {
+    panelBody.appendChild(contribsSection);
+  }
+}
+
+function openFilterPanel() {
+  var panel = document.getElementById('filter-panel');
+  if (!panel) return;
+
+  closePane();
+  moveFiltersToPanel();
+
+  panel.classList.add('open');
+  filterPanelOpen = true;
+}
+
+function closeFilterPanel() {
+  var panel = document.getElementById('filter-panel');
+  if (!panel) return;
+  panel.classList.remove('open');
+  filterPanelOpen = false;
+}
+
+// --- Event Listeners (delegated) ---
+
 document.addEventListener('click', function (e) {
+  // Filter toggle button
+  if (e.target.closest('#filter-toggle')) {
+    e.stopPropagation();
+    if (filterPanelOpen) {
+      closeFilterPanel();
+    } else {
+      openFilterPanel();
+    }
+    return;
+  }
+
+  // Filter close button
+  if (e.target.closest('#filter-close')) {
+    e.stopPropagation();
+    closeFilterPanel();
+    return;
+  }
+
+  // PR card clicks
   var card = e.target.closest('.pull-request');
   if (!card) {
     if (e.target.closest('.pane-right')) return;
+    if (e.target.closest('.filter-panel')) return;
     closePane();
+    closeFilterPanel();
     return;
   }
 
@@ -100,14 +165,25 @@ document.addEventListener('click', function (e) {
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
-    closePane();
+    if (filterPanelOpen) {
+      closeFilterPanel();
+    } else {
+      closePane();
+    }
   }
 });
 
 document.addEventListener('htmx:afterSwap', function (e) {
-  if (currentPrNumber === null) return;
-  var card = document.querySelector('.pull-request[data-pr-number="' + currentPrNumber + '"]');
-  if (card) {
-    card.classList.add('selected');
+  // Re-open filter panel if it was open before the swap
+  if (filterPanelOpen) {
+    openFilterPanel();
+  }
+
+  // Re-select the current PR card
+  if (currentPrNumber !== null) {
+    var card = document.querySelector('.pull-request[data-pr-number="' + currentPrNumber + '"]');
+    if (card) {
+      card.classList.add('selected');
+    }
   }
 });

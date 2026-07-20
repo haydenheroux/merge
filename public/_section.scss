@@ -22,7 +22,7 @@ nav, section {
       align-items: center;
       gap: $spacing-2;
 
-      button {
+      button, .link-button {
         font-family: inherit;
         font-size: $text-xxs;
         color: $color-warm-950;
@@ -32,7 +32,7 @@ nav, section {
         padding: 0;
       }
 
-      [data-active-sort="true"], button:hover {
+      [data-active-sort="true"], button:hover, .link-button:hover {
         @include silver-link.silver-link-thin;
       }
     }

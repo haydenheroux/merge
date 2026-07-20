@@ -1,6 +1,7 @@
 package components
 
 import (
+	"fmt"
 	"strings"
 
 	"merge/internal/model"
@@ -28,18 +29,36 @@ func buildStatusURL(owner, repo, scope, contributor, currentStatus, targetStatus
 	return base
 }
 
+func buildFilterLabel(scope, status, contributor string) string {
+	parts := []string{}
+	if scope != "" {
+		parts = append(parts, strings.ToUpper(scope))
+	}
+	if status != "" {
+		parts = append(parts, strings.ToUpper(status))
+	}
+	if contributor != "" {
+		parts = append(parts, strings.ToUpper(contributor))
+	}
+	return "Filter: " + strings.Join(parts, ", ")
+}
+
 templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int, scope, contributor, status string) {
 	<div class="stats">
 		<div class="section-heading">
             <span>Overview</span>
-			if status != "" {
-				<div class="buttons">
-					<a class="link-button" href={ templ.SafeURL(buildStatusURL(owner, repo, scope, contributor, status, status)) }
-						hx-get={ templ.SafeURL(buildStatusURL(owner, repo, scope, contributor, status, status)) }
+			<div class="buttons">
+				if scope != "" || contributor != "" || status != "" {
+					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter">{ buildFilterLabel(scope, status, contributor) }</button>
+					<a class="link-button" id="filter-clear"
+						href={ templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)) }
+						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)) }
 						hx-target="main"
-						hx-push-url="true">Clear filter</a>
-				</div>
-			}
+						hx-push-url="true">Clear</a>
+				} else {
+					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter">Filter</button>
+				}
+			</div>
         </div>
 		<div class="stats-tiles">
 			@Count("fa-seedling ok", counts.FreshCount, "fresh", buildStatusURL(owner, repo, scope, contributor, status, "fresh"), status == "fresh")

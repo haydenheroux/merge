@@ -453,13 +453,31 @@ body:not(.repo-page) footer {
     75% { transform: rotate(8deg) scale(1.1); }
 }
 
-.pane-right {
+.bottom-sheet {
     position: fixed;
     z-index: 200;
     background-color: var(--clr-cutout);
     transition: transform $transition-pane;
     display: flex;
     flex-direction: column;
+    border-top: $border-width-normal solid $color-warm-700;
+
+    &:not(.open) {
+        transform: translateY(100%);
+    }
+}
+
+.pane-right {
+    display: flex;
+    flex-direction: column;
+
+    #right-pane-content {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
     .pane-right-header {
         position: sticky;
@@ -623,6 +641,14 @@ body:not(.repo-page) footer {
 }
 
 @media (min-width: $breakpoint-desktop) {
+    .filter-toggle {
+        display: none;
+    }
+
+    .filter-panel {
+        display: none;
+    }
+
     #scopes-section,
     #contributors-section {
         flex: 1;
@@ -679,6 +705,7 @@ body:not(.repo-page) footer {
         right: 0;
         width: $right-pane-width;
         height: 100%;
+        border-top: none;
         border-left: $border-width-normal solid $color-warm-700;
         padding-bottom: $spacing-4;
         overflow: hidden;
@@ -708,7 +735,7 @@ body:not(.repo-page) footer {
     }
 }
 
-@media (max-width: $breakpoint-mobile) {
+@media (max-width: $breakpoint-desktop) {
     body {
         width: $body-width-full;
         padding-inline: $nav-padding-inline;
@@ -740,21 +767,85 @@ body:not(.repo-page) footer {
         min-width: unset;
     }
 
+    .aside-column .scroll {
+        display: none;
+    }
+
+    .filter-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-2;
+        font-family: inherit;
+        font-size: $text-xxs;
+        color: $color-warm-950;
+        text-transform: uppercase;
+        letter-spacing: $letter-spacing-label;
+        font-weight: $font-weight-bold;
+        cursor: pointer;
+    }
+
+    .filter-panel {
+        bottom: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+        height: 50vh;
+        padding-bottom: $spacing-4;
+        overflow: hidden;
+
+        .filter-panel-header {
+            position: sticky;
+            top: 0;
+            background-color: var(--clr-cutout);
+            border-bottom: $border-width-normal solid $color-warm-700;
+            z-index: 1;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-block: $spacing-4;
+            padding-inline: $spacing-4;
+            padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
+
+            span {
+                font-family: "Neuton", serif;
+                font-weight: $font-weight-bold;
+                font-size: $text-lg;
+                color: $color-warm-950;
+            }
+
+            .button-toggle {
+                position: absolute;
+                top: $spacing-2;
+                right: $spacing-2;
+                font-size: $text-sm;
+                padding: $spacing-1;
+                line-height: 1;
+
+                &:hover {
+                    color: $color-warm-800;
+                }
+            }
+        }
+
+        .filter-panel-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-inline: $spacing-4;
+            @include custom-scrollbar;
+        }
+    }
+
     .pane-right {
         bottom: 0;
         left: 0;
         right: auto;
         width: 100%;
-        height: 30vh;
-        border-left: none;
+        height: 50vh;
         border-top: $border-width-normal solid $color-warm-700;
         padding-bottom: $spacing-4;
-        overflow-y: auto;
-        @include custom-scrollbar;
-
-        &:not(.open) {
-            transform: translateY(100%);
-        }
+        overflow: hidden;
 
         .pane-right-header {
             padding-block: $spacing-4;
