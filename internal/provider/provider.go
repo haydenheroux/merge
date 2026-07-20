@@ -8,12 +8,12 @@ import (
 )
 
 type Params struct {
-	Owner string
-	Repo  string
-	AsOf  time.Time
-	Scope *string
+	Owner       string
+	Repo        string
+	AsOf        time.Time
+	Scope       *string
 	Contributor *string
-	Status *string
+	Status      *string
 }
 
 type Options struct {
