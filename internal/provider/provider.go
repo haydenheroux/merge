@@ -67,4 +67,5 @@ type PaginationResult struct {
 
 type Provider interface {
 	GetPullRequests(params Params, options Options) ([]model.StampedPullRequest, PaginationResult, error)
+	GetPullRequestDiff(owner, repo string, number int) (string, error)
 }

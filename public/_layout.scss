@@ -493,8 +493,8 @@ body:not(.repo-page) footer {
             color: $color-warm-950;
             font-size: $text-lg;
             line-height: $line-height-subheading;
-            display: inline-flex;
-            align-items: center;
+            display: flex;
+            align-items: baseline;
             gap: $spacing-3;
             text-decoration: none;
 
@@ -506,9 +506,19 @@ body:not(.repo-page) footer {
                 }
             }
 
+            .status-icon {
+                font-size: $text-md;
+            }
+
             i.fa-up-right-from-square {
                 font-size: $text-xs;
                 color: $color-warm-800;
+            }
+
+            &:hover {
+                .status-icon {
+                    transform: rotate($rotate-hover) scale($scale-hover);
+                }
             }
         }
 
@@ -568,16 +578,14 @@ body:not(.repo-page) footer {
     }
 
     .pane-right-body {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        @include custom-scrollbar;
         display: flex;
         flex-direction: column;
         gap: $spacing-4;
-        min-height: 0;
-        flex: 1;
-    }
-
-    .pr-body-inner {
-        flex: 1;
-        min-height: 0;
+        padding: $spacing-4;
         color: $color-warm-900;
         font-size: $text-xs;
         line-height: $line-height-markdown-body;
@@ -636,6 +644,26 @@ body:not(.repo-page) footer {
         img {
             max-width: 100%;
             height: auto;
+        }
+
+        diffs-container {
+            display: block;
+            margin-top: $spacing-4;
+        }
+    }
+
+    .pr-diff-skeleton {
+        .skeleton-line {
+            height: 12px;
+            background-color: $color-warm-700;
+            border-radius: $inline-border-radius;
+            margin-bottom: $spacing-2;
+
+            &:nth-child(1) { width: 100%; }
+            &:nth-child(2) { width: 90%; }
+            &:nth-child(3) { width: 95%; }
+            &:nth-child(4) { width: 85%; }
+            &:nth-child(5) { width: 88%; }
         }
     }
 }
@@ -722,15 +750,6 @@ body:not(.repo-page) footer {
 
         .pane-right-meta {
             padding-inline: $spacing-4;
-        }
-
-        .pr-body-inner {
-            padding-inline: $spacing-4;
-            padding-bottom: $spacing-4;
-
-            pre {
-                padding: 0 $spacing-4 $spacing-4 $spacing-4;
-            }
         }
     }
 }
@@ -856,11 +875,6 @@ body:not(.repo-page) footer {
         .pane-right-meta {
             padding-inline: $spacing-4;
         }
-
-        .pr-body-inner {
-            padding-inline: $spacing-4;
-            padding-bottom: $spacing-4;
-        }
     }
 }
 
@@ -899,7 +913,7 @@ html {
         margin-bottom: $spacing-2;
     }
 
-    .pr-body-inner .skeleton-line {
+    .pane-right-body .skeleton-line {
         &:nth-child(1) { width: 90%; }
         &:nth-child(2) { width: 75%; }
         &:nth-child(3) { width: 85%; }

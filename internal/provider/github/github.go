@@ -127,3 +127,33 @@ func (g GitHub) GetPullRequests(params provider.Params, options provider.Options
 
 	return filtered, hasNext, nil
 }
+
+func (g GitHub) GetPullRequestDiff(owner, repo string, number int) (string, error) {
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%d", owner, repo, number)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return "", err
+	}
+
+	req.Header.Set("Accept", "application/vnd.github.v3.diff")
+	req.Header.Set("Authorization", "Bearer "+g.Token)
+	req.Header.Set("X-GitHub-Api-Version", "2026-03-10")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("request failed with status: %s", resp.Status)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
+}

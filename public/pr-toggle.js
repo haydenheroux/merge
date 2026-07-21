@@ -1,5 +1,7 @@
 var currentPrNumber = null;
 var filterPanelOpen = false;
+var currentDiffInstances = [];
+var currentDiffAbort = null;
 
 function loadImages(container) {
   container.querySelectorAll('img[data-src]').forEach(function (img) {
@@ -16,6 +18,7 @@ function openPane(prNumber) {
   var main = document.querySelector('main');
 
   closeFilterPanel();
+  cleanupCurrentDiffs();
 
   var prevSelected = document.querySelector('.pull-request.selected');
   if (prevSelected) {
@@ -38,14 +41,18 @@ function openPane(prNumber) {
     }
   }
 
-  content.innerHTML = '<div class="pane-right-body skeleton"><div class="pane-right-header"><div class="skeleton-line" style="width: 60%; height: $text-lg;"></div></div><div class="pane-right-meta"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 30%;"></div><div class="skeleton-line" style="width: 35%;"></div></div><div class="pr-body-inner"><div class="skeleton-line" style="width: 90%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 85%;"></div><div class="skeleton-line" style="width: 60%;"></div></div></div>';
+  content.innerHTML = '<div class="pane-right-header"><div class="skeleton-line" style="width: 60%; height: $text-lg;"></div></div><div class="pane-right-body skeleton scroll"><div class="pane-right-meta"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 30%;"></div><div class="skeleton-line" style="width: 35%;"></div></div><div class="skeleton-line" style="width: 90%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 85%;"></div><div class="skeleton-line" style="width: 60%;"></div></div>';
 
   if (owner && repo) {
+    var abortCtrl = new AbortController();
+    currentDiffAbort = abortCtrl;
+
     fetch('/' + owner + '/' + repo + '?part=pr-detail&number=' + prNumber)
       .then(function(response) {
         return response.text();
       })
       .then(function(html) {
+        if (abortCtrl.signal.aborted) return;
         content.innerHTML = html;
         loadImages(content);
         var closeBtn = content.querySelector('.button-toggle');
@@ -55,6 +62,8 @@ function openPane(prNumber) {
             closePane();
           });
         }
+
+        loadDiffsInPane(content, owner, repo, prNumber, abortCtrl.signal);
       });
   }
 
@@ -76,7 +85,47 @@ function closePane() {
   content.innerHTML = '';
   pane.classList.remove('open');
   currentPrNumber = null;
+  cleanupCurrentDiffs();
   if (main) main.classList.remove('right-pane-open');
+}
+
+function cleanupCurrentDiffs() {
+  if (currentDiffAbort) {
+    currentDiffAbort.abort();
+    currentDiffAbort = null;
+  }
+  if (currentDiffInstances.length) {
+    import('./pr-diffs.js').then(function(mod) {
+      mod.cleanupDiffs(currentDiffInstances);
+    }).catch(function() {});
+    currentDiffInstances = [];
+  }
+}
+
+function loadDiffsInPane(content, owner, repo, prNumber, signal) {
+  import('./pr-diffs.js').then(function(mod) {
+    var target = content.querySelector('.pane-right-body') || content;
+
+    var skeleton = document.createElement('div');
+    skeleton.className = 'pr-diff-skeleton';
+    skeleton.innerHTML = '<div class="skeleton-line" style="width: 100%; height: 12px; margin-bottom: 8px;"></div><div class="skeleton-line" style="width: 90%; height: 12px; margin-bottom: 8px;"></div><div class="skeleton-line" style="width: 95%; height: 12px; margin-bottom: 8px;"></div><div class="skeleton-line" style="width: 85%; height: 12px; margin-bottom: 8px;"></div><div class="skeleton-line" style="width: 88%; height: 12px;"></div>';
+    target.appendChild(skeleton);
+
+    return mod.loadPRDiffs(target, owner, repo, prNumber, signal).then(function(instances) {
+      if (!signal.aborted) {
+        currentDiffInstances = instances;
+        skeleton.remove();
+      }
+    });
+  }).catch(function(err) {
+    console.error('[diffs]', err);
+    if (!signal.aborted) {
+      var skeleton = content.querySelector('.pr-diff-skeleton');
+      if (skeleton) {
+        skeleton.innerHTML = '<div style="padding: 1rem; color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load diffs</div>';
+      }
+    }
+  });
 }
 
 // --- Filter Panel ---

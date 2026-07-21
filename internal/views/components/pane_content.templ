@@ -43,21 +43,21 @@ func paneAgeLabel(open time.Duration, days int) string {
 }
 
 templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) {
-	<div class="pane-right-body">
-		<div class="pane-right-header">
-			<a class="pane-right-title" href={ pr.URL }>
-				<i class={ "status-icon fa-solid " + helpers.GetStatusClass(pr) }></i>
-				if pr.Title != "" {
-					@Markdown(pr.Title)
-				} else {
-					Pull Request
-				}
-				<i class="fa-solid fa-up-right-from-square"></i>
-			</a>
-			<button class="button-toggle" aria-label="Close">
-				<i class="fa-solid fa-xmark" aria-hidden="true"></i>
-			</button>
-		</div>
+	<div class="pane-right-header">
+		<a class="pane-right-title" href={ pr.URL }>
+			<i class={ "status-icon fa-solid " + helpers.GetStatusClass(pr) }></i>
+			if pr.Title != "" {
+				@Markdown(pr.Title)
+			} else {
+				Pull Request
+			}
+			<i class="fa-solid fa-up-right-from-square"></i>
+		</a>
+		<button class="button-toggle" aria-label="Close">
+			<i class="fa-solid fa-xmark" aria-hidden="true"></i>
+		</button>
+	</div>
+	<div class="pane-right-body scroll">
 		<div class="pane-right-meta">
 			<div class="meta-row">
 				<span class="meta-label">
@@ -109,8 +109,6 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 				</div>
 			}
 		</div>
-		<div class="pr-body-inner scroll">
-			@Markdown(pr.Body)
-		</div>
+		@Markdown(pr.Body)
 	</div>
 }

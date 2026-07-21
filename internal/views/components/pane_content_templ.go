@@ -71,14 +71,14 @@ func PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) t
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"pane-right-body\"><div class=\"pane-right-header\"><a class=\"pane-right-title\" href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"pane-right-header\"><a class=\"pane-right-title\" href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 templ.SafeURL
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinURLErrs(pr.URL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pane_content.templ`, Line: 48, Col: 44}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pane_content.templ`, Line: 47, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -121,7 +121,7 @@ func PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) t
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<i class=\"fa-solid fa-up-right-from-square\"></i></a> <button class=\"button-toggle\" aria-label=\"Close\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"pane-right-meta\"><div class=\"meta-row\"><span class=\"meta-label\"><i class=\"fa-solid fa-hashtag\"></i> Number</span> <span class=\"meta-value\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<i class=\"fa-solid fa-up-right-from-square\"></i></a> <button class=\"button-toggle\" aria-label=\"Close\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"pane-right-body scroll\"><div class=\"pane-right-meta\"><div class=\"meta-row\"><span class=\"meta-label\"><i class=\"fa-solid fa-hashtag\"></i> Number</span> <span class=\"meta-value\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -248,7 +248,7 @@ func PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) t
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div><div class=\"pr-body-inner scroll\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -256,7 +256,7 @@ func PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) t
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
