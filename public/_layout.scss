@@ -191,11 +191,6 @@ main {
     display: flex;
     flex-direction: column;
     gap: $main-mobile-gap;
-
-    > h2 {
-        text-align: center;
-        margin-block: $spacing-32 $spacing-8;
-    }
 }
 
 #nav-form-wrapper {
@@ -225,7 +220,7 @@ main {
 
     .input-pill::before {
         opacity: 1;
-    background-color: $color-warm-cutout-strong;
+        background-color: $color-warm-cutout-strong;
     }
 
     .repo-form button i {
@@ -239,39 +234,7 @@ main {
 }
 
 .url-demo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: $spacing-8;
-
-    .url-demo-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: $spacing-3;
-        padding: $spacing-3 $spacing-5;
-        border-radius: $inline-border-radius;
-        background-color: $color-warm-100;
-        font-size: $text-md;
-        font-weight: $font-weight-bold;
-
-        i {
-            font-size: $text-xl;
-        }
-
-        &:hover {
-            background-color: $color-warm-cutout;
-        }
-    }
-
-    .url-demo-arrow {
-        font-size: $text-xl;
-
-        i {
-            display: inline-block;
-            animation: url-demo-bounce 2s ease-in-out infinite;
-        }
-    }
+    display: none;
 }
 
 .repo-form {
@@ -323,20 +286,16 @@ main {
 }
 
 footer {
-    display: none;
-    margin-inline: $main-margin-inline;
-    margin-bottom: $spacing-6;
+    margin-top: auto;
+    padding: $spacing-4;
     color: $color-warm-800;
-
-    @include separator.dot-separator;
+    border-top: $border-width-normal solid $color-warm-700;
+    display: flex;
+    gap: $spacing-4;
 
     a {
         color: $color-warm-950;
     }
-}
-
-body:not(.repo-page) footer {
-    justify-content: center;
 }
 
 .overview {
@@ -357,77 +316,19 @@ body:not(.repo-page) footer {
 }
 
 .carousel-track {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: $spacing-3;
-    margin-block: 0 $spacing-8;
-    margin-inline: auto;
-    max-width: 48rem;
+    display: none;
 }
 
 .carousel-item {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: $spacing-2;
-    padding: $spacing-3 $spacing-4;
-    border-radius: $inline-border-radius;
-    background-color: $color-warm-100;
-
-    &:hover {
-    background-color: $color-warm-100;
-        text-decoration: none;
-    }
-
-    .sep {
-    color: $color-warm-800;
-        user-select: none;
-    }
-
-    .owner {
-        color: $color-warm-900;
-    }
-
-    .repo {
-        font-weight: $font-weight-bold;
-        color: $color-warm-950;
-    }
+    display: none;
 }
 
 .marketing-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: $spacing-3;
-    margin-block-end: $spacing-8;
-    max-width: 48rem;
-    margin-inline: auto;
+    display: none;
 }
 
 .marketing-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: $spacing-3;
-    padding: $spacing-4 $spacing-5;
-    border-radius: $card-border-radius;
-    background-color: $color-warm-100;
-    text-align: center;
-    max-width: 18rem;
-    flex: 1 1 14rem;
-
-    i {
-        font-size: $text-xl;
-        color: $color-warm-900;
-    }
-
-    p {
-        margin: 0;
-        font-size: $text-sm;
-        color: $color-warm-900;
-        line-height: $line-height-subheading;
-    }
+    display: none;
 }
 
 .htmx-indicator {
@@ -440,11 +341,6 @@ body:not(.repo-page) footer {
 .htmx-request .htmx-indicator,
 .htmx-request.htmx-indicator {
     visibility: visible;
-}
-
-@keyframes url-demo-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
 }
 
 @keyframes magnify-bob {
@@ -668,6 +564,11 @@ body:not(.repo-page) footer {
     }
 }
 
+.repo-page main {
+    display: flex;
+    flex-direction: row;
+}
+
 @media (min-width: $breakpoint-desktop) {
     .filter-toggle {
         display: none;
@@ -694,22 +595,13 @@ body:not(.repo-page) footer {
         flex: 1;
         min-height: 0;
         overflow: hidden;
-        display: grid;
-        grid-template-columns: $aside-width 1fr;
-        grid-template-rows: auto 1fr;
-        gap: 0;
-    }
-
-    .overview {
-        grid-column: 2;
-        grid-row: 1;
     }
 
     .aside-column {
         display: flex;
         flex-direction: column;
-        grid-column: 1;
-        grid-row: 1 / -1;
+        width: $aside-width;
+        flex-shrink: 0;
         min-height: 0;
         border-right: $border-width-normal solid $color-warm-700;
         background-color: var(--clr-cutout);
@@ -719,12 +611,15 @@ body:not(.repo-page) footer {
         border-bottom: $border-width-normal solid $color-warm-700;
     }
 
-    .prs {
-        grid-column: 2;
-        grid-row: 2;
+    main > .scroll {
+        flex: 1;
+        min-width: 0;
         min-height: 0;
         overflow: hidden;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-4;
         @include custom-scrollbar;
     }
 
@@ -918,5 +813,171 @@ html {
         &:nth-child(2) { width: 75%; }
         &:nth-child(3) { width: 85%; }
         &:nth-child(4) { width: 60%; }
+    }
+}
+
+.home-step {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+
+    & + .home-step {
+        margin-top: $spacing-2;
+    }
+}
+
+.home-step-icon {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: $text-md;
+        color: $color-warm-900;
+    }
+}
+
+.home-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+
+    p {
+        margin: 0;
+    }
+
+    p:first-child {
+        color: $color-warm-950;
+    }
+
+    p:last-child {
+        color: $color-warm-900;
+    }
+}
+
+.home-repos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2;
+}
+
+.home-repo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.home-repo-icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: $text-sm;
+        color: $color-warm-900;
+    }
+}
+
+.home-repo-text {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-1;
+
+    .sep {
+        color: $color-warm-800;
+        user-select: none;
+    }
+
+    .owner {
+        color: $color-warm-900;
+    }
+
+    .repo {
+        color: $color-warm-950;
+    }
+}
+
+.home-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2;
+}
+
+.home-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-4;
+
+    & + .home-feature {
+        margin-top: $spacing-2;
+    }
+}
+
+.home-feature-icon {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-warm-cutout;
+    border-radius: 50%;
+
+    i {
+        font-size: $text-md;
+    }
+
+    &.ok i { color: $color-green-600; }
+    &.warn i { color: $color-amber-500; }
+    &.error i { color: $color-red-600; }
+    &.special i { color: $color-purple-500; }
+}
+
+.home-feature-content {
+    p {
+        margin: 0;
+    }
+
+    p:first-child {
+        color: $color-warm-950;
+    }
+
+    p:last-child {
+        color: $color-warm-900;
+    }
+}
+
+@media (min-width: $breakpoint-desktop) {
+    main > .scroll h1 {
+        margin-block: 0;
+    }
+
+    .home-repos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: $breakpoint-mobile) and (max-width: $breakpoint-desktop) {
+    .home-repos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-features {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

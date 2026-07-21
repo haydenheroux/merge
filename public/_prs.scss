@@ -1,23 +1,15 @@
 @use 'variables' as *;
 
-.prs {
+.scroll-content {
     display: flex;
     flex-direction: column;
-    gap: $spacing-4;
-
-    .prs-scroll {
-        border-radius: $card-border-radius;
-        display: flex;
-        flex-direction: column;
-        gap: $spacing-2;
-    }
+    gap: $spacing-2;
+    border-radius: $card-border-radius;
 }
 
 @media (min-width: $breakpoint-desktop) {
-    .prs {
-        .prs-scroll {
-            flex: 1;
-            min-height: 0;
-        }
+    .scroll-content {
+        flex: 1;
+        min-height: 0;
     }
 }

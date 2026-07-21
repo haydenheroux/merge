@@ -89,7 +89,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					class="meta-value meta-link"
 					href={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
 					hx-get={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
-					hx-target="section.prs"
+					hx-target="section.scroll"
 					hx-push-url="true"
 				>{ pr.Author.Name }</a>
 			</div>
@@ -103,7 +103,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 						class="meta-value meta-link"
 						href={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
 						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
-						hx-target="section.prs"
+						hx-target="section.scroll"
 						hx-push-url="true"
 					>{ pr.Scopes[0] }</a>
 				</div>
