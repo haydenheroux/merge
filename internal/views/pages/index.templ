@@ -9,11 +9,11 @@ templ IndexPage(baseURL, owner, repo string) {
 	@layout.Base("Merge Zone", "Know your contributors. Build your community.", baseURL, owner, repo, "") {
 		<aside class="aside-column">
 				@components.Nav(owner, repo, "")
-				<div class="scroll">
-					<section class="scopes">
-						<div class="section-heading">
-							<span>How it works</span>
-						</div>
+				<section class="scroll">
+					<div class="section-heading">
+						<span>How it works</span>
+					</div>
+					<div class="item-group-tall">
 						<div class="item item-icon-row">
 							<div class="item-icon-row-icon">
 								<i class="fa-brands fa-github" aria-hidden="true"></i>
@@ -41,8 +41,8 @@ templ IndexPage(baseURL, owner, repo string) {
 								<p class="small">See who's active, consistent, and where they focus</p>
 							</div>
 						</div>
-					</section>
-				</div>
+					</div>
+				</section>
 				<footer>
 					<span>Made by <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a></span>
 					<span>View on <a class="bold" href="https://www.github.com/mergezone/mergezone">GitHub</a></span>

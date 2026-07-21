@@ -67,7 +67,7 @@
     }
 }
 
-.item-group {
+.item-group, .item-group-tall {
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-2;
