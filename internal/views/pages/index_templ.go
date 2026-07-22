@@ -54,7 +54,87 @@ func IndexPage(baseURL, owner, repo string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<section class=\"scroll\"><div class=\"section-heading\"><span>How it works</span></div><div class=\"item-group-tall\"><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-brands fa-github\" aria-hidden=\"true\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Enter a GitHub repo</p><p class=\"small\">Paste any public repository URL or owner/name</p></div></div><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-code-merge\" aria-hidden=\"true\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Analyze pull requests</p><p class=\"small\">We fetch recent PRs and categorize by activity</p></div></div><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-users\" aria-hidden=\"true\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Understand contributors</p><p class=\"small\">See who's active, consistent, and where they focus</p></div></div></div></section><footer><span>Made by <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside><section class=\"scroll\"><h1>Know your contributors.<br>Build your community.</h1><div><div class=\"section-heading\"><span>Features</span></div><div class=\"scroll-content item-group\"><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon ok\"><i class=\"fa-solid fa-seedling\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Fresh / Stale / Expired</p><p class=\"small\">PRs are categorized by activity level to show engagement patterns</p></div></div><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon special\"><i class=\"fa-solid fa-code-merge\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Merge tracking</p><p class=\"small\">See which contributors are getting their PRs merged successfully</p></div></div><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon warn\"><i class=\"fa-solid fa-folder-tree\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Scope analysis</p><p class=\"small\">Identify which areas of your codebase attract the most contributions</p></div></div><div class=\"item item-icon-row\"><div class=\"item-icon-row-icon error\"><i class=\"fa-solid fa-users\"></i></div><div class=\"item-icon-row-content\"><p class=\"bold\">Contributor profiles</p><p class=\"small\">Vet potential contributors by their pull request history</p></div></div></div></div><div><div class=\"section-heading\"><span>Popular repos</span></div><div class=\"scroll-content item-group home-repos\"><a href=\"/mergezone/mergezone\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-code-merge\"></i></div><div class=\"item-icon-row-content\"><p><span>mergezone / </span><span class=\"bold\">mergezone</span></p></div></a> <a href=\"/ghostty-org/ghostty\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-terminal\"></i></div><div class=\"item-icon-row-content\"><p><span>ghostty-org / </span><span class=\"bold\">ghostty</span></p></div></a> <a href=\"/kubernetes/kubernetes\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-dharmachakra\"></i></div><div class=\"item-icon-row-content\"><p><span>kubernetes / </span><span class=\"bold\">kubernetes</span></p></div></a> <a href=\"/home-assistant/core\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-house\"></i></div><div class=\"item-icon-row-content\"><p><span>home-assistant / </span><span class=\"bold\">core</span></p></div></a> <a href=\"/huggingface/transformers\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-brain\"></i></div><div class=\"item-icon-row-content\"><p><span>huggingface / </span><span class=\"bold\">transformers</span></p></div></a> <a href=\"/flutter/flutter\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-wand-magic-sparkles\"></i></div><div class=\"item-icon-row-content\"><p><span>flutter / </span><span class=\"bold\">flutter</span></p></div></a> <a href=\"/nixos/nixpkgs\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-snowflake\"></i></div><div class=\"item-icon-row-content\"><p><span>nixos / </span><span class=\"bold\">nixpkgs</span></p></div></a> <a href=\"/microsoft/vscode\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-code\"></i></div><div class=\"item-icon-row-content\"><p><span>microsoft / </span><span class=\"bold\">vscode</span></p></div></a> <a href=\"/hashicorp/terraform\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-cubes\"></i></div><div class=\"item-icon-row-content\"><p><span>hashicorp / </span><span class=\"bold\">terraform</span></p></div></a> <a href=\"/denoland/deno\" class=\"item item-icon-row\"><div class=\"item-icon-row-icon\"><i class=\"fa-solid fa-diamond\"></i></div><div class=\"item-icon-row-content\"><p><span>denoland / </span><span class=\"bold\">deno</span></p></div></a></div></div></section>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<section class=\"scroll\"><div class=\"section-heading\"><span>How it works</span></div><div class=\"item-group-tall\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-brands fa-github", "", "Enter a GitHub repo", "Paste any public repository URL or owner/name").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-code-merge", "", "Analyze pull requests", "We fetch recent PRs and categorize by activity").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-users", "", "Understand contributors", "See who's active, consistent, and where they focus").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></section><footer><span>Made by <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside><section class=\"scroll\"><h1>Know your contributors.<br>Build your community.</h1><div><div class=\"section-heading\"><span>Features</span></div><div class=\"scroll-content item-group\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-seedling", "ok", "Fresh / Stale / Expired", "PRs are categorized by activity level to show engagement patterns").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-code-merge", "special", "Merge tracking", "See which contributors are getting their PRs merged successfully").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-folder-tree", "warn", "Scope analysis", "Identify which areas of your codebase attract the most contributions").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-users", "error", "Contributor profiles", "Vet potential contributors by their pull request history").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><div><div class=\"section-heading\"><span>Popular repos</span></div><div class=\"scroll-content item-group home-repos\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("mergezone", "mergezone", "fa-solid fa-code-merge").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("ghostty-org", "ghostty", "fa-solid fa-terminal").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("kubernetes", "kubernetes", "fa-solid fa-dharmachakra").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("home-assistant", "core", "fa-solid fa-house").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("huggingface", "transformers", "fa-solid fa-brain").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("flutter", "flutter", "fa-solid fa-wand-magic-sparkles").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("nixos", "nixpkgs", "fa-solid fa-snowflake").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("microsoft", "vscode", "fa-solid fa-code").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("hashicorp", "terraform", "fa-solid fa-cubes").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RepoLink("denoland", "deno", "fa-solid fa-diamond").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
