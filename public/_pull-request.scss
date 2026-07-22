@@ -24,15 +24,8 @@ $list-item-gap: 0.4rem;
         transform: rotate($rotate-hover-large) scale($scale-hover);
     }
 
-    .icon {
-        grid-row: span $pr-grid-rows / span $pr-grid-rows;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .status-icon {
-            font-size: calc($text-xs * #{$status-icon-font-size-factor});
-        }
+    .icon-container {
+        grid-row: span 2;
     }
 
     .title-row {

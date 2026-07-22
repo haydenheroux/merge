@@ -1,12 +1,14 @@
 package components
 
 templ IconRow(iconClass string, colorModifier string, heading string, description string) {
-	<div class="item item-icon-row">
-		<div class={ "item-icon-row-icon", templ.KV(colorModifier, colorModifier != "") }>
+	<div class="item icon-card">
+		<div class={ "icon-container", templ.KV(colorModifier, colorModifier != "") }>
 			<i class={ iconClass }></i>
 		</div>
-		<div class="item-icon-row-content">
+		<div class="title-row">
 			<p class="serif bold">{ heading }</p>
+		</div>
+		<div class="description-row">
 			<p class="small">{ description }</p>
 		</div>
 	</div>

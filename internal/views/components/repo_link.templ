@@ -2,13 +2,13 @@ package components
 
 templ RepoLink(owner string, repo string, iconClass string) {
 	{{ repoPath := "/" + owner + "/" + repo }}
-	<a href={ templ.SafeURL(repoPath) } hx-get={ templ.SafeURL(repoPath) } hx-target="main" hx-push-url="true" class="item item-icon-row">
-		<div class="item-icon-row-icon">
+	<a href={ templ.SafeURL(repoPath) } hx-get={ templ.SafeURL(repoPath) } hx-target="main" hx-push-url="true" class="item icon-card">
+		<div class="icon-container">
 			<i class={ iconClass }></i>
 		</div>
-		<div class="item-icon-row-content serif">
+		<div class="title-row serif">
 			<p><span>{ owner } / </span><span class="bold">{ repo }</span></p>
+			<i class="fa-solid fa-circle-notch fa-spin htmx-indicator"></i>
 		</div>
-		<i class="fa-solid fa-circle-notch fa-spin htmx-indicator"></i>
 	</a>
 }
