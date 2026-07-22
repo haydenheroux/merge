@@ -1,9 +1,8 @@
 package pages
 
 import (
-	"fmt"
-
 	"merge/internal/model"
+	"merge/internal/views/helpers"
 	"merge/internal/views/components"
 )
 
@@ -29,11 +28,13 @@ templ LoadMorePRs(
 	<div id="load-more-card" hx-swap-oob="true">
 		if hasMore {
 			<div class="item load-more"
-				hx-get={ fmt.Sprintf("/%s/%s?page=%d", owner, repo, nextPage) }
+				hx-get={ helpers.BuildLoadMoreURL(owner, repo, scope, contributor, status, nextPage) }
 				hx-target="#prs-scroll"
-				hx-swap="beforeend">
-				<i class="fa-solid fa-plus"></i>
+				hx-swap="beforeend"
+				hx-indicator="#load-more-spinner">
+				<i class="fa-solid fa-plus" id="load-more-icon"></i>
 				<span>Load more</span>
+				<i class="fa-solid fa-circle-notch fa-spin htmx-indicator" id="load-more-spinner"></i>
 			</div>
 		}
 	</div>

@@ -14,6 +14,7 @@ import (
 
 	"merge/internal/model"
 	"merge/internal/views/components"
+	"merge/internal/views/helpers"
 	"merge/internal/views/layout"
 )
 
@@ -102,15 +103,15 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
-				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage+1))
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(helpers.BuildLoadMoreURL(props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage+1))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo.templ`, Line: 48, Col: 92}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo.templ`, Line: 49, Col: 133}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span></div></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\" hx-indicator=\"#load-more-spinner\"><i class=\"fa-solid fa-plus\" id=\"load-more-icon\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\" id=\"load-more-spinner\"></i></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
