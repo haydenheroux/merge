@@ -47,7 +47,7 @@ func ageLabel(open time.Duration, days int) string {
 templ PRCard(pr model.StampedPullRequest, owner, repo, contributor, status string) {
 	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") } data-pr-number={ fmt.Sprintf("%d", pr.Number) }>
         <div class="pull-request-header">
-            <div class="icon">
+            <div class="icon-container">
                 <i class={ fmt.Sprintf("status-icon fa-solid %s", helpers.GetStatusClass(pr)) }></i>
             </div>
             <div class="title-row">

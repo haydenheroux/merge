@@ -1,4 +1,4 @@
-package components
+﻿package components
 
 import (
 	"fmt"
@@ -98,8 +98,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					class="meta-value meta-link"
 					href={ templ.SafeURL(authorURL) }
 					hx-get={ templ.SafeURL(authorURL) }
-					hx-target="section.prs"
-					hx-push-url="true"
+					hx-target="section.scroll"
 				>{ pr.Author.Name }</a>
 			</div>
 			if len(pr.Scopes) > 0 {
@@ -124,8 +123,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 						class="meta-value meta-link"
 						href={ templ.SafeURL(scopeURL) }
 						hx-get={ templ.SafeURL(scopeURL) }
-						hx-target="section.prs"
-						hx-push-url="true"
+						hx-target="section.scroll"
 					>{ pr.Scopes[0] }</a>
 				</div>
 			}
