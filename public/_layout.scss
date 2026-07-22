@@ -827,3 +827,52 @@ html {
         text-decoration: none;
     }
 }
+// Image skeleton placeholders
+// Wrapper approach: skeleton shown via ::before, img hidden until loaded
+.img-skeleton-wrapper {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: $color-warm-700;
+        animation: skeleton-pulse 1.5s ease-in-out infinite;
+        border-radius: inherit;
+    }
+
+    > img {
+        visibility: hidden;
+        position: relative;
+        z-index: 1;
+        border-radius: inherit;
+
+        &.loaded {
+            visibility: visible;
+        }
+    }
+}
+
+// Avatar wrapper specific styles
+.avatar-wrapper {
+    width: $spacing-6;
+    height: $spacing-6;
+    border-radius: 50%;
+}
+
+// Fallback for unwrapped images (e.g., markdown images)
+// Use font-size:0 to hide broken icon, background shows as skeleton
+img[data-src]:not(.loaded) {
+    font-size: 0;
+    background-color: $color-warm-700;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+    border-radius: $inline-border-radius;
+}
+
+img[data-src].loaded {
+    font-size: inherit;
+    background-color: transparent;
+    animation: none;
+}
