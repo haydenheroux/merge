@@ -11,22 +11,20 @@ templ Nav(owner, repo, scope string) {
             </button>
         </div>
         <div>
-            if owner != "" {
-                <span id="nav-input" class="serif bold">
-                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    <span class="input-pill">
-                        <input class="serif title-input" type="text" data-part="owner" value={ owner } placeholder="…">
-                    </span>
-                    <span class="serif bold title-sep">/</span>
-                    <span class="input-pill">
-                        <input class="serif title-input" type="text" data-part="repo" value={ repo } placeholder="…">
-                    </span>
-                    <span class="serif bold title-sep">/</span>
-                    <span class="input-pill">
-                        <input class="serif title-input" type="text" data-part="scope" value={ scope } placeholder="…">
-                    </span>
+            <span id="nav-input" class="serif bold">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <span class="input-pill">
+                    <input class="serif title-input" type="text" data-part="owner" value={ owner } placeholder="…">
                 </span>
-            }
+                <span class="serif bold title-sep">/</span>
+                <span class="input-pill">
+                    <input class="serif title-input" type="text" data-part="repo" value={ repo } placeholder="…">
+                </span>
+                <span class="serif bold title-sep">/</span>
+                <span class="input-pill">
+                    <input class="serif title-input" type="text" data-part="scope" value={ scope } placeholder="…">
+                </span>
+            </span>
         </div>
 	</nav>
 }

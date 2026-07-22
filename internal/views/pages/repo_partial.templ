@@ -18,8 +18,13 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
                 @components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status)
             </div>
         </div>
+        <footer>
+            <span>By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a></span>
+            <span>View on <a class="bold" href="https://www.github.com/mergezone/mergezone">GitHub</a></span>
+            <span>View on <a class="bold" href="https://www.merge.zone/mergezone/mergezone">Merge Zone</a></span>
+        </footer>
     </aside>
-    <section class="prs scroll">
+    <section class="scroll">
         <div class="overview" id="overview-stats">
             @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1, props.Scope, props.Contributor, props.Status)
         </div>
@@ -27,7 +32,7 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
             <div class="section-heading">
                 <span>Pull Requests</span>
             </div>
-            <div class="prs-scroll" id="prs-scroll">
+            <div class="scroll-content" id="scroll-content">
                 for _, pr := range props.PRs {
                     @components.PRCard(pr, props.Owner, props.Repo)
                 }
@@ -36,7 +41,7 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
 				<div id="load-more-card">
 					<div class="item load-more"
 						hx-get={ fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage + 1) }
-						hx-target="#prs-scroll"
+						hx-target="#scroll-content"
 						hx-swap="beforeend">
 						<i class="fa-solid fa-plus"></i>
 						<span>Load more</span>

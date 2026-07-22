@@ -191,11 +191,6 @@ main {
     display: flex;
     flex-direction: column;
     gap: $main-mobile-gap;
-
-    > h2 {
-        text-align: center;
-        margin-block: $spacing-32 $spacing-8;
-    }
 }
 
 #nav-form-wrapper {
@@ -225,7 +220,7 @@ main {
 
     .input-pill::before {
         opacity: 1;
-    background-color: $color-warm-cutout-strong;
+        background-color: $color-warm-cutout-strong;
     }
 
     .repo-form button i {
@@ -239,39 +234,7 @@ main {
 }
 
 .url-demo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: $spacing-8;
-
-    .url-demo-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: $spacing-3;
-        padding: $spacing-3 $spacing-5;
-        border-radius: $inline-border-radius;
-        background-color: $color-warm-100;
-        font-size: $text-md;
-        font-weight: $font-weight-bold;
-
-        i {
-            font-size: $text-xl;
-        }
-
-        &:hover {
-            background-color: $color-warm-cutout;
-        }
-    }
-
-    .url-demo-arrow {
-        font-size: $text-xl;
-
-        i {
-            display: inline-block;
-            animation: url-demo-bounce 2s ease-in-out infinite;
-        }
-    }
+    display: none;
 }
 
 .repo-form {
@@ -323,20 +286,16 @@ main {
 }
 
 footer {
-    display: none;
-    margin-inline: $main-margin-inline;
-    margin-bottom: $spacing-6;
+    margin-top: auto;
+    padding: $spacing-4;
     color: $color-warm-800;
-
-    @include separator.dot-separator;
+    border-top: $border-width-normal solid $color-warm-700;
+    display: flex;
+    gap: $spacing-4;
 
     a {
         color: $color-warm-950;
     }
-}
-
-body:not(.repo-page) footer {
-    justify-content: center;
 }
 
 .overview {
@@ -357,77 +316,19 @@ body:not(.repo-page) footer {
 }
 
 .carousel-track {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: $spacing-3;
-    margin-block: 0 $spacing-8;
-    margin-inline: auto;
-    max-width: 48rem;
+    display: none;
 }
 
 .carousel-item {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: $spacing-2;
-    padding: $spacing-3 $spacing-4;
-    border-radius: $inline-border-radius;
-    background-color: $color-warm-100;
-
-    &:hover {
-    background-color: $color-warm-100;
-        text-decoration: none;
-    }
-
-    .sep {
-    color: $color-warm-800;
-        user-select: none;
-    }
-
-    .owner {
-        color: $color-warm-900;
-    }
-
-    .repo {
-        font-weight: $font-weight-bold;
-        color: $color-warm-950;
-    }
+    display: none;
 }
 
 .marketing-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: $spacing-3;
-    margin-block-end: $spacing-8;
-    max-width: 48rem;
-    margin-inline: auto;
+    display: none;
 }
 
 .marketing-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: $spacing-3;
-    padding: $spacing-4 $spacing-5;
-    border-radius: $card-border-radius;
-    background-color: $color-warm-100;
-    text-align: center;
-    max-width: 18rem;
-    flex: 1 1 14rem;
-
-    i {
-        font-size: $text-xl;
-        color: $color-warm-900;
-    }
-
-    p {
-        margin: 0;
-        font-size: $text-sm;
-        color: $color-warm-900;
-        line-height: $line-height-subheading;
-    }
+    display: none;
 }
 
 .htmx-indicator {
@@ -440,11 +341,6 @@ body:not(.repo-page) footer {
 .htmx-request .htmx-indicator,
 .htmx-request.htmx-indicator {
     visibility: visible;
-}
-
-@keyframes url-demo-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
 }
 
 @keyframes magnify-bob {
@@ -668,6 +564,11 @@ body:not(.repo-page) footer {
     }
 }
 
+.repo-page main {
+    display: flex;
+    flex-direction: row;
+}
+
 @media (min-width: $breakpoint-desktop) {
     .filter-toggle {
         display: none;
@@ -694,22 +595,13 @@ body:not(.repo-page) footer {
         flex: 1;
         min-height: 0;
         overflow: hidden;
-        display: grid;
-        grid-template-columns: $aside-width 1fr;
-        grid-template-rows: auto 1fr;
-        gap: 0;
-    }
-
-    .overview {
-        grid-column: 2;
-        grid-row: 1;
     }
 
     .aside-column {
         display: flex;
         flex-direction: column;
-        grid-column: 1;
-        grid-row: 1 / -1;
+        width: $aside-width;
+        flex-shrink: 0;
         min-height: 0;
         border-right: $border-width-normal solid $color-warm-700;
         background-color: var(--clr-cutout);
@@ -719,12 +611,15 @@ body:not(.repo-page) footer {
         border-bottom: $border-width-normal solid $color-warm-700;
     }
 
-    .prs {
-        grid-column: 2;
-        grid-row: 2;
+    main > .scroll {
+        flex: 1;
+        min-width: 0;
         min-height: 0;
         overflow: hidden;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-4;
         @include custom-scrollbar;
     }
 
@@ -751,6 +646,10 @@ body:not(.repo-page) footer {
         .pane-right-meta {
             padding-inline: $spacing-4;
         }
+    }
+
+    main > .scroll h1 {
+        margin-top: $spacing-4;
     }
 }
 
@@ -921,6 +820,13 @@ html {
     }
 }
 
+.home-repos a {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
 // Image skeleton placeholders
 // Wrapper approach: skeleton shown via ::before, img hidden until loaded
 .img-skeleton-wrapper {
