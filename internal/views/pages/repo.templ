@@ -39,7 +39,7 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
 	            </div>
 	            <div class="prs-scroll" id="prs-scroll">
 				for _, pr := range props.PRs {
-					@components.PRCard(pr, props.Owner, props.Repo)
+					@components.PRCard(pr, props.Owner, props.Repo, props.Contributor, props.Status)
 				}
 	            </div>
 			if props.HasMore {

@@ -87,7 +87,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, pr := range props.PRs {
-				templ_7745c5c3_Err = components.PRCard(pr, props.Owner, props.Repo).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = components.PRCard(pr, props.Owner, props.Repo, props.Contributor, props.Status).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

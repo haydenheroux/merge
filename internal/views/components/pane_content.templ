@@ -3,6 +3,7 @@ package components
 import (
 	"fmt"
 	"math"
+	"strings"
 	"time"
 
 	"merge/internal/model"
@@ -85,10 +86,18 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					<i class="fa-solid fa-user"></i>
 					Author
 				</span>
+				{{ authorPath := helpers.StripQueryParam(currentPath, "contributor")
+				currentStatus := helpers.GetQueryParam(currentPath, "status")
+				q := []string{"contributor=" + pr.Author.Name}
+				if currentStatus != "" {
+					q = append(q, "status="+currentStatus)
+				}
+				authorURL := authorPath + "?" + strings.Join(q, "&")
+				}}
 				<a
 					class="meta-value meta-link"
-					href={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
-					hx-get={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
+					href={ templ.SafeURL(authorURL) }
+					hx-get={ templ.SafeURL(authorURL) }
 					hx-target="section.prs"
 					hx-push-url="true"
 				>{ pr.Author.Name }</a>
@@ -99,10 +108,22 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 						<i class="fa-solid fa-tag"></i>
 						Scope
 					</span>
+					{{ scopeURL := fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])
+					q := []string{}
+					if pr.Author.Name != "" {
+						q = append(q, "contributor="+pr.Author.Name)
+					}
+					if currentStatus != "" {
+						q = append(q, "status="+currentStatus)
+					}
+					if len(q) > 0 {
+						scopeURL += "?" + strings.Join(q, "&")
+					}
+					}}
 					<a
 						class="meta-value meta-link"
-						href={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
-						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
+						href={ templ.SafeURL(scopeURL) }
+						hx-get={ templ.SafeURL(scopeURL) }
 						hx-target="section.prs"
 						hx-push-url="true"
 					>{ pr.Scopes[0] }</a>

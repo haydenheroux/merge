@@ -24,7 +24,7 @@ templ LoadMorePRs(
     status string,
 ) {
 	for _, pr := range prs {
-		@components.PRCard(pr, owner, repo)
+		@components.PRCard(pr, owner, repo, contributor, status)
 	}
 	<div id="load-more-card" hx-swap-oob="true">
 		if hasMore {

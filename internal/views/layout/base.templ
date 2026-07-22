@@ -87,6 +87,12 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 						if (scope) {
 							url += '/' + scope;
 						}
+						// Preserve query params when only scope changes
+						var params = new URLSearchParams(window.location.search);
+						var paramStr = params.toString();
+						if (paramStr) {
+							url += '?' + paramStr;
+						}
 					}
 					htmx.ajax('GET', url, {
 						target: 'main',

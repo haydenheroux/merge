@@ -3,6 +3,7 @@ package components
 import (
 	"fmt"
 	"math"
+	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
@@ -43,7 +44,7 @@ func ageLabel(open time.Duration, days int) string {
     return fmt.Sprintf("%dyr ago", years)
 }
 
-templ PRCard(pr model.StampedPullRequest, owner, repo string) {
+templ PRCard(pr model.StampedPullRequest, owner, repo, contributor, status string) {
 	<div class="item pull-request" data-draft={ fmt.Sprintf("%t", pr.IsDraft) } data-has-body={ fmt.Sprintf("%t", pr.Body != "") } data-pr-number={ fmt.Sprintf("%d", pr.Number) }>
         <div class="pull-request-header">
             <div class="icon">
@@ -66,8 +67,20 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>
                 </span>
 				for _, scope := range pr.Scopes {
+					{{ scopeURL := fmt.Sprintf("/%s/%s/%s", owner, repo, scope)
+					q := []string{}
+					if contributor != "" {
+						q = append(q, "contributor="+contributor)
+					}
+					if status != "" {
+						q = append(q, "status="+status)
+					}
+					if len(q) > 0 {
+						scopeURL += "?" + strings.Join(q, "&")
+					}
+					}}
 					<span>
-                        <a href={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-get={ fmt.Sprintf("/%s/%s/%s", owner, repo, scope) } hx-target="main" hx-push-url="true">{ scope }</a>
+                        <a href={ templ.SafeURL(scopeURL) } hx-get={ templ.SafeURL(scopeURL) } hx-target="main" hx-push-url="true">{ scope }</a>
                     </span>
 				}
             </div>
