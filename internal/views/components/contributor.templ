@@ -18,7 +18,9 @@ templ Contributor(info model.ContributorInfo, currentPath, currentContributor, s
     contributorURL += "?" + strings.Join(q, "&")
     }}
     <div class={ "item contributor", templ.KV("active", info.Name == currentContributor) } hx-get={ templ.SafeURL(contributorURL) } hx-target="main" hx-push-url="true">
-        <img class="avatar" src={ info.AvatarURL } alt={ info.Name + "'s avatar" }/>
+        <div class="img-skeleton-wrapper avatar-wrapper">
+            <img class="avatar" data-src={ info.AvatarURL } alt={ info.Name + "'s avatar" } loading="lazy"/>
+        </div>
         <div class="text">
             <span class="title">{ info.Name }</span>
             <p class="age">{ info.NewestPRAge }</p>

@@ -5,8 +5,16 @@ var currentDiffAbort = null;
 
 function loadImages(container) {
   container.querySelectorAll('img[data-src]').forEach(function (img) {
-    img.src = img.dataset.src;
-    img.removeAttribute('data-src');
+    var src = img.dataset.src;
+    
+    // Create a new image to preload
+    var preloadImg = new Image();
+    preloadImg.onload = function() {
+      img.src = src;
+      img.removeAttribute('data-src');
+      img.classList.add('loaded');
+    };
+    preloadImg.src = src;
   });
 }
 
@@ -235,4 +243,12 @@ document.addEventListener('htmx:afterSwap', function (e) {
       card.classList.add('selected');
     }
   }
+
+  // Load deferred images after HTMX swap
+  loadImages(e.detail.target || document);
+});
+
+// Load deferred images on initial page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadImages(document);
 });
