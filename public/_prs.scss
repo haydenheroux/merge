@@ -6,10 +6,3 @@
     gap: $spacing-2;
     border-radius: $card-border-radius;
 }
-
-@media (min-width: $breakpoint-desktop) {
-    .scroll-content {
-        flex: 1;
-        min-height: 0;
-    }
-}
