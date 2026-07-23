@@ -1,0 +1,3 @@
+# Ensure generated templ files always use LF endings
+# (templ generates LF on Linux, but Windows may checkout with CRLF)
+*_templ.go text eol=lf
