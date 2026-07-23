@@ -44,7 +44,7 @@ func PRScrollItems(prs []model.StampedPullRequest, owner string, repo string, sc
 	})
 }
 
-func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) templ.Component {
+func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool, oob bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -65,7 +65,17 @@ func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, sco
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"load-more-card\" hx-swap-oob=\"true\"><div class=\"item load-more\" hx-get=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"load-more-card\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if oob {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " hx-swap-oob=\"true\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "><div class=\"item load-more\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -78,7 +88,7 @@ func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, sco
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" hx-target=\"#scroll-content\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\"></i></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" hx-target=\"#scroll-content\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\"></i></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -107,7 +117,7 @@ func PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, 
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"section-heading\"><span>Pull Requests</span></div><div class=\"scroll-content\" id=\"scroll-content\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"section-heading\"><span>Pull Requests</span></div><div class=\"scroll-content\" id=\"scroll-content\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -115,11 +125,11 @@ func PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage, hasMore).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage, hasMore, false).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

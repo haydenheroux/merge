@@ -11,8 +11,8 @@ templ PRScrollItems(prs []model.StampedPullRequest, owner string, repo string, s
 	}
 }
 
-templ LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) {
-	<div id="load-more-card" hx-swap-oob="true">
+templ LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool, oob bool) {
+	<div id="load-more-card" if oob { hx-swap-oob="true" }>
 		<div class="item load-more"
 			hx-get={ helpers.BuildLoadMoreURL(owner, repo, scope, contributor, status, currentPage + 1) }
 			hx-target="#scroll-content"
@@ -31,5 +31,5 @@ templ PRScrollSection(prs []model.StampedPullRequest, owner string, repo string,
 	<div class="scroll-content" id="scroll-content">
 		@PRScrollItems(prs, owner, repo, scope, contributor, status, currentPage, hasMore)
 	</div>
-	@LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage, hasMore)
+	@LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage, hasMore, false)
 }

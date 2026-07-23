@@ -22,7 +22,7 @@ templ LoadMorePRs(
 	status string,
 ) {
 	@components.PRScrollItems(prs, owner, repo, scope, contributor, status, nextPage-1, hasMore)
-	@components.LoadMoreCard(prs, owner, repo, scope, contributor, status, nextPage, hasMore)
+	@components.LoadMoreCard(prs, owner, repo, scope, contributor, status, nextPage, hasMore, true)
 	<div id="overview-stats" hx-swap-oob="true">
 		@components.Counts(overallCounts, hasMore, owner, repo, nextPage, scope, contributor, status)
 	</div>
