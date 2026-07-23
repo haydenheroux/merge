@@ -26,9 +26,6 @@
 }
 
 .item.pull-request {
-    min-height: $spacing-4;
-    cursor: pointer;
-
     &.selected {
         background-color: $color-warm-600;
     }
@@ -162,6 +159,11 @@
     .item-group {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+.item.pull-request, .item.load-more {
+    min-height: $spacing-16;
+    cursor: pointer;
 }
 
 .item.load-more {

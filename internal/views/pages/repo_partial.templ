@@ -36,8 +36,7 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
                 for _, pr := range props.PRs {
                     @components.PRCard(pr, props.Owner, props.Repo)
                 }
-            </div>
-			if props.HasMore {
+                if props.HasMore {
 				<div id="load-more-card">
 					<div class="item load-more"
 						hx-get={ fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage + 1) }
@@ -48,6 +47,7 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
 					</div>
 				</div>
 			}
+            </div>
         </div>
     </section>
     <div class="filter-panel bottom-sheet" id="filter-panel">

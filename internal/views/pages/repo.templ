@@ -47,7 +47,6 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
 				for _, pr := range props.PRs {
 					@components.PRCard(pr, props.Owner, props.Repo)
 				}
-<<<<<<< HEAD
 				if props.HasMore {
 					<div id="load-more-card">
 						<div class="item load-more"
@@ -58,17 +57,6 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
 							<span>Load more</span>
 							<i class="fa-solid fa-circle-notch fa-spin htmx-indicator"></i>
 						</div>
-=======
-	            </div>
-			if props.HasMore {
-				<div id="load-more-card">
-					<div class="item load-more"
-						hx-get={ fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage + 1) }
-						hx-target="#scroll-content"
-						hx-swap="beforeend">
-						<i class="fa-solid fa-plus"></i>
-						<span>Load more</span>
->>>>>>> main
 					</div>
 				}
 	            </div>
