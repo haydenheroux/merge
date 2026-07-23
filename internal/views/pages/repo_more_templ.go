@@ -74,7 +74,7 @@ func LoadMorePRs(
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\" hx-indicator=\"#load-more-spinner\"><i class=\"fa-solid fa-plus\" id=\"load-more-icon\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\" id=\"load-more-spinner\"></i></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\"></i></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

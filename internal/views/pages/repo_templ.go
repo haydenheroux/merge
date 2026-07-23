@@ -93,30 +93,26 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			if props.HasMore {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div id=\"load-more-card\"><div class=\"item load-more\" hx-get=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div id=\"load-more-card\"><div class=\"item load-more\" hx-get=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(helpers.BuildLoadMoreURL(props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage+1))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo.templ`, Line: 49, Col: 133}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo.templ`, Line: 48, Col: 134}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\" hx-indicator=\"#load-more-spinner\"><i class=\"fa-solid fa-plus\" id=\"load-more-icon\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\" id=\"load-more-spinner\"></i></div></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" hx-target=\"#prs-scroll\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span> <i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\"></i></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></section><div class=\"filter-panel bottom-sheet\" id=\"filter-panel\"><div class=\"filter-panel-header\"><span>Filter</span> <button class=\"button-toggle\" id=\"filter-close\" aria-label=\"Close filters\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"filter-panel-body\"></div></div><aside class=\"pane-right bottom-sheet\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div></section><div class=\"filter-panel bottom-sheet\" id=\"filter-panel\"><div class=\"filter-panel-header\"><span>Filter</span> <button class=\"button-toggle\" id=\"filter-close\" aria-label=\"Close filters\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"filter-panel-body\"></div></div><aside class=\"pane-right bottom-sheet\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

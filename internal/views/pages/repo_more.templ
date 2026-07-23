@@ -30,11 +30,10 @@ templ LoadMorePRs(
 			<div class="item load-more"
 				hx-get={ helpers.BuildLoadMoreURL(owner, repo, scope, contributor, status, nextPage) }
 				hx-target="#prs-scroll"
-				hx-swap="beforeend"
-				hx-indicator="#load-more-spinner">
-				<i class="fa-solid fa-plus" id="load-more-icon"></i>
+				hx-swap="beforeend">
+				<i class="fa-solid fa-plus"></i>
 				<span>Load more</span>
-				<i class="fa-solid fa-circle-notch fa-spin htmx-indicator" id="load-more-spinner"></i>
+				<i class="fa-solid fa-circle-notch fa-spin htmx-indicator"></i>
 			</div>
 		}
 	</div>
