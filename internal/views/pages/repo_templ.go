@@ -50,31 +50,11 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<aside class=\"aside-column\">")
+			templ_7745c5c3_Err = components.Sidebar(props.Owner, props.Repo, props.Scope, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Nav(props.Owner, props.Repo, props.Scope).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"scroll\"><div id=\"scopes-section\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope, props.Contributor, props.Status).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div id=\"contributors-section\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><footer><span>By <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside><section class=\"scroll\"><div class=\"overview\" id=\"overview-stats\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, " <section class=\"scroll\"><div class=\"overview\" id=\"overview-stats\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -82,40 +62,27 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div><div><div class=\"section-heading\"><span>Pull Requests</span></div><div class=\"scroll-content\" id=\"scroll-content\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			for _, pr := range props.PRs {
-				templ_7745c5c3_Err = components.PRCard(pr, props.Owner, props.Repo).Render(ctx, templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
+			templ_7745c5c3_Err = components.PRScrollSection(props.PRs, props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage, props.HasMore).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.HasMore {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div id=\"load-more-card\"><div class=\"item load-more\" hx-get=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var3 string
-				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage+1))
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/pages/repo.templ`, Line: 53, Col: 92}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" hx-target=\"#scroll-content\" hx-swap=\"beforeend\"><i class=\"fa-solid fa-plus\"></i> <span>Load more</span></div></div>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</section>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></section><div class=\"filter-panel bottom-sheet\" id=\"filter-panel\"><div class=\"filter-panel-header\"><span>Filter</span> <button class=\"button-toggle\" id=\"filter-close\" aria-label=\"Close filters\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"filter-panel-body\"></div></div><aside class=\"pane-right bottom-sheet\" id=\"right-pane\"><div id=\"right-pane-content\"></div></aside>")
+			templ_7745c5c3_Err = components.FilterPanel().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RightPane().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

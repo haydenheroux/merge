@@ -1,0 +1,35 @@
+package components
+
+import (
+	"merge/internal/model"
+	"merge/internal/views/helpers"
+)
+
+templ PRScrollItems(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) {
+	for _, pr := range prs {
+		@PRCard(pr, owner, repo)
+	}
+}
+
+templ LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, nextPage int, hasMore bool, oob bool) {
+	<div id="load-more-card" if oob { hx-swap-oob="true" }>
+		<div class="item load-more"
+			hx-get={ helpers.BuildLoadMoreURL(owner, repo, scope, contributor, status, nextPage) }
+			hx-target="#scroll-content"
+			hx-swap="beforeend">
+			<i class="fa-solid fa-plus"></i>
+			<span>Load more</span>
+			<i class="fa-solid fa-circle-notch fa-spin htmx-indicator"></i>
+		</div>
+	</div>
+}
+
+templ PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) {
+	<div class="section-heading">
+		<span>Pull Requests</span>
+	</div>
+	<div class="scroll-content" id="scroll-content">
+		@PRScrollItems(prs, owner, repo, scope, contributor, status, currentPage, hasMore)
+	</div>
+	@LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage+1, hasMore, false)
+}
