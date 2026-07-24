@@ -648,10 +648,6 @@ footer {
             padding-left: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
         }
-
-        .context-pane-meta {
-            padding-inline: $spacing-4;
-        }
     }
 
     main > .scroll h1 {
@@ -814,30 +810,66 @@ html {
 }
 
 .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
     animation: skeleton-pulse 1.5s ease-in-out infinite;
 
     .skeleton-line {
         height: $text-sm;
         background-color: $color-warm-700;
         border-radius: $inline-border-radius;
-        margin-bottom: $spacing-3;
     }
 
-    .context-pane-header .skeleton-line {
-        height: $text-lg;
-        margin-bottom: $spacing-0;
+    .context-pane-header & {
+        padding: $spacing-0;
+        gap: $spacing-0;
+
+        .skeleton-line {
+            height: $text-lg;
+        }
     }
 
-    .context-pane-meta .skeleton-line {
-        height: $text-xxs;
-        margin-bottom: $spacing-2;
+    .context-pane-meta & {
+        gap: $spacing-2;
+
+        .skeleton-line {
+            height: $text-xxs;
+        }
+    }
+}
+
+.body-skeleton {
+    gap: $spacing-4;
+
+    .skeleton-paragraph {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-2;
+
+        &:first-child .skeleton-line:first-child {
+            height: 12px;
+            width: 60%;
+        }
     }
 
-    .context-pane-body .skeleton-line {
-        &:nth-child(1) { width: 90%; }
-        &:nth-child(2) { width: 75%; }
-        &:nth-child(3) { width: 85%; }
-        &:nth-child(4) { width: 60%; }
+    .skeleton-line {
+        height: 8px;
+        width: 100%;
+
+        &.short { width: 45%; }
+        &.medium { width: 70%; }
+    }
+}
+
+.diff-skeleton {
+    gap: $spacing-3;
+
+    .skeleton-line {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        background-color: $color-warm-700;
+        border-radius: $inline-border-radius;
     }
 }
 
@@ -885,15 +917,26 @@ html {
 
 // Fallback for unwrapped images (e.g., markdown images)
 // Use font-size:0 to hide broken icon, background shows as skeleton
+.context-pane-body img[data-src]:not(.loaded),
 img[data-src]:not(.loaded) {
-    font-size: 0;
+    font-size: 0 !important;
+    width: 100%;
     background-color: $color-warm-700;
     animation: skeleton-pulse 1.5s ease-in-out infinite;
     border-radius: $inline-border-radius;
+
+    // Varying aspect ratios for visual interest
+    &:nth-child(4n+1) { aspect-ratio: 16 / 9; }
+    &:nth-child(4n+2) { aspect-ratio: 4 / 3; }
+    &:nth-child(4n+3) { aspect-ratio: 3 / 2; }
+    &:nth-child(4n)   { aspect-ratio: 2 / 1; }
 }
 
+.context-pane-body img[data-src].loaded,
 img[data-src].loaded {
     font-size: inherit;
+    width: auto;
+    aspect-ratio: auto;
     background-color: transparent;
     animation: none;
 }

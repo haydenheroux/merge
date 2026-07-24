@@ -77,7 +77,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.store('contextPane', {
     open: false,
     prNumber: null,
-    
+
     // Header/meta data (populated immediately from PR card)
     prTitle: '',
     prStatusClass: '',
@@ -88,15 +88,15 @@ document.addEventListener('alpine:init', () => {
     prAuthorUrl: '',
     prScope: '',
     prScopeUrl: '',
-    
+
     // Body content (loaded async)
     bodyHtml: '',
     loadingBody: false,
-    
+
     // Diffs
     diffInstances: [],
     loadingDiffs: false,
-    
+
     // Internal state
     _abortController: null,
     _owner: '',
@@ -150,7 +150,7 @@ document.addEventListener('alpine:init', () => {
         this._repo = repo;
       }
 
-      // Show skeleton for body
+      // Show skeleton for body and diffs
       this.bodyHtml = this._bodySkeletonHtml();
       this.loadingBody = true;
       this.loadingDiffs = true;
@@ -163,15 +163,14 @@ document.addEventListener('alpine:init', () => {
       if (selected) selected.classList.remove('selected');
       card?.classList.add('selected');
 
-      // Fire parallel requests for body and diffs
-      this._fetchBody(prNumber);
-      this._fetchDiffs(prNumber);
+      // Fire parallel requests, wait for both, then swap together
+      this._fetchBodyAndDiffs(prNumber);
     },
 
     closePane() {
       this._stashDiffs();
       this._cleanup();
-      
+
       this.open = false;
       // Keep all data so same-PR reopen shows instantly without refetching
     },
@@ -180,7 +179,7 @@ document.addEventListener('alpine:init', () => {
       const container = document.getElementById('context-pane-content');
       const body = container?.querySelector('.context-pane-body');
       if (!body) return;
-      
+
       // Detach diffs and stash them
       body.querySelectorAll('diffs-container').forEach(el => {
         el.remove();
@@ -190,11 +189,11 @@ document.addEventListener('alpine:init', () => {
 
     _unstashDiffs() {
       if (this._stashedDiffs.length === 0) return false;
-      
+
       const container = document.getElementById('context-pane-content');
       const body = container?.querySelector('.context-pane-body');
       if (!body) return false;
-      
+
       // Re-insert stashed diffs
       this._stashedDiffs.forEach(el => body.appendChild(el));
       this._stashedDiffs = [];
@@ -228,117 +227,139 @@ document.addEventListener('alpine:init', () => {
       if (selected) selected.classList.remove('selected');
     },
 
-    async _fetchBody(prNumber) {
+    async _fetchBodyAndDiffs(prNumber) {
+      this._abortController = new AbortController();
+      const signal = this._abortController.signal;
+
+      const container = document.getElementById('context-pane-content');
+      const target = container?.querySelector('.context-pane-body') || container;
+
+      // Show diff skeleton
+      if (target) {
+        target.querySelectorAll('diffs-container').forEach(el => el.remove());
+        this._showDiffSkeleton(target);
+      }
+
+      // Use a temporary container for diffs so they don't render into DOM yet
+      const tempDiffContainer = document.createElement('div');
+
+      // Fire both requests in parallel
+      const bodyPromise = this._fetchBodyRaw(prNumber, signal);
+      const diffsPromise = this._fetchDiffsRaw(prNumber, signal, tempDiffContainer);
+
       try {
-        this._abortController = new AbortController();
-        const response = await fetch(`/${this._owner}/${this._repo}?part=pr-detail&number=${prNumber}`, {
-          signal: this._abortController.signal
-        });
+        const [bodyHtml, diffInstances] = await Promise.all([bodyPromise, diffsPromise]);
 
-        if (!response.ok) throw new Error('Failed to fetch');
+        if (signal.aborted) return;
 
-        const html = await response.text();
-        if (this._abortController.signal.aborted) return;
-
-        // Parse the HTML to extract just the body content
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const bodyElement = doc.querySelector('.context-pane-body');
-        
-        if (bodyElement) {
-          // Get the content after the meta section
-          const meta = bodyElement.querySelector('.context-pane-meta');
-          let bodyContent = '';
-          let node = bodyElement.firstChild;
-          while (node) {
-            if (node !== meta && !(node.classList && node.classList.contains('context-pane-meta'))) {
-              bodyContent += node.outerHTML || node.textContent;
-            }
-            node = node.nextSibling;
-          }
-          this.bodyHtml = bodyContent;
-        } else {
-          this.bodyHtml = html;
+        // Remove skeleton and any old diffs
+        if (target) {
+          target.querySelectorAll('.diff-skeleton, diffs-container').forEach(el => el.remove());
+          // Move diffs from temp container to real target
+          Array.from(tempDiffContainer.children).forEach(el => target.appendChild(el));
         }
-        
-        this.loadingBody = false;
 
-        // Load images after DOM updates
-        Alpine.nextTick(() => {
+        // Swap in body at the same time
+        this.bodyHtml = bodyHtml;
+        this.diffInstances = diffInstances;
+        this.loadingBody = false;
+        this.loadingDiffs = false;
+
+        // Load images after DOM updates - use setTimeout to ensure DOM is rendered
+        setTimeout(() => {
           this._loadImages();
-        });
+        }, 0);
       } catch (err) {
         if (err.name === 'AbortError') return;
-        console.error('[body]', err);
-        this.bodyHtml = '<div style="padding: 1rem; color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load content</div>';
+        console.error('[fetch]', err);
+        this.bodyHtml = '<div style="color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load content</div>';
         this.loadingBody = false;
+        this.loadingDiffs = false;
+        if (target) {
+          target.querySelectorAll('.diff-skeleton').forEach(el => el.remove());
+        }
       }
     },
 
-    async _fetchDiffs(prNumber) {
-      const container = document.getElementById('context-pane-content');
-      if (!container || !this._owner || !this._repo) return;
+    async _fetchBodyRaw(prNumber, signal) {
+      const response = await fetch(`/${this._owner}/${this._repo}?part=pr-detail&number=${prNumber}`, { signal });
+      if (!response.ok) throw new Error('Failed to fetch body');
 
-      const target = container.querySelector('.context-pane-body') || container;
-      
-      // Clear any existing diff elements from previous PR
-      target.querySelectorAll('diffs-container').forEach(el => el.remove());
-      
-      try {
-        const instances = await loadPRDiffs(target, this._owner, this._repo, prNumber, this._abortController?.signal);
-        if (!this._abortController?.signal.aborted) {
-          this.diffInstances = instances;
+      const html = await response.text();
+
+      // Parse the HTML to extract just the body content
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const bodyElement = doc.querySelector('.context-pane-body');
+
+      if (bodyElement) {
+        const meta = bodyElement.querySelector('.context-pane-meta');
+        let bodyContent = '';
+        let node = bodyElement.firstChild;
+        while (node) {
+          if (node !== meta && !(node.classList && node.classList.contains('context-pane-meta'))) {
+            bodyContent += node.outerHTML || node.textContent;
+          }
+          node = node.nextSibling;
         }
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-        console.error('[diffs]', err);
-      } finally {
-        this.loadingDiffs = false;
+        return bodyContent;
       }
+      return html;
+    },
+
+    async _fetchDiffsRaw(prNumber, signal, target) {
+      if (!this._owner || !this._repo) return [];
+      // Render diffs into temporary container (not visible yet)
+      const instances = await loadPRDiffs(target, this._owner, this._repo, prNumber, signal);
+      return instances;
     },
 
     _openWithDeferredDiffs() {
       const container = document.getElementById('context-pane-content');
       const body = container?.querySelector('.context-pane-body');
       const pane = document.getElementById('context-pane');
-      
+
       // Always show skeleton during transition
       this._showDiffSkeleton(body);
-      
+
       // Open the pane (animation happens over 50ms)
       this.open = true;
-      
+
       // After animation, replace skeleton with content
       const hasStashed = this._stashedDiffs.length > 0;
       const replaceSkeleton = () => {
         if (body && this.open) {
           const skeleton = body.querySelector('.diff-skeleton');
           if (skeleton) skeleton.remove();
-          
+
           if (hasStashed) {
             this._unstashDiffs();
           }
           // If no stashed diffs, skeleton stays until _fetchDiffs completes
         }
+        // Re-process images for skeleton loading effect
+        setTimeout(() => {
+          this._loadImages();
+        }, 0);
       };
-      
+
       this._onTransitionComplete(pane, replaceSkeleton);
     },
 
     _onTransitionComplete(pane, callback) {
       let handled = false;
-      
+
       const onTransitionEnd = (e) => {
         if (handled || (pane && e.target !== pane)) return;
         handled = true;
         if (pane) pane.removeEventListener('transitionend', onTransitionEnd);
         callback();
       };
-      
+
       if (pane) {
         pane.addEventListener('transitionend', onTransitionEnd);
       }
-      
+
       // Fallback: if transitionend doesn't fire within 100ms, execute anyway
       setTimeout(() => {
         if (!handled) {
@@ -353,13 +374,21 @@ document.addEventListener('alpine:init', () => {
       if (!body) return;
       const skeleton = document.createElement('div');
       skeleton.className = 'diff-skeleton skeleton';
-      skeleton.style.padding = '1rem';
-      skeleton.innerHTML = `
-        <div class="skeleton-line" style="width: 80%;"></div>
-        <div class="skeleton-line" style="width: 65%;"></div>
-        <div class="skeleton-line" style="width: 75%;"></div>
-        <div class="skeleton-line" style="width: 50%;"></div>
-      `;
+      skeleton.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
+
+      // Create full-width diff-like blocks with varying heights
+      const heights = [100, 140, 80, 120, 160];
+      for (const h of heights) {
+        const block = document.createElement('div');
+        block.className = 'skeleton-line';
+        block.style.cssText = `
+          width: 100%;
+          height: ${h}px;
+          background-color: var(--clr-decorative);
+          border-radius: 4px;
+        `;
+        skeleton.appendChild(block);
+      }
       body.appendChild(skeleton);
     },
 
@@ -380,12 +409,25 @@ document.addEventListener('alpine:init', () => {
 
     _bodySkeletonHtml() {
       return `
-        <div class="skeleton">
-          <div class="skeleton-line" style="width: 90%;"></div>
-          <div class="skeleton-line" style="width: 75%;"></div>
-          <div class="skeleton-line" style="width: 85%;"></div>
-          <div class="skeleton-line" style="width: 60%;"></div>
-          <div class="skeleton-line" style="width: 80%;"></div>
+        <div class="body-skeleton skeleton">
+          <div class="skeleton-paragraph">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+          <div class="skeleton-paragraph">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line medium"></div>
+          </div>
+          <div class="skeleton-paragraph">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
         </div>
       `;
     }
