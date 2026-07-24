@@ -1,10 +1,17 @@
 // Diff library loading
 let diffsLib = null;
+let diffsLibPromise = null;
 
 async function ensureDiffsLib() {
   if (diffsLib) return diffsLib;
-  diffsLib = await import('https://esm.sh/@pierre/diffs@1.2.12');
-  return diffsLib;
+  // If already loading, wait for that promise
+  if (diffsLibPromise) return diffsLibPromise;
+  // Start loading and cache the promise
+  diffsLibPromise = import('https://esm.sh/@pierre/diffs@1.2.12').then(lib => {
+    diffsLib = lib;
+    return lib;
+  });
+  return diffsLibPromise;
 }
 
 function getDiffTheme() {
@@ -66,38 +73,68 @@ document.addEventListener('alpine:init', () => {
     }
   });
 
-  // Right pane store - global so PR cards can access it
-  Alpine.store('rightPane', {
+  // Context pane store - global so PR cards can access it
+  Alpine.store('contextPane', {
     open: false,
     prNumber: null,
-    contentHtml: '',
-    loading: false,
+
+    // Header/meta data (populated immediately from PR card)
+    prTitle: '',
+    prStatusClass: '',
+    prUrl: '',
+    prState: '',
+    prAge: '',
+    prAuthorName: '',
+    prAuthorUrl: '',
+    prScope: '',
+    prScopeUrl: '',
+
+    // Body content (loaded async)
+    bodyHtml: '',
+    loadingBody: false,
+
+    // Diffs
     diffInstances: [],
-    abortController: null,
+    loadingDiffs: false,
+
+    // Internal state
+    _abortController: null,
     _owner: '',
     _repo: '',
+    _stashedDiffs: [],  // Diffs stashed when closing, reused when opening same PR
 
-    async openPane(prNumber) {
+    async openPane(prNumber, dataset) {
+      // Toggle if same PR - no need to fetch, just toggle visibility
       if (prNumber === this.prNumber) {
-        this.closePane();
+        if (this.open) {
+          // Closing - stash diffs for quick reopen
+          this._stashDiffs();
+          this.open = false;
+        } else {
+          // Opening - use stashed diffs if available, otherwise just open
+          this._openWithDeferredDiffs();
+        }
         return;
       }
 
-      // Clean up previous pane (abort requests, cleanup diffs)
-      if (this.abortController) {
-        this.abortController.abort();
-        this.abortController = null;
-      }
-      if (this.diffInstances.length) {
-        cleanupDiffs(this.diffInstances);
-        this.diffInstances = [];
-      }
+      // Different PR - clean up previous pane
+      this._cleanup();
 
+      // Set PR number
       this.prNumber = prNumber;
-      this.loading = true;
-      this.open = true;
 
-      // Mark card as selected
+      // Populate header/meta immediately from dataset
+      this.prTitle = dataset.prTitle || 'Pull Request';
+      this.prStatusClass = dataset.prStatusClass || '';
+      this.prUrl = dataset.prUrl || '#';
+      this.prState = dataset.prState || '';
+      this.prAge = dataset.prAge || '';
+      this.prAuthorName = dataset.prAuthorName || '';
+      this.prAuthorUrl = dataset.prAuthorUrl || '#';
+      this.prScope = dataset.prScope || '';
+      this.prScopeUrl = dataset.prScopeUrl || '#';
+
+      // Find owner/repo
       const card = document.querySelector(`.pull-request[data-pr-number="${prNumber}"]`);
       const owner = card?.closest('[data-owner]')?.dataset.owner;
       const repo = card?.closest('[data-repo]')?.dataset.repo;
@@ -113,40 +150,61 @@ document.addEventListener('alpine:init', () => {
         this._repo = repo;
       }
 
-      // Show skeleton
-      this.contentHtml = this._skeletonHtml();
+      // Show skeleton for body and diffs
+      this.bodyHtml = this._bodySkeletonHtml();
+      this.loadingBody = true;
+      this.loadingDiffs = true;
 
-      try {
-        this.abortController = new AbortController();
-        const response = await fetch(`/${this._owner}/${this._repo}?part=pr-detail&number=${prNumber}`, {
-          signal: this.abortController.signal
-        });
+      // Open pane immediately with header/meta
+      this.open = true;
 
-        if (!response.ok) throw new Error('Failed to fetch');
+      // Mark card as selected
+      const selected = document.querySelector('.pull-request.selected');
+      if (selected) selected.classList.remove('selected');
+      card?.classList.add('selected');
 
-        const html = await response.text();
-        if (this.abortController.signal.aborted) return;
-
-        this.contentHtml = html;
-        this.loading = false;
-
-        // Load images and diffs after DOM updates
-        Alpine.nextTick(() => {
-          this._loadImages();
-          this._loadDiffs();
-        });
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-        console.error('[diffs]', err);
-        this.contentHtml = '<div style="padding: 1rem; color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load diffs</div>';
-        this.loading = false;
-      }
+      // Fire parallel requests, wait for both, then swap together
+      this._fetchBodyAndDiffs(prNumber);
     },
 
     closePane() {
-      if (this.abortController) {
-        this.abortController.abort();
-        this.abortController = null;
+      this._stashDiffs();
+      this._cleanup();
+
+      this.open = false;
+      // Keep all data so same-PR reopen shows instantly without refetching
+    },
+
+    _stashDiffs() {
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      if (!body) return;
+
+      // Detach diffs and stash them
+      body.querySelectorAll('diffs-container').forEach(el => {
+        el.remove();
+        this._stashedDiffs.push(el);
+      });
+    },
+
+    _unstashDiffs() {
+      if (this._stashedDiffs.length === 0) return false;
+
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      if (!body) return false;
+
+      // Re-insert stashed diffs
+      this._stashedDiffs.forEach(el => body.appendChild(el));
+      this._stashedDiffs = [];
+      return true;
+    },
+
+    _cleanup() {
+      // Abort previous requests
+      if (this._abortController) {
+        this._abortController.abort();
+        this._abortController = null;
       }
 
       // Cleanup diffs
@@ -155,18 +213,187 @@ document.addEventListener('alpine:init', () => {
         this.diffInstances = [];
       }
 
+      // Clear stash (different PR, don't reuse old diffs)
+      this._stashedDiffs = [];
+
+      // Also remove any diff elements from DOM
+      const container = document.getElementById('context-pane-content');
+      if (container) {
+        container.querySelectorAll('diffs-container').forEach(el => el.remove());
+      }
+
       // Remove selection from card
       const selected = document.querySelector('.pull-request.selected');
       if (selected) selected.classList.remove('selected');
+    },
 
-      this.open = false;
-      this.prNumber = null;
-      this.contentHtml = '';
-      this.loading = false;
+    async _fetchBodyAndDiffs(prNumber) {
+      this._abortController = new AbortController();
+      const signal = this._abortController.signal;
+
+      const container = document.getElementById('context-pane-content');
+      const target = container?.querySelector('.context-pane-body') || container;
+
+      // Show diff skeleton
+      if (target) {
+        target.querySelectorAll('diffs-container').forEach(el => el.remove());
+        this._showDiffSkeleton(target);
+      }
+
+      // Use a temporary container for diffs so they don't render into DOM yet
+      const tempDiffContainer = document.createElement('div');
+
+      // Fire both requests in parallel
+      const bodyPromise = this._fetchBodyRaw(prNumber, signal);
+      const diffsPromise = this._fetchDiffsRaw(prNumber, signal, tempDiffContainer);
+
+      try {
+        const [bodyHtml, diffInstances] = await Promise.all([bodyPromise, diffsPromise]);
+
+        if (signal.aborted) return;
+
+        // Remove skeleton and any old diffs
+        if (target) {
+          target.querySelectorAll('.diff-skeleton, diffs-container').forEach(el => el.remove());
+          // Move diffs from temp container to real target
+          Array.from(tempDiffContainer.children).forEach(el => target.appendChild(el));
+        }
+
+        // Swap in body at the same time
+        this.bodyHtml = bodyHtml;
+        this.diffInstances = diffInstances;
+        this.loadingBody = false;
+        this.loadingDiffs = false;
+
+        // Load images after DOM updates - use setTimeout to ensure DOM is rendered
+        setTimeout(() => {
+          this._loadImages();
+        }, 0);
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.error('[fetch]', err);
+        this.bodyHtml = '<div style="color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load content</div>';
+        this.loadingBody = false;
+        this.loadingDiffs = false;
+        if (target) {
+          target.querySelectorAll('.diff-skeleton').forEach(el => el.remove());
+        }
+      }
+    },
+
+    async _fetchBodyRaw(prNumber, signal) {
+      const response = await fetch(`/${this._owner}/${this._repo}?part=pr-detail&number=${prNumber}`, { signal });
+      if (!response.ok) throw new Error('Failed to fetch body');
+
+      const html = await response.text();
+
+      // Parse the HTML to extract just the body content
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const bodyElement = doc.querySelector('.context-pane-body');
+
+      if (bodyElement) {
+        const meta = bodyElement.querySelector('.context-pane-meta');
+        let bodyContent = '';
+        let node = bodyElement.firstChild;
+        while (node) {
+          if (node !== meta && !(node.classList && node.classList.contains('context-pane-meta'))) {
+            bodyContent += node.outerHTML || node.textContent;
+          }
+          node = node.nextSibling;
+        }
+        return bodyContent;
+      }
+      return html;
+    },
+
+    async _fetchDiffsRaw(prNumber, signal, target) {
+      if (!this._owner || !this._repo) return [];
+      // Render diffs into temporary container (not visible yet)
+      const instances = await loadPRDiffs(target, this._owner, this._repo, prNumber, signal);
+      return instances;
+    },
+
+    _openWithDeferredDiffs() {
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      const pane = document.getElementById('context-pane');
+
+      // Always show skeleton during transition
+      this._showDiffSkeleton(body);
+
+      // Open the pane (animation happens over 50ms)
+      this.open = true;
+
+      // After animation, replace skeleton with content
+      const hasStashed = this._stashedDiffs.length > 0;
+      const replaceSkeleton = () => {
+        if (body && this.open) {
+          const skeleton = body.querySelector('.diff-skeleton');
+          if (skeleton) skeleton.remove();
+
+          if (hasStashed) {
+            this._unstashDiffs();
+          }
+          // If no stashed diffs, skeleton stays until _fetchDiffs completes
+        }
+        // Re-process images for skeleton loading effect
+        setTimeout(() => {
+          this._loadImages();
+        }, 0);
+      };
+
+      this._onTransitionComplete(pane, replaceSkeleton);
+    },
+
+    _onTransitionComplete(pane, callback) {
+      let handled = false;
+
+      const onTransitionEnd = (e) => {
+        if (handled || (pane && e.target !== pane)) return;
+        handled = true;
+        if (pane) pane.removeEventListener('transitionend', onTransitionEnd);
+        callback();
+      };
+
+      if (pane) {
+        pane.addEventListener('transitionend', onTransitionEnd);
+      }
+
+      // Fallback: if transitionend doesn't fire within 100ms, execute anyway
+      setTimeout(() => {
+        if (!handled) {
+          handled = true;
+          if (pane) pane.removeEventListener('transitionend', onTransitionEnd);
+          callback();
+        }
+      }, 100);
+    },
+
+    _showDiffSkeleton(body) {
+      if (!body) return;
+      const skeleton = document.createElement('div');
+      skeleton.className = 'diff-skeleton skeleton';
+      skeleton.style.cssText = 'display: flex; flex-direction: column; gap: 0.75rem;';
+
+      // Create full-width diff-like blocks with varying heights
+      const heights = [100, 140, 80, 120, 160];
+      for (const h of heights) {
+        const block = document.createElement('div');
+        block.className = 'skeleton-line';
+        block.style.cssText = `
+          width: 100%;
+          height: ${h}px;
+          background-color: var(--clr-decorative);
+          border-radius: 4px;
+        `;
+        skeleton.appendChild(block);
+      }
+      body.appendChild(skeleton);
     },
 
     _loadImages() {
-      const container = document.getElementById('right-pane-content');
+      const container = document.getElementById('context-pane-content');
       if (!container) return;
       container.querySelectorAll('img[data-src]').forEach(img => {
         const src = img.dataset.src;
@@ -180,23 +407,29 @@ document.addEventListener('alpine:init', () => {
       });
     },
 
-    async _loadDiffs() {
-      const container = document.getElementById('right-pane-content');
-      if (!container || !this._owner || !this._repo) return;
-
-      const target = container.querySelector('.pane-right-body') || container;
-      try {
-        const instances = await loadPRDiffs(target, this._owner, this._repo, this.prNumber, this.abortController?.signal);
-        if (!this.abortController?.signal.aborted) {
-          this.diffInstances = instances;
-        }
-      } catch (err) {
-        console.error('[diffs]', err);
-      }
-    },
-
-    _skeletonHtml() {
-      return '<div class="pane-right-header"><div class="skeleton-line" style="width: 60%; height: $text-lg;"></div></div><div class="pane-right-body skeleton scroll"><div class="pane-right-meta"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 30%;"></div><div class="skeleton-line" style="width: 35%;"></div></div><div class="skeleton-line" style="width: 90%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 85%;"></div><div class="skeleton-line" style="width: 60%;"></div></div>';
+    _bodySkeletonHtml() {
+      return `
+        <div class="body-skeleton skeleton">
+          <div class="skeleton-paragraph">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+          <div class="skeleton-paragraph">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line medium"></div>
+          </div>
+          <div class="skeleton-paragraph">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+        </div>
+      `;
     }
   });
 
@@ -207,10 +440,12 @@ document.addEventListener('alpine:init', () => {
     openPanel() {
       this._moveFiltersToPanel();
       this.open = true;
+      document.body.classList.add('filter-pane-open');
     },
 
     close() {
       this.open = false;
+      document.body.classList.remove('filter-pane-open');
     },
 
     _moveFiltersToPanel() {

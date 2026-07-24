@@ -1,12 +1,6 @@
 package components
 
+// Deprecated: Use ContextPane instead
 templ RightPane() {
-	<aside
-		class="pane-right bottom-sheet"
-		id="right-pane"
-		:class="{ 'open': $store.rightPane.open }"
-		@keydown.escape.window="$store.rightPane.closePane()"
-	>
-		<div id="right-pane-content" x-html="$store.rightPane.contentHtml"></div>
-	</aside>
+	@ContextPane()
 }

@@ -350,24 +350,22 @@ footer {
 }
 
 .bottom-sheet {
-    position: fixed;
-    z-index: 200;
     background-color: var(--clr-cutout);
-    transition: transform $transition-pane;
     display: flex;
     flex-direction: column;
     border-top: $border-width-normal solid $color-warm-700;
-
-    &:not(.open) {
-        transform: translateY(100%);
-    }
+    // TODO: Add slide-in animation here in the future. Not possible now because
+    // the scroll area layout recalculates on each frame, causing lag.
+    // Would need to decouple layout from animation (e.g., fixed positioning
+    // during animation, then snap to flex layout when complete).
 }
 
-.pane-right {
+.context-pane {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
-    #right-pane-content {
+    #context-pane-content {
         flex: 1;
         min-height: 0;
         display: flex;
@@ -375,7 +373,7 @@ footer {
         overflow: hidden;
     }
 
-    .pane-right-header {
+    .context-pane-header {
         position: sticky;
         top: 0;
         background-color: var(--clr-cutout);
@@ -383,7 +381,7 @@ footer {
         z-index: 1;
         flex-shrink: 0;
 
-        .pane-right-title {
+        .context-pane-title {
             font-family: "Neuton", serif;
             font-weight: $font-weight-bold;
             color: $color-warm-950;
@@ -432,7 +430,7 @@ footer {
         }
     }
 
-    .pane-right-meta {
+    .context-pane-meta {
         font-size: $text-xxs;
         display: flex;
         flex-direction: column;
@@ -473,7 +471,7 @@ footer {
         }
     }
 
-    .pane-right-body {
+    .context-pane-body {
         flex: 1;
         min-height: 0;
         overflow-y: auto;
@@ -612,6 +610,10 @@ footer {
         border-bottom: $border-width-normal solid $color-warm-700;
     }
 
+    main {
+        gap: 0;
+    }
+
     main > .scroll {
         flex: 1;
         min-width: 0;
@@ -622,36 +624,40 @@ footer {
         flex-direction: column;
         gap: $spacing-2;
         @include custom-scrollbar;
+        transition: flex $transition-pane-fast;
     }
 
-    .pane-right {
-        top: 0;
-        right: 0;
-        width: $right-pane-width;
+    .context-pane {
+        // Flex child instead of position: fixed
+        position: static;
+        flex: 0 0 0;
+        min-width: 0;
         height: 100%;
         border-top: none;
         border-left: $border-width-normal solid $color-warm-700;
         padding-bottom: $spacing-4;
         overflow: hidden;
+        transition: flex $transition-pane-fast;
 
-        &:not(.open) {
-            transform: translateX(100%);
+        &.open {
+            flex: 0 0 $context-pane-width;
         }
 
-        .pane-right-header {
+        .context-pane-header {
             padding-block: $spacing-4;
             padding-left: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
-        }
-
-        .pane-right-meta {
-            padding-inline: $spacing-4;
         }
     }
 
     main > .scroll h1 {
         margin-top: $spacing-4;
     }
+}
+
+// Filter pane open behavior (still uses body class since filter panel is position: fixed)
+body.filter-pane-open main > .scroll {
+    flex: 0 0 $filter-pane-ratio-scroll;
 }
 
 @media (max-width: $breakpoint-desktop) {
@@ -704,20 +710,18 @@ footer {
     }
 
     .filter-panel {
-        bottom: 0;
-        left: 0;
-        right: auto;
-        width: 100%;
-        height: 50vh;
-        padding-bottom: $spacing-4;
+        flex: 0 0 0;
+        min-height: 0;
         overflow: hidden;
 
+        &.open {
+            flex: 0 0 50vh;
+            padding-bottom: $spacing-4;
+        }
+
         .filter-panel-header {
-            position: sticky;
-            top: 0;
             background-color: var(--clr-cutout);
             border-bottom: $border-width-normal solid $color-warm-700;
-            z-index: 1;
             flex-shrink: 0;
             display: flex;
             justify-content: space-between;
@@ -756,23 +760,35 @@ footer {
         }
     }
 
-    .pane-right {
-        bottom: 0;
-        left: 0;
-        right: auto;
-        width: 100%;
-        height: 50vh;
-        border-top: $border-width-normal solid $color-warm-700;
-        padding-bottom: $spacing-4;
+    main {
+        height: 100vh;
         overflow: hidden;
+    }
 
-        .pane-right-header {
+    main > .scroll {
+        flex: 1 1 0;
+        min-height: 0;
+        transition: flex $transition-pane-fast;
+    }
+
+    .context-pane {
+        flex: 0 0 0;
+        min-height: 0;
+        overflow: hidden;
+        border-top: $border-width-normal solid $color-warm-700;
+        transition: flex $transition-pane-fast;
+
+        &.open {
+            flex: 0 0 50vh;
+        }
+
+        .context-pane-header {
             padding-block: $spacing-4;
             padding-inline: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
         }
 
-        .pane-right-meta {
+        .context-pane-meta {
             padding-inline: $spacing-4;
         }
     }
@@ -794,30 +810,66 @@ html {
 }
 
 .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
     animation: skeleton-pulse 1.5s ease-in-out infinite;
 
     .skeleton-line {
         height: $text-sm;
         background-color: $color-warm-700;
         border-radius: $inline-border-radius;
-        margin-bottom: $spacing-3;
     }
 
-    .pane-right-header .skeleton-line {
-        height: $text-lg;
-        margin-bottom: $spacing-0;
+    .context-pane-header & {
+        padding: $spacing-0;
+        gap: $spacing-0;
+
+        .skeleton-line {
+            height: $text-lg;
+        }
     }
 
-    .pane-right-meta .skeleton-line {
-        height: $text-xxs;
-        margin-bottom: $spacing-2;
+    .context-pane-meta & {
+        gap: $spacing-2;
+
+        .skeleton-line {
+            height: $text-xxs;
+        }
+    }
+}
+
+.body-skeleton {
+    gap: $spacing-4;
+
+    .skeleton-paragraph {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-2;
+
+        &:first-child .skeleton-line:first-child {
+            height: 12px;
+            width: 60%;
+        }
     }
 
-    .pane-right-body .skeleton-line {
-        &:nth-child(1) { width: 90%; }
-        &:nth-child(2) { width: 75%; }
-        &:nth-child(3) { width: 85%; }
-        &:nth-child(4) { width: 60%; }
+    .skeleton-line {
+        height: 8px;
+        width: 100%;
+
+        &.short { width: 45%; }
+        &.medium { width: 70%; }
+    }
+}
+
+.diff-skeleton {
+    gap: $spacing-3;
+
+    .skeleton-line {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        background-color: $color-warm-700;
+        border-radius: $inline-border-radius;
     }
 }
 
@@ -865,15 +917,26 @@ html {
 
 // Fallback for unwrapped images (e.g., markdown images)
 // Use font-size:0 to hide broken icon, background shows as skeleton
+.context-pane-body img[data-src]:not(.loaded),
 img[data-src]:not(.loaded) {
-    font-size: 0;
+    font-size: 0 !important;
+    width: 100%;
     background-color: $color-warm-700;
     animation: skeleton-pulse 1.5s ease-in-out infinite;
     border-radius: $inline-border-radius;
+
+    // Varying aspect ratios for visual interest
+    &:nth-child(4n+1) { aspect-ratio: 16 / 9; }
+    &:nth-child(4n+2) { aspect-ratio: 4 / 3; }
+    &:nth-child(4n+3) { aspect-ratio: 3 / 2; }
+    &:nth-child(4n)   { aspect-ratio: 2 / 1; }
 }
 
+.context-pane-body img[data-src].loaded,
 img[data-src].loaded {
     font-size: inherit;
+    width: auto;
+    aspect-ratio: auto;
     background-color: transparent;
     animation: none;
 }

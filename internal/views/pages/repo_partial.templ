@@ -14,5 +14,5 @@ templ RepoContent(props model.RepoPageProps, currentPath string) {
 		@components.PRScrollSection(props.PRs, props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage, props.HasMore)
 	</section>
 	@components.FilterPanel()
-	@components.RightPane()
+	@components.ContextPane()
 }
