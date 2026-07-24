@@ -363,11 +363,11 @@ footer {
     }
 }
 
-.pane-right {
+.context-pane {
     display: flex;
     flex-direction: column;
 
-    #right-pane-content {
+    #context-pane-content {
         flex: 1;
         min-height: 0;
         display: flex;
@@ -375,7 +375,7 @@ footer {
         overflow: hidden;
     }
 
-    .pane-right-header {
+    .context-pane-header {
         position: sticky;
         top: 0;
         background-color: var(--clr-cutout);
@@ -383,7 +383,7 @@ footer {
         z-index: 1;
         flex-shrink: 0;
 
-        .pane-right-title {
+        .context-pane-title {
             font-family: "Neuton", serif;
             font-weight: $font-weight-bold;
             color: $color-warm-950;
@@ -432,7 +432,7 @@ footer {
         }
     }
 
-    .pane-right-meta {
+    .context-pane-meta {
         font-size: $text-xxs;
         display: flex;
         flex-direction: column;
@@ -473,7 +473,7 @@ footer {
         }
     }
 
-    .pane-right-body {
+    .context-pane-body {
         flex: 1;
         min-height: 0;
         overflow-y: auto;
@@ -612,6 +612,10 @@ footer {
         border-bottom: $border-width-normal solid $color-warm-700;
     }
 
+    main {
+        gap: 0;
+    }
+
     main > .scroll {
         flex: 1;
         min-width: 0;
@@ -622,29 +626,32 @@ footer {
         flex-direction: column;
         gap: $spacing-2;
         @include custom-scrollbar;
+        transition: flex $transition-pane;
     }
 
-    .pane-right {
-        top: 0;
-        right: 0;
-        width: $right-pane-width;
+    .context-pane {
+        // Flex child instead of position: fixed
+        position: static;
+        flex: 0 0 0;
+        min-width: 0;
         height: 100%;
         border-top: none;
         border-left: $border-width-normal solid $color-warm-700;
         padding-bottom: $spacing-4;
         overflow: hidden;
+        transition: flex $transition-pane;
 
-        &:not(.open) {
-            transform: translateX(100%);
+        &.open {
+            flex: 0 0 $context-pane-width;
         }
 
-        .pane-right-header {
+        .context-pane-header {
             padding-block: $spacing-4;
             padding-left: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
         }
 
-        .pane-right-meta {
+        .context-pane-meta {
             padding-inline: $spacing-4;
         }
     }
@@ -652,6 +659,11 @@ footer {
     main > .scroll h1 {
         margin-top: $spacing-4;
     }
+}
+
+// Filter pane open behavior (still uses body class since filter panel is position: fixed)
+body.filter-pane-open main > .scroll {
+    flex: 0 0 $filter-pane-ratio-scroll;
 }
 
 @media (max-width: $breakpoint-desktop) {
@@ -756,7 +768,7 @@ footer {
         }
     }
 
-    .pane-right {
+    .context-pane {
         bottom: 0;
         left: 0;
         right: auto;
@@ -766,13 +778,13 @@ footer {
         padding-bottom: $spacing-4;
         overflow: hidden;
 
-        .pane-right-header {
+        .context-pane-header {
             padding-block: $spacing-4;
             padding-inline: $spacing-4;
             padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
         }
 
-        .pane-right-meta {
+        .context-pane-meta {
             padding-inline: $spacing-4;
         }
     }
@@ -803,17 +815,17 @@ html {
         margin-bottom: $spacing-3;
     }
 
-    .pane-right-header .skeleton-line {
+    .context-pane-header .skeleton-line {
         height: $text-lg;
         margin-bottom: $spacing-0;
     }
 
-    .pane-right-meta .skeleton-line {
+    .context-pane-meta .skeleton-line {
         height: $text-xxs;
         margin-bottom: $spacing-2;
     }
 
-    .pane-right-body .skeleton-line {
+    .context-pane-body .skeleton-line {
         &:nth-child(1) { width: 90%; }
         &:nth-child(2) { width: 75%; }
         &:nth-child(3) { width: 85%; }

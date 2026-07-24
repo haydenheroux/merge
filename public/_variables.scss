@@ -135,7 +135,13 @@ $body-width-full: 100%;
 $body-height: auto;
 
 $aside-width: 24rem;
-$right-pane-width: 32rem;
+$context-pane-width: 32rem;
+
+// Pane open ratios (scroll-area : pane)
+$context-pane-ratio-scroll: 40%;
+$context-pane-ratio-pane: 60%;
+$filter-pane-ratio-scroll: 50%;
+$filter-pane-ratio-pane: 50%;
 
 $title-input-height-factor: 1.1;
 $title-input-min-width: 1ch;

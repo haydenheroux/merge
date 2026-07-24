@@ -43,8 +43,8 @@ func paneAgeLabel(open time.Duration, days int) string {
 }
 
 templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) {
-	<div class="pane-right-header">
-		<a class="pane-right-title" href={ pr.URL }>
+	<div class="context-pane-header">
+		<a class="context-pane-title" href={ pr.URL }>
 			<i class={ "status-icon fa-solid " + helpers.GetStatusClass(pr) }></i>
 			if pr.Title != "" {
 				@Markdown(pr.Title)
@@ -53,12 +53,12 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 			}
 			<i class="fa-solid fa-up-right-from-square"></i>
 		</a>
-		<button class="button-toggle" aria-label="Close" onclick="Alpine.store('rightPane').closePane()">
+		<button class="button-toggle" aria-label="Close" onclick="Alpine.store('contextPane').closePane()">
 			<i class="fa-solid fa-xmark" aria-hidden="true"></i>
 		</button>
 	</div>
-	<div class="pane-right-body scroll">
-		<div class="pane-right-meta">
+	<div class="context-pane-body scroll">
+		<div class="context-pane-meta">
 			<div class="meta-row">
 				<span class="meta-label">
 					<i class="fa-solid fa-hashtag"></i>

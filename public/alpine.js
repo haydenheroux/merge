@@ -66,8 +66,8 @@ document.addEventListener('alpine:init', () => {
     }
   });
 
-  // Right pane store - global so PR cards can access it
-  Alpine.store('rightPane', {
+  // Context pane store - global so PR cards can access it
+  Alpine.store('contextPane', {
     open: false,
     prNumber: null,
     contentHtml: '',
@@ -166,7 +166,7 @@ document.addEventListener('alpine:init', () => {
     },
 
     _loadImages() {
-      const container = document.getElementById('right-pane-content');
+      const container = document.getElementById('context-pane-content');
       if (!container) return;
       container.querySelectorAll('img[data-src]').forEach(img => {
         const src = img.dataset.src;
@@ -181,10 +181,10 @@ document.addEventListener('alpine:init', () => {
     },
 
     async _loadDiffs() {
-      const container = document.getElementById('right-pane-content');
+      const container = document.getElementById('context-pane-content');
       if (!container || !this._owner || !this._repo) return;
 
-      const target = container.querySelector('.pane-right-body') || container;
+      const target = container.querySelector('.context-pane-body') || container;
       try {
         const instances = await loadPRDiffs(target, this._owner, this._repo, this.prNumber, this.abortController?.signal);
         if (!this.abortController?.signal.aborted) {
@@ -196,7 +196,7 @@ document.addEventListener('alpine:init', () => {
     },
 
     _skeletonHtml() {
-      return '<div class="pane-right-header"><div class="skeleton-line" style="width: 60%; height: $text-lg;"></div></div><div class="pane-right-body skeleton scroll"><div class="pane-right-meta"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 30%;"></div><div class="skeleton-line" style="width: 35%;"></div></div><div class="skeleton-line" style="width: 90%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 85%;"></div><div class="skeleton-line" style="width: 60%;"></div></div>';
+      return '<div class="context-pane-header"><div class="skeleton-line" style="width: 60%; height: $text-lg;"></div></div><div class="context-pane-body skeleton scroll"><div class="context-pane-meta"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 30%;"></div><div class="skeleton-line" style="width: 35%;"></div></div><div class="skeleton-line" style="width: 90%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 85%;"></div><div class="skeleton-line" style="width: 60%;"></div></div>';
     }
   });
 
@@ -207,10 +207,12 @@ document.addEventListener('alpine:init', () => {
     openPanel() {
       this._moveFiltersToPanel();
       this.open = true;
+      document.body.classList.add('filter-pane-open');
     },
 
     close() {
       this.open = false;
+      document.body.classList.remove('filter-pane-open');
     },
 
     _moveFiltersToPanel() {

@@ -1,0 +1,12 @@
+package components
+
+templ ContextPane() {
+	<aside
+		class="context-pane bottom-sheet"
+		id="context-pane"
+		:class="{ 'open': $store.contextPane.open }"
+		@keydown.escape.window="$store.contextPane.closePane()"
+	>
+		<div id="context-pane-content" x-html="$store.contextPane.contentHtml"></div>
+	</aside>
+}

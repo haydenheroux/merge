@@ -62,7 +62,7 @@ func RepoContent(props model.RepoPageProps, currentPath string) templ.Component 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.RightPane().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.ContextPane().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
