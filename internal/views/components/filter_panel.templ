@@ -1,10 +1,16 @@
 package components
 
 templ FilterPanel() {
-	<div class="filter-panel bottom-sheet" id="filter-panel">
+	<div
+		class="filter-panel bottom-sheet"
+		id="filter-panel"
+		:class="{ 'open': $store.filterPanel.open }"
+		@keydown.escape.window="$store.filterPanel.close()"
+		@click.away="if($store.filterPanel.open && !$event.target.closest('.pane-right'))$store.filterPanel.close()"
+	>
 		<div class="filter-panel-header">
 			<span>Filter</span>
-			<button class="button-toggle" id="filter-close" aria-label="Close filters">
+			<button class="button-toggle" @click="$store.filterPanel.close()" aria-label="Close filters">
 				<i class="fa-solid fa-xmark" aria-hidden="true"></i>
 			</button>
 		</div>

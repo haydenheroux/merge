@@ -566,7 +566,7 @@ footer {
 
 .repo-page main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -595,6 +595,7 @@ footer {
         flex: 1;
         min-height: 0;
         overflow: hidden;
+        flex-direction: row;
     }
 
     .aside-column {

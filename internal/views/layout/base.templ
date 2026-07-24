@@ -13,6 +13,8 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 		<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+		<script defer src="/public/alpine.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<meta name="description" content={ description }/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta property="og:title" content={ title }/>
@@ -20,140 +22,10 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 		<meta property="og:url" content={ baseURL }/>
 		<meta property="og:description" content={ description }/>
 	</head>
-	<body class="repo-page">
+	<body class="repo-page" x-data x-init="$store.app.init()">
         <main>
             { children... }
         </main>
-		<script src="/public/pr-toggle.js" defer></script>
-		<script>
-		(function() {
-			var stored = localStorage.getItem('theme');
-			var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-			if (stored === 'dark' || (!stored && prefersDark)) {
-				document.documentElement.classList.add('dark');
-			}
-			function updateThemeIcon() {
-				var isDark = document.documentElement.classList.contains('dark');
-				var icon = document.querySelector('#theme-toggle i');
-				if (icon) {
-					icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-				}
-			}
-			var toggle = document.querySelector('#theme-toggle');
-			if (toggle) {
-				toggle.addEventListener('click', function() {
-					document.documentElement.classList.toggle('dark');
-					var isDark = document.documentElement.classList.contains('dark');
-					localStorage.setItem('theme', isDark ? 'dark' : 'light');
-					updateThemeIcon();
-				});
-			}
-			updateThemeIcon();
-		})();
-		</script>
-		<script defer>
-		document.addEventListener('submit', function(e) {
-			var form = e.target.closest('.repo-form');
-			if (!form) return;
-			e.preventDefault();
-			var owner = form.querySelector('.owner-input').value.trim();
-			var repo = form.querySelector('.repo-input').value.trim();
-			if (repo) {
-				window.location.href = '/' + owner + '/' + repo;
-			}
-		});
-		document.querySelector('#nav-toggle')?.addEventListener('click', function() {
-			document.querySelector('#nav-form-wrapper')?.classList.toggle('open');
-		});
-		(function() {
-			var inputs = document.querySelectorAll('.title-input');
-			if (!inputs.length) return;
-			var origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
-			var origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
-			var origScope = document.querySelector('.title-input[data-part="scope"]')?.value.trim() || '';
-			function navigate() {
-				var owner = (document.querySelector('.title-input[data-part="owner"]')?.value || '').trim();
-				var repo = (document.querySelector('.title-input[data-part="repo"]')?.value || '').trim();
-				var scope = (document.querySelector('.title-input[data-part="scope"]')?.value || '').trim();
-				if (owner === origOwner && repo === origRepo && scope === origScope) return;
-				if (repo) {
-					var url = '/' + owner + '/' + repo;
-					if (owner === origOwner && repo === origRepo && scope !== origScope) {
-						if (scope) {
-							url += '/' + scope;
-						}
-					}
-					htmx.ajax('GET', url, {
-						target: 'main',
-						swap: 'innerHTML'
-					});
-				}
-			}
-			function resize(input) {
-				input.style.width = '1px';
-				if (input.value) {
-					input.style.width = input.scrollWidth + 'px';
-				} else if (input.placeholder) {
-					var prev = input.value;
-					input.value = input.placeholder;
-					input.style.width = input.scrollWidth + 'px';
-					input.value = prev;
-				}
-			}
-			function setupInputs() {
-				inputs = document.querySelectorAll('.title-input');
-				inputs.forEach(function(input) {
-					resize(input);
-					input.addEventListener('input', function() { resize(this); });
-					input.addEventListener('focus', function() { this.select(); });
-					input.addEventListener('keydown', function(ev) {
-						if (ev.key === 'Enter' && input.hasAttribute('data-part')) { ev.preventDefault(); navigate(); }
-					});
-					input.addEventListener('blur', function() {
-						setTimeout(function() {
-							if (document.activeElement && document.activeElement.classList.contains('title-input')) return;
-							navigate();
-						}, 0);
-					});
-				});
-			}
-			setupInputs();
-			document.addEventListener('htmx:afterSwap', function() {
-				setupInputs();
-				origOwner = document.querySelector('.title-input[data-part="owner"]')?.value.trim() || '';
-				origRepo = document.querySelector('.title-input[data-part="repo"]')?.value.trim() || '';
-				origScope = document.querySelector('.title-input[data-part="scope"]')?.value.trim() || '';
-				if (origOwner && origRepo) {
-					document.title = origOwner + '/' + origRepo;
-					if (origScope) {
-						document.title += '/' + origScope;
-					}
-				}
-				var parts = window.location.pathname.split('/').filter(Boolean);
-				if (parts.length > 2) {
-					var curScope = parts.slice(2).join('/');
-					if (curScope !== origScope) {
-						var inp = document.querySelector('.title-input[data-part="scope"]');
-						if (inp) {
-							inp.value = curScope;
-							origScope = curScope;
-							inp.dispatchEvent(new Event('input'));
-						}
-					}
-				} else {
-					var inp = document.querySelector('.title-input[data-part="scope"]');
-					if (inp && inp.value) {
-						inp.value = '';
-						origScope = '';
-						inp.dispatchEvent(new Event('input'));
-					}
-				}
-			});
-			document.fonts.ready.then(function() {
-				inputs.forEach(resize);
-			});
-		})();
-		</script>
-	</body>
+</body>
 	</html>
 }

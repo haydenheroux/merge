@@ -121,7 +121,7 @@ func PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) t
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<i class=\"fa-solid fa-up-right-from-square\"></i></a> <button class=\"button-toggle\" aria-label=\"Close\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"pane-right-body scroll\"><div class=\"pane-right-meta\"><div class=\"meta-row\"><span class=\"meta-label\"><i class=\"fa-solid fa-hashtag\"></i> Number</span> <span class=\"meta-value\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<i class=\"fa-solid fa-up-right-from-square\"></i></a> <button class=\"button-toggle\" aria-label=\"Close\" onclick=\"Alpine.store('rightPane').closePane()\"><i class=\"fa-solid fa-xmark\" aria-hidden=\"true\"></i></button></div><div class=\"pane-right-body scroll\"><div class=\"pane-right-meta\"><div class=\"meta-row\"><span class=\"meta-label\"><i class=\"fa-solid fa-hashtag\"></i> Number</span> <span class=\"meta-value\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

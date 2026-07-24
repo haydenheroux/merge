@@ -49,14 +49,14 @@ templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPa
             <span>Overview</span>
 			<div class="buttons">
 				if scope != "" || contributor != "" || status != "" {
-					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter">{ buildFilterLabel(scope, status, contributor) }</button>
+					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter" hx-on:click="Alpine.store('filterPanel').openPanel()">{ buildFilterLabel(scope, status, contributor) }</button>
 					<a class="link-button" id="filter-clear"
 						href={ templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)) }
 						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)) }
 						hx-target="main"
 						hx-push-url="true">Clear</a>
 				} else {
-					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter">Filter</button>
+					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter" hx-on:click="Alpine.store('filterPanel').openPanel()">Filter</button>
 				}
 			</div>
         </div>

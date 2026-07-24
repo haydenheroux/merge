@@ -1,13 +1,13 @@
 package components
 
 templ Nav(owner, repo, scope string) {
-	<nav id="nav">
+	<nav id="nav" x-data="nav">
         <div>
             <h4 class="serif bold">
                 <a href="/">Merge Zone</a>
             </h4>
-            <button id="theme-toggle" class="link-button" aria-label="Toggle dark mode">
-                <i class="fa-solid fa-moon" aria-hidden="true"></i>
+            <button id="theme-toggle" class="link-button" @click="$store.app.toggleDarkMode()" aria-label="Toggle dark mode">
+                <i class="fa-solid" :class="$store.app.darkMode ? 'fa-sun' : 'fa-moon'" aria-hidden="true"></i>
             </button>
         </div>
         <div>
