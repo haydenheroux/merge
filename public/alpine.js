@@ -1,10 +1,17 @@
 // Diff library loading
 let diffsLib = null;
+let diffsLibPromise = null;
 
 async function ensureDiffsLib() {
   if (diffsLib) return diffsLib;
-  diffsLib = await import('https://esm.sh/@pierre/diffs@1.2.12');
-  return diffsLib;
+  // If already loading, wait for that promise
+  if (diffsLibPromise) return diffsLibPromise;
+  // Start loading and cache the promise
+  diffsLibPromise = import('https://esm.sh/@pierre/diffs@1.2.12').then(lib => {
+    diffsLib = lib;
+    return lib;
+  });
+  return diffsLibPromise;
 }
 
 function getDiffTheme() {
@@ -94,15 +101,23 @@ document.addEventListener('alpine:init', () => {
     _abortController: null,
     _owner: '',
     _repo: '',
+    _stashedDiffs: [],  // Diffs stashed when closing, reused when opening same PR
 
     async openPane(prNumber, dataset) {
-      // Toggle if same PR
-      if (prNumber === this.prNumber && this.open) {
-        this.closePane();
+      // Toggle if same PR - no need to fetch, just toggle visibility
+      if (prNumber === this.prNumber) {
+        if (this.open) {
+          // Closing - stash diffs for quick reopen
+          this._stashDiffs();
+          this.open = false;
+        } else {
+          // Opening - use stashed diffs if available, otherwise just open
+          this._openWithDeferredDiffs();
+        }
         return;
       }
 
-      // Clean up previous pane
+      // Different PR - clean up previous pane
       this._cleanup();
 
       // Set PR number
@@ -154,22 +169,36 @@ document.addEventListener('alpine:init', () => {
     },
 
     closePane() {
+      this._stashDiffs();
       this._cleanup();
       
       this.open = false;
-      this.prNumber = null;
-      this.prTitle = '';
-      this.prStatusClass = '';
-      this.prUrl = '';
-      this.prState = '';
-      this.prAge = '';
-      this.prAuthorName = '';
-      this.prAuthorUrl = '';
-      this.prScope = '';
-      this.prScopeUrl = '';
-      this.bodyHtml = '';
-      this.loadingBody = false;
-      this.loadingDiffs = false;
+      // Keep all data so same-PR reopen shows instantly without refetching
+    },
+
+    _stashDiffs() {
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      if (!body) return;
+      
+      // Detach diffs and stash them
+      body.querySelectorAll('diffs-container').forEach(el => {
+        el.remove();
+        this._stashedDiffs.push(el);
+      });
+    },
+
+    _unstashDiffs() {
+      if (this._stashedDiffs.length === 0) return false;
+      
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      if (!body) return false;
+      
+      // Re-insert stashed diffs
+      this._stashedDiffs.forEach(el => body.appendChild(el));
+      this._stashedDiffs = [];
+      return true;
     },
 
     _cleanup() {
@@ -184,6 +213,9 @@ document.addEventListener('alpine:init', () => {
         cleanupDiffs(this.diffInstances);
         this.diffInstances = [];
       }
+
+      // Clear stash (different PR, don't reuse old diffs)
+      this._stashedDiffs = [];
 
       // Also remove any diff elements from DOM
       const container = document.getElementById('context-pane-content');
@@ -263,6 +295,72 @@ document.addEventListener('alpine:init', () => {
       } finally {
         this.loadingDiffs = false;
       }
+    },
+
+    _openWithDeferredDiffs() {
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      const pane = document.getElementById('context-pane');
+      
+      // Always show skeleton during transition
+      this._showDiffSkeleton(body);
+      
+      // Open the pane (animation happens over 50ms)
+      this.open = true;
+      
+      // After animation, replace skeleton with content
+      const hasStashed = this._stashedDiffs.length > 0;
+      const replaceSkeleton = () => {
+        if (body && this.open) {
+          const skeleton = body.querySelector('.diff-skeleton');
+          if (skeleton) skeleton.remove();
+          
+          if (hasStashed) {
+            this._unstashDiffs();
+          }
+          // If no stashed diffs, skeleton stays until _fetchDiffs completes
+        }
+      };
+      
+      this._onTransitionComplete(pane, replaceSkeleton);
+    },
+
+    _onTransitionComplete(pane, callback) {
+      let handled = false;
+      
+      const onTransitionEnd = (e) => {
+        if (handled || (pane && e.target !== pane)) return;
+        handled = true;
+        if (pane) pane.removeEventListener('transitionend', onTransitionEnd);
+        callback();
+      };
+      
+      if (pane) {
+        pane.addEventListener('transitionend', onTransitionEnd);
+      }
+      
+      // Fallback: if transitionend doesn't fire within 100ms, execute anyway
+      setTimeout(() => {
+        if (!handled) {
+          handled = true;
+          if (pane) pane.removeEventListener('transitionend', onTransitionEnd);
+          callback();
+        }
+      }, 100);
+    },
+
+    _showDiffSkeleton(body) {
+      if (!body) return;
+      const skeleton = document.createElement('div');
+      skeleton.className = 'diff-skeleton skeleton';
+      skeleton.style.padding = '1rem';
+      skeleton.innerHTML = `
+        <div class="skeleton-line" style="width: 80%;"></div>
+        <div class="skeleton-line" style="width: 65%;"></div>
+        <div class="skeleton-line" style="width: 75%;"></div>
+        <div class="skeleton-line" style="width: 50%;"></div>
+      `;
+      body.appendChild(skeleton);
     },
 
     _loadImages() {
