@@ -350,22 +350,17 @@ footer {
 }
 
 .bottom-sheet {
-    position: fixed;
-    z-index: 200;
     background-color: var(--clr-cutout);
-    transition: transform $transition-pane;
     display: flex;
     flex-direction: column;
     border-top: $border-width-normal solid $color-warm-700;
-
-    &:not(.open) {
-        transform: translateY(100%);
-    }
+    transition: flex $transition-pane;
 }
 
 .context-pane {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     #context-pane-content {
         flex: 1;
@@ -716,20 +711,18 @@ body.filter-pane-open main > .scroll {
     }
 
     .filter-panel {
-        bottom: 0;
-        left: 0;
-        right: auto;
-        width: 100%;
-        height: 50vh;
-        padding-bottom: $spacing-4;
+        flex: 0 0 0;
+        min-height: 0;
         overflow: hidden;
 
+        &.open {
+            flex: 0 0 50vh;
+            padding-bottom: $spacing-4;
+        }
+
         .filter-panel-header {
-            position: sticky;
-            top: 0;
             background-color: var(--clr-cutout);
             border-bottom: $border-width-normal solid $color-warm-700;
-            z-index: 1;
             flex-shrink: 0;
             display: flex;
             justify-content: space-between;
@@ -768,15 +761,26 @@ body.filter-pane-open main > .scroll {
         }
     }
 
-    .context-pane {
-        bottom: 0;
-        left: 0;
-        right: auto;
-        width: 100%;
-        height: 50vh;
-        border-top: $border-width-normal solid $color-warm-700;
-        padding-bottom: $spacing-4;
+    main {
+        height: 100vh;
         overflow: hidden;
+    }
+
+    main > .scroll {
+        flex: 1 1 0;
+        min-height: 0;
+        transition: flex $transition-pane;
+    }
+
+    .context-pane {
+        flex: 0 0 0;
+        min-height: 0;
+        overflow: hidden;
+        border-top: $border-width-normal solid $color-warm-700;
+
+        &.open {
+            flex: 0 0 50vh;
+        }
 
         .context-pane-header {
             padding-block: $spacing-4;

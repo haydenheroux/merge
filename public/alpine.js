@@ -70,34 +70,56 @@ document.addEventListener('alpine:init', () => {
   Alpine.store('contextPane', {
     open: false,
     prNumber: null,
-    contentHtml: '',
-    loading: false,
+    
+    // Header/meta data (populated immediately from PR card)
+    prTitle: '',
+    prStatusClass: '',
+    prUrl: '',
+    prState: '',
+    prAge: '',
+    prAuthorName: '',
+    prAuthorUrl: '',
+    prScope: '',
+    prScopeUrl: '',
+    
+    // Body content (loaded async)
+    bodyHtml: '',
+    loadingBody: false,
+    
+    // Diffs
     diffInstances: [],
-    abortController: null,
+    loadingDiffs: false,
+    
+    // Internal state
+    _abortController: null,
     _owner: '',
     _repo: '',
 
-    async openPane(prNumber) {
-      if (prNumber === this.prNumber) {
+    async openPane(prNumber, dataset) {
+      // Toggle if same PR
+      if (prNumber === this.prNumber && this.open) {
         this.closePane();
         return;
       }
 
-      // Clean up previous pane (abort requests, cleanup diffs)
-      if (this.abortController) {
-        this.abortController.abort();
-        this.abortController = null;
-      }
-      if (this.diffInstances.length) {
-        cleanupDiffs(this.diffInstances);
-        this.diffInstances = [];
-      }
+      // Clean up previous pane
+      this._cleanup();
 
+      // Set PR number
       this.prNumber = prNumber;
-      this.loading = true;
-      this.open = true;
 
-      // Mark card as selected
+      // Populate header/meta immediately from dataset
+      this.prTitle = dataset.prTitle || 'Pull Request';
+      this.prStatusClass = dataset.prStatusClass || '';
+      this.prUrl = dataset.prUrl || '#';
+      this.prState = dataset.prState || '';
+      this.prAge = dataset.prAge || '';
+      this.prAuthorName = dataset.prAuthorName || '';
+      this.prAuthorUrl = dataset.prAuthorUrl || '#';
+      this.prScope = dataset.prScope || '';
+      this.prScopeUrl = dataset.prScopeUrl || '#';
+
+      // Find owner/repo
       const card = document.querySelector(`.pull-request[data-pr-number="${prNumber}"]`);
       const owner = card?.closest('[data-owner]')?.dataset.owner;
       const repo = card?.closest('[data-repo]')?.dataset.repo;
@@ -113,40 +135,48 @@ document.addEventListener('alpine:init', () => {
         this._repo = repo;
       }
 
-      // Show skeleton
-      this.contentHtml = this._skeletonHtml();
+      // Show skeleton for body
+      this.bodyHtml = this._bodySkeletonHtml();
+      this.loadingBody = true;
+      this.loadingDiffs = true;
 
-      try {
-        this.abortController = new AbortController();
-        const response = await fetch(`/${this._owner}/${this._repo}?part=pr-detail&number=${prNumber}`, {
-          signal: this.abortController.signal
-        });
+      // Open pane immediately with header/meta
+      this.open = true;
 
-        if (!response.ok) throw new Error('Failed to fetch');
+      // Mark card as selected
+      const selected = document.querySelector('.pull-request.selected');
+      if (selected) selected.classList.remove('selected');
+      card?.classList.add('selected');
 
-        const html = await response.text();
-        if (this.abortController.signal.aborted) return;
-
-        this.contentHtml = html;
-        this.loading = false;
-
-        // Load images and diffs after DOM updates
-        Alpine.nextTick(() => {
-          this._loadImages();
-          this._loadDiffs();
-        });
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-        console.error('[diffs]', err);
-        this.contentHtml = '<div style="padding: 1rem; color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load diffs</div>';
-        this.loading = false;
-      }
+      // Fire parallel requests for body and diffs
+      this._fetchBody(prNumber);
+      this._fetchDiffs(prNumber);
     },
 
     closePane() {
-      if (this.abortController) {
-        this.abortController.abort();
-        this.abortController = null;
+      this._cleanup();
+      
+      this.open = false;
+      this.prNumber = null;
+      this.prTitle = '';
+      this.prStatusClass = '';
+      this.prUrl = '';
+      this.prState = '';
+      this.prAge = '';
+      this.prAuthorName = '';
+      this.prAuthorUrl = '';
+      this.prScope = '';
+      this.prScopeUrl = '';
+      this.bodyHtml = '';
+      this.loadingBody = false;
+      this.loadingDiffs = false;
+    },
+
+    _cleanup() {
+      // Abort previous requests
+      if (this._abortController) {
+        this._abortController.abort();
+        this._abortController = null;
       }
 
       // Cleanup diffs
@@ -155,14 +185,84 @@ document.addEventListener('alpine:init', () => {
         this.diffInstances = [];
       }
 
+      // Also remove any diff elements from DOM
+      const container = document.getElementById('context-pane-content');
+      if (container) {
+        container.querySelectorAll('diffs-container').forEach(el => el.remove());
+      }
+
       // Remove selection from card
       const selected = document.querySelector('.pull-request.selected');
       if (selected) selected.classList.remove('selected');
+    },
 
-      this.open = false;
-      this.prNumber = null;
-      this.contentHtml = '';
-      this.loading = false;
+    async _fetchBody(prNumber) {
+      try {
+        this._abortController = new AbortController();
+        const response = await fetch(`/${this._owner}/${this._repo}?part=pr-detail&number=${prNumber}`, {
+          signal: this._abortController.signal
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch');
+
+        const html = await response.text();
+        if (this._abortController.signal.aborted) return;
+
+        // Parse the HTML to extract just the body content
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const bodyElement = doc.querySelector('.context-pane-body');
+        
+        if (bodyElement) {
+          // Get the content after the meta section
+          const meta = bodyElement.querySelector('.context-pane-meta');
+          let bodyContent = '';
+          let node = bodyElement.firstChild;
+          while (node) {
+            if (node !== meta && !(node.classList && node.classList.contains('context-pane-meta'))) {
+              bodyContent += node.outerHTML || node.textContent;
+            }
+            node = node.nextSibling;
+          }
+          this.bodyHtml = bodyContent;
+        } else {
+          this.bodyHtml = html;
+        }
+        
+        this.loadingBody = false;
+
+        // Load images after DOM updates
+        Alpine.nextTick(() => {
+          this._loadImages();
+        });
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.error('[body]', err);
+        this.bodyHtml = '<div style="padding: 1rem; color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load content</div>';
+        this.loadingBody = false;
+      }
+    },
+
+    async _fetchDiffs(prNumber) {
+      const container = document.getElementById('context-pane-content');
+      if (!container || !this._owner || !this._repo) return;
+
+      const target = container.querySelector('.context-pane-body') || container;
+      
+      // Clear any existing diff elements from previous PR
+      target.querySelectorAll('diffs-container').forEach(el => el.remove());
+      
+      try {
+        const instances = await loadPRDiffs(target, this._owner, this._repo, prNumber, this._abortController?.signal);
+        if (!this._abortController?.signal.aborted) {
+          this.diffInstances = instances;
+        }
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.error('[diffs]', err);
+      } finally {
+        this.loadingDiffs = false;
+      }
     },
 
     _loadImages() {
@@ -180,23 +280,16 @@ document.addEventListener('alpine:init', () => {
       });
     },
 
-    async _loadDiffs() {
-      const container = document.getElementById('context-pane-content');
-      if (!container || !this._owner || !this._repo) return;
-
-      const target = container.querySelector('.context-pane-body') || container;
-      try {
-        const instances = await loadPRDiffs(target, this._owner, this._repo, this.prNumber, this.abortController?.signal);
-        if (!this.abortController?.signal.aborted) {
-          this.diffInstances = instances;
-        }
-      } catch (err) {
-        console.error('[diffs]', err);
-      }
-    },
-
-    _skeletonHtml() {
-      return '<div class="context-pane-header"><div class="skeleton-line" style="width: 60%; height: $text-lg;"></div></div><div class="context-pane-body skeleton scroll"><div class="context-pane-meta"><div class="skeleton-line" style="width: 40%;"></div><div class="skeleton-line" style="width: 30%;"></div><div class="skeleton-line" style="width: 35%;"></div></div><div class="skeleton-line" style="width: 90%;"></div><div class="skeleton-line" style="width: 75%;"></div><div class="skeleton-line" style="width: 85%;"></div><div class="skeleton-line" style="width: 60%;"></div></div>';
+    _bodySkeletonHtml() {
+      return `
+        <div class="skeleton">
+          <div class="skeleton-line" style="width: 90%;"></div>
+          <div class="skeleton-line" style="width: 75%;"></div>
+          <div class="skeleton-line" style="width: 85%;"></div>
+          <div class="skeleton-line" style="width: 60%;"></div>
+          <div class="skeleton-line" style="width: 80%;"></div>
+        </div>
+      `;
     }
   });
 
