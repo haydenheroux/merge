@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -38,11 +39,31 @@ func deferImages(html string) string {
 	return buf.String()
 }
 
+var (
+	liUncheckedRe = regexp.MustCompile(`<li>\[ \] `)
+	liCheckedRe   = regexp.MustCompile(`<li>\[[xX]\] `)
+	taskBlockRe   = regexp.MustCompile(`(?s)<ul>\s*(?:<li\s+class="task[^"]*">.*?</li>\s*)+</ul>`)
+)
+
+func taskListHTML(html string) string {
+	html = liCheckedRe.ReplaceAllString(html, `<li class="task done"><i class="fa-solid fa-square-check"></i><div>`)
+	html = liUncheckedRe.ReplaceAllString(html, `<li class="task"><i class="fa-regular fa-square"></i><div>`)
+	return taskBlockRe.ReplaceAllStringFunc(html, func(block string) string {
+		block = strings.ReplaceAll(block, "<li ", "<div ")
+		block = strings.ReplaceAll(block, "</li>", "</div></div>")
+		block = strings.ReplaceAll(block, "<ul>", "")
+		block = strings.ReplaceAll(block, "</ul>", "")
+		return strings.TrimSpace(block)
+	})
+}
+
+var cachedPolicy = bluemonday.UGCPolicy()
+
 func RenderMarkdownComponent(body string) templ.Component {
 	if body == "" {
 		return templ.NopComponent
 	}
 	html := markdown.ToHTML([]byte(body), nil, nil)
-	sanitized := bluemonday.UGCPolicy().Sanitize(string(html))
-	return templ.Raw(deferImages(sanitized))
+	sanitized := cachedPolicy.Sanitize(string(html))
+	return templ.Raw(deferImages(taskListHTML(sanitized)))
 }
