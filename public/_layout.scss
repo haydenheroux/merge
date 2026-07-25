@@ -542,6 +542,7 @@ footer {
 
         a {
             @include silver-link.silver-link;
+            cursor: pointer;
 
             &::after {
                 content: "\f08e";
@@ -555,6 +556,13 @@ footer {
 
             &:hover::after {
                 color: $color-warm-900;
+            }
+
+            &.loading {
+                &::after {
+                    content: "\f110";
+                    animation: spin 1s linear infinite;
+                }
             }
         }
 
@@ -820,6 +828,11 @@ html {
     min-height: 0;
     overflow-y: auto;
     @include custom-scrollbar;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes skeleton-pulse {

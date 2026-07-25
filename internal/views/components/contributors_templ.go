@@ -37,7 +37,7 @@ func Contributors(contributors []model.ContributorInfo, activeSort, currentContr
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"contributors\"><div class=\"section-heading\"><span>Contributors</span> <span class=\"buttons\"><i id=\"contributors-sort-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <button")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"contributors\"><div class=\"section-heading\"><span>Contributors</span> <span class=\"buttons\"><i id=\"contributors-sort-indicator\" class=\"fas fa-spinner fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <button")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
