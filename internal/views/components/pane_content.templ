@@ -2,6 +2,7 @@ package components
 
 import (
 	"fmt"
+	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
@@ -50,12 +51,19 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					<i class="fa-solid fa-user"></i>
 					Author
 				</span>
+				{{ authorPath := helpers.StripQueryParam(currentPath, "contributor")
+				currentStatus := helpers.GetQueryParam(currentPath, "status")
+				q := []string{"contributor=" + pr.Author.Name}
+				if currentStatus != "" {
+					q = append(q, "status="+currentStatus)
+				}
+				authorURL := authorPath + "?" + strings.Join(q, "&")
+				}}
 				<a
 					class="meta-value meta-link"
-					href={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
-					hx-get={ templ.SafeURL(helpers.StripQueryParam(currentPath, "contributor") + "?contributor=" + pr.Author.Name) }
+					href={ templ.SafeURL(authorURL) }
+					hx-get={ templ.SafeURL(authorURL) }
 					hx-target="section.scroll"
-					hx-push-url="true"
 				>{ pr.Author.Name }</a>
 			</div>
 			if len(pr.Scopes) > 0 {
@@ -64,12 +72,25 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 						<i class="fa-solid fa-tag"></i>
 						Scope
 					</span>
+					{{ scopeURL := fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])
+					currentStatus := helpers.GetQueryParam(currentPath, "status")
+					currentContributor := helpers.GetQueryParam(currentPath, "contributor")
+					q := []string{}
+					if currentContributor != "" {
+						q = append(q, "contributor="+currentContributor)
+					}
+					if currentStatus != "" {
+						q = append(q, "status="+currentStatus)
+					}
+					if len(q) > 0 {
+						scopeURL += "?" + strings.Join(q, "&")
+					}
+					}}
 					<a
 						class="meta-value meta-link"
-						href={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
-						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])) }
+						href={ templ.SafeURL(scopeURL) }
+						hx-get={ templ.SafeURL(scopeURL) }
 						hx-target="section.scroll"
-						hx-push-url="true"
 					>{ pr.Scopes[0] }</a>
 				</div>
 			}

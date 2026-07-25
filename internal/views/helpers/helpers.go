@@ -66,6 +66,22 @@ func StripQueryParam(path, key string) string {
 	return path
 }
 
+func GetQueryParam(path, key string) string {
+	if idx := strings.Index(path, "?"); idx != -1 {
+		query := path[idx+1:]
+		prefix := key + "="
+		if qIdx := strings.Index(query, prefix); qIdx != -1 {
+			rest := query[qIdx+len(prefix):]
+			end := strings.Index(rest, "&")
+			if end == -1 {
+				return rest
+			}
+			return rest[:end]
+		}
+	}
+	return ""
+}
+
 func PrLabel(count int) string {
 	if count == 1 {
 		return "pr"
