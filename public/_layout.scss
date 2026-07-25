@@ -540,6 +540,24 @@ footer {
             height: auto;
         }
 
+        a {
+            @include silver-link.silver-link;
+
+            &::after {
+                content: "\f08e";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                font-size: 0.65em;
+                margin-inline: $spacing-1;
+                vertical-align: baseline;
+                color: $color-warm-800;
+            }
+
+            &:hover::after {
+                color: $color-warm-900;
+            }
+        }
+
         diffs-container {
             display: block;
             margin-top: $spacing-4;
