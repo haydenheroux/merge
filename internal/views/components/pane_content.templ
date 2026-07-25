@@ -2,45 +2,10 @@ package components
 
 import (
 	"fmt"
-	"math"
-	"time"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
 )
-
-func paneAgeLabel(open time.Duration, days int) string {
-	if open.Hours() < 1 {
-		mins := int(math.Floor(open.Minutes()))
-		return fmt.Sprintf("%dm ago", mins)
-	}
-
-	if days < 1 {
-		hrs := int(math.Floor(open.Hours()))
-		return fmt.Sprintf("%dhrs ago", hrs)
-	}
-
-	if days == 1 {
-		return "Yesterday"
-	}
-
-	if days < 7 {
-		return fmt.Sprintf("%dd ago", days)
-	}
-
-	weeks := days / 7
-	if weeks < 4 {
-		return fmt.Sprintf("%dwk ago", weeks)
-	}
-
-	months := weeks / 4
-	if months < 12 {
-		return fmt.Sprintf("%dmo ago", months)
-	}
-
-	years := months / 12
-	return fmt.Sprintf("%dyr ago", years)
-}
 
 templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) {
 	<div class="context-pane-header">
@@ -78,7 +43,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					<i class="fa-solid fa-clock"></i>
 					Age
 				</span>
-				<span class="meta-value">{ paneAgeLabel(pr.TimeOpen, pr.DaysOpen) }</span>
+				<span class="meta-value">{ model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }</span>
 			</div>
 			<div class="meta-row">
 				<span class="meta-label">
