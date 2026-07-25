@@ -540,6 +540,32 @@ footer {
             height: auto;
         }
 
+        a {
+            @include silver-link.silver-link;
+            cursor: pointer;
+
+            &::after {
+                content: "\f08e";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                font-size: 0.65em;
+                margin-inline: $spacing-1;
+                vertical-align: baseline;
+                color: $color-warm-800;
+            }
+
+            &:hover::after {
+                color: $color-warm-900;
+            }
+
+            &.loading {
+                &::after {
+                    content: "\f110";
+                    animation: spin 1s linear infinite;
+                }
+            }
+        }
+
         diffs-container {
             display: block;
             margin-top: $spacing-4;
@@ -818,6 +844,11 @@ html {
     min-height: 0;
     overflow-y: auto;
     @include custom-scrollbar;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes skeleton-pulse {

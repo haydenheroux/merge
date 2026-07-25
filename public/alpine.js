@@ -103,7 +103,7 @@ document.addEventListener('alpine:init', () => {
     _repo: '',
     _stashedDiffs: [],  // Diffs stashed when closing, reused when opening same PR
 
-    async openPane(prNumber, dataset) {
+    async openPane(prNumber, dataset = {}) {
       // Toggle if same PR - no need to fetch, just toggle visibility
       if (prNumber === this.prNumber) {
         if (this.open) {
@@ -173,6 +173,53 @@ document.addEventListener('alpine:init', () => {
 
       this.open = false;
       // Keep all data so same-PR reopen shows instantly without refetching
+    },
+
+    openPrRef(event) {
+      const link = event.target.closest('.pr-ref');
+      if (!link) return;
+      event.preventDefault();
+
+      const prNumber = parseInt(link.dataset.prNumber, 10);
+      if (isNaN(prNumber)) return;
+
+      // Card on page — safe to swap immediately via openPane
+      const card = document.querySelector(`.pull-request[data-pr-number="${prNumber}"]`);
+      if (card) {
+        this.openPane(prNumber, card.dataset);
+        return;
+      }
+
+      // Card not on page — fetch first, only swap on success
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const owner = pathParts[0] || this._owner;
+      const repo = pathParts[1] || this._repo;
+      if (!owner || !repo) return;
+
+      link.classList.add('loading');
+
+      this._fetchBodyRaw(prNumber).then(html => {
+        link.classList.remove('loading');
+
+        this._cleanup();
+        this.prNumber = prNumber;
+        this.prTitle = 'Pull Request #' + prNumber;
+        this.prStatusClass = '';
+        this.prUrl = `https://github.com/${owner}/${repo}/pull/${prNumber}`;
+        this.prState = '';
+        this.prAge = '';
+        this.prAuthorName = '';
+        this.prAuthorUrl = '#';
+        this.prScope = '';
+        this.prScopeUrl = '#';
+        this._owner = owner;
+        this._repo = repo;
+
+        this.bodyHtml = html;
+        this.open = true;
+      }).catch(() => {
+        link.classList.remove('loading');
+      });
     },
 
     _stashDiffs() {

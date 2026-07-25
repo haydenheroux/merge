@@ -18,7 +18,7 @@ templ ContextPane() {
 					<i class="fa-solid fa-xmark" aria-hidden="true"></i>
 				</button>
 			</div>
-			<div class="context-pane-body scroll">
+			<div class="context-pane-body scroll" @click="$store.contextPane.openPrRef($event)">
 				<div class="context-pane-meta" x-show="$store.contextPane.open">
 					<div class="meta-row">
 						<span class="meta-label">

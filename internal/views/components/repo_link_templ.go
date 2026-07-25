@@ -104,7 +104,7 @@ func RepoLink(owner string, repo string, iconClass string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</span></p><i class=\"fa-solid fa-circle-notch fa-spin htmx-indicator\"></i></div></a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</span></p><i class=\"fa-solid fa-spinner fa-spin htmx-indicator\"></i></div></a>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
