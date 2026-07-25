@@ -46,7 +46,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 			return templ_7745c5c3_Err
 		}
 		if len(scopes) > 0 || scope != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<span class=\"buttons\"><i id=\"scopes-sort-indicator\" class=\"fas fa-circle-notch fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <span class=\"sort-label\">SORT:</span> <button")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<span class=\"buttons\"><i id=\"scopes-sort-indicator\" class=\"fa-solid fa-spinner fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <span class=\"sort-label\">SORT:</span> <button")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

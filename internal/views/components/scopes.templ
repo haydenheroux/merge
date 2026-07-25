@@ -16,7 +16,7 @@ templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contribut
 			<span>Scopes</span>
 			if len(scopes) > 0 || scope != "" {
 				<span class="buttons">
-					<i id="scopes-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
+					<i id="scopes-sort-indicator" class="fa-solid fa-spinner fa-spin htmx-indicator" aria-hidden="true"></i>
 					<span class="sort-label">SORT:</span>
 				<button
 					if activeSort == "recent" {
