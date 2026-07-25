@@ -77,14 +77,14 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 			return templ_7745c5c3_Err
 		}
 		if scope != "" || contributor != "" || status != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\" hx-on:click=\"Alpine.store('filterPanel').openPanel()\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(buildFilterLabel(scope, status, contributor))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 52, Col: 141}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 52, Col: 195}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -121,7 +121,7 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\">Filter</button>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\" hx-on:click=\"Alpine.store('filterPanel').openPanel()\">Filter</button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

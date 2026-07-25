@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"fmt"
 	"merge/internal/model"
 	"strings"
 )
@@ -20,6 +21,28 @@ func GetStatusClass(pr model.StampedPullRequest) string {
 	default:
 		return "fa-eye-slash"
 	}
+}
+
+func BuildLoadMoreURL(owner, repo, scope, contributor, status string, page int) string {
+	base := "/" + owner + "/" + repo
+	if scope != "" {
+		base += "/" + scope
+	}
+
+	parts := []string{}
+	if page > 1 {
+		parts = append(parts, fmt.Sprintf("page=%d", page))
+	}
+	if contributor != "" {
+		parts = append(parts, "contributor="+contributor)
+	}
+	if status != "" {
+		parts = append(parts, "status="+status)
+	}
+	if len(parts) > 0 {
+		base += "?" + strings.Join(parts, "&")
+	}
+	return base
 }
 
 func StripQueryParam(path, key string) string {
@@ -57,4 +80,11 @@ func GetQueryParam(path, key string) string {
 		}
 	}
 	return ""
+}
+
+func PrLabel(count int) string {
+	if count == 1 {
+		return "pr"
+	}
+	return "prs"
 }

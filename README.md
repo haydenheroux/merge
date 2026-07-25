@@ -10,7 +10,9 @@ architecture-beta
     group frontend(internet)[Frontend]
 
     service pages(internet)[HTML5 Pages] in frontend
-    service interaction(internet)[HTMX] in frontend
+    service serverInteraction(internet)[HTMX] in frontend
+    service clientInteraction(internet)[Alpine.JS] in frontend
+    service diffs(internet)[@pierre/diffs] in frontend
 
     group backend(server)[Backend]
 

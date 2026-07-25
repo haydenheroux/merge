@@ -1,51 +1,16 @@
-﻿package components
+package components
 
 import (
 	"fmt"
-	"math"
 	"strings"
-	"time"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
 )
 
-func paneAgeLabel(open time.Duration, days int) string {
-	if open.Hours() < 1 {
-		mins := int(math.Floor(open.Minutes()))
-		return fmt.Sprintf("%dm ago", mins)
-	}
-
-	if days < 1 {
-		hrs := int(math.Floor(open.Hours()))
-		return fmt.Sprintf("%dhrs ago", hrs)
-	}
-
-	if days == 1 {
-		return "Yesterday"
-	}
-
-	if days < 7 {
-		return fmt.Sprintf("%dd ago", days)
-	}
-
-	weeks := days / 7
-	if weeks < 4 {
-		return fmt.Sprintf("%dwk ago", weeks)
-	}
-
-	months := weeks / 4
-	if months < 12 {
-		return fmt.Sprintf("%dmo ago", months)
-	}
-
-	years := months / 12
-	return fmt.Sprintf("%dyr ago", years)
-}
-
 templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) {
-	<div class="pane-right-header">
-		<a class="pane-right-title" href={ pr.URL }>
+	<div class="context-pane-header">
+		<a class="context-pane-title" href={ pr.URL }>
 			<i class={ "status-icon fa-solid " + helpers.GetStatusClass(pr) }></i>
 			if pr.Title != "" {
 				@Markdown(pr.Title)
@@ -54,12 +19,12 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 			}
 			<i class="fa-solid fa-up-right-from-square"></i>
 		</a>
-		<button class="button-toggle" aria-label="Close">
+		<button class="button-toggle" aria-label="Close" onclick="Alpine.store('contextPane').closePane()">
 			<i class="fa-solid fa-xmark" aria-hidden="true"></i>
 		</button>
 	</div>
-	<div class="pane-right-body scroll">
-		<div class="pane-right-meta">
+	<div class="context-pane-body scroll">
+		<div class="context-pane-meta">
 			<div class="meta-row">
 				<span class="meta-label">
 					<i class="fa-solid fa-hashtag"></i>
@@ -79,7 +44,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					<i class="fa-solid fa-clock"></i>
 					Age
 				</span>
-				<span class="meta-value">{ paneAgeLabel(pr.TimeOpen, pr.DaysOpen) }</span>
+				<span class="meta-value">{ model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }</span>
 			</div>
 			<div class="meta-row">
 				<span class="meta-label">
@@ -108,9 +73,11 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 						Scope
 					</span>
 					{{ scopeURL := fmt.Sprintf("/%s/%s/%s", owner, repo, pr.Scopes[0])
+					currentStatus := helpers.GetQueryParam(currentPath, "status")
+					currentContributor := helpers.GetQueryParam(currentPath, "contributor")
 					q := []string{}
-					if pr.Author.Name != "" {
-						q = append(q, "contributor="+pr.Author.Name)
+					if currentContributor != "" {
+						q = append(q, "contributor="+currentContributor)
 					}
 					if currentStatus != "" {
 						q = append(q, "status="+currentStatus)

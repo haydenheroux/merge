@@ -1,0 +1,22 @@
+package components
+
+import "merge/internal/model"
+
+templ Sidebar(owner string, repo string, scope string, scopeCounts []model.ScopeInfo, scopeSort string, contributorCounts []model.ContributorInfo, contributorSort string, contributor string, currentPath string, status string) {
+	<aside class="aside-column">
+		@Nav(owner, repo, scope)
+		<div class="scroll">
+			<div id="scopes-section">
+				@Scopes(scopeCounts, scopeSort, currentPath, scope, contributor, status)
+			</div>
+			<div id="contributors-section">
+				@Contributors(contributorCounts, contributorSort, contributor, currentPath, status)
+			</div>
+		</div>
+		<footer>
+			<span>By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a></span>
+			<span>View on <a class="bold" href="https://www.github.com/mergezone/mergezone">GitHub</a></span>
+			<span>View on <a class="bold" href="https://www.merge.zone/mergezone/mergezone">Merge Zone</a></span>
+		</footer>
+	</aside>
+}

@@ -1,3 +1,5 @@
+// DEPRECATED: This file will be removed when scope list logic is folded
+// into sidebar_card.templ. Prefer adding new sidebar-related code there.
 package components
 
 import (
@@ -14,27 +16,28 @@ templ Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contribut
 			<span>Scopes</span>
 			if len(scopes) > 0 || scope != "" {
 				<span class="buttons">
-					<i id="scopes-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
-					<button
-						if activeSort == "top" {
-							data-active-sort="true"
-						}
-						hx-get={ fmt.Sprintf("?part=scopes&sort=top") }
-						hx-target="#scopes-section"
-						hx-indicator="#scopes-sort-indicator"
-					>
-						Top
-					</button>
-					<button
-						if activeSort == "recent" {
-							data-active-sort="true"
-						}
-						hx-get={ fmt.Sprintf("?part=scopes&sort=recent") }
-						hx-target="#scopes-section"
-						hx-indicator="#scopes-sort-indicator"
-					>
-						Recent
-					</button>
+					<i id="scopes-sort-indicator" class="fa-solid fa-spinner fa-spin htmx-indicator" aria-hidden="true"></i>
+					<span class="sort-label">SORT:</span>
+				<button
+					if activeSort == "recent" {
+						data-active-sort="true"
+					}
+					hx-get={ fmt.Sprintf("?part=scopes&sort=recent") }
+					hx-target="#scopes-section"
+					hx-indicator="#scopes-sort-indicator"
+				>
+					Recent
+				</button>
+				<button
+					if activeSort == "top" {
+						data-active-sort="true"
+					}
+					hx-get={ fmt.Sprintf("?part=scopes&sort=top") }
+					hx-target="#scopes-section"
+					hx-indicator="#scopes-sort-indicator"
+				>
+					Top
+				</button>
 				</span>
 			}
 		</div>

@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'separator';
 
 .item, #nav-input {
     box-sizing: border-box;
@@ -22,6 +23,53 @@
 
 .item.stat {
     padding-block: $spacing-1;
+}
+
+.item.pull-request {
+    &.selected {
+        background-color: $color-warm-600;
+    }
+
+    .pull-request-header {
+        display: grid;
+        grid-template-columns: min-content auto;
+        grid-template-rows: min-content min-content;
+        row-gap: $spacing-1;
+        column-gap: $spacing-3;
+    }
+
+    &:hover .status-icon {
+        transform: rotate($rotate-hover-large) scale($scale-hover);
+    }
+
+    .icon {
+        grid-row: span 2 / span 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .status-icon {
+            font-size: calc($text-xs * #{$status-icon-font-size-factor});
+        }
+    }
+
+    .title-row {
+        display: flex;
+        color: $color-warm-950;
+
+        .title p {
+            line-height: $line-height-subheading;
+            margin-block: $spacing-0;
+        }
+    }
+
+    .description-row {
+        grid-column-start: 2;
+        color: $color-warm-900;
+        display: flex;
+
+      @include separator.dot-separator;
+    }
 }
 
 .icon-card {
@@ -113,21 +161,34 @@
     }
 }
 
+.item.pull-request, .item.load-more {
+    min-height: $spacing-16;
+    cursor: pointer;
+}
+
 .item.load-more {
-    margin-top: $spacing-2;
     border-style: dashed;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: $spacing-2;
     color: $color-warm-800;
-    cursor: pointer;
 
-    i {
+    i:not(.htmx-indicator) {
         font-size: $text-xs;
     }
 
     span {
         font-size: $text-xs;
+    }
+
+    .htmx-indicator {
+        display: none;
+    }
+
+    &.htmx-request {
+        .htmx-indicator {
+            display: inline-block;
+        }
     }
 }

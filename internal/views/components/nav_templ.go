@@ -29,7 +29,7 @@ func Nav(owner, repo, scope string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\"><div><h4 class=\"serif bold\"><a href=\"/\">Merge Zone</a></h4><button id=\"theme-toggle\" class=\"link-button\" aria-label=\"Toggle dark mode\"><i class=\"fa-solid fa-moon\" aria-hidden=\"true\"></i></button></div><div><span id=\"nav-input\" class=\"serif bold\"><i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i> <span class=\"input-pill\"><input class=\"serif title-input\" type=\"text\" data-part=\"owner\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\" x-data=\"nav\"><div><h4 class=\"serif bold\"><a href=\"/\">Merge Zone</a></h4><button id=\"theme-toggle\" class=\"link-button\" @click=\"$store.app.toggleDarkMode()\" aria-label=\"Toggle dark mode\"><i class=\"fa-solid\" :class=\"$store.app.darkMode ? 'fa-sun' : 'fa-moon'\" aria-hidden=\"true\"></i></button></div><div><span id=\"nav-input\" class=\"serif bold\"><i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i> <span class=\"input-pill\"><input class=\"serif title-input\" type=\"text\" data-part=\"owner\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

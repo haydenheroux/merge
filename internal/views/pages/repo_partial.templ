@@ -1,66 +1,18 @@
 package pages
 
 import (
-	"fmt"
-
 	"merge/internal/model"
 	"merge/internal/views/components"
 )
 
 templ RepoContent(props model.RepoPageProps, currentPath string) {
-	<aside class="aside-column">
-        @components.Nav(props.Owner, props.Repo, props.Scope)
-        <div class="scroll">
-            <div id="scopes-section">
-                @components.Scopes(props.ScopeCounts, props.ScopeSort, currentPath, props.Scope, props.Contributor, props.Status)
-            </div>
-            <div id="contributors-section">
-                @components.Contributors(props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status)
-            </div>
-        </div>
-        <footer>
-            <span>By <a class="bold" href="https://www.haydenheroux.com">Hayden Heroux</a></span>
-            <span>View on <a class="bold" href="https://www.github.com/mergezone/mergezone">GitHub</a></span>
-            <span>View on <a class="bold" href="https://www.merge.zone/mergezone/mergezone">Merge Zone</a></span>
-        </footer>
-    </aside>
-    <section class="scroll">
-        <div class="overview" id="overview-stats">
-            @components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1, props.Scope, props.Contributor, props.Status)
-        </div>
-        <div>
-            <div class="section-heading">
-                <span>Pull Requests</span>
-            </div>
-            <div class="scroll-content" id="scroll-content">
-                for _, pr := range props.PRs {
-                    @components.PRCard(pr, props.Owner, props.Repo, props.Contributor, props.Status)
-                }
-            </div>
-			if props.HasMore {
-				<div id="load-more-card">
-					<div class="item load-more"
-						hx-get={ fmt.Sprintf("/%s/%s?page=%d", props.Owner, props.Repo, props.CurrentPage + 1) }
-						hx-target="#scroll-content"
-						hx-swap="beforeend">
-						<i class="fa-solid fa-plus"></i>
-						<span>Load more</span>
-					</div>
-				</div>
-			}
-        </div>
-    </section>
-    <div class="filter-panel bottom-sheet" id="filter-panel">
-        <div class="filter-panel-header">
-            <span>Filter</span>
-            <button class="button-toggle" id="filter-close" aria-label="Close filters">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div class="filter-panel-body">
-        </div>
-    </div>
-    <aside class="pane-right bottom-sheet" id="right-pane">
-        <div id="right-pane-content"></div>
-    </aside>
+	@components.Sidebar(props.Owner, props.Repo, props.Scope, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status)
+	<section class="scroll">
+		<div class="overview" id="overview-stats">
+			@components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1, props.Scope, props.Contributor, props.Status)
+		</div>
+		@components.PRScrollSection(props.PRs, props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage, props.HasMore)
+	</section>
+	@components.FilterPanel()
+	@components.ContextPane()
 }

@@ -1,3 +1,5 @@
+// DEPRECATED: This file will be removed when contributor list logic is folded
+// into sidebar_card.templ. Prefer adding new sidebar-related code there.
 package components
 
 import (
@@ -13,17 +15,8 @@ templ Contributors(contributors []model.ContributorInfo, activeSort, currentCont
         <div class="section-heading">
             <span>Contributors</span>
             <span class="buttons">
-                <i id="contributors-sort-indicator" class="fas fa-circle-notch fa-spin htmx-indicator" aria-hidden="true"></i>
-                <button
-                    if activeSort == "top" {
-                        data-active-sort="true"
-                    }
-                    hx-get={ fmt.Sprintf("?part=contributors&sort=top") }
-                    hx-target="#contributors-section"
-                    hx-indicator="#contributors-sort-indicator"
-                >
-                    Top
-                </button>
+                <i id="contributors-sort-indicator" class="fa-solid fa-spinner fa-spin htmx-indicator" aria-hidden="true"></i>
+                <span class="sort-label">SORT:</span>
                 <button
                     if activeSort == "recent" {
                         data-active-sort="true"
@@ -33,6 +26,16 @@ templ Contributors(contributors []model.ContributorInfo, activeSort, currentCont
                     hx-indicator="#contributors-sort-indicator"
                 >
                     Recent
+                </button>
+                <button
+                    if activeSort == "top" {
+                        data-active-sort="true"
+                    }
+                    hx-get={ fmt.Sprintf("?part=contributors&sort=top") }
+                    hx-target="#contributors-section"
+                    hx-indicator="#contributors-sort-indicator"
+                >
+                    Top
                 </button>
             </span>
         </div>

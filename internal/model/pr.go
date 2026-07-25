@@ -268,37 +268,32 @@ func (s ScopeInfo) Count() int {
 	return s.Counts.Count()
 }
 
-func timeAgo(open time.Duration, days int) string {
-	if open.Hours() < 1 {
-		mins := int(math.Floor(open.Minutes()))
-		return fmt.Sprintf("%dm ago", mins)
-	}
-
+func TimeAgo(open time.Duration, days int) string {
 	if days < 1 {
 		hrs := int(math.Floor(open.Hours()))
-		return fmt.Sprintf("%dhrs ago", hrs)
-	}
-
-	if days == 1 {
-		return "Yesterday"
+		if hrs < 1 {
+			mins := int(math.Floor(open.Minutes()))
+			return fmt.Sprintf("%dm", mins)
+		}
+		return fmt.Sprintf("%dh", hrs)
 	}
 
 	if days < 7 {
-		return fmt.Sprintf("%dd ago", days)
+		return fmt.Sprintf("%dd", days)
 	}
 
 	weeks := days / 7
 	if weeks < 4 {
-		return fmt.Sprintf("%dwk ago", weeks)
+		return fmt.Sprintf("%dw", weeks)
 	}
 
 	months := weeks / 4
 	if months < 12 {
-		return fmt.Sprintf("%dmo ago", months)
+		return fmt.Sprintf("%dm", months)
 	}
 
 	years := months / 12
-	return fmt.Sprintf("%dyr ago", years)
+	return fmt.Sprintf("%dy", years)
 }
 
 func ScopeAges(prs []StampedPullRequest) []ScopeInfo {
@@ -334,7 +329,7 @@ func ScopeAges(prs []StampedPullRequest) []ScopeInfo {
 		ageStr := ""
 		for _, pr := range data.prs {
 			if pr.UpdatedAt != nil && pr.UpdatedAt.Equal(data.newestTime) {
-				ageStr = timeAgo(pr.TimeOpen, pr.DaysOpen)
+				ageStr = TimeAgo(pr.TimeOpen, pr.DaysOpen)
 				break
 			}
 		}
@@ -398,7 +393,7 @@ func ContributorActivity(prs []StampedPullRequest) []ContributorInfo {
 			c.prs = append(c.prs, pr)
 			if pr.UpdatedAt != nil && pr.UpdatedAt.After(c.newestTime) {
 				c.newestTime = *pr.UpdatedAt
-				c.NewestPRAge = timeAgo(pr.TimeOpen, pr.DaysOpen)
+				c.NewestPRAge = TimeAgo(pr.TimeOpen, pr.DaysOpen)
 			}
 		}
 	}
