@@ -607,6 +607,11 @@ document.addEventListener('alpine:init', () => {
           if (scope) {
             url += `/${scope}`;
           }
+          const params = new URLSearchParams(window.location.search);
+          const paramStr = params.toString();
+          if (paramStr) {
+            url += '?' + paramStr;
+          }
         }
         htmx.ajax('GET', url, {
           target: 'main',
