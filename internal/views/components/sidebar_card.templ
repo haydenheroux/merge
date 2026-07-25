@@ -1,0 +1,69 @@
+package components
+
+import (
+	"fmt"
+	"strings"
+
+	"merge/internal/model"
+	"merge/internal/views/helpers"
+)
+
+templ Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status string) {
+    {{ basePath := currentPath
+    if activeScope != "" {
+        basePath = currentPath[:strings.LastIndex(currentPath, "/")]
+    }
+    scopeURL := fmt.Sprintf("%s/%s", basePath, info.Name)
+    q := []string{}
+    if contributor != "" {
+        q = append(q, "contributor="+contributor)
+    }
+    if status != "" {
+        q = append(q, "status="+status)
+    }
+    if len(q) > 0 {
+        scopeURL += "?" + strings.Join(q, "&")
+    }
+    }}
+    <div class={ "item scope sidebar-card", templ.KV("active", info.Name == activeScope) } href={ templ.SafeURL(scopeURL) } hx-get={ templ.SafeURL(scopeURL) } hx-target="main" hx-push-url="true">
+        <div class="text">
+            <span class="title">{ info.Name }</span>
+        </div>
+        <div class="meta">
+            <span class="age">
+                { info.NewestPRAge }
+            </span>
+            <span class="count">
+                { fmt.Sprintf("%d", info.Count()) }<span class="count-label">{ helpers.PrLabel(info.Count()) }</span>
+            </span>
+        </div>
+    </div>
+}
+
+templ Contributor(info model.ContributorInfo, currentPath, currentContributor, status string) {
+    {{ contributorURL := helpers.StripQueryParam(currentPath, "contributor")
+    contributorURL = helpers.StripQueryParam(contributorURL, "status")
+    q := []string{}
+    q = append(q, "contributor="+info.Name)
+    if status != "" {
+        q = append(q, "status="+status)
+    }
+    contributorURL += "?" + strings.Join(q, "&")
+    }}
+    <div class={ "item contributor sidebar-card", templ.KV("active", info.Name == currentContributor) } hx-get={ templ.SafeURL(contributorURL) } hx-target="main" hx-push-url="true">
+        <div class="img-skeleton-wrapper avatar-wrapper">
+            <img class="avatar" data-src={ info.AvatarURL } alt={ info.Name + "'s avatar" } loading="lazy"/>
+        </div>
+        <div class="text">
+            <span class="title">{ info.Name }</span>
+        </div>
+        <div class="meta">
+            <span class="age">
+                { info.NewestPRAge }
+            </span>
+            <span class="count">
+                { fmt.Sprintf("%d", info.Count()) }<span class="count-label">{ helpers.PrLabel(info.Count()) }</span>
+            </span>
+        </div>
+    </div>
+}

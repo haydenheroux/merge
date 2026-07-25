@@ -2,46 +2,10 @@ package components
 
 import (
 	"fmt"
-	"math"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
-	"time"
 )
-
-func ageLabel(open time.Duration, days int) string {
-    // TODO Explicit fallthrough, remainder, plurals
-	if open.Hours() < 1 {
-		mins := int(math.Floor(open.Minutes()))
-		return fmt.Sprintf("%dm ago", mins)
-	}
-
-	if days < 1 {
-		hrs := int(math.Floor(open.Hours()))
-		return fmt.Sprintf("%dhrs ago", hrs)
-	}
-
-	if days == 1 {
-		return "Yesterday"
-	}
-
-    if days < 7 {
-        return fmt.Sprintf("%dd ago", days)
-    }
-
-    weeks := days / 7
-    if weeks < 4 {
-        return fmt.Sprintf("%dwk ago", weeks)
-    }
-
-    months := weeks / 4
-    if months < 12 {
-        return fmt.Sprintf("%dmo ago", months)
-    }
-
-    years := months / 12
-    return fmt.Sprintf("%dyr ago", years)
-}
 
 templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 	<div
@@ -52,7 +16,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 		data-pr-status-class={ helpers.GetStatusClass(pr) }
 		data-pr-url={ pr.URL }
 		data-pr-state={ pr.State }
-		data-pr-age={ ageLabel(pr.TimeOpen, pr.DaysOpen) }
+		data-pr-age={ model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }
 		data-pr-author-name={ pr.Author.Name }
 		data-pr-author-url={ pr.Author.URL }
 		if len(pr.Scopes) > 0 {
@@ -76,7 +40,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
                     { pr.State }
                 </span>
                 <span>
-                    { ageLabel(pr.TimeOpen, pr.DaysOpen) }
+                    { model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }
                 </span>
                 <span>
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>

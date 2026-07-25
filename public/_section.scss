@@ -13,7 +13,7 @@ nav, section {
     letter-spacing: $letter-spacing-label;
     font-weight: $font-weight-bold;
     margin-inline: $spacing-1;
-    margin-bottom: $spacing-3;
+    margin-block: $spacing-1 $spacing-3;
     display: flex;
     justify-content: space-between;
 
@@ -25,14 +25,19 @@ nav, section {
       button, .link-button {
         font-family: inherit;
         font-size: $text-xxs;
-        color: $color-warm-950;
+        color: $color-warm-800;
         text-transform: uppercase;
         letter-spacing: $letter-spacing-label;
         font-weight: $font-weight-bold;
         padding: 0;
       }
 
-      [data-active-sort="true"], button:hover, .link-button:hover {
+      button:hover, .link-button:hover {
+        color: $color-warm-950;
+      }
+
+      [data-active-sort="true"] {
+        color: $color-warm-900;
         @include silver-link.silver-link-thin;
       }
     }
