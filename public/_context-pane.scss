@@ -29,7 +29,7 @@
         z-index: 1;
 
         .context-pane-title {
-            font-family: "Neuton", serif;
+            font-family: $font-family-heading;
             font-weight: $font-weight-bold;
             color: $color-950;
             font-size: $text-lg;
@@ -321,8 +321,7 @@
     }
 }
 
-.context-pane-body img[data-src]:not(.loaded),
-img[data-src]:not(.loaded) {
+.context-pane-body img[data-src]:not(.loaded) {
     font-size: 0 !important;
     width: 100%;
     @include base.skeleton-pulse;
@@ -333,8 +332,7 @@ img[data-src]:not(.loaded) {
     &:nth-child(4n)   { aspect-ratio: 2 / 1; }
 }
 
-.context-pane-body img[data-src].loaded,
-img[data-src].loaded {
+.context-pane-body img[data-src].loaded {
     font-size: inherit;
     width: auto;
     aspect-ratio: auto;

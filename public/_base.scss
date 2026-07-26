@@ -92,6 +92,13 @@
     padding-right: $panel-header-padding-right;
 }
 
+@mixin status-color {
+    &.ok, i.ok { color: $color-green-500; }
+    &.warn, i.warn { color: $color-amber-500; }
+    &.error, i.error { color: $color-red-500; }
+    &.special, i.special { color: $color-purple-500; }
+}
+
 // ── Global styles ───────────────────────────────────────────────────
 
 html {

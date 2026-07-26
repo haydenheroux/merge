@@ -113,6 +113,16 @@ $font-weight-semibold: 600;
 $font-weight-bold: 700;
 $font-weight-extrabold: 800;
 
+$font-family-sans: "Karla", sans-serif;
+$font-family-serif: "Neuton", serif;
+
+$use-serif: false;
+
+$font-family-heading: $font-family-sans;
+@if $use-serif {
+  $font-family-heading: $font-family-serif;
+}
+
 $line-height-heading: 85%;
 $line-height-body: 95%;
 $line-height-subheading: 110%;
@@ -133,8 +143,8 @@ $main-mobile-gap: $spacing-6;
 $card-border-radius: 6px;
 $inline-border-radius: 4px;
 $border-radius-code: 4px;
+$border-radius-circle: 50%;
 
-$border-width-thin: 1.75px;
 $border-width-normal: 1.75px;
 $border-width-thick: 2px;
 

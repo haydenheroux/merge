@@ -26,10 +26,6 @@
         font-size: $text-xl;
         animation: magnify-bob 2s ease-in-out infinite;
     }
-
-    .repo-form:focus-within button i {
-        animation-play-state: paused;
-    }
 }
 
 .repo-form {
@@ -42,7 +38,6 @@
     border-radius: $card-border-radius;
 
     .title-input {
-        font-family: "Karla", sans-serif;
         text-decoration: none;
     }
 

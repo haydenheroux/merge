@@ -63,7 +63,7 @@ section.scopes, section.contributors {
     .avatar {
         width: $spacing-6;
         height: $spacing-6;
-        border-radius: 50%;
+        border-radius: $border-radius-circle;
         flex-shrink: 0;
     }
 
