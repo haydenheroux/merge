@@ -301,14 +301,20 @@ document.addEventListener('alpine:init', () => {
       this.diffInstances = [];
       body.querySelectorAll('diffs-container').forEach(el => el.remove());
 
+      // Show skeleton while re-fetching
+      this._showDiffSkeleton(body);
+
       // Re-fetch and re-render with new theme
       const tempDiffContainer = document.createElement('div');
       try {
         const instances = await loadPRDiffs(tempDiffContainer, this._owner, this._repo, this.prNumber);
+
+        // Remove skeleton, then paste in diffs
+        body.querySelectorAll('.diff-skeleton').forEach(el => el.remove());
         Array.from(tempDiffContainer.children).forEach(el => body.appendChild(el));
         this.diffInstances = instances;
       } catch (e) {
-        // Silently ignore (e.g. aborted)
+        body.querySelectorAll('.diff-skeleton').forEach(el => el.remove());
       }
     },
 

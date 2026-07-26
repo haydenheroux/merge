@@ -21,7 +21,7 @@
 }
 
 html {
-    background-color: $color-200;
+    background-color: var(--color-page);
     transition: background-color $transition-normal, color $transition-normal;
 }
 
