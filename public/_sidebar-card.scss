@@ -1,5 +1,9 @@
 @use 'variables' as *;
 
+.age-suffix {
+  color: $color-800;
+}
+
 $avatar-size: $spacing-6;
 
 section.scopes, section.contributors {

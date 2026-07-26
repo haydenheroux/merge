@@ -31,7 +31,7 @@ templ Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status 
         </div>
         <div class="meta">
             <span class="age">
-                { info.NewestPRAge }
+                @AgeStr(info.NewestPRAge)
             </span>
             <span class="count">
                 { fmt.Sprintf("%d", info.Count()) }<span class="count-label">{ helpers.PrLabel(info.Count()) }</span>
@@ -59,7 +59,7 @@ templ Contributor(info model.ContributorInfo, currentPath, currentContributor, s
         </div>
         <div class="meta">
             <span class="age">
-                { info.NewestPRAge }
+                @AgeStr(info.NewestPRAge)
             </span>
             <span class="count">
                 { fmt.Sprintf("%d", info.Count()) }<span class="count-label">{ helpers.PrLabel(info.Count()) }</span>

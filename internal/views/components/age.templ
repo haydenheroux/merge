@@ -1,0 +1,17 @@
+package components
+
+import (
+	"merge/internal/model"
+	"merge/internal/views/helpers"
+	"time"
+)
+
+templ Age(open time.Duration, days int) {
+	{{ num, suffix := model.TimeAgoParts(open, days) }}
+	{ num }<span class="age-suffix">{ suffix }</span>
+}
+
+templ AgeStr(age string) {
+	{{ num, suffix := helpers.SplitAge(age) }}
+	{ num }<span class="age-suffix">{ suffix }</span>
+}
