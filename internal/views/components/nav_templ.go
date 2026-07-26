@@ -29,40 +29,40 @@ func Nav(owner, repo, scope string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\" x-data=\"nav\"><div><h4 class=\"serif bold\"><a href=\"/\">Merge Zone</a></h4><button id=\"theme-toggle\" class=\"link-button\" @click=\"$store.app.cycleTheme()\" aria-label=\"Cycle theme\"><i class=\"fa-solid\" :class=\"{\n                    'fa-sun': $store.app.theme === 'white',\n                    'fa-feather-pointed': $store.app.theme === 'parchment',\n                    'fa-cloud-moon': $store.app.theme === 'purple',\n                    'fa-moon': $store.app.theme === 'midnight'\n                }\" aria-hidden=\"true\"></i></button></div><div><span id=\"nav-input\" class=\"serif bold\"><i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i> <span class=\"input-pill\"><input class=\"serif title-input\" type=\"text\" data-part=\"owner\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav id=\"nav\" x-data=\"nav\"><div><h4 class=\"bold\"><a href=\"/\">Merge Zone</a></h4><button id=\"theme-toggle\" class=\"link-button\" @click=\"$store.app.cycleTheme()\" aria-label=\"Cycle theme\"><i class=\"fa-solid\" :class=\"{\n                    'fa-sun': $store.app.theme === 'white',\n                    'fa-feather-pointed': $store.app.theme === 'parchment',\n                    'fa-cloud-moon': $store.app.theme === 'purple',\n                    'fa-moon': $store.app.theme === 'midnight'\n                }\" aria-hidden=\"true\"></i></button></div><div><span id=\"nav-input\" class=\"bold\"><i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i> <span class=\"input-pill\"><input class=\"title-input\" type=\"text\" data-part=\"owner\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(owner)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 22, Col: 96}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 22, Col: 90}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" placeholder=\"…\"></span> <span class=\"serif bold title-sep\">/</span> <span class=\"input-pill\"><input class=\"serif title-input\" type=\"text\" data-part=\"repo\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" placeholder=\"…\"></span> <span class=\"bold title-sep\">/</span> <span class=\"input-pill\"><input class=\"title-input\" type=\"text\" data-part=\"repo\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(repo)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 26, Col: 94}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 26, Col: 88}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" placeholder=\"…\"></span> <span class=\"serif bold title-sep\">/</span> <span class=\"input-pill\"><input class=\"serif title-input\" type=\"text\" data-part=\"scope\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" placeholder=\"…\"></span> <span class=\"bold title-sep\">/</span> <span class=\"input-pill\"><input class=\"title-input\" type=\"text\" data-part=\"scope\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(scope)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 30, Col: 96}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/nav.templ`, Line: 30, Col: 90}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 		if templ_7745c5c3_Err != nil {

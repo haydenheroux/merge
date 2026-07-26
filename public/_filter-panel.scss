@@ -24,8 +24,9 @@
         align-items: center;
 
         span {
-            font-family: $font-family-heading;
-            font-weight: $font-weight-bold;
+            font-family: $filter-heading-family;
+            font-weight: $filter-heading-weight;
+            letter-spacing: $filter-heading-letter-spacing;
             font-size: $text-lg;
             color: $color-950;
         }

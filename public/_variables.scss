@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 // CSS custom properties — semantic aliases shared across all themes
 :root {
   --color-page: var(--color-300);
@@ -115,13 +117,54 @@ $font-weight-extrabold: 800;
 
 $font-family-sans: "Karla", sans-serif;
 $font-family-serif: "Neuton", serif;
+$font-family-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
 
-$use-serif: false;
+$font-profiles: (
+  sans: (
+    family: $font-family-sans,
+    weight: $font-weight-semibold,
+    letter-spacing: normal,
+  ),
+  sans-bold: (
+    family: $font-family-sans,
+    weight: $font-weight-bold,
+    letter-spacing: normal,
+  ),
+  serif: (
+    family: $font-family-serif,
+    weight: $font-weight-bold,
+    letter-spacing: 0.01em,
+  ),
+  mono: (
+    family: $font-family-mono,
+    weight: $font-weight-semibold,
+    letter-spacing: normal,
+  ),
+);
 
-$font-family-heading: $font-family-sans;
-@if $use-serif {
-  $font-family-heading: $font-family-serif;
-}
+$body-profile: sans;
+$heading-profile: sans-bold;
+$pane-heading-profile: sans-bold;
+$filter-heading-profile: sans-bold;
+$code-profile: mono;
+
+$body-family: map.get(map.get($font-profiles, $body-profile), family);
+$body-weight: map.get(map.get($font-profiles, $body-profile), weight);
+$body-letter-spacing: map.get(map.get($font-profiles, $body-profile), letter-spacing);
+
+$heading-family: map.get(map.get($font-profiles, $heading-profile), family);
+$heading-weight: map.get(map.get($font-profiles, $heading-profile), weight);
+$heading-letter-spacing: map.get(map.get($font-profiles, $heading-profile), letter-spacing);
+
+$pane-heading-family: map.get(map.get($font-profiles, $pane-heading-profile), family);
+$pane-heading-weight: map.get(map.get($font-profiles, $pane-heading-profile), weight);
+$pane-heading-letter-spacing: map.get(map.get($font-profiles, $pane-heading-profile), letter-spacing);
+
+$filter-heading-family: map.get(map.get($font-profiles, $filter-heading-profile), family);
+$filter-heading-weight: map.get(map.get($font-profiles, $filter-heading-profile), weight);
+$filter-heading-letter-spacing: map.get(map.get($font-profiles, $filter-heading-profile), letter-spacing);
+
+$code-family: map.get(map.get($font-profiles, $code-profile), family);
 
 $line-height-heading: 85%;
 $line-height-body: 95%;

@@ -29,8 +29,9 @@
         z-index: 1;
 
         .context-pane-title {
-            font-family: $font-family-heading;
-            font-weight: $font-weight-bold;
+            font-family: $pane-heading-family;
+            font-weight: $pane-heading-weight;
+            letter-spacing: $pane-heading-letter-spacing;
             color: $color-950;
             font-size: $text-lg;
             line-height: $line-height-subheading;

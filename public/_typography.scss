@@ -2,24 +2,22 @@
 @use 'silver-link';
 
 body, input {
-    font-family: $font-family-sans;
-    font-weight: $font-weight-semibold;
+    font-family: $body-family;
+    font-weight: $body-weight;
+    letter-spacing: $body-letter-spacing;
     font-style: normal;
     line-height: $line-height-body;
     text-wrap: balance;
 }
 
-h1, h2, h3, .serif, .title, .title-input {
-    font-family: $font-family-heading;
-    font-weight: $font-weight-semibold;
+h1, h2, h3, .title, .title-input {
+    font-family: $heading-family;
+    font-weight: $heading-weight;
+    letter-spacing: $heading-letter-spacing;
 }
 
 .bold {
     font-weight: $font-weight-bold;
-}
-
-.serif.bold {
-    font-weight: $font-weight-extrabold;
 }
 
 h1 {
@@ -54,8 +52,9 @@ p, .title-input {
     font-size: $text-sm;
 }
 
-footer, code, .caption {
-    font-size: $text-xs;
+code {
+    font-size: $text-xxs;
+    font-family: $code-family;
 }
 
 .text-primary {
