@@ -55,7 +55,7 @@ func Sidebar(owner string, repo string, scope string, scopeCounts []model.ScopeI
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><footer><span>By <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><footer><span>Created by <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

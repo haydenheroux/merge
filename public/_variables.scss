@@ -83,11 +83,7 @@ html.midnight {
 }
 
 // SCSS scale (bridge to CSS custom properties)
-$color-50: var(--color-50);
 $color-100: var(--color-100);
-$color-200: var(--color-200);
-$color-300: var(--color-300);
-$color-400: var(--color-400);
 $color-500: var(--color-500);
 $color-600: var(--color-600);
 $color-700: var(--color-700);
@@ -112,9 +108,7 @@ $text-md: 1.25rem;
 $text-sm: 1rem;
 $text-xs: 0.875rem;
 $text-xxs: 0.75rem;
-$text-xxxs: 0.625rem;
 
-$font-weight-normal: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
 $font-weight-extrabold: 800;
@@ -130,17 +124,11 @@ $spacing-1: 0.25rem;
 $spacing-2: 0.5rem;
 $spacing-3: 0.75rem;
 $spacing-4: 1rem;
-$spacing-5: 1.25rem;
 $spacing-6: 1.5rem;
-$spacing-8: 2rem;
-$spacing-12: 3rem;
 $spacing-16: 4rem;
-$spacing-32: 8rem;
 
 $nav-padding-inline: $spacing-4;
-$main-margin-inline: $spacing-6;
 $main-mobile-gap: $spacing-6;
-$main-desktop-gap: $spacing-4;
 
 $card-border-radius: 6px;
 $inline-border-radius: 4px;
@@ -149,16 +137,11 @@ $border-radius-code: 4px;
 $border-width-thin: 1.75px;
 $border-width-normal: 1.75px;
 $border-width-thick: 2px;
-$border-width-xthick: 3px;
-
-$underline-offset-title: 2px;
-$underline-offset-description: 1px;
 
 $transition-fast: 150ms;
 $transition-normal: 200ms;
 $transition-pane-fast: 100ms ease-out;
 $easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-$transition-pane: $transition-normal ease-out;
 
 $breakpoint-mobile: 720px;
 $breakpoint-desktop: 1024px;
@@ -171,27 +154,17 @@ $rotate-hover: -5deg;
 $rotate-hover-large: -7.5deg;
 
 $body-width: 100%;
-$body-width-full: 100%;
-$body-height: auto;
 
 $aside-width: 20rem;
 $context-pane-width: 32rem;
 
-// Pane open ratios (scroll-area : pane)
-$context-pane-ratio-scroll: 40%;
-$context-pane-ratio-pane: 60%;
 $filter-pane-ratio-scroll: 50%;
-$filter-pane-ratio-pane: 50%;
 
 $title-input-height-factor: 1.1;
 $title-input-min-width: 1ch;
 
 $input-pill-inset-y: -2px;
 $input-pill-inset-x: -4px;
-
-$repo-form-gap: 8px;
-$repo-form-padding-x: 10px;
-$repo-form-padding-y-factor: 0.5;
 
 $letter-spacing-label: 0.05em;
 
@@ -202,7 +175,6 @@ $heading-scale-h2: 0.65;
 
 $code-padding-y: 0.15rem;
 $code-padding-x: 0.35rem;
-$pre-padding: $spacing-4;
 
 $status-icon-font-size-factor: 1.1;
 $status-icon-margin-top-factor: 0.3;
@@ -211,3 +183,12 @@ $icon-github-margin-top-factor: 0.25;
 
 $title-sep-margin-top-factor: -0.25;
 $nav-toggle-active-scale: 0.85;
+
+$icon-container-size: 2.5rem;
+$panel-header-padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
+$meta-label-min-width: 5rem;
+$meta-icon-width: 1rem;
+$external-icon-size-factor: 0.65em;
+$list-item-gap: 0.4rem;
+$skeleton-line-height: 12px;
+$skeleton-line-height-sm: 8px;

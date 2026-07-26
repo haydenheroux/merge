@@ -50,7 +50,7 @@ p, .title-input {
     font-size: $text-md;
 }
 
-.small, .pull-request .title p, .contributor .title {
+.small {
     font-size: $text-sm;
 }
 
@@ -58,8 +58,12 @@ footer, code, .caption {
     font-size: $text-xs;
 }
 
-.pull-request .description-row, .scope .age, .contributor .age {
-    font-size: $text-xxs;
+.text-primary {
+    color: $color-950;
+}
+
+.text-secondary {
+    color: $color-900;
 }
 
 a {
@@ -67,6 +71,16 @@ a {
     text-decoration: none;
 
     &:hover {
-      @include silver-link.silver-link;
+        @include silver-link.silver-link;
+    }
+}
+
+@media (max-width: $breakpoint-desktop) {
+    h1 {
+        font-size: calc($text-3xl * #{$heading-scale-h1});
+    }
+
+    h2 {
+        font-size: calc($text-2xl * #{$heading-scale-h2});
     }
 }

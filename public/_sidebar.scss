@@ -1,0 +1,131 @@
+@use 'variables' as *;
+@use 'base';
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: $main-mobile-gap;
+}
+
+.overview {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+}
+
+#scopes-section,
+#contributors-section {
+    display: flex;
+    flex-direction: column;
+}
+
+#scopes-section:empty,
+#contributors-section:empty {
+    display: none;
+}
+
+.home-repos a {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+footer {
+    margin-top: auto;
+    padding: $spacing-4;
+    color: var(--color-text-muted);
+    border-top: $border-width-normal solid $color-700;
+    display: flex;
+    gap: $spacing-4;
+
+    span {
+        display: flex;
+        flex-direction: column;
+    }
+
+    a {
+        color: $color-950;
+    }
+}
+
+.avatar-wrapper {
+    width: $spacing-6;
+    height: $spacing-6;
+    border-radius: 50%;
+}
+
+.repo-page main {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: $breakpoint-desktop) {
+    #scopes-section,
+    #contributors-section {
+        flex: 1;
+        max-height: none;
+    }
+
+    .repo-page {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .repo-page main {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        flex-direction: row;
+    }
+
+    .aside-column {
+        display: flex;
+        flex-direction: column;
+        width: $aside-width;
+        flex-shrink: 0;
+        min-height: 0;
+        border-right: $border-width-normal solid $color-700;
+        background-color: var(--color-cutout);
+    }
+
+    #scopes-section {
+        border-bottom: $border-width-normal solid $color-700;
+    }
+
+    main {
+        gap: 0;
+    }
+
+    main > .scroll {
+        @include base.scrollable-flex-child;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-2;
+        transition: flex $transition-pane-fast;
+    }
+
+    main > .scroll h1 {
+        margin-top: $spacing-4;
+    }
+}
+
+@media (max-width: $breakpoint-desktop) {
+    .aside-column .scroll {
+        display: none;
+    }
+
+    main {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    main > .scroll {
+        flex: 1 1 0;
+        min-height: 0;
+        transition: flex $transition-pane-fast;
+    }
+}
