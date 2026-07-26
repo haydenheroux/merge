@@ -1,69 +1,108 @@
-// CSS custom properties for light (default) and dark themes
+// CSS custom properties — semantic aliases shared across all themes
 :root {
-    --clr-page: #eee8dd;             /* Warm page background */
-    --clr-surface: #faf7ed;          /* Card / surface background */
-    --clr-section: #dfd8c9;          /* Section container */
-    --clr-cutout: #f0e9dd;           /* Hover / cutout */
-    --clr-cutout-strong: #d9d1c2;    /* Stronger cutout (pills, inline code bg) */
-    --clr-decorative: #ccc5b9;       /* Borders, underlines, decorative lines */
-    --clr-text-primary: #403d39;     /* Body text */
-    --clr-text-secondary: #524b40;   /* Secondary text */
-    --clr-text-muted: #70695c;       /* Muted text, placeholders, separators */
-    --clr-text-heading: #252422;     /* Heading text */
-    --clr-code-bg: #403d39;          /* Code block background */
-    --clr-code-text: #fffcf2;        /* Code block text */
-    --clr-inline-code-bg: #d9d1c2;   /* Inline code background */
-    --clr-inline-code-text: #403d39; /* Inline code text */
-    --clr-red: #db4d14;              /* Error / expired */
-    --clr-amber: #df8816;            /* Warning / stale */
-    --clr-green: #5b7e3c;            /* OK / fresh */
-    --clr-purple: #7f577f;           /* Special / merged */
+  --color-page: var(--color-300);
+  --color-surface: var(--color-100);
+  --color-section: var(--color-500);
+  --color-cutout: var(--color-200);
+  --color-cutout-strong: var(--color-600);
+  --color-decorative: var(--color-700);
+  --color-text-primary: var(--color-950);
+  --color-text-secondary: var(--color-900);
+  --color-text-muted: var(--color-800);
+  --color-text-heading: var(--color-950);
+  --color-code-bg: var(--color-950);
+  --color-code-text: var(--color-50);
+  --color-inline-code-bg: var(--color-600);
+  --color-inline-code-text: var(--color-950);
+
+  // Accent colors — always parchment, never overridden by themes
+  --color-red-500: #db4d14;
+  --color-amber-500: #df8816;
+  --color-green-500: #5b7e3c;
+  --color-purple-500: #7f577f;
 }
 
-html.dark {
-    --clr-page: #1a2035;             /* Navy page background */
-    --clr-surface: #242b44;          /* Card surface — clearly distinct */
-    --clr-section: #2e3651;          /* Section container */
-    --clr-cutout: #384262;           /* Hover / cutout */
-    --clr-cutout-strong: #434f73;    /* Stronger cutout */
-    --clr-decorative: #505d84;       /* Borders, underlines */
-    --clr-text-primary: #e2e8f5;     /* Body text — light blue-gray */
-    --clr-text-secondary: #c8d2ea;   /* Secondary text */
-    --clr-text-muted: #a0aecf;       /* Muted text */
-    --clr-text-heading: #edf0f8;     /* Heading text — near white */
-    --clr-code-bg: #121725;          /* Code block background */
-    --clr-code-text: #e2e8f5;        /* Code block text */
-    --clr-inline-code-bg: #323f62;   /* Inline code background */
-    --clr-inline-code-text: #e2e8f5; /* Inline code text */
-    --clr-red: #e85d2a;              /* Error / expired */
-    --clr-amber: #e8993a;            /* Warning / stale */
-    --clr-green: #6d9a49;            /* OK / fresh */
-    --clr-purple: #9a6f9a;           /* Special / merged */
+// White — neutral scale, same oklab L as parchment
+html.white {
+  --color-50: #fcfcfc;
+  --color-100: #f7f7f7;
+  --color-200: #eaeaea;
+  --color-300: #e9e9e9;
+  --color-400: #e9e9e9;
+  --color-500: #d8d8d8;
+  --color-600: #d2d2d2;
+  --color-700: #c6c6c6;
+  --color-800: #6a6a6a;
+  --color-900: #4c4c4c;
+  --color-950: #3d3d3d;
 }
 
-// SCSS color variables mapped to CSS custom properties for runtime theming
-$color-warm-50: var(--clr-code-text);
-$color-warm-100: var(--clr-surface);
-$color-warm-200: var(--clr-cutout);
-$color-warm-300: var(--clr-page);
-$color-warm-400: var(--clr-page);
-$color-warm-500: var(--clr-section);
-$color-warm-600: var(--clr-inline-code-bg);
-$color-warm-700: var(--clr-decorative);
-$color-warm-800: var(--clr-text-muted);
-$color-warm-900: var(--clr-text-secondary);
-$color-warm-950: var(--clr-text-primary);
-$color-warm-black: var(--clr-text-heading);
+// Parchment — warm cream/tan (default)
+html.parchment {
+  --color-50: #fffcf2;
+  --color-100: #faf7ed;
+  --color-200: #f0e9dd;
+  --color-300: #eee8dd;
+  --color-400: #eee8dd;
+  --color-500: #dfd8c9;
+  --color-600: #d9d1c2;
+  --color-700: #ccc5b9;
+  --color-800: #70695c;
+  --color-900: #524b40;
+  --color-950: #403d39;
+}
 
-// Accent colors
-$color-red-600: var(--clr-red);
-$color-green-600: var(--clr-green);
-$color-amber-500: var(--clr-amber);
-$color-purple-500: var(--clr-purple);
+// Purple — neutral dark with subtle blue-purple tint
+html.purple {
+  --color-50: #d0d6e8;
+  --color-100: #181c26;
+  --color-200: #1e222c;
+  --color-300: #0a0a0a;
+  --color-400: #0a0a0a;
+  --color-500: #242834;
+  --color-600: #2c303e;
+  --color-700: #383c4e;
+  --color-800: #7c8294;
+  --color-900: #aeb4c8;
+  --color-950: #d6dcee;
+}
 
-// Cutout aliases
-$color-warm-cutout: var(--clr-cutout);
-$color-warm-cutout-strong: var(--clr-cutout-strong);
+// Midnight — neutral dark, inverse of white
+html.midnight {
+  --color-50: #e0e0e0;
+  --color-100: #161616;
+  --color-200: #1c1c1c;
+  --color-300: #0a0a0a;
+  --color-400: #0a0a0a;
+  --color-500: #222222;
+  --color-600: #2a2a2a;
+  --color-700: #363636;
+  --color-800: #888888;
+  --color-900: #bbbbbb;
+  --color-950: #e5e5e5;
+}
+
+// SCSS scale (bridge to CSS custom properties)
+$color-50: var(--color-50);
+$color-100: var(--color-100);
+$color-200: var(--color-200);
+$color-300: var(--color-300);
+$color-400: var(--color-400);
+$color-500: var(--color-500);
+$color-600: var(--color-600);
+$color-700: var(--color-700);
+$color-800: var(--color-800);
+$color-900: var(--color-900);
+$color-950: var(--color-950);
+
+$color-red-500: var(--color-red-500);
+$color-amber-500: var(--color-amber-500);
+$color-green-500: var(--color-green-500);
+$color-purple-500: var(--color-purple-500);
+
+// SCSS semantic aliases
+$color-cutout: var(--color-cutout);
+$color-cutout-strong: var(--color-cutout-strong);
 
 $text-3xl: 4rem;
 $text-2xl: 3rem;

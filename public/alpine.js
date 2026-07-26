@@ -15,7 +15,8 @@ async function ensureDiffsLib() {
 }
 
 function getDiffTheme() {
-  return document.documentElement.classList.contains('dark') ? 'pierre-dark' : 'pierre-light';
+  const cls = document.documentElement.classList;
+  return (cls.contains('purple') || cls.contains('midnight')) ? 'pierre-dark' : 'pierre-light';
 }
 
 async function loadPRDiffs(container, owner, repo, prNumber, signal) {
@@ -57,19 +58,32 @@ function cleanupDiffs(instances) {
 document.addEventListener('alpine:init', () => {
   // Global store for app-wide state
   Alpine.store('app', {
-    darkMode: localStorage.getItem('theme') === 'dark' ||
-      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+    themes: ['white', 'parchment', 'purple', 'midnight'],
+    theme: 'parchment',
 
     init() {
-      if (this.darkMode) {
-        document.documentElement.classList.add('dark');
+      const saved = localStorage.getItem('theme');
+      if (saved && this.themes.includes(saved)) {
+        this.theme = saved;
+      } else {
+        this.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'purple' : 'parchment';
       }
+      document.documentElement.className = this.theme;
     },
 
-    toggleDarkMode() {
-      this.darkMode = !this.darkMode;
-      document.documentElement.classList.toggle('dark', this.darkMode);
-      localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+    cycleTheme() {
+      const wasDark = ['purple', 'midnight'].includes(this.theme);
+      const idx = this.themes.indexOf(this.theme);
+      this.theme = this.themes[(idx + 1) % this.themes.length];
+      const isDark = ['purple', 'midnight'].includes(this.theme);
+      document.documentElement.className = this.theme;
+      localStorage.setItem('theme', this.theme);
+
+      // Re-render diffs only when crossing the dark/light boundary
+      if (wasDark !== isDark) {
+        Alpine.store('contextPane').rerenderDiffs();
+      }
     }
   });
 
@@ -274,6 +288,30 @@ document.addEventListener('alpine:init', () => {
       if (selected) selected.classList.remove('selected');
     },
 
+    async rerenderDiffs() {
+      if (!this.open || !this.prNumber || !this._owner || !this._repo) return;
+      if (!this.diffInstances.length) return;
+
+      const container = document.getElementById('context-pane-content');
+      const body = container?.querySelector('.context-pane-body');
+      if (!body) return;
+
+      // Clean up existing diffs
+      cleanupDiffs(this.diffInstances);
+      this.diffInstances = [];
+      body.querySelectorAll('diffs-container').forEach(el => el.remove());
+
+      // Re-fetch and re-render with new theme
+      const tempDiffContainer = document.createElement('div');
+      try {
+        const instances = await loadPRDiffs(tempDiffContainer, this._owner, this._repo, this.prNumber);
+        Array.from(tempDiffContainer.children).forEach(el => body.appendChild(el));
+        this.diffInstances = instances;
+      } catch (e) {
+        // Silently ignore (e.g. aborted)
+      }
+    },
+
     async _fetchBodyAndDiffs(prNumber) {
       this._abortController = new AbortController();
       const signal = this._abortController.signal;
@@ -319,7 +357,7 @@ document.addEventListener('alpine:init', () => {
       } catch (err) {
         if (err.name === 'AbortError') return;
         console.error('[fetch]', err);
-        this.bodyHtml = '<div style="color: var(--clr-text-muted); font-size: 0.875rem; text-align: center;">Failed to load content</div>';
+        this.bodyHtml = '<div style="color: var(--color-text-muted); font-size: 0.875rem; text-align: center;">Failed to load content</div>';
         this.loadingBody = false;
         this.loadingDiffs = false;
         if (target) {
@@ -431,7 +469,7 @@ document.addEventListener('alpine:init', () => {
         block.style.cssText = `
           width: 100%;
           height: ${h}px;
-          background-color: var(--clr-decorative);
+          background-color: var(--color-decorative);
           border-radius: 4px;
         `;
         skeleton.appendChild(block);

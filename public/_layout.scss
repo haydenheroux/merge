@@ -3,7 +3,7 @@
 @use 'separator';
 
 @mixin custom-scrollbar {
-    scrollbar-color: $color-warm-800 transparent;
+    scrollbar-color: $color-800 transparent;
     scrollbar-width: thin;
 
     &::-webkit-scrollbar {
@@ -12,7 +12,7 @@
 
     &::-webkit-scrollbar-thumb {
         border-radius: 2px;
-        background-color: $color-warm-800;
+        background-color: $color-800;
     }
 
     &::-webkit-scrollbar-track {
@@ -21,11 +21,11 @@
 }
 
 html {
-    background-color: $color-warm-200;
+    background-color: $color-200;
     transition: background-color $transition-normal, color $transition-normal;
 }
 
-html.dark {
+html.purple, html.midnight {
     color-scheme: dark;
 }
 
@@ -34,16 +34,16 @@ body {
     margin-block: $spacing-0;
     margin-inline: auto;
     height: $body-height;
-    color: $color-warm-950;
+    color: $color-950;
 }
 
 input {
     outline: none;
     border: none;
-    color: $color-warm-950;
+    color: $color-950;
 
     &::placeholder {
-        color: $color-warm-800;
+        color: $color-800;
     }
 }
 
@@ -51,10 +51,10 @@ button, .link-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: $color-warm-950;
+    color: $color-950;
 
     &:active {
-        color: $color-warm-800;
+        color: $color-800;
     }
 }
 
@@ -84,7 +84,7 @@ button, .link-button, .status-icon {
 }
 
 .title-sep {
-    color: $color-warm-900;
+    color: $color-900;
     font-size: $text-md;
     margin-top: calc(#{$title-sep-margin-top-factor} * #{$text-md});
     user-select: none;
@@ -92,8 +92,8 @@ button, .link-button, .status-icon {
 
 .title-input {
     line-height: inherit;
-    color: $color-warm-950;
-    caret-color: $color-warm-950;
+    color: $color-950;
+    caret-color: $color-950;
     background: transparent;
     border: none;
     padding: 0;
@@ -129,7 +129,7 @@ button, .link-button, .status-icon {
 .input-pill:has(.title-input:hover)::before,
 .input-pill:has(.title-input:focus)::before {
     opacity: 1;
-    background-color: $color-warm-cutout-strong;
+    background-color: $color-cutout-strong;
 }
 
 #nav-input {
@@ -165,7 +165,7 @@ nav > div {
     transition: transform $transition-fast $easing-spring;
 
     &:hover {
-        transform: rotate($rotate-hover-large) scale($scale-hover-large);
+        transform: scale($scale-hover-large);
     }
 
     &:active {
@@ -179,7 +179,7 @@ nav > div {
     transition: transform $transition-fast $easing-spring, color;
 
     &:hover {
-        transform: rotate($rotate-hover-large) scale($scale-hover-large);
+        transform: scale($scale-hover-large);
     }
 
     &:active {
@@ -220,7 +220,7 @@ main {
 
     .input-pill::before {
         opacity: 1;
-        background-color: $color-warm-cutout-strong;
+        background-color: $color-cutout-strong;
     }
 
     .repo-form button i {
@@ -242,7 +242,7 @@ main {
     align-items: center;
     gap: $spacing-3;
     width: fit-content;
-    background-color: $color-warm-100;
+    background-color: $color-100;
     padding: $spacing-3 $spacing-4;
     border-radius: $card-border-radius;
 
@@ -270,8 +270,13 @@ main {
             transform: rotate($rotate-hover) scale($scale-hover-icon);
         }
 
+        i:hover {
+            animation: none;
+            transform: scale($scale-hover-icon);
+        }
+
         &:active {
-            color: $color-warm-800;
+            color: $color-800;
             transform: scale($scale-active);
 
             i {
@@ -288,13 +293,13 @@ main {
 footer {
     margin-top: auto;
     padding: $spacing-4;
-    color: $color-warm-800;
-    border-top: $border-width-normal solid $color-warm-700;
+    color: $color-800;
+    border-top: $border-width-normal solid $color-700;
     display: flex;
     gap: $spacing-4;
 
     a {
-        color: $color-warm-950;
+        color: $color-950;
     }
 }
 
@@ -350,10 +355,10 @@ footer {
 }
 
 .bottom-sheet {
-    background-color: var(--clr-cutout);
+    background-color: var(--color-cutout);
     display: flex;
     flex-direction: column;
-    border-top: $border-width-normal solid $color-warm-700;
+    border-top: $border-width-normal solid $color-700;
     // TODO: Add slide-in animation here in the future. Not possible now because
     // the scroll area layout recalculates on each frame, causing lag.
     // Would need to decouple layout from animation (e.g., fixed positioning
@@ -376,15 +381,15 @@ footer {
     .context-pane-header {
         position: sticky;
         top: 0;
-        background-color: var(--clr-cutout);
-        border-bottom: $border-width-normal solid $color-warm-700;
+        background-color: var(--color-cutout);
+        border-bottom: $border-width-normal solid $color-700;
         z-index: 1;
         flex-shrink: 0;
 
         .context-pane-title {
             font-family: "Neuton", serif;
             font-weight: $font-weight-bold;
-            color: $color-warm-950;
+            color: $color-950;
             font-size: $text-lg;
             line-height: $line-height-subheading;
             display: flex;
@@ -406,13 +411,17 @@ footer {
 
             i.fa-up-right-from-square {
                 font-size: $text-xs;
-                color: $color-warm-800;
+                color: $color-800;
             }
 
             &:hover {
                 .status-icon {
                     transform: rotate($rotate-hover) scale($scale-hover);
                 }
+            }
+
+            .status-icon:hover {
+                transform: scale($scale-hover);
             }
         }
 
@@ -425,7 +434,7 @@ footer {
             line-height: 1;
 
             &:hover {
-                color: $color-warm-800;
+                color: $color-800;
             }
         }
     }
@@ -446,7 +455,7 @@ footer {
             display: flex;
             align-items: center;
             gap: $spacing-1;
-            color: $color-warm-800;
+            color: $color-800;
             min-width: 5rem;
             flex-shrink: 0;
 
@@ -458,7 +467,7 @@ footer {
         }
 
         .meta-value {
-            color: $color-warm-950;
+            color: $color-950;
         }
 
         .meta-link {
@@ -480,7 +489,7 @@ footer {
         flex-direction: column;
         gap: $spacing-4;
         padding: $spacing-4;
-        color: $color-warm-900;
+        color: $color-900;
         font-size: $text-xs;
         line-height: $line-height-markdown-body;
 
@@ -515,16 +524,16 @@ footer {
         pre {
             overflow-x: auto;
             @include custom-scrollbar;
-            background-color: var(--clr-code-bg);
-            color: var(--clr-code-text);
+            background-color: var(--color-code-bg);
+            color: var(--color-code-text);
             border-radius: $card-border-radius;
             font-size: $text-xs;
             line-height: $line-height-code;
         }
 
         code {
-            background-color: var(--clr-inline-code-bg);
-            color: var(--clr-inline-code-text);
+            background-color: var(--color-inline-code-bg);
+            color: var(--color-inline-code-text);
             padding: $code-padding-y $code-padding-x;
             border-radius: $border-radius-code;
         }
@@ -551,11 +560,11 @@ footer {
                 font-size: 0.65em;
                 margin-inline: $spacing-1;
                 vertical-align: baseline;
-                color: $color-warm-800;
+                color: $color-800;
             }
 
             &:hover::after {
-                color: $color-warm-900;
+                color: $color-900;
             }
 
             &.loading {
@@ -591,7 +600,7 @@ footer {
     .pr-diff-skeleton {
         .skeleton-line {
             height: 12px;
-            background-color: $color-warm-700;
+            background-color: $color-700;
             border-radius: $inline-border-radius;
             margin-bottom: $spacing-2;
 
@@ -644,12 +653,12 @@ footer {
         width: $aside-width;
         flex-shrink: 0;
         min-height: 0;
-        border-right: $border-width-normal solid $color-warm-700;
-        background-color: var(--clr-cutout);
+        border-right: $border-width-normal solid $color-700;
+        background-color: var(--color-cutout);
     }
 
     #nav, #scopes-section {
-        border-bottom: $border-width-normal solid $color-warm-700;
+        border-bottom: $border-width-normal solid $color-700;
     }
 
     main {
@@ -676,7 +685,7 @@ footer {
         min-width: 0;
         height: 100%;
         border-top: none;
-        border-left: $border-width-normal solid $color-warm-700;
+        border-left: $border-width-normal solid $color-700;
         padding-bottom: $spacing-4;
         overflow: hidden;
         transition: flex $transition-pane-fast;
@@ -744,7 +753,7 @@ body.filter-pane-open main > .scroll {
         gap: $spacing-2;
         font-family: inherit;
         font-size: $text-xxs;
-        color: $color-warm-950;
+        color: $color-950;
         text-transform: uppercase;
         letter-spacing: $letter-spacing-label;
         font-weight: $font-weight-bold;
@@ -762,8 +771,8 @@ body.filter-pane-open main > .scroll {
         }
 
         .filter-panel-header {
-            background-color: var(--clr-cutout);
-            border-bottom: $border-width-normal solid $color-warm-700;
+            background-color: var(--color-cutout);
+            border-bottom: $border-width-normal solid $color-700;
             flex-shrink: 0;
             display: flex;
             justify-content: space-between;
@@ -776,7 +785,7 @@ body.filter-pane-open main > .scroll {
                 font-family: "Neuton", serif;
                 font-weight: $font-weight-bold;
                 font-size: $text-lg;
-                color: $color-warm-950;
+                color: $color-950;
             }
 
             .button-toggle {
@@ -788,7 +797,7 @@ body.filter-pane-open main > .scroll {
                 line-height: 1;
 
                 &:hover {
-                    color: $color-warm-800;
+                    color: $color-800;
                 }
             }
         }
@@ -817,7 +826,7 @@ body.filter-pane-open main > .scroll {
         flex: 0 0 0;
         min-height: 0;
         overflow: hidden;
-        border-top: $border-width-normal solid $color-warm-700;
+        border-top: $border-width-normal solid $color-700;
         transition: flex $transition-pane-fast;
 
         &.open {
@@ -864,7 +873,7 @@ html {
 
     .skeleton-line {
         height: $text-sm;
-        background-color: $color-warm-700;
+        background-color: $color-700;
         border-radius: $inline-border-radius;
     }
 
@@ -915,7 +924,7 @@ html {
     .skeleton-line {
         width: 100%;
         aspect-ratio: 4 / 3;
-        background-color: $color-warm-700;
+        background-color: $color-700;
         border-radius: $inline-border-radius;
     }
 }
@@ -938,7 +947,7 @@ html {
         content: '';
         position: absolute;
         inset: 0;
-        background-color: $color-warm-700;
+        background-color: $color-700;
         animation: skeleton-pulse 1.5s ease-in-out infinite;
         border-radius: inherit;
     }
@@ -968,7 +977,7 @@ html {
 img[data-src]:not(.loaded) {
     font-size: 0 !important;
     width: 100%;
-    background-color: $color-warm-700;
+    background-color: $color-700;
     animation: skeleton-pulse 1.5s ease-in-out infinite;
     border-radius: $inline-border-radius;
 

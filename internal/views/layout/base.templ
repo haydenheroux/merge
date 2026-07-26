@@ -5,6 +5,7 @@ templ Base(title, description, baseURL, owner, repo, scope string) {
 	<html lang="en">
 	<head>
 		<title>{ title }</title>
+		<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.className=t;})()</script>
         <link rel="icon" type="image/png" href="/public/favicon.png">
 		<link rel="stylesheet" href="/public/main.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">

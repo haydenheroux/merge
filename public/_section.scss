@@ -8,7 +8,7 @@ nav, section {
 
 .section-heading {
     font-size: $text-xxs;
-    color: $color-warm-900;
+    color: $color-900;
     text-transform: uppercase;
     letter-spacing: $letter-spacing-label;
     font-weight: $font-weight-bold;
@@ -25,7 +25,7 @@ nav, section {
       button, .link-button {
         font-family: inherit;
         font-size: $text-xxs;
-        color: $color-warm-800;
+        color: $color-800;
         text-transform: uppercase;
         letter-spacing: $letter-spacing-label;
         font-weight: $font-weight-bold;
@@ -33,11 +33,11 @@ nav, section {
       }
 
       button:hover, .link-button:hover {
-        color: $color-warm-950;
+        color: $color-950;
       }
 
       [data-active-sort="true"] {
-        color: $color-warm-900;
+        color: $color-900;
         @include silver-link.silver-link-thin;
       }
     }

@@ -1,7 +1,7 @@
 @use 'variables' as *;
 
 .error {
-    color: $color-red-600;
+    color: $color-red-500;
 }
 
 .warn {
@@ -9,7 +9,7 @@
 }
 
 .ok {
-    color: $color-green-600;
+    color: $color-green-500;
 }
 
 .special {
