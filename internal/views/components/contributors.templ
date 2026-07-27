@@ -4,13 +4,11 @@ package components
 
 import (
 	"fmt"
-	"strings"
 
 	"merge/internal/model"
-	"merge/internal/views/helpers"
 )
 
-templ Contributors(contributors []model.ContributorInfo, activeSort, currentContributor, currentPath, status string) {
+templ Contributors(contributors []model.ContributorInfo, activeSort string, filters model.FilterSet) {
     <section class="contributors">
         <div class="section-heading">
             <span>Contributors</span>
@@ -42,21 +40,12 @@ templ Contributors(contributors []model.ContributorInfo, activeSort, currentCont
         if len(contributors) > 0 {
             <div class="contributors-container">
                 for _, info := range contributors {
-                    @Contributor(info, currentPath, currentContributor, status)
+                    @Contributor(info, filters)
                 }
             </div>
         }
-        if currentContributor != "" {
-            {{ clearPath := helpers.StripQueryParam(currentPath, "contributor")
-            clearPath = helpers.StripQueryParam(clearPath, "status")
-            q := []string{}
-            if status != "" {
-                q = append(q, "status="+status)
-            }
-            if len(q) > 0 {
-                clearPath += "?" + strings.Join(q, "&")
-            }
-            }}
+        if filters.Contributor != "" {
+            {{ clearPath := filters.WithContributor("").URL() }}
             <div class="scope-notice">
                 <span><a href={ templ.SafeURL(clearPath) } hx-get={ templ.SafeURL(clearPath) } hx-target="main" hx-push-url="true">Clear filter</a></span>
             </div>

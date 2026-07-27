@@ -7,8 +7,7 @@ import (
 
 templ LoadMorePRs(
 	prs []model.StampedPullRequest,
-	owner string,
-	repo string,
+	filters model.FilterSet,
 	nextPage int,
 	hasMore bool,
 	overallCounts model.ExpiryCounts,
@@ -16,20 +15,16 @@ templ LoadMorePRs(
 	scopeSort string,
 	contributorCounts []model.ContributorInfo,
 	contributorSort string,
-	currentPath string,
-	scope string,
-	contributor string,
-	status string,
 ) {
-	@components.PRScrollItems(prs, owner, repo, scope, contributor, status, nextPage-1, hasMore)
-	@components.LoadMoreCard(prs, owner, repo, scope, contributor, status, nextPage, hasMore, true)
+	@components.PRScrollItems(prs, filters.Owner, filters.Repo)
+	@components.LoadMoreCard(prs, filters, nextPage, hasMore, true)
 	<div id="overview-stats" hx-swap-oob="true">
-		@components.Counts(overallCounts, hasMore, owner, repo, nextPage, scope, contributor, status)
+		@components.Counts(overallCounts, hasMore, filters, nextPage)
 	</div>
 	<div id="scopes-section" hx-swap-oob="true">
-		@components.Scopes(scopeCounts, scopeSort, currentPath, scope, contributor, status)
+		@components.Scopes(scopeCounts, scopeSort, filters)
 	</div>
 	<div id="contributors-section" hx-swap-oob="true">
-		@components.Contributors(contributorCounts, contributorSort, contributor, currentPath, status)
+		@components.Contributors(contributorCounts, contributorSort, filters)
 	</div>
 }

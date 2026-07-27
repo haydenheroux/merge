@@ -2,19 +2,18 @@ package components
 
 import (
 	"merge/internal/model"
-	"merge/internal/views/helpers"
 )
 
-templ PRScrollItems(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) {
+templ PRScrollItems(prs []model.StampedPullRequest, owner string, repo string) {
 	for _, pr := range prs {
 		@PRCard(pr, owner, repo)
 	}
 }
 
-templ LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, nextPage int, hasMore bool, oob bool) {
+templ LoadMoreCard(prs []model.StampedPullRequest, filters model.FilterSet, nextPage int, hasMore bool, oob bool) {
 	<div id="load-more-card" if oob { hx-swap-oob="true" }>
 		<div class="item load-more"
-			hx-get={ helpers.BuildLoadMoreURL(owner, repo, scope, contributor, status, nextPage) }
+			hx-get={ filters.PageURL(nextPage) }
 			hx-target="#scroll-content"
 			hx-swap="beforeend">
 			<i class="fa-solid fa-plus"></i>
@@ -24,12 +23,12 @@ templ LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, sc
 	</div>
 }
 
-templ PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) {
+templ PRScrollSection(prs []model.StampedPullRequest, filters model.FilterSet, currentPage int, hasMore bool) {
 	<div class="section-heading">
 		<span>Pull Requests</span>
 	</div>
 	<div class="scroll-content" id="scroll-content">
-		@PRScrollItems(prs, owner, repo, scope, contributor, status, currentPage, hasMore)
+		@PRScrollItems(prs, filters.Owner, filters.Repo)
 	</div>
-	@LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage+1, hasMore, false)
+	@LoadMoreCard(prs, filters, currentPage+1, hasMore, false)
 }

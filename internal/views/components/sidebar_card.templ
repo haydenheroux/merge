@@ -2,30 +2,14 @@ package components
 
 import (
 	"fmt"
-	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
 )
 
-templ Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status string) {
-    {{ basePath := currentPath
-    if activeScope != "" {
-        basePath = currentPath[:strings.LastIndex(currentPath, "/")]
-    }
-    scopeURL := fmt.Sprintf("%s/%s", basePath, info.Name)
-    q := []string{}
-    if contributor != "" {
-        q = append(q, "contributor="+contributor)
-    }
-    if status != "" {
-        q = append(q, "status="+status)
-    }
-    if len(q) > 0 {
-        scopeURL += "?" + strings.Join(q, "&")
-    }
-    }}
-    <div class={ "item scope sidebar-card", templ.KV("active", info.Name == activeScope) } href={ templ.SafeURL(scopeURL) } hx-get={ templ.SafeURL(scopeURL) } hx-target="main" hx-push-url="true">
+templ Scope(info model.ScopeInfo, filters model.FilterSet) {
+    {{ scopeURL := filters.WithScope(info.Name).URL() }}
+    <div class={ "item scope sidebar-card", templ.KV("active", info.Name == filters.Scope) } href={ templ.SafeURL(scopeURL) } hx-get={ templ.SafeURL(scopeURL) } hx-target="main" hx-push-url="true">
         <div class="text">
             <span class="title">{ info.Name }</span>
         </div>
@@ -40,17 +24,9 @@ templ Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status 
     </div>
 }
 
-templ Contributor(info model.ContributorInfo, currentPath, currentContributor, status string) {
-    {{ contributorURL := helpers.StripQueryParam(currentPath, "contributor")
-    contributorURL = helpers.StripQueryParam(contributorURL, "status")
-    q := []string{}
-    q = append(q, "contributor="+info.Name)
-    if status != "" {
-        q = append(q, "status="+status)
-    }
-    contributorURL += "?" + strings.Join(q, "&")
-    }}
-    <div class={ "item contributor sidebar-card", templ.KV("active", info.Name == currentContributor) } hx-get={ templ.SafeURL(contributorURL) } hx-target="main" hx-push-url="true">
+templ Contributor(info model.ContributorInfo, filters model.FilterSet) {
+    {{ contributorURL := filters.WithContributor(info.Name).URL() }}
+    <div class={ "item contributor sidebar-card", templ.KV("active", info.Name == filters.Contributor) } hx-get={ templ.SafeURL(contributorURL) } hx-target="main" hx-push-url="true">
         <div class="img-skeleton-wrapper avatar-wrapper">
             <img class="avatar" data-src={ info.AvatarURL } alt={ info.Name + "'s avatar" } loading="lazy"/>
         </div>

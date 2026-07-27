@@ -10,6 +10,7 @@ import (
 )
 
 templ RepoPage(props model.RepoPageProps, currentPath string) {
+	{{ filters := model.FilterSet{Owner: props.Owner, Repo: props.Repo, Scope: props.Scope, Contributor: props.Contributor, Status: props.Status} }}
 	@layout.Base(
 		fmt.Sprintf("%s/%s", props.Owner, props.Repo),
 		fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.OverallCounts.FreshCount, props.OverallCounts.StaleCount, props.OverallCounts.ExpiredCount),
@@ -18,12 +19,12 @@ templ RepoPage(props model.RepoPageProps, currentPath string) {
 		props.Repo,
 		strings.Trim(strings.TrimPrefix(currentPath, fmt.Sprintf("/%s/%s", props.Owner, props.Repo)), "/"),
 	) {
-		@components.Sidebar(props.Owner, props.Repo, props.Scope, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status)
+		@components.Sidebar(filters, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort)
 		<section class="scroll">
 			<div class="overview" id="overview-stats">
-				@components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1, props.Scope, props.Contributor, props.Status)
+				@components.Counts(props.OverallCounts, props.HasMore, filters, props.CurrentPage + 1)
 			</div>
-			@components.PRScrollSection(props.PRs, props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage, props.HasMore)
+			@components.PRScrollSection(props.PRs, filters, props.CurrentPage, props.HasMore)
 		</section>
 		@components.FilterPanel()
 		@components.ContextPane()

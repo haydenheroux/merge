@@ -10,13 +10,12 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"strings"
 
 	"merge/internal/model"
 	"merge/internal/views/helpers"
 )
 
-func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status string) templ.Component {
+func Scope(info model.ScopeInfo, filters model.FilterSet) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -37,22 +36,8 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		basePath := currentPath
-		if activeScope != "" {
-			basePath = currentPath[:strings.LastIndex(currentPath, "/")]
-		}
-		scopeURL := fmt.Sprintf("%s/%s", basePath, info.Name)
-		q := []string{}
-		if contributor != "" {
-			q = append(q, "contributor="+contributor)
-		}
-		if status != "" {
-			q = append(q, "status="+status)
-		}
-		if len(q) > 0 {
-			scopeURL += "?" + strings.Join(q, "&")
-		}
-		var templ_7745c5c3_Var2 = []any{"item scope sidebar-card", templ.KV("active", info.Name == activeScope)}
+		scopeURL := filters.WithScope(info.Name).URL()
+		var templ_7745c5c3_Var2 = []any{"item scope sidebar-card", templ.KV("active", info.Name == filters.Scope)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -77,7 +62,7 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(scopeURL))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 28, Col: 121}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 12, Col: 123}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 		if templ_7745c5c3_Err != nil {
@@ -90,7 +75,7 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(scopeURL))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 28, Col: 156}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 12, Col: 158}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var5)
 		if templ_7745c5c3_Err != nil {
@@ -103,7 +88,7 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(info.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 30, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 14, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -124,7 +109,7 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", info.Count()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 37, Col: 49}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 21, Col: 49}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -137,7 +122,7 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(helpers.PrLabel(info.Count()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 37, Col: 108}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 21, Col: 108}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -151,7 +136,7 @@ func Scope(info model.ScopeInfo, currentPath, activeScope, contributor, status s
 	})
 }
 
-func Contributor(info model.ContributorInfo, currentPath, currentContributor, status string) templ.Component {
+func Contributor(info model.ContributorInfo, filters model.FilterSet) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -172,15 +157,8 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		contributorURL := helpers.StripQueryParam(currentPath, "contributor")
-		contributorURL = helpers.StripQueryParam(contributorURL, "status")
-		q := []string{}
-		q = append(q, "contributor="+info.Name)
-		if status != "" {
-			q = append(q, "status="+status)
-		}
-		contributorURL += "?" + strings.Join(q, "&")
-		var templ_7745c5c3_Var10 = []any{"item contributor sidebar-card", templ.KV("active", info.Name == currentContributor)}
+		contributorURL := filters.WithContributor(info.Name).URL()
+		var templ_7745c5c3_Var10 = []any{"item contributor sidebar-card", templ.KV("active", info.Name == filters.Contributor)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -205,7 +183,7 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(contributorURL))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 53, Col: 142}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 29, Col: 143}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
 		if templ_7745c5c3_Err != nil {
@@ -218,7 +196,7 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.ResolveAttributeValue(info.AvatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 55, Col: 57}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 31, Col: 57}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
 		if templ_7745c5c3_Err != nil {
@@ -231,7 +209,7 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.ResolveAttributeValue(info.Name + "'s avatar")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 55, Col: 89}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 31, Col: 89}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
 		if templ_7745c5c3_Err != nil {
@@ -244,7 +222,7 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(info.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 58, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 34, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -265,7 +243,7 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", info.Count()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 65, Col: 49}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 41, Col: 49}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -278,7 +256,7 @@ func Contributor(info model.ContributorInfo, currentPath, currentContributor, st
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(helpers.PrLabel(info.Count()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 65, Col: 108}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/sidebar_card.templ`, Line: 41, Col: 108}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {

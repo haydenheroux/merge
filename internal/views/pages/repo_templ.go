@@ -38,6 +38,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		filters := model.FilterSet{Owner: props.Owner, Repo: props.Repo, Scope: props.Scope, Contributor: props.Contributor, Status: props.Status}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -50,7 +51,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = components.Sidebar(props.Owner, props.Repo, props.Scope, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Sidebar(filters, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -58,7 +59,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage+1, props.Scope, props.Contributor, props.Status).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Counts(props.OverallCounts, props.HasMore, filters, props.CurrentPage+1).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -66,7 +67,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.PRScrollSection(props.PRs, props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage, props.HasMore).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.PRScrollSection(props.PRs, filters, props.CurrentPage, props.HasMore).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
