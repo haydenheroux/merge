@@ -102,11 +102,11 @@ $color-purple-500: var(--color-purple-500);
 $color-cutout: var(--color-cutout);
 $color-cutout-strong: var(--color-cutout-strong);
 
-$text-3xl: 4rem;
-$text-2xl: 3rem;
-$text-xl: 2rem;
-$text-lg: 1.5rem;
-$text-md: 1.25rem;
+$text-3xl: 3rem;
+$text-2xl: 2.25rem;
+$text-xl: 1.75rem;
+$text-lg: 1.375rem;
+$text-md: 1.125rem;
 $text-sm: 1rem;
 $text-xs: 0.875rem;
 $text-xxs: 0.75rem;
@@ -166,11 +166,11 @@ $filter-heading-letter-spacing: map.get(map.get($font-profiles, $filter-heading-
 
 $code-family: map.get(map.get($font-profiles, $code-profile), family);
 
-$line-height-heading: 85%;
-$line-height-body: 95%;
-$line-height-subheading: 110%;
-$line-height-markdown-body: 1.4;
-$line-height-code: 1.5;
+$line-height-heading: 1.1;
+$line-height-body: 1.6;
+$line-height-subheading: 1.25;
+$line-height-markdown-body: 1.65;
+$line-height-code: 1.6;
 
 $spacing-0: 0;
 $spacing-1: 0.25rem;
@@ -223,8 +223,8 @@ $letter-spacing-label: 0.05em;
 
 $stats-tiles-grid-columns: 2;
 
-$heading-scale-h1: 0.6;
-$heading-scale-h2: 0.65;
+$heading-scale-h1: 0.67;
+$heading-scale-h2: 0.67;
 
 $code-padding-y: 0.15rem;
 $code-padding-x: 0.35rem;

@@ -43,7 +43,7 @@
     }
 }
 
-@mixin label-font($color: $color-900) {
+@mixin label-font($color: #4a4338) {
     font-family: inherit;
     font-size: $text-xxs;
     color: $color;

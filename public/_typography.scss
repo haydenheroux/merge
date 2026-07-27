@@ -36,6 +36,8 @@ h2 {
 
 h3 {
     font-size: $text-xl;
+    line-height: $line-height-subheading;
+    margin-block: $spacing-4;
 }
 
 h4 {
@@ -53,7 +55,7 @@ p, .title-input {
 }
 
 code {
-    font-size: $text-xxs;
+    font-size: $text-xs;
     font-family: $code-family;
 }
 

@@ -113,7 +113,7 @@
         gap: $spacing-4;
         padding: $spacing-4;
         color: $color-900;
-        font-size: $text-xs;
+        font-size: $text-sm;
         line-height: $line-height-markdown-body;
 
         p:first-child {
@@ -124,14 +124,36 @@
             margin-bottom: $spacing-0;
         }
 
-        h1, h2, h3, h4 {
-            font-size: $text-sm;
+        h1 {
+            font-size: $text-lg;
+            line-height: $line-height-heading;
             margin-top: $spacing-6;
             margin-bottom: $spacing-2;
         }
 
-        p {
+        h2 {
+            font-size: $text-md;
+            line-height: $line-height-subheading;
+            margin-top: $spacing-4;
+            margin-bottom: $spacing-2;
+        }
+
+        h3 {
+            font-size: $text-sm;
+            line-height: $line-height-subheading;
+            margin-top: $spacing-4;
+            margin-bottom: $spacing-1;
+        }
+
+        h4 {
             font-size: $text-xs;
+            line-height: $line-height-subheading;
+            margin-top: $spacing-3;
+            margin-bottom: $spacing-1;
+        }
+
+        p {
+            font-size: $text-sm;
             margin: $spacing-0;
         }
 
