@@ -1,0 +1,63 @@
+@use 'variables' as *;
+@use 'base';
+
+.filter-toggle {
+    @include base.label-font($color-950);
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    cursor: pointer;
+}
+
+.filter-panel {
+    @include base.collapsible-pane;
+
+    &.open {
+        padding-bottom: $spacing-4;
+    }
+
+    .filter-panel-header {
+        @include base.panel-header-base;
+        @include base.panel-header-padding;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+            font-family: $filter-heading-family;
+            font-weight: $filter-heading-weight;
+            letter-spacing: $filter-heading-letter-spacing;
+            font-size: $text-lg;
+            color: $color-950;
+        }
+
+        .button-toggle {
+            @include base.button-toggle;
+        }
+    }
+
+    .filter-panel-body {
+        @include base.scrollable-flex-child;
+        padding-inline: $spacing-4;
+    }
+}
+
+body.filter-pane-open main > .scroll {
+    flex: 0 0 $filter-pane-ratio-scroll;
+}
+
+@media (min-width: $breakpoint-desktop) {
+    .filter-toggle {
+        display: none;
+    }
+
+    .filter-panel {
+        display: none;
+    }
+}
+
+@media (max-width: $breakpoint-desktop) {
+    .filter-toggle {
+        display: inline-flex;
+    }
+}

@@ -1,0 +1,53 @@
+@use 'variables' as *;
+@use 'separator';
+@use 'base';
+
+.item.pull-request {
+    min-height: $spacing-16;
+    cursor: pointer;
+
+    &.selected {
+        background-color: $color-600;
+    }
+
+    .pull-request-header {
+        display: grid;
+        grid-template-columns: min-content auto;
+        grid-template-rows: min-content min-content;
+        row-gap: $spacing-1;
+        column-gap: $spacing-3;
+    }
+
+    @include base.status-icon-hover($rotate-hover-large);
+
+    .icon {
+        grid-row: span 2 / span 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .status-icon {
+            font-size: calc($text-xs * #{$status-icon-font-size-factor});
+        }
+    }
+
+    .title-row {
+        display: flex;
+        color: $color-950;
+
+        .title p {
+            font-size: $text-sm;
+            line-height: $line-height-subheading;
+            margin-block: $spacing-0;
+        }
+    }
+
+    .description-row {
+        grid-column-start: 2;
+        color: $color-900;
+        font-size: $text-xxs;
+        display: flex;
+
+        @include separator.dot-separator;
+    }
+}

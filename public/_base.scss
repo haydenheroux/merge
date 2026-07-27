@@ -1,0 +1,201 @@
+@use 'variables' as *;
+
+// ── Mixins ──────────────────────────────────────────────────────────
+
+@mixin custom-scrollbar {
+    scrollbar-color: $color-800 transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: $color-800;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
+@mixin button-toggle {
+    position: absolute;
+    top: $spacing-2;
+    right: $spacing-2;
+    font-size: $text-sm;
+    padding: $spacing-1;
+    line-height: 1;
+
+    &:hover {
+        color: var(--color-text-muted);
+    }
+}
+
+@mixin status-icon-hover($rotate: $rotate-hover) {
+    &:hover .status-icon {
+        transform: rotate($rotate) scale($scale-hover);
+    }
+
+    .status-icon:hover {
+        transform: scale($scale-hover);
+    }
+}
+
+@mixin label-font($color: #4a4338) {
+    font-family: inherit;
+    font-size: $text-xxs;
+    color: $color;
+    text-transform: uppercase;
+    letter-spacing: $letter-spacing-label;
+    font-weight: $font-weight-bold;
+}
+
+@mixin scrollable-flex-child {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    @include custom-scrollbar;
+}
+
+@mixin skeleton-base {
+    background-color: $color-700;
+    border-radius: $inline-border-radius;
+}
+
+@mixin skeleton-pulse {
+    @include skeleton-base;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@mixin collapsible-pane {
+    flex: 0 0 0;
+    min-height: 0;
+    overflow: hidden;
+    transition: flex $transition-pane-fast;
+
+    &.open {
+        flex: 0 0 50vh;
+    }
+}
+
+@mixin panel-header-base {
+    background-color: var(--color-cutout);
+    border-bottom: $border-width-normal solid $color-700;
+    flex-shrink: 0;
+}
+
+@mixin panel-header-padding {
+    padding-block: $spacing-4;
+    padding-inline: $spacing-4;
+    padding-right: $panel-header-padding-right;
+}
+
+@mixin status-color {
+    &.ok, i.ok { color: $color-green-500; }
+    &.warn, i.warn { color: $color-amber-500; }
+    &.error, i.error { color: $color-red-500; }
+    &.special, i.special { color: $color-purple-500; }
+}
+
+// ── Global styles ───────────────────────────────────────────────────
+
+html {
+    background-color: var(--color-page);
+    transition: background-color $transition-normal, color $transition-normal;
+    @include custom-scrollbar;
+}
+
+html.purple, html.midnight {
+    color-scheme: dark;
+}
+
+body {
+    width: $body-width;
+    margin-block: $spacing-0;
+    margin-inline: auto;
+    color: $color-950;
+}
+
+input {
+    outline: none;
+    border: none;
+    color: $color-950;
+
+    &::placeholder {
+        color: var(--color-text-muted);
+    }
+}
+
+button, .link-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $color-950;
+
+    &:active {
+        color: var(--color-text-muted);
+    }
+}
+
+button, .link-button, .status-icon {
+    transition: transform $transition-normal $easing-spring, color;
+}
+
+.error {
+    color: $color-red-500;
+}
+
+.warn {
+    color: $color-amber-500;
+}
+
+.ok {
+    color: $color-green-500;
+}
+
+.special {
+    color: $color-purple-500;
+}
+
+.scroll {
+    min-height: 0;
+    overflow-y: auto;
+    @include custom-scrollbar;
+}
+
+.htmx-indicator {
+    visibility: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.htmx-request .htmx-indicator,
+.htmx-request.htmx-indicator {
+    visibility: visible;
+}
+
+@keyframes magnify-bob {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-8deg) scale(1.1); }
+    75% { transform: rotate(8deg) scale(1.1); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+@media (max-width: $breakpoint-desktop) {
+    body {
+        padding-inline: $nav-padding-inline;
+        box-sizing: border-box;
+    }
+}

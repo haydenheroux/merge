@@ -11,7 +11,7 @@
         > *:not(:last-child)::after {
             content: "·";
             margin-inline: $spacing-2;
-            color: $color-warm-800;
+            color: var(--color-text-muted);
         }
     }
 }

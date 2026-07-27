@@ -1,0 +1,35 @@
+@use 'variables' as *;
+@use 'silver-link';
+@use 'base';
+
+nav, section {
+    padding: $spacing-4;
+}
+
+.section-heading {
+    @include base.label-font;
+    margin-inline: $spacing-1;
+    margin-block: $spacing-1 $spacing-3;
+    display: flex;
+    justify-content: space-between;
+
+    .buttons {
+        display: flex;
+        align-items: center;
+        gap: $spacing-2;
+
+        button, .link-button {
+            @include base.label-font(var(--color-text-muted));
+            padding: 0;
+        }
+
+        button:hover, .link-button:hover {
+            color: $color-950;
+        }
+
+        [data-active-sort="true"] {
+            color: $color-900;
+            @include silver-link.silver-link-thin;
+        }
+    }
+}

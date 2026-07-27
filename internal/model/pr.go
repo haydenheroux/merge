@@ -269,31 +269,68 @@ func (s ScopeInfo) Count() int {
 }
 
 func TimeAgo(open time.Duration, days int) string {
+	num, suffix := TimeAgoParts(open, days)
+	return num + suffix
+}
+
+func TimeAgoLong(open time.Duration, days int) string {
+	num, suffix := TimeAgoParts(open, days)
+	if num == "1" {
+		switch suffix {
+		case "h":
+			return num + " hour"
+		case "d":
+			return num + " day"
+		case "w":
+			return num + " week"
+		case "m":
+			return num + " month"
+		case "y":
+			return num + " year"
+		}
+		return num + suffix
+	}
+	switch suffix {
+	case "h":
+		return num + " hours"
+	case "d":
+		return num + " days"
+	case "w":
+		return num + " weeks"
+	case "m":
+		return num + " months"
+	case "y":
+		return num + " years"
+	}
+	return num + suffix
+}
+
+func TimeAgoParts(open time.Duration, days int) (string, string) {
 	if days < 1 {
 		hrs := int(math.Floor(open.Hours()))
 		if hrs < 1 {
 			mins := int(math.Floor(open.Minutes()))
-			return fmt.Sprintf("%dm", mins)
+			return fmt.Sprintf("%d", mins), "m"
 		}
-		return fmt.Sprintf("%dh", hrs)
+		return fmt.Sprintf("%d", hrs), "h"
 	}
 
 	if days < 7 {
-		return fmt.Sprintf("%dd", days)
+		return fmt.Sprintf("%d", days), "d"
 	}
 
 	weeks := days / 7
 	if weeks < 4 {
-		return fmt.Sprintf("%dw", weeks)
+		return fmt.Sprintf("%d", weeks), "w"
 	}
 
 	months := weeks / 4
 	if months < 12 {
-		return fmt.Sprintf("%dm", months)
+		return fmt.Sprintf("%d", months), "m"
 	}
 
 	years := months / 12
-	return fmt.Sprintf("%dy", years)
+	return fmt.Sprintf("%d", years), "y"
 }
 
 func ScopeAges(prs []StampedPullRequest) []ScopeInfo {

@@ -2,24 +2,22 @@
 @use 'silver-link';
 
 body, input {
-    font-family: "Karla", sans-serif;
-    font-weight: $font-weight-semibold;
+    font-family: $body-family;
+    font-weight: $body-weight;
+    letter-spacing: $body-letter-spacing;
     font-style: normal;
     line-height: $line-height-body;
     text-wrap: balance;
 }
 
-h1, h2, h3, .serif, .title, .title-input {
-    font-family: "Neuton", serif;
-    font-weight: $font-weight-semibold;
+h1, h2, h3, .title, .title-input {
+    font-family: $heading-family;
+    font-weight: $heading-weight;
+    letter-spacing: $heading-letter-spacing;
 }
 
 .bold {
     font-weight: $font-weight-bold;
-}
-
-.serif.bold {
-    font-weight: $font-weight-extrabold;
 }
 
 h1 {
@@ -38,6 +36,8 @@ h2 {
 
 h3 {
     font-size: $text-xl;
+    line-height: $line-height-subheading;
+    margin-block: $spacing-4;
 }
 
 h4 {
@@ -50,16 +50,21 @@ p, .title-input {
     font-size: $text-md;
 }
 
-.small, .pull-request .title p, .contributor .title {
+.small {
     font-size: $text-sm;
 }
 
-footer, code, .caption {
+code {
     font-size: $text-xs;
+    font-family: $code-family;
 }
 
-.pull-request .description-row, .scope .age, .contributor .age {
-    font-size: $text-xxs;
+.text-primary {
+    color: $color-950;
+}
+
+.text-secondary {
+    color: $color-900;
 }
 
 a {
@@ -67,6 +72,16 @@ a {
     text-decoration: none;
 
     &:hover {
-      @include silver-link.silver-link;
+        @include silver-link.silver-link;
+    }
+}
+
+@media (max-width: $breakpoint-desktop) {
+    h1 {
+        font-size: calc($text-3xl * #{$heading-scale-h1});
+    }
+
+    h2 {
+        font-size: calc($text-2xl * #{$heading-scale-h2});
     }
 }

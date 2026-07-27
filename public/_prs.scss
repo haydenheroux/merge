@@ -1,8 +1,0 @@
-@use 'variables' as *;
-
-.scroll-content {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-2;
-    border-radius: $card-border-radius;
-}

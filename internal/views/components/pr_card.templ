@@ -16,7 +16,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
 		data-pr-status-class={ helpers.GetStatusClass(pr) }
 		data-pr-url={ pr.URL }
 		data-pr-state={ pr.State }
-		data-pr-age={ model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }
+		data-pr-age={ model.TimeAgoLong(pr.TimeOpen, pr.DaysOpen) }
 		data-pr-author-name={ pr.Author.Name }
 		data-pr-author-url={ pr.Author.URL }
 		if len(pr.Scopes) > 0 {
@@ -40,7 +40,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
                     { pr.State }
                 </span>
                 <span>
-                    { model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }
+                    @Age(pr.TimeOpen, pr.DaysOpen)
                 </span>
                 <span>
                     <a href={ pr.Author.URL }>{ pr.Author.Name }</a>

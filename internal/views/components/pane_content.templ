@@ -44,7 +44,7 @@ templ PaneContent(pr model.StampedPullRequest, owner, repo, currentPath string) 
 					<i class="fa-solid fa-clock"></i>
 					Age
 				</span>
-				<span class="meta-value">{ model.TimeAgo(pr.TimeOpen, pr.DaysOpen) }</span>
+				<span class="meta-value">@Age(pr.TimeOpen, pr.DaysOpen)</span>
 			</div>
 			<div class="meta-row">
 				<span class="meta-label">

@@ -88,3 +88,42 @@ func PrLabel(count int) string {
 	}
 	return "prs"
 }
+
+func SplitAge(age string) (string, string) {
+	if len(age) < 2 {
+		return age, ""
+	}
+	return age[:len(age)-1], age[len(age)-1:]
+}
+
+func LongSuffix(num, suffix string) string {
+	if num == "1" {
+		switch suffix {
+		case "h":
+			return "hour"
+		case "d":
+			return "day"
+		case "w":
+			return "week"
+		case "m":
+			return "month"
+		case "y":
+			return "year"
+		}
+		return suffix
+	}
+	switch suffix {
+	case "h":
+		return "hours"
+	case "d":
+		return "days"
+	case "w":
+		return "weeks"
+	case "m":
+		return "months"
+	case "y":
+		return "years"
+	default:
+		return suffix
+	}
+}

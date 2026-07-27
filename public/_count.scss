@@ -1,0 +1,77 @@
+@use 'variables' as *;
+@use 'base';
+
+.item.stat {
+    padding-block: $spacing-1;
+}
+
+.stat {
+    cursor: pointer;
+    padding: $spacing-0;
+    border-radius: $inline-border-radius;
+    display: grid;
+    column-gap: $spacing-3;
+    row-gap: $spacing-2;
+    grid-template-columns: repeat(2, min-content);
+    grid-template-rows: repeat(2, max-content);
+    justify-content: center;
+
+    & > * {
+        align-self: center;
+        justify-self: center;
+    }
+
+    $stat-font-size: $text-xl;
+    $stat-icon-size: $text-lg;
+
+    .status-icon {
+        grid-column-start: 1;
+        grid-row-start: 1;
+        margin-top: calc(#{$status-icon-margin-top-factor} * #{$stat-icon-size});
+        font-size: $stat-icon-size;
+    }
+
+    &:hover {
+        background-color: $color-cutout;
+    }
+
+    @include base.status-icon-hover;
+
+    p {
+        @include base.label-font;
+        color: $color-900;
+        grid-column: span 2 / span 2;
+        margin-block: 0;
+    }
+
+    b {
+        font-size: $stat-font-size;
+        color: $color-950;
+        grid-column-start: 2;
+        grid-row-start: 1;
+    }
+
+    .small {
+        font-size: $text-xs;
+        color: $color-900;
+        margin-top: $spacing-1;
+    }
+}
+
+.stats-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: $body-width;
+    gap: $spacing-2;
+}
+
+@media (max-width: $breakpoint-desktop) {
+    .stats-tiles {
+        grid-template-columns: repeat($stats-tiles-grid-columns, 1fr);
+        gap: $spacing-3;
+    }
+
+    .stat {
+        min-width: unset;
+    }
+}
