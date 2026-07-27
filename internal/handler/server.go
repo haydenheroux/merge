@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
-	"strings"
 
 	"merge/internal/model"
 	"merge/internal/provider"
@@ -90,7 +89,22 @@ func fetchAllPages(rt *ProviderRoute, upToPage int) (all, currentPRs []model.Sta
 	return all, currentPRs, hasNext, nil
 }
 
+func ptrOrDefault(p *string) string {
+	if p != nil {
+		return *p
+	}
+	return ""
+}
+
 func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
+	filters := model.FilterSet{
+		Owner:       rt.Params.Owner,
+		Repo:        rt.Params.Repo,
+		Scope:       ptrOrDefault(rt.Params.Scope),
+		Contributor: ptrOrDefault(rt.Params.Contributor),
+		Status:      ptrOrDefault(rt.Params.Status),
+	}
+
 	// Load-more: fetch all pages 1..current to compute combined stats
 	if rt.Options.Page > 1 && r.Header.Get("HX-Request") != "" {
 		allPRs, curPRs, hasNext, err := fetchAllPages(rt, rt.Options.Page)
@@ -102,18 +116,6 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 
 		nextPage := rt.Options.Page + 1
 
-		currentScope := ""
-		if rt.Params.Scope != nil {
-			currentScope = *rt.Params.Scope
-		}
-		currentContributor := ""
-		if rt.Params.Contributor != nil {
-			currentContributor = *rt.Params.Contributor
-		}
-		currentStatus := ""
-		if rt.Params.Status != nil {
-			currentStatus = *rt.Params.Status
-		}
 		scopes := make([]model.ScopeInfo, 0)
 		for _, s := range model.ScopeAges(allPRs) {
 			scopes = append(scopes, s)
@@ -122,16 +124,14 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		err = pages.LoadMorePRs(
 			curPRs,
-			rt.Params.Owner, rt.Params.Repo, nextPage, hasNext,
+			filters,
+			nextPage,
+			hasNext,
 			model.GetCounts(allPRs),
 			scopes,
 			"recent",
 			model.ContributorActivity(allPRs),
 			"recent",
-			r.URL.Path,
-			currentScope,
-			currentContributor,
-			currentStatus,
 		).Render(r.Context(), w)
 		if err != nil {
 			rt.Logger.Error(err.Error())
@@ -146,21 +146,6 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	scope := ""
-	if rt.Params.Scope != nil {
-		scope = *rt.Params.Scope
-	}
-
-	contributor := ""
-	if rt.Params.Contributor != nil {
-		contributor = *rt.Params.Contributor
-	}
-
-	status := ""
-	if rt.Params.Status != nil {
-		status = *rt.Params.Status
-	}
-
 	scopeCounts := model.ScopeAges(prs)
 	filteredScopes := make([]model.ScopeInfo, 0, len(scopeCounts))
 	for _, s := range scopeCounts {
@@ -171,9 +156,9 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 		BaseURL:           rt.BaseURL,
 		Owner:             rt.Params.Owner,
 		Repo:              rt.Params.Repo,
-		Scope:             scope,
-		Contributor:       contributor,
-		Status:            status,
+		Scope:             filters.Scope,
+		Contributor:       filters.Contributor,
+		Status:            filters.Status,
 		PRs:               prs,
 		OverallCounts:     model.GetCounts(prs),
 		ScopeCounts:       filteredScopes,
@@ -210,7 +195,7 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return contributors[i].Count() > contributors[j].Count()
 			})
 		}
-		err = components.Contributors(contributors, method, contributor, "/"+rt.Params.Owner+"/"+rt.Params.Repo, status).Render(r.Context(), w)
+		err = components.Contributors(contributors, method, filters).Render(r.Context(), w)
 	} else if r.URL.Query().Get("part") == "scopes" {
 		method := r.URL.Query().Get("sort")
 		scopes := props.ScopeCounts
@@ -219,23 +204,9 @@ func Page(rt *ProviderRoute, w http.ResponseWriter, r *http.Request) {
 				return scopes[i].Count() > scopes[j].Count()
 			})
 		}
-		err = components.Scopes(scopes, method, r.URL.Path, scope, contributor, status).Render(r.Context(), w)
+		err = components.Scopes(scopes, method, filters).Render(r.Context(), w)
 	} else if r.Header.Get("HX-Request") != "" {
-		pushURL := "/" + rt.Params.Owner + "/" + rt.Params.Repo
-		if scope != "" {
-			pushURL += "/" + scope
-		}
-		params := []string{}
-		if contributor != "" {
-			params = append(params, "contributor="+contributor)
-		}
-		if status != "" {
-			params = append(params, "status="+status)
-		}
-		if len(params) > 0 {
-			pushURL += "?" + strings.Join(params, "&")
-		}
-		w.Header().Set("HX-Push-Url", pushURL)
+		w.Header().Set("HX-Push-Url", filters.URL())
 		err = pages.RepoContent(props, r.URL.Path).Render(r.Context(), w)
 	} else {
 		err = pages.RepoPage(props, r.URL.Path).Render(r.Context(), w)

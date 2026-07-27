@@ -14,13 +14,11 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"strings"
 
 	"merge/internal/model"
-	"merge/internal/views/helpers"
 )
 
-func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributor, status string) templ.Component {
+func Scopes(scopes []model.ScopeInfo, activeSort string, filters model.FilterSet) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -45,7 +43,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if len(scopes) > 0 || scope != "" {
+		if len(scopes) > 0 || filters.Scope != "" {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<span class=\"buttons\"><i id=\"scopes-sort-indicator\" class=\"fa-solid fa-spinner fa-spin htmx-indicator\" aria-hidden=\"true\"></i> <span class=\"sort-label\">SORT:</span> <button")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -63,7 +61,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("?part=scopes&sort=recent"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 25, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 23, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 			if templ_7745c5c3_Err != nil {
@@ -86,7 +84,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(fmt.Sprintf("?part=scopes&sort=top"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 35, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 33, Col: 50}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 			if templ_7745c5c3_Err != nil {
@@ -107,7 +105,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 				return templ_7745c5c3_Err
 			}
 			for _, info := range scopes {
-				templ_7745c5c3_Err = Scope(info, currentPath, scope, contributor, status).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Scope(info, filters).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -117,19 +115,8 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 				return templ_7745c5c3_Err
 			}
 		}
-		if scope != "" {
-			clearPath := helpers.StripQueryParam(strings.TrimSuffix(currentPath, "/"+scope), "status")
-			clearPath = helpers.StripQueryParam(clearPath, "contributor")
-			q := []string{}
-			if contributor != "" {
-				q = append(q, "contributor="+contributor)
-			}
-			if status != "" {
-				q = append(q, "status="+status)
-			}
-			if len(q) > 0 {
-				clearPath += "?" + strings.Join(q, "&")
-			}
+		if filters.Scope != "" {
+			clearPath := filters.WithScope("").URL()
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<div class=\"scope-notice\"><span><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -137,7 +124,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 			var templ_7745c5c3_Var4 templ.SafeURL
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(clearPath))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 66, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 52, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -150,7 +137,7 @@ func Scopes(scopes []model.ScopeInfo, activeSort, currentPath, scope, contributo
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(clearPath))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 66, Col: 80}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/scopes.templ`, Line: 52, Col: 80}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var5)
 			if templ_7745c5c3_Err != nil {

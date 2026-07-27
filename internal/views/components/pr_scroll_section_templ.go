@@ -10,10 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"merge/internal/model"
-	"merge/internal/views/helpers"
 )
 
-func PRScrollItems(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) templ.Component {
+func PRScrollItems(prs []model.StampedPullRequest, owner string, repo string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -44,7 +43,7 @@ func PRScrollItems(prs []model.StampedPullRequest, owner string, repo string, sc
 	})
 }
 
-func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, nextPage int, hasMore bool, oob bool) templ.Component {
+func LoadMoreCard(prs []model.StampedPullRequest, filters model.FilterSet, nextPage int, hasMore bool, oob bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -80,9 +79,9 @@ func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, sco
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(helpers.BuildLoadMoreURL(owner, repo, scope, contributor, status, nextPage))
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(filters.PageURL(nextPage))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_scroll_section.templ`, Line: 17, Col: 87}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/pr_scroll_section.templ`, Line: 16, Col: 37}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
@@ -96,7 +95,7 @@ func LoadMoreCard(prs []model.StampedPullRequest, owner string, repo string, sco
 	})
 }
 
-func PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, scope string, contributor string, status string, currentPage int, hasMore bool) templ.Component {
+func PRScrollSection(prs []model.StampedPullRequest, filters model.FilterSet, currentPage int, hasMore bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -121,7 +120,7 @@ func PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = PRScrollItems(prs, owner, repo, scope, contributor, status, currentPage, hasMore).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = PRScrollItems(prs, filters.Owner, filters.Repo).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -129,7 +128,7 @@ func PRScrollSection(prs []model.StampedPullRequest, owner string, repo string, 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = LoadMoreCard(prs, owner, repo, scope, contributor, status, currentPage+1, hasMore, false).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = LoadMoreCard(prs, filters, currentPage+1, hasMore, false).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

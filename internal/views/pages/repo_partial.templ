@@ -6,12 +6,13 @@ import (
 )
 
 templ RepoContent(props model.RepoPageProps, currentPath string) {
-	@components.Sidebar(props.Owner, props.Repo, props.Scope, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort, props.Contributor, currentPath, props.Status)
+	{{ filters := model.FilterSet{Owner: props.Owner, Repo: props.Repo, Scope: props.Scope, Contributor: props.Contributor, Status: props.Status} }}
+	@components.Sidebar(filters, props.ScopeCounts, props.ScopeSort, props.ContributorCounts, props.ContributorSort)
 	<section class="scroll">
 		<div class="overview" id="overview-stats">
-			@components.Counts(props.OverallCounts, props.HasMore, props.Owner, props.Repo, props.CurrentPage + 1, props.Scope, props.Contributor, props.Status)
+			@components.Counts(props.OverallCounts, props.HasMore, filters, props.CurrentPage + 1)
 		</div>
-		@components.PRScrollSection(props.PRs, props.Owner, props.Repo, props.Scope, props.Contributor, props.Status, props.CurrentPage, props.HasMore)
+		@components.PRScrollSection(props.PRs, filters, props.CurrentPage, props.HasMore)
 	</section>
 	@components.FilterPanel()
 	@components.ContextPane()

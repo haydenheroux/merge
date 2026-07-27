@@ -2,15 +2,15 @@ package components
 
 import "merge/internal/model"
 
-templ Sidebar(owner string, repo string, scope string, scopeCounts []model.ScopeInfo, scopeSort string, contributorCounts []model.ContributorInfo, contributorSort string, contributor string, currentPath string, status string) {
+templ Sidebar(filters model.FilterSet, scopeCounts []model.ScopeInfo, scopeSort string, contributorCounts []model.ContributorInfo, contributorSort string) {
 	<aside class="aside-column">
-		@Nav(owner, repo, scope)
+		@Nav(filters.Owner, filters.Repo, filters.Scope)
 		<div class="scroll">
 			<div id="scopes-section">
-				@Scopes(scopeCounts, scopeSort, currentPath, scope, contributor, status)
+				@Scopes(scopeCounts, scopeSort, filters)
 			</div>
 			<div id="contributors-section">
-				@Contributors(contributorCounts, contributorSort, contributor, currentPath, status)
+				@Contributors(contributorCounts, contributorSort, filters)
 			</div>
 		</div>
 		<footer>

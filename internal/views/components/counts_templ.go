@@ -9,49 +9,33 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"fmt"
 	"strings"
 
 	"merge/internal/model"
-	"merge/internal/views/helpers"
 )
 
-func buildStatusURL(owner, repo, scope, contributor, currentStatus, targetStatus string) string {
-	base := "/" + owner + "/" + repo
-	if scope != "" {
-		base += "/" + scope
+func statusURL(filters model.FilterSet, targetStatus string) string {
+	if filters.Status == targetStatus {
+		return filters.WithStatus("").URL()
 	}
-	base = helpers.StripQueryParam(base, "status")
-	base = helpers.StripQueryParam(base, "contributor")
-
-	q := []string{}
-	if contributor != "" {
-		q = append(q, "contributor="+contributor)
-	}
-	if targetStatus != currentStatus {
-		q = append(q, "status="+targetStatus)
-	}
-	if len(q) > 0 {
-		return base + "?" + strings.Join(q, "&")
-	}
-	return base
+	return filters.WithStatus(targetStatus).URL()
 }
 
-func buildFilterLabel(scope, status, contributor string) string {
+func buildFilterLabel(filters model.FilterSet) string {
 	parts := []string{}
-	if scope != "" {
-		parts = append(parts, strings.ToUpper(scope))
+	if filters.Scope != "" {
+		parts = append(parts, strings.ToUpper(filters.Scope))
 	}
-	if status != "" {
-		parts = append(parts, strings.ToUpper(status))
+	if filters.Status != "" {
+		parts = append(parts, strings.ToUpper(filters.Status))
 	}
-	if contributor != "" {
-		parts = append(parts, strings.ToUpper(contributor))
+	if filters.Contributor != "" {
+		parts = append(parts, strings.ToUpper(filters.Contributor))
 	}
 	return "Filter: " + strings.Join(parts, ", ")
 }
 
-func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int, scope, contributor, status string) templ.Component {
+func Counts(counts model.ExpiryCounts, hasMore bool, filters model.FilterSet, nextPage int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -76,15 +60,15 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if scope != "" || contributor != "" || status != "" {
+		if filters.Scope != "" || filters.Contributor != "" || filters.Status != "" {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<button class=\"filter-toggle\" id=\"filter-toggle\" type=\"button\" aria-label=\"Toggle filter\" hx-on:click=\"Alpine.store('filterPanel').openPanel()\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(buildFilterLabel(scope, status, contributor))
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(buildFilterLabel(filters))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 52, Col: 195}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 36, Col: 176}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -95,9 +79,9 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 templ.SafeURL
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(filters.URL()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 54, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 38, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -108,9 +92,9 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)))
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.SafeURL(filters.URL()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 55, Col: 64}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/components/counts.templ`, Line: 39, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 			if templ_7745c5c3_Err != nil {
@@ -130,19 +114,19 @@ func Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPag
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-seedling ok", counts.FreshCount, "fresh", buildStatusURL(owner, repo, scope, contributor, status, "fresh"), status == "fresh").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-seedling ok", counts.FreshCount, "fresh", statusURL(filters, "fresh"), filters.Status == "fresh").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-leaf warn", counts.StaleCount, "stale", buildStatusURL(owner, repo, scope, contributor, status, "stale"), status == "stale").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-leaf warn", counts.StaleCount, "stale", statusURL(filters, "stale"), filters.Status == "stale").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-skull error", counts.ExpiredCount, "expired", buildStatusURL(owner, repo, scope, contributor, status, "expired"), status == "expired").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-skull error", counts.ExpiredCount, "expired", statusURL(filters, "expired"), filters.Status == "expired").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Count("fa-code-merge special", counts.MergedCount, "merged", buildStatusURL(owner, repo, scope, contributor, status, "merged"), status == "merged").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Count("fa-code-merge special", counts.MergedCount, "merged", statusURL(filters, "merged"), filters.Status == "merged").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

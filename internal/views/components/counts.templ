@@ -1,58 +1,42 @@
 package components
 
 import (
-	"fmt"
 	"strings"
 
 	"merge/internal/model"
-	"merge/internal/views/helpers"
 )
 
-func buildStatusURL(owner, repo, scope, contributor, currentStatus, targetStatus string) string {
-	base := "/" + owner + "/" + repo
-	if scope != "" {
-		base += "/" + scope
+func statusURL(filters model.FilterSet, targetStatus string) string {
+	if filters.Status == targetStatus {
+		return filters.WithStatus("").URL()
 	}
-	base = helpers.StripQueryParam(base, "status")
-	base = helpers.StripQueryParam(base, "contributor")
-
-	q := []string{}
-	if contributor != "" {
-		q = append(q, "contributor="+contributor)
-	}
-	if targetStatus != currentStatus {
-		q = append(q, "status="+targetStatus)
-	}
-	if len(q) > 0 {
-		return base + "?" + strings.Join(q, "&")
-	}
-	return base
+	return filters.WithStatus(targetStatus).URL()
 }
 
-func buildFilterLabel(scope, status, contributor string) string {
+func buildFilterLabel(filters model.FilterSet) string {
 	parts := []string{}
-	if scope != "" {
-		parts = append(parts, strings.ToUpper(scope))
+	if filters.Scope != "" {
+		parts = append(parts, strings.ToUpper(filters.Scope))
 	}
-	if status != "" {
-		parts = append(parts, strings.ToUpper(status))
+	if filters.Status != "" {
+		parts = append(parts, strings.ToUpper(filters.Status))
 	}
-	if contributor != "" {
-		parts = append(parts, strings.ToUpper(contributor))
+	if filters.Contributor != "" {
+		parts = append(parts, strings.ToUpper(filters.Contributor))
 	}
 	return "Filter: " + strings.Join(parts, ", ")
 }
 
-templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPage int, scope, contributor, status string) {
+templ Counts(counts model.ExpiryCounts, hasMore bool, filters model.FilterSet, nextPage int) {
 	<div class="stats">
 		<div class="section-heading">
             <span>Overview</span>
 			<div class="buttons">
-				if scope != "" || contributor != "" || status != "" {
-					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter" hx-on:click="Alpine.store('filterPanel').openPanel()">{ buildFilterLabel(scope, status, contributor) }</button>
+				if filters.Scope != "" || filters.Contributor != "" || filters.Status != "" {
+					<button class="filter-toggle" id="filter-toggle" type="button" aria-label="Toggle filter" hx-on:click="Alpine.store('filterPanel').openPanel()">{ buildFilterLabel(filters) }</button>
 					<a class="link-button" id="filter-clear"
-						href={ templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)) }
-						hx-get={ templ.SafeURL(fmt.Sprintf("/%s/%s", owner, repo)) }
+						href={ templ.SafeURL(filters.URL()) }
+						hx-get={ templ.SafeURL(filters.URL()) }
 						hx-target="main"
 						hx-push-url="true">Clear</a>
 				} else {
@@ -61,10 +45,10 @@ templ Counts(counts model.ExpiryCounts, hasMore bool, owner, repo string, nextPa
 			</div>
         </div>
 		<div class="stats-tiles">
-			@Count("fa-seedling ok", counts.FreshCount, "fresh", buildStatusURL(owner, repo, scope, contributor, status, "fresh"), status == "fresh")
-			@Count("fa-leaf warn", counts.StaleCount, "stale", buildStatusURL(owner, repo, scope, contributor, status, "stale"), status == "stale")
-			@Count("fa-skull error", counts.ExpiredCount, "expired", buildStatusURL(owner, repo, scope, contributor, status, "expired"), status == "expired")
-			@Count("fa-code-merge special", counts.MergedCount, "merged", buildStatusURL(owner, repo, scope, contributor, status, "merged"), status == "merged")
+			@Count("fa-seedling ok", counts.FreshCount, "fresh", statusURL(filters, "fresh"), filters.Status == "fresh")
+			@Count("fa-leaf warn", counts.StaleCount, "stale", statusURL(filters, "stale"), filters.Status == "stale")
+			@Count("fa-skull error", counts.ExpiredCount, "expired", statusURL(filters, "expired"), filters.Status == "expired")
+			@Count("fa-code-merge special", counts.MergedCount, "merged", statusURL(filters, "merged"), filters.Status == "merged")
 		</div>
 	</div>
 }
