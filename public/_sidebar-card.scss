@@ -1,8 +1,10 @@
 @use 'variables' as *;
 @use 'separator';
 
-.age-suffix {
+.age-suffix,
+.sidebar-card .meta .count-label {
     color: var(--color-text-muted);
+    margin-left: $spacing-1;
 }
 
 section.scopes, section.contributors {
@@ -41,6 +43,13 @@ section.scopes, section.contributors {
     gap: $spacing-2;
     height: min-content;
     cursor: pointer;
+    padding: $sidebar-card-padding-y $sidebar-card-padding-x;
+    border-radius: $sidebar-card-radius;
+    transition: background-color $transition-fast;
+
+    &:hover {
+        background-color: $color-500;
+    }
 
     .text {
         flex: 1;
@@ -53,7 +62,10 @@ section.scopes, section.contributors {
 
     .title {
         color: $color-950;
-        font-size: $text-sm;
+        font-family: $heading-family;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        font-size: $text-small-class;
         margin-block: 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -71,18 +83,13 @@ section.scopes, section.contributors {
         display: flex;
         align-items: center;
         color: $color-900;
-        font-size: $text-xs;
+        font-size: $pr-card-desc-font-size;
         white-space: nowrap;
 
         @include separator.dot-separator;
 
         .age, .count {
-            font-size: $text-xs;
-        }
-
-        .count-label {
-            color: var(--color-text-muted);
-            margin-left: $spacing-1;
+            font-size: $pr-card-desc-font-size;
         }
     }
 }

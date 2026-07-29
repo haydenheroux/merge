@@ -21,7 +21,8 @@
     justify-content: space-between;
 }
 
-#nav-input {
+#nav-input,
+.search-input-row {
     box-sizing: border-box;
     border: $border-width-normal solid $color-700;
     border-radius: $card-border-radius;
@@ -31,17 +32,44 @@
     gap: $spacing-2;
     align-items: center;
     z-index: 0;
+}
+
+#nav-input {
     margin-block: $spacing-2;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
 
-    i {
-        font-size: var(--font-size);
-        margin-top: calc(#{$icon-github-margin-top-factor} * var(--font-size));
-        margin-left: calc(#{$icon-margin-left-factor} * #{$spacing-2});
+    &::-webkit-scrollbar {
+        height: 3px;
+    }
 
-        &.fa-magnifying-glass {
-            --font-size: #{$text-sm};
-            margin-right: $spacing-1;
-        }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: $color-800;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0);
+    }
+}
+
+#nav-input > *,
+.search-input-row > * {
+    flex-shrink: 0;
+}
+
+#nav-input i,
+.search-input-row i {
+    font-size: var(--font-size);
+    margin-top: calc(#{$icon-github-margin-top-factor} * var(--font-size));
+    margin-left: calc(#{$icon-margin-left-factor} * #{$spacing-2});
+
+    &.fa-magnifying-glass {
+        --font-size: #{$text-sm};
+        margin-right: $spacing-1;
     }
 }
 
@@ -52,7 +80,7 @@ nav > div {
 }
 
 #nav-toggle {
-    font-size: $text-md;
+    font-size: $nav-toggle-font-size;
     display: block;
     background: none;
     border: none;
@@ -68,9 +96,10 @@ nav > div {
 }
 
 #theme-toggle {
-    font-size: $text-md;
+    font-size: $theme-toggle-font-size;
     line-height: 1;
-    transition: transform $transition-fast $easing-spring, color;
+    transition: transform $transition-fast $easing-spring;
+    color: $theme-toggle-color;
 
     &:hover {
         transform: scale($scale-hover-large);
@@ -86,6 +115,32 @@ nav > div {
 
     &.open {
         display: block;
+    }
+}
+
+.site-brand {
+    font-size: $text-lg;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.03em;
+    color: $color-950;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+// Static demo on the homepage — no interactivity
+.static-search-demo {
+    pointer-events: none;
+
+    .input-pill::before {
+        display: none;
+    }
+
+    .title-input {
+        text-decoration: none;
+        cursor: default;
     }
 }
 

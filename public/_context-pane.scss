@@ -126,6 +126,9 @@
 
         h1 {
             font-size: $text-lg;
+            font-family: $pane-heading-family;
+            font-weight: $pane-heading-weight;
+            letter-spacing: $pane-heading-letter-spacing;
             line-height: $line-height-heading;
             margin-top: $spacing-6;
             margin-bottom: $spacing-2;
@@ -133,6 +136,9 @@
 
         h2 {
             font-size: $text-md;
+            font-family: $pane-heading-family;
+            font-weight: $pane-heading-weight;
+            letter-spacing: $pane-heading-letter-spacing;
             line-height: $line-height-subheading;
             margin-top: $spacing-4;
             margin-bottom: $spacing-2;
@@ -140,6 +146,7 @@
 
         h3 {
             font-size: $text-sm;
+            font-weight: $font-weight-semibold;
             line-height: $line-height-subheading;
             margin-top: $spacing-4;
             margin-bottom: $spacing-1;
@@ -147,6 +154,7 @@
 
         h4 {
             font-size: $text-xs;
+            font-weight: $font-weight-semibold;
             line-height: $line-height-subheading;
             margin-top: $spacing-3;
             margin-bottom: $spacing-1;
@@ -240,6 +248,7 @@
                 flex-shrink: 0;
             }
         }
+
     }
 
     .pr-diff-skeleton {
@@ -261,11 +270,14 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-3;
-    @include base.skeleton-pulse;
+    background-color: $color-700;
+    border-radius: $skeleton-border-radius;
+    animation: skeleton-pulse $easing-skeleton;
 
     .skeleton-line {
         height: $text-sm;
-        @include base.skeleton-base;
+        background-color: $color-700;
+        border-radius: $inline-border-radius;
     }
 
     .context-pane-header & {
@@ -344,23 +356,50 @@
     }
 }
 
-.context-pane-body img[data-src]:not(.loaded) {
-    font-size: 0 !important;
+.context-pane-body .img-skeleton-wrapper {
+    display: block;
     width: 100%;
-    @include base.skeleton-pulse;
+    max-width: 480px;
+    margin-block: $spacing-4;
 
-    &:nth-child(4n+1) { aspect-ratio: 16 / 9; }
-    &:nth-child(4n+2) { aspect-ratio: 4 / 3; }
-    &:nth-child(4n+3) { aspect-ratio: 3 / 2; }
-    &:nth-child(4n)   { aspect-ratio: 2 / 1; }
+    &:nth-child(2) { aspect-ratio: 16/9; }
+    &:nth-child(3) { aspect-ratio: 4/3; }
+    &:nth-child(4n+1) { aspect-ratio: 16/9; }
+    &:nth-child(4n+2) { aspect-ratio: 4/3; }
+    &:nth-child(4n+3) { aspect-ratio: 3/2; }
+    &:nth-child(4n) { aspect-ratio: 2/1; }
+
+    &:has(> img.loaded) {
+        aspect-ratio: auto;
+    }
 }
 
-.context-pane-body img[data-src].loaded {
-    font-size: inherit;
-    width: auto;
-    aspect-ratio: auto;
-    background-color: transparent;
-    animation: none;
+// Medium-zoom lightbox
+.medium-zoom-overlay {
+    z-index: 99999 !important;
+}
+
+.medium-zoom-image--opened,
+.medium-zoom-image--zoomed {
+    z-index: 100000 !important;
+}
+
+// Diff library theming — use our surface backgrounds instead of hardcoded ones
+diffs-container {
+    --pierre-bg: var(--color-surface);
+    --pierre-border: var(--color-700);
+    --pierre-gutter-bg: var(--color-section);
+    --pierre-gutter-color: var(--color-text-muted);
+}
+
+diffs-container .pierre-diff {
+    background: var(--pierre-bg) !important;
+    border-color: var(--pierre-border) !important;
+}
+
+diffs-container .pierre-gutter {
+    background: var(--pierre-gutter-bg) !important;
+    color: var(--pierre-gutter-color) !important;
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -377,6 +416,7 @@
 
         &.open {
             flex: 0 0 $context-pane-width;
+            max-width: var(--context-pane-max-width);
         }
 
         .context-pane-header {
@@ -387,15 +427,22 @@
 
 @media (max-width: $breakpoint-desktop) {
     .context-pane {
-        @include base.collapsible-pane;
+        flex: 0 0 0;
+        min-height: 0;
+        overflow: hidden;
+        transition: flex $transition-pane-fast;
+    }
+    .context-pane.open {
+        flex: 0 0 50vh;
+        max-width: var(--context-pane-max-width);
+    }
+    .context-pane {
         border-top: $border-width-normal solid $color-700;
-
-        .context-pane-header {
-            @include base.panel-header-padding;
-        }
-
-        .context-pane-meta {
-            padding-inline: $spacing-4;
-        }
+    }
+    .context-pane .context-pane-header {
+        @include base.panel-header-padding;
+    }
+    .context-pane .context-pane-meta {
+        padding-inline: $spacing-4;
     }
 }

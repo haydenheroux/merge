@@ -1,33 +1,5 @@
 @use 'variables' as *;
 
-.hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: $spacing-6;
-
-    .title-input {
-        font-size: $text-xl;
-        height: calc($text-xl * #{$title-input-height-factor});
-    }
-
-    .title-sep {
-        font-size: $text-2xl;
-        margin-top: calc(#{$title-sep-margin-top-factor} * #{$text-2xl});
-    }
-
-    .input-pill::before {
-        opacity: 1;
-        background-color: $color-cutout-strong;
-    }
-
-    .repo-form button i {
-        font-size: $text-xl;
-        animation: magnify-bob 2s ease-in-out infinite;
-    }
-}
-
 .repo-form {
     display: flex;
     align-items: center;

@@ -12,6 +12,7 @@ nav, section {
     margin-block: $spacing-1 $spacing-3;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .buttons {
         display: flex;
@@ -28,8 +29,11 @@ nav, section {
         }
 
         [data-active-sort="true"] {
-            color: $color-900;
-            @include silver-link.silver-link-thin;
+            color: $color-950;
+            text-decoration: underline;
+            text-decoration-color: $color-700;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
         }
     }
 }

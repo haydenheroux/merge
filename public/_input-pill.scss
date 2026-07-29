@@ -12,7 +12,7 @@
     position: absolute;
     z-index: -1;
     inset: 0 $input-pill-inset-x $input-pill-inset-y $input-pill-inset-x;
-    border-radius: $card-border-radius;
+    border-radius: $card-border-radius-sm;
     pointer-events: none;
     opacity: 0;
     transition: opacity $transition-normal;
@@ -27,8 +27,7 @@
 .title-input {
     line-height: inherit;
     color: $color-950;
-    caret-color: $color-950;
-    background: transparent;
+    background: rgba(0,0,0,0);
     border: none;
     padding: 0;
     margin: 0;
@@ -36,7 +35,10 @@
     overflow: visible;
     box-sizing: border-box;
     min-width: $title-input-min-width;
-    @include silver-link.silver-link;
+    text-decoration: underline;
+    text-decoration-color: $color-700;
+    text-decoration-thickness: $border-width-thick;
+    transition: text-decoration-color $transition-normal;
 
     &:hover, &:focus {
         text-decoration: none;
@@ -44,8 +46,9 @@
 }
 
 .title-sep {
-    color: $color-900;
-    font-size: $text-md;
+    color: $title-sep-color;
+    font-size: $title-sep-font-size;
+    font-weight: $title-sep-font-weight;
     margin-top: calc(#{$title-sep-margin-top-factor} * #{$text-md});
     user-select: none;
 }

@@ -7,22 +7,29 @@
 
 .stat {
     cursor: pointer;
-    padding: $spacing-0;
-    border-radius: $inline-border-radius;
+    padding: $spacing-3;
+    border-radius: $card-border-radius;
     display: grid;
     column-gap: $spacing-3;
     row-gap: $spacing-2;
     grid-template-columns: repeat(2, min-content);
     grid-template-rows: repeat(2, max-content);
     justify-content: center;
+    transition: background-color $transition-fast, border-color $transition-fast;
+    border: $border-width-normal solid $color-700;
+
+    &:hover {
+        background-color: $color-500;
+    }
+
+    &.active {
+        background-color: $color-600;
+    }
 
     & > * {
         align-self: center;
         justify-self: center;
     }
-
-    $stat-font-size: $text-xl;
-    $stat-icon-size: $text-lg;
 
     .status-icon {
         grid-column-start: 1;
@@ -31,21 +38,19 @@
         font-size: $stat-icon-size;
     }
 
-    &:hover {
-        background-color: $color-cutout;
-    }
-
     @include base.status-icon-hover;
 
     p {
-        @include base.label-font;
-        color: $color-900;
+        @include base.label-font($color-900);
         grid-column: span 2 / span 2;
         margin-block: 0;
     }
 
     b {
         font-size: $stat-font-size;
+        font-family: $heading-family;
+        font-weight: $font-weight-bold;
+        letter-spacing: -0.03em;
         color: $color-950;
         grid-column-start: 2;
         grid-row-start: 1;
@@ -74,4 +79,11 @@
     .stat {
         min-width: unset;
     }
+}
+
+.sort-label {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-right: $spacing-1;
 }

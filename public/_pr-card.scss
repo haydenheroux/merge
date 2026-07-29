@@ -5,6 +5,11 @@
 .item.pull-request {
     min-height: $spacing-16;
     cursor: pointer;
+    transition: background-color $transition-fast, border-color $transition-fast;
+
+    &:hover {
+        background-color: $color-500;
+    }
 
     &.selected {
         background-color: $color-600;
@@ -45,7 +50,7 @@
     .description-row {
         grid-column-start: 2;
         color: $color-900;
-        font-size: $text-xxs;
+        font-size: $pr-card-desc-font-size;
         display: flex;
 
         @include separator.dot-separator;
