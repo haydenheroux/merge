@@ -39,7 +39,7 @@ templ PRCard(pr model.StampedPullRequest, owner, repo string) {
                 <span>
                     { pr.State }
                 </span>
-                <span>
+                <span title={ model.TimeAgoLong(pr.TimeOpen, pr.DaysOpen) }>
                     @Age(pr.TimeOpen, pr.DaysOpen)
                 </span>
                 <span>

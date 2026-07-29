@@ -54,43 +54,35 @@ func IndexPage(baseURL, owner, repo string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<section class=\"scroll\"><div class=\"section-heading\"><span>How it works</span></div><div class=\"item-group-tall\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<footer><span>Made by <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside><section class=\"scroll home-scroll\"><div class=\"home-heading-group\"><h1>What's the state of your<br>pull requests?</h1><p class=\"text-secondary home-subtitle\">Enter a repository to see PR freshness, merge activity,<br>and contributor patterns at a glance.</p></div><div><div class=\"section-heading\"><span>Finding a repository</span></div><div class=\"static-search-demo\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.IconRow("fa-brands fa-github", "", "Enter a GitHub repo", "Paste any public repository URL or owner/name").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.SearchInput("", "", "", "owner", "repo", "scope", false, false).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.IconRow("fa-solid fa-code-merge", "", "Analyze pull requests", "We fetch recent PRs and categorize by activity").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><p class=\"text-secondary home-explainer\"><strong>owner</strong> / <strong>repo</strong> points to any public GitHub repository. The <strong>scope</strong> narrows results to a specific area of the codebase.</p></div><div><div class=\"section-heading\"><span>Features</span></div><div class=\"scroll-content features-grid\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.IconRow("fa-solid fa-users", "", "Understand contributors", "See who's active, consistent, and where they focus").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-seedling", "ok", "Fresh, stale, and expired", "Each PR is tagged by how long it's been open so you know what to triage").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></section><footer><span>Made by <a class=\"bold\" href=\"https://www.haydenheroux.com\">Hayden Heroux</a></span> <span>View on <a class=\"bold\" href=\"https://www.github.com/mergezone/mergezone\">GitHub</a></span> <span>View on <a class=\"bold\" href=\"https://www.merge.zone/mergezone/mergezone\">Merge Zone</a></span></footer></aside><section class=\"scroll\"><h1>Know your contributors.<br>Build your community.</h1><div><div class=\"section-heading\"><span>Features</span></div><div class=\"scroll-content item-group\">")
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-code-merge", "special", "Merge rates per contributor", "See who's consistently getting their changes merged").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.IconRow("fa-solid fa-seedling", "ok", "Fresh / Stale / Expired", "PRs are categorized by activity level to show engagement patterns").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-folder-tree", "warn", "Scope hotspots", "Which parts of the codebase attract the most activity").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.IconRow("fa-solid fa-code-merge", "special", "Merge tracking", "See which contributors are getting their PRs merged successfully").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.IconRow("fa-solid fa-users", "error", "Contributor histories", "Each contributor's PR history, success rate, and areas of focus").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.IconRow("fa-solid fa-folder-tree", "warn", "Scope analysis", "Identify which areas of your codebase attract the most contributions").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = components.IconRow("fa-solid fa-users", "error", "Contributor profiles", "Vet potential contributors by their pull request history").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><div><div class=\"section-heading\"><span>Popular repos</span></div><div class=\"scroll-content item-group home-repos\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><div><div class=\"section-heading\"><span>Example repos</span></div><div class=\"scroll-content item-group home-repos\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -140,7 +132,7 @@ func IndexPage(baseURL, owner, repo string) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layout.Base("Merge Zone", "Know your contributors. Build your community.", baseURL, owner, repo, "").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layout.Base("Merge Zone", "Pull request analytics for any public GitHub repository — freshness, merge rates, scope hotspots, and contributor activity.", baseURL, owner, repo, "").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

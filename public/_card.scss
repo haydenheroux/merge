@@ -6,6 +6,7 @@
     border: $border-width-normal solid $color-700;
     border-radius: $card-border-radius;
     padding: $spacing-3;
+    transition: background-color $transition-fast, border-color $transition-fast;
 }
 
 .item:hover {
@@ -14,7 +15,7 @@
 
 .item.active {
     background-color: $color-600;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-semibold;
 }
 
 .icon-card {
@@ -71,16 +72,11 @@
     grid-row: span 2;
 }
 
-.item-group, .item-group-tall {
+.item-group,
+.item-group-tall {
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-2;
-}
-
-@media (min-width: $breakpoint-mobile) {
-    .item-group {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 .scroll-content {
@@ -88,6 +84,30 @@
     flex-direction: column;
     gap: $spacing-2;
     border-radius: $card-border-radius;
+}
+
+.features-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: $spacing-2;
+}
+
+@media (min-width: 1200px) {
+    .features-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.home-repos {
+    display: grid !important;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+    .home-repos {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .item.load-more {

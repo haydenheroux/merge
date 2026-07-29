@@ -91,7 +91,7 @@ func RepoPage(props model.RepoPageProps, currentPath string) templ.Component {
 		})
 		templ_7745c5c3_Err = layout.Base(
 			fmt.Sprintf("%s/%s", props.Owner, props.Repo),
-			fmt.Sprintf("%d fresh pull requests; %d stale pull requests; %d expired pull requests", props.OverallCounts.FreshCount, props.OverallCounts.StaleCount, props.OverallCounts.ExpiredCount),
+			fmt.Sprintf("%d open pull requests — %d fresh, %d stale, %d expired", props.OverallCounts.Count(), props.OverallCounts.FreshCount, props.OverallCounts.StaleCount, props.OverallCounts.ExpiredCount),
 			props.BaseURL,
 			props.Owner,
 			props.Repo,

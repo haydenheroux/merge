@@ -1,0 +1,47 @@
+package components
+
+templ SearchInput(ownerValue, repoValue, scopeValue, ownerPlaceholder, repoPlaceholder, scopePlaceholder string, interactive bool, showIcon bool) {
+	<span class="bold search-input-row">
+		if showIcon {
+			<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+		}
+		<span class="input-pill">
+			<input class="title-input" type="text"
+				if interactive {
+					data-part="owner"
+				}
+				value={ ownerValue }
+				placeholder={ ownerPlaceholder }
+				if !interactive {
+					readonly
+				}
+			/>
+		</span>
+		<span class="bold title-sep">/</span>
+		<span class="input-pill">
+			<input class="title-input" type="text"
+				if interactive {
+					data-part="repo"
+				}
+				value={ repoValue }
+				placeholder={ repoPlaceholder }
+				if !interactive {
+					readonly
+				}
+			/>
+		</span>
+		<span class="bold title-sep">/</span>
+		<span class="input-pill">
+			<input class="title-input" type="text"
+				if interactive {
+					data-part="scope"
+				}
+				value={ scopeValue }
+				placeholder={ scopePlaceholder }
+				if !interactive {
+					readonly
+				}
+			/>
+		</span>
+	</span>
+}
