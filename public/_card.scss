@@ -86,7 +86,6 @@
     border-radius: $card-border-radius;
 }
 
-// Features: single column, 2 on very wide screens
 .features-grid {
     display: flex !important;
     flex-direction: column;
@@ -100,7 +99,6 @@
     }
 }
 
-// Example repos: 2 columns once they fit
 .home-repos {
     display: grid !important;
     grid-template-columns: 1fr;

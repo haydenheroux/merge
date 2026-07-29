@@ -1,6 +1,3 @@
-@use 'sass:map';
-
-// CSS custom properties — semantic aliases shared across all themes
 :root {
   --color-page: var(--color-300);
   --color-surface: var(--color-100);
@@ -23,7 +20,6 @@
   --context-pane-max-width: 40rem;
 }
 
-// White — neutral scale, page background is pure white
 html.white {
   --color-50: #fafafa;
   --color-100: #f5f5f5;
@@ -38,7 +34,6 @@ html.white {
   --color-950: #1a1a1a;
 }
 
-// Parchment — warm cream/tan (default)
 html.parchment {
   --color-50: #fffcf2;
   --color-100: #faf7ed;
@@ -53,7 +48,6 @@ html.parchment {
   --color-950: #403d39;
 }
 
-// Purple — neutral dark with subtle blue-purple tint
 html.purple {
   --color-50: #d0d6e8;
   --color-100: #181c26;
@@ -68,7 +62,6 @@ html.purple {
   --color-950: #d6dcee;
 }
 
-// Midnight — neutral dark, inverse of white
 html.midnight {
   --color-50: #e0e0e0;
   --color-100: #111111;
@@ -83,7 +76,6 @@ html.midnight {
   --color-950: #e0e0e0;
 }
 
-// SCSS scale (bridge to CSS custom properties)
 $color-50:  var(--color-50);
 $color-100: var(--color-100);
 $color-500: var(--color-500);
@@ -98,48 +90,37 @@ $color-amber-500:  var(--color-amber-500);
 $color-green-500:  var(--color-green-500);
 $color-purple-500: var(--color-purple-500);
 
-// SCSS semantic aliases
 $color-cutout:        var(--color-cutout);
 $color-cutout-strong: var(--color-cutout-strong);
 
-// ── Font families ──────────────────────────────
 $font-family-sans:    "Inter", sans-serif;
 $font-family-display: "Space Grotesk", sans-serif;
 $font-family-serif:   "Lora", serif;
 $font-family-mono:    "JetBrains Mono", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
 
-// ── Font weights ───────────────────────────────
-// These match the CSS output values
 $font-weight-body:        450;
 $font-weight-semibold:    600;
-$font-weight-bold:        650;   // used for h1, h2
+$font-weight-bold:        650;
 $font-weight-extrabold:   700;
 
-// ── Font profiles (direct values, not map-based) ──
-// Body: Inter 450 -0.01em
 $body-family:          $font-family-sans;
 $body-weight:          $font-weight-body;
 $body-letter-spacing:  -0.01em;
 
-// Headings: Space Grotesk 600 -0.02em
 $heading-family:          $font-family-display;
 $heading-weight:          $font-weight-semibold;
 $heading-letter-spacing:  -0.02em;
 
-// Pane headings: same as headings
 $pane-heading-family:         $font-family-display;
 $pane-heading-weight:         $font-weight-semibold;
 $pane-heading-letter-spacing: -0.02em;
 
-// Filter headings: same as headings
 $filter-heading-family:         $font-family-display;
 $filter-heading-weight:         $font-weight-semibold;
 $filter-heading-letter-spacing: -0.02em;
 
-// Code
 $code-family: $font-family-mono;
 
-// ── Font size scale ────────────────────────────
 $text-3xl: 3rem;
 $text-2xl: 2.25rem;
 $text-xl:  1.75rem;
@@ -148,10 +129,8 @@ $text-md:  1.125rem;
 $text-sm:  1rem;
 $text-xs:  0.875rem;
 $text-xxs: 0.75rem;
-$text-small-class: 0.9375rem;  // .small class size
+$text-small-class: 0.9375rem;
 
-
-// ── Line heights ───────────────────────────────
 $line-height-heading:       1.1;
 $line-height-heading-h2:    1.15;
 $line-height-body:          1.6;
@@ -159,7 +138,6 @@ $line-height-subheading:    1.25;
 $line-height-markdown-body: 1.65;
 $line-height-code:          1.6;
 
-// ── Spacing scale ──────────────────────────────
 $spacing-0:  0;
 $spacing-1:  0.25rem;
 $spacing-2:  0.5rem;
@@ -172,7 +150,6 @@ $spacing-16: 4rem;
 $nav-padding-inline: $spacing-4;
 $main-mobile-gap:    $spacing-6;
 
-// ── Border radii ───────────────────────────────
 $card-border-radius:      8px;
 $card-border-radius-sm:   6px;
 $inline-border-radius:    4px;
@@ -181,22 +158,18 @@ $border-radius-circle:    50%;
 $sidebar-card-radius:     6px;
 $skeleton-border-radius:  6px;
 
-// ── Border widths ──────────────────────────────
 $border-width-normal: 1.5px;
 $border-width-thick:  2px;
 
-// ── Transitions ────────────────────────────────
 $transition-fast:         150ms;
 $transition-normal:       200ms;
 $transition-pane-fast:    100ms ease-out;
 $easing-spring:           cubic-bezier(0.34, 1.56, 0.64, 1);
 $easing-skeleton:         1.5s ease-in-out infinite;
 
-// ── Responsive breakpoints ─────────────────────
 $breakpoint-mobile:  720px;
 $breakpoint-desktop: 1024px;
 
-// ── Interaction scales ─────────────────────────
 $scale-hover:       1.1;
 $scale-hover-large: 1.15;
 $scale-hover-icon:  110%;
@@ -204,33 +177,26 @@ $scale-active:      0.85;
 $rotate-hover:      -5deg;
 $rotate-hover-large: -7.5deg;
 
-// ── Layout ─────────────────────────────────────
 $body-width:            100%;
 $aside-width:           20rem;
 $context-pane-width:    32rem;
 $filter-pane-ratio-scroll: 50%;
 
-// ── Input / Pill ───────────────────────────────
 $title-input-height-factor: 1.1;
 $title-input-min-width:     1ch;
 $input-pill-inset-y:        -2px;
 $input-pill-inset-x:        -4px;
 
-// ── Labels ─────────────────────────────────────
 $letter-spacing-label: 0.08em;
 
-// ── Stats tiles ────────────────────────────────
 $stats-tiles-grid-columns: 2;
 
-// ── Heading scaling (mobile) ───────────────────
 $heading-scale-h1: 0.67;
 $heading-scale-h2: 0.67;
 
-// ── Code ───────────────────────────────────────
 $code-padding-y: 0.15rem;
 $code-padding-x: 0.35rem;
 
-// ── Status icons ───────────────────────────────
 $stat-font-size:                1.75rem;
 $stat-icon-size:                1.375rem;
 $status-icon-font-size-factor:  1.1;
@@ -238,54 +204,41 @@ $status-icon-margin-top-factor: 0.3;
 $icon-margin-left-factor:       0.5;
 $icon-github-margin-top-factor: 0.25;
 
-// ── Title separator ────────────────────────────
 $title-sep-margin-top-factor: -0.25;
 $title-sep-color:             var(--color-950);
 $title-sep-font-size:         1.25rem;
 $title-sep-font-weight:       700;
 
-// ── Nav / Theme toggle ─────────────────────────
 $nav-toggle-active-scale: 0.85;
 $nav-toggle-font-size:    1.125rem;
 $theme-toggle-font-size:  1.125rem;
 $theme-toggle-color:      var(--color-text-muted);
 
-// ── Icon container ─────────────────────────────
 $icon-container-size: 2.5rem;
 
-// ── Panel ──────────────────────────────────────
 $panel-header-padding-right: calc(#{$spacing-4} + #{$text-sm} + #{$spacing-2});
 
-// ── Meta ───────────────────────────────────────
 $meta-label-min-width: 5rem;
 $meta-icon-width:      1rem;
 
-// ── External link ──────────────────────────────
 $external-icon-size-factor: 0.65em;
 
-// ── List ───────────────────────────────────────
 $list-item-gap: 0.4rem;
 
-// ── Skeleton ───────────────────────────────────
 $skeleton-line-height:    12px;
 $skeleton-line-height-sm: 8px;
 $skeleton-opacity-start:  0.3;
 $skeleton-opacity-end:    0.7;
 
-// ── Sidebar card ───────────────────────────────
 $sidebar-card-padding-y: 0.4rem;
 $sidebar-card-padding-x: 0.5rem;
 
-// ── Scrollbar ──────────────────────────────────
 $scrollbar-thumb-radius: 3px;
-// Use interpolation to prevent Sass rgba() formatting with spaces
+// Prevent Sass rgba() formatting with spaces
 $scrollbar-track-bg:     #{'rgba(0,0,0,0)'};
 
-// ── PR card description ────────────────────────
 $pr-card-desc-font-size: 0.8125rem;
 
-// ── stat hover ─────────────────────────────────
 $stat-hover-bg: var(--color-500);
 
-// ── Footer ─────────────────────────────────────
 $footer-font-size: 0.875rem;

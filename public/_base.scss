@@ -1,7 +1,5 @@
 @use 'variables' as *;
 
-// ── Mixins ──────────────────────────────────────────────────────────
-
 @mixin custom-scrollbar {
     scrollbar-color: $color-800 $scrollbar-track-bg;
     scrollbar-width: thin;
@@ -98,8 +96,6 @@
     &.error, i.error { color: $color-red-500; }
     &.special, i.special { color: $color-purple-500; }
 }
-
-// ── Global styles ───────────────────────────────────────────────────
 
 html {
     background-color: var(--color-page);

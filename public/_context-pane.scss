@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    max-width: var(--context-pane-max-width);
 
     #context-pane-content {
         flex: 1;
@@ -374,7 +375,6 @@
     }
 }
 
-// Medium-zoom lightbox
 .medium-zoom-overlay {
     z-index: 99999 !important;
 }
@@ -384,7 +384,6 @@
     z-index: 100000 !important;
 }
 
-// Diff library theming — use our surface backgrounds instead of hardcoded ones
 diffs-container {
     --pierre-bg: var(--color-surface);
     --pierre-border: var(--color-700);
@@ -404,6 +403,7 @@ diffs-container .pierre-gutter {
 
 @media (min-width: $breakpoint-desktop) {
     .context-pane {
+        max-width: var(--context-pane-max-width);
         position: static;
         flex: 0 0 0;
         min-width: 0;
@@ -416,7 +416,6 @@ diffs-container .pierre-gutter {
 
         &.open {
             flex: 0 0 $context-pane-width;
-            max-width: var(--context-pane-max-width);
         }
 
         .context-pane-header {
@@ -434,7 +433,6 @@ diffs-container .pierre-gutter {
     }
     .context-pane.open {
         flex: 0 0 50vh;
-        max-width: var(--context-pane-max-width);
     }
     .context-pane {
         border-top: $border-width-normal solid $color-700;
