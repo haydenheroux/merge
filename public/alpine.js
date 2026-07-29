@@ -14,9 +14,37 @@ async function ensureDiffsLib() {
   return diffsLibPromise;
 }
 
+// MediumZoom — lightweight image lightbox
+let zoomInstance = null;
+let zoomLibPromise = null;
+
+async function ensureZoom() {
+  if (zoomInstance) return zoomInstance;
+  if (zoomLibPromise) return zoomLibPromise;
+  zoomLibPromise = import('https://esm.sh/medium-zoom@1.1.0').then(lib => {
+    return lib.default;
+  });
+  return zoomLibPromise;
+}
+
+async function attachZoom(selector) {
+  const mediumZoom = await ensureZoom();
+  // Detach previous instance first
+  if (zoomInstance) zoomInstance.detach();
+  zoomInstance = mediumZoom(selector, {
+    background: 'rgba(0,0,0,0.8)',
+    margin: 48,
+    zIndex: 99999,
+  });
+  return zoomInstance;
+}
+
 function getDiffTheme() {
   const cls = document.documentElement.classList;
-  return (cls.contains('purple') || cls.contains('midnight')) ? 'pierre-dark' : 'pierre-light';
+  if (cls.contains('midnight')) return 'pierre-dark';
+  if (cls.contains('purple')) return 'pierre-dark';
+  if (cls.contains('parchment')) return 'pierre-light';
+  return 'pierre-light';
 }
 
 async function loadPRDiffs(container, owner, repo, prNumber, signal) {
@@ -59,7 +87,7 @@ document.addEventListener('alpine:init', () => {
   // Global store for app-wide state
   Alpine.store('app', {
     themes: ['white', 'parchment', 'purple', 'midnight'],
-    theme: 'parchment',
+    theme: 'midnight',
 
     init() {
       const saved = localStorage.getItem('theme');
@@ -67,7 +95,7 @@ document.addEventListener('alpine:init', () => {
         this.theme = saved;
       } else {
         this.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'purple' : 'parchment';
+          ? 'midnight' : 'parchment';
       }
       document.documentElement.className = this.theme;
     },
@@ -84,6 +112,36 @@ document.addEventListener('alpine:init', () => {
       if (wasDark !== isDark) {
         Alpine.store('contextPane').rerenderDiffs();
       }
+    },
+
+    _loadAvatars() {
+      const sidebar = document.querySelector('.aside-column');
+      if (!sidebar) return;
+      sidebar.querySelectorAll('img[data-src]').forEach(img => {
+        const src = img.dataset.src;
+        const preloadImg = new Image();
+        preloadImg.onload = () => {
+          img.src = src;
+          img.removeAttribute('data-src');
+          img.classList.add('loaded');
+        };
+        preloadImg.src = src;
+      });
+    },
+
+    _loadContextPaneImages() {
+      const container = document.getElementById('context-pane-content');
+      if (!container) return;
+      container.querySelectorAll('img[data-src]').forEach(img => {
+        const src = img.dataset.src;
+        const preloadImg = new Image();
+        preloadImg.onload = () => {
+          img.src = src;
+          img.removeAttribute('data-src');
+          img.classList.add('loaded');
+        };
+        preloadImg.src = src;
+      });
     }
   });
 
@@ -184,6 +242,11 @@ document.addEventListener('alpine:init', () => {
     closePane() {
       this._stashDiffs();
       this._cleanup();
+      // Detach zoom so it doesn't accumulate on reopens
+      if (zoomInstance) {
+        zoomInstance.detach();
+        zoomInstance = null;
+      }
 
       this.open = false;
       // Keep all data so same-PR reopen shows instantly without refetching
@@ -358,7 +421,9 @@ document.addEventListener('alpine:init', () => {
 
         // Load images after DOM updates - use setTimeout to ensure DOM is rendered
         setTimeout(() => {
-          this._loadImages();
+          Alpine.store('app')._loadContextPaneImages();
+          const body = document.querySelector('.context-pane-body');
+          if (body) attachZoom(body.querySelectorAll('img'));
         }, 0);
       } catch (err) {
         if (err.name === 'AbortError') return;
@@ -430,7 +495,9 @@ document.addEventListener('alpine:init', () => {
         }
         // Re-process images for skeleton loading effect
         setTimeout(() => {
-          this._loadImages();
+          Alpine.store('app')._loadContextPaneImages();
+          const body = document.querySelector('.context-pane-body');
+          if (body) attachZoom(body.querySelectorAll('img'));
         }, 0);
       };
 
@@ -481,21 +548,6 @@ document.addEventListener('alpine:init', () => {
         skeleton.appendChild(block);
       }
       body.appendChild(skeleton);
-    },
-
-    _loadImages() {
-      const container = document.getElementById('context-pane-content');
-      if (!container) return;
-      container.querySelectorAll('img[data-src]').forEach(img => {
-        const src = img.dataset.src;
-        const preloadImg = new Image();
-        preloadImg.onload = () => {
-          img.src = src;
-          img.removeAttribute('data-src');
-          img.classList.add('loaded');
-        };
-        preloadImg.src = src;
-      });
     },
 
     _bodySkeletonHtml() {
@@ -574,9 +626,15 @@ document.addEventListener('alpine:init', () => {
         this._setupInputs();
       });
 
+      // Load sidebar avatars on initial render
+      this.$nextTick(() => {
+        Alpine.store('app')._loadAvatars();
+      });
+
       // Re-setup inputs after HTMX swap
       document.addEventListener('htmx:afterSwap', () => {
         this.$nextTick(() => {
+          Alpine.store('app')._loadAvatars();
           this._captureOriginals();
           this._setupInputs();
           this._syncScopeFromUrl();

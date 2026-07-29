@@ -35,6 +35,7 @@ func deferImages(html string) string {
 		if strings.Contains(tag, "src=") && !strings.Contains(tag, "data-src=") {
 			tag = strings.Replace(tag, "src=", "data-src=", 1)
 		}
+		tag = `<div class="img-skeleton-wrapper">` + tag + `</div>`
 		buf.WriteString(tag)
 		i = end
 	}

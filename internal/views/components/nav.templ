@@ -3,7 +3,7 @@ package components
 templ Nav(owner, repo, scope string) {
 	<nav id="nav" x-data="nav">
         <div>
-            <h4 class="bold">
+            <h4 class="bold site-brand">
                 <a href="/">Merge Zone</a>
             </h4>
             <button id="theme-toggle" class="link-button" @click="$store.app.cycleTheme()" aria-label="Cycle theme">
@@ -16,20 +16,7 @@ templ Nav(owner, repo, scope string) {
             </button>
         </div>
         <div>
-            <span id="nav-input" class="bold">
-                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                <span class="input-pill">
-                    <input class="title-input" type="text" data-part="owner" value={ owner } placeholder="…">
-                </span>
-                <span class="bold title-sep">/</span>
-                <span class="input-pill">
-                    <input class="title-input" type="text" data-part="repo" value={ repo } placeholder="…">
-                </span>
-                <span class="bold title-sep">/</span>
-                <span class="input-pill">
-                    <input class="title-input" type="text" data-part="scope" value={ scope } placeholder="…">
-                </span>
-            </span>
+            @SearchInput(owner, repo, scope, "…", "…", "…", true, true)
         </div>
 	</nav>
 }
