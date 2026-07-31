@@ -11,8 +11,8 @@ architecture-beta
 
     service pages(internet)[HTML5 Pages] in frontend
     service serverInteraction(internet)[HTMX] in frontend
-    service clientInteraction(internet)[Alpine.JS] in frontend
-    service diffs(internet)[@pierre/diffs] in frontend
+    service clientInteraction(internet)[AlpineJS] in frontend
+    service diffs(internet)["@pierre/diffs"] in frontend
 
     group backend(server)[Backend]
 
@@ -24,7 +24,7 @@ architecture-beta
     service github(cloud)[GitHub API] in api
 
     pages:L -- R:templ
-    interaction:L -- R:server
+    serverInteraction:L -- R:server
     templ:B -- T:server
     server:L -- R:github
 ```
