@@ -15,7 +15,6 @@ let zoomInstance = null;
 let zoomLibPromise = null;
 
 async function ensureZoom() {
-  if (zoomInstance) return zoomInstance;
   if (zoomLibPromise) return zoomLibPromise;
   zoomLibPromise = import('https://esm.sh/medium-zoom@1.1.0').then(lib => {
     return lib.default;
@@ -24,8 +23,13 @@ async function ensureZoom() {
 }
 
 async function attachZoom(selector) {
+  // Detach any existing instance before resolving the factory, otherwise
+  // ensureZoom() returns the stale instance instead of the factory function.
+  if (zoomInstance) {
+    zoomInstance.detach();
+    zoomInstance = null;
+  }
   const mediumZoom = await ensureZoom();
-  if (zoomInstance) zoomInstance.detach();
   zoomInstance = mediumZoom(selector, {
     background: 'rgba(0,0,0,0.8)',
     margin: 48,
